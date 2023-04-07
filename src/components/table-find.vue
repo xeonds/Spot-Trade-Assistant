@@ -14,12 +14,17 @@
 
 <script lang="ts" setup>
 import { defineProps, reactive } from 'vue'
+
+interface SearchItem {
+  [index: string]: string
+}
+
 const props = defineProps({
   search_item: Object
 })
 
-let search = reactive(<any>props.search_item)
-let search_form = reactive({})
+let search = reactive(<string[]>props.search_item)
+let search_form: SearchItem = reactive({})
 
 for (let i = 0; i < search.length; i++) {
   search_form[search[i]] = ''
