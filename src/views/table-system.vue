@@ -137,7 +137,7 @@ let col = reactive([
   }
 ])
 
-const goto = (row, column) => {
+const goto = (row: any, column: any) => {
   let content = row[column.property]
   if (content == '设置本公司账套、部门') {
     router.push('./infomation/1')

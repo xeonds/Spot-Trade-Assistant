@@ -128,7 +128,7 @@ const handle = (index: number) => {
       break
     case 2:
       console.log(2)
-      props.export().then((res) => {
+      props.export().then((res: any) => {
         download(res, 'excel', props.name + '.xlsx')
       })
       break
@@ -141,12 +141,12 @@ const cancel1 = () => {
 
 const modify1 = () => {
   add_form['company'] = '0'
-  props.add_data(<any>add_form).then((res) => {
+  props.add_data(<any>add_form).then((res: any) => {
     dialogFormVisible2.value = false
   })
 }
 
-const menu = (row, col, event) => {
+const menu = (row: any, col: any, event: any) => {
   event.preventDefault()
   select_row.value = row
   select_property.value = col.property
@@ -183,7 +183,7 @@ const cancel = () => {
 const modify = () => {
   select_row.value[select_property.value] = change_form.content
   select_row.value['company'] = 0
-  props.modify_data(select_row.value.id, select_row.value).then((res) => {
+  props.modify_data(select_row.value.id, select_row.value).then((res: any) => {
     change_form.content = ''
     dialogFormVisible.value = false
   })

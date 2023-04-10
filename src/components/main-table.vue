@@ -27,7 +27,7 @@
         }"
         height="200"
         @cell-contextmenu="
-          (row, col, _, event) => {
+          (row:any, col:any, _:any, event:any,) => {
             emits('menu', row, col, event)
           }
         "
@@ -70,10 +70,12 @@ let col = reactive(<any>props.col)
 let command = reactive(<any>props.command)
 
 const rowDrop = () => {
-  const tbody = document.querySelector('.el-table__body-wrapper tbody')
+  const tbody: HTMLElement = <HTMLElement>(
+    document.querySelector('.el-table__body-wrapper tbody')
+  )
 
   Sortable.create(tbody, {
-    onEnd({ newIndex, oldIndex }: { newIndex: number; oldIndex: number }) {
+    onEnd({ newIndex, oldIndex }) {
       const currRow = table_data.splice(oldIndex, 1)[0]
       table_data.splice(newIndex, 0, currRow)
     }
@@ -81,7 +83,9 @@ const rowDrop = () => {
 }
 //列拖拽
 const columnDrop = () => {
-  const wrapperTr = document.querySelector('.el-table__header-wrapper tr')
+  const wrapperTr: HTMLElement = <HTMLElement>(
+    document.querySelector('.el-table__header-wrapper tr')
+  )
   Sortable.create(wrapperTr, {
     animation: 180,
     delay: 0,

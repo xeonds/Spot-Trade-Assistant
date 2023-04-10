@@ -1,4 +1,4 @@
-export default (res, type, filename) => {
+export default (res: any, type: string, filename: string) => {
   // 创建blob对象，解析流数据
   const blob = new Blob([res], {
     // 设置返回的文件类型
