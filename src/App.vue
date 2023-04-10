@@ -22,7 +22,7 @@ import bottomMarqueen from './components/bottom-marqueen.vue'
 }
 
 body {
-  font-family: MAIN;
+  font-family: MAIN, sans-serif;
 }
 
 .logo {

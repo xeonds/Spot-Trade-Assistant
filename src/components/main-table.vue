@@ -127,7 +127,7 @@ onMounted(() => {
       right: 2vw;
       bottom: 2vh;
       font-size: 2.2vh;
-      font-family: NAME;
+      font-family: NAME, sans-serif;
     }
 
     .command {
