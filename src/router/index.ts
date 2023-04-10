@@ -12,7 +12,7 @@ export default createRouter({
       component: () => import('../views/table-system.vue')
     },
     {
-      path: '/infomation',
+      path: '/infomation/:id',
       component: () => import('../views/table-infomation.vue')
     },
     {

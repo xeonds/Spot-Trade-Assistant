@@ -4,7 +4,7 @@
       :contain_find="true"
       :contain_command="true"
       :table_data="data"
-      :property="property"
+      :col="property"
       :search_item="search_item"
       :command="command"
       @handle="handle"

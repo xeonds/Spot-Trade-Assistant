@@ -16,46 +16,97 @@
     </div>
 
     <div class="table-area">
-      <table cellspacing="0">
-        <thead :style="{ backgroundColor: props.color || '#fff' }">
-          <tr>
-            <th v-for="title in props.label" :key="title">{{ title }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in form_data" :key="index">
-            <td v-for="field in items" :key="field">{{ item[field] }}</td>
-
-            <td v-if="props.haveslot"><slot name="tr_extend"> </slot></td>
-          </tr>
-        </tbody>
-      </table>
+      <el-table
+        :data="table_data"
+        row-key="id"
+        align="left"
+        :cell-style="cell_style"
+        :header-cell-style="{
+          background: props.color || '#fff',
+          color: '#000'
+        }"
+        height="200"
+        @cell-contextmenu="
+          (row, col, _, event) => {
+            emits('menu', row, col, event)
+          }
+        "
+      >
+        <el-table-column
+          v-for="(item, index) in col"
+          :key="`col_${index}`"
+          :prop="col[index].prop"
+          :label="item.label"
+          :min-width="150"
+        >
+        </el-table-column>
+        <slot></slot>
+      </el-table>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, reactive, defineEmits } from 'vue'
+import { reactive, onMounted } from 'vue'
+import Sortable from 'sortablejs'
 
-let emits = defineEmits(['handle'])
+const cell_style = () => {
+  return { 'white-space': 'nowrap' }
+}
+
+let emits = defineEmits(['handle', 'menu'])
 let props = defineProps({
   contain_command: Boolean,
-  table_data: Object,
-  property: Object,
-  label: Object,
   command: Object,
   name: String,
   color: String,
   contain_top: Boolean,
-  haveslot: Boolean
+  table_data: Object,
+  col: Object
 })
 
-let form_data = reactive(<any>props.table_data)
-let items = reactive(<any>props.property)
+let table_data = reactive(<any>props.table_data)
+let col = reactive(<any>props.col)
 let command = reactive(<any>props.command)
+
+const rowDrop = () => {
+  const tbody = document.querySelector('.el-table__body-wrapper tbody')
+
+  Sortable.create(tbody, {
+    onEnd({ newIndex, oldIndex }: { newIndex: number; oldIndex: number }) {
+      const currRow = table_data.splice(oldIndex, 1)[0]
+      table_data.splice(newIndex, 0, currRow)
+    }
+  })
+}
+//列拖拽
+const columnDrop = () => {
+  const wrapperTr = document.querySelector('.el-table__header-wrapper tr')
+  Sortable.create(wrapperTr, {
+    animation: 180,
+    delay: 0,
+    onEnd: (evt: any) => {
+      const oldItem = col[evt.oldIndex]
+      col.splice(evt.oldIndex, 1)
+      col.splice(evt.newIndex, 0, oldItem)
+    }
+  })
+}
+
+onMounted(() => {
+  rowDrop()
+  columnDrop()
+})
 </script>
 
 <style lang="less" scoped>
+@font-face {
+  font-family: NAME;
+  src: url('../font/华文琥珀.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .title {
   font-weight: 600;
 }
@@ -75,8 +126,8 @@ let command = reactive(<any>props.command)
       position: absolute;
       right: 2vw;
       bottom: 2vh;
-      font-weight: 700;
       font-size: 2.2vh;
+      font-family: NAME;
     }
 
     .command {

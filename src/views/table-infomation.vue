@@ -1,127 +1,212 @@
 <template>
-  <div class="table-area">
-    <Table
-      :table_data="data"
-      :property="property"
-      :command="command"
-      @handle="handle"
-      color="#2e74b5"
-      :contain_top="false"
-      :label="label"
-    ></Table>
+  <div v-if="route.params.id === '1'">
+    <modifyTable
+      name="本公司账套"
+      :get_data="infoapi.getZhangTao"
+      :add_data="infoapi.addZhangTao"
+      :delete_data="infoapi.deletaZhangTao"
+      :modify_data="infoapi.refreshZhangTao"
+      :export="infoapi.Partmentexcel"
+      :command="['刷新', '新建', '导出']"
+    ></modifyTable>
+    <modifyTable
+      name="本公司开户银行"
+      :get_data="infoapi.getBank"
+      :add_data="infoapi.addBank"
+      :delete_data="infoapi.deletaBank"
+      :modify_data="infoapi.refreshBank"
+      :command="['刷新', '添加']"
+    ></modifyTable>
+    <modifyTable
+      name="本公司业务部门"
+      :get_data="infoapi.getPartment"
+      :add_data="infoapi.addPartment"
+      :delete_data="infoapi.deletaPartment"
+      :modify_data="infoapi.refreshPartment"
+      :command="['刷新', '添加']"
+    ></modifyTable>
+  </div>
+  <div v-if="route.params.id === '2'">
+    <modifyTable
+      name="往来单位资料"
+      :get_data="infoapi.getZhangTao"
+      :add_data="infoapi.addZhangTao"
+      :delete_data="infoapi.deletaZhangTao"
+      :modify_data="infoapi.refreshZhangTao"
+      :command="['刷新', '新建', '导出']"
+    ></modifyTable>
+    <modifyTable
+      name="往来单位银行"
+      :get_data="infoapi.getBank"
+      :add_data="infoapi.addBank"
+      :delete_data="infoapi.deletaBank"
+      :modify_data="infoapi.refreshBank"
+      :command="['刷新', '添加']"
+    ></modifyTable>
+    <modifyTable
+      name="往来部门"
+      :get_data="infoapi.getPartment"
+      :add_data="infoapi.addPartment"
+      :delete_data="infoapi.deletaPartment"
+      :modify_data="infoapi.refreshPartment"
+      :command="['刷新', '添加']"
+    ></modifyTable>
+  </div>
+  <div v-if="route.params.id === '3'">
+    <modifyTable
+      name="商品品种"
+      :get_data="infoapi.getVariety"
+      :add_data="infoapi.addVariety"
+      :delete_data="infoapi.deletaVariety"
+      :modify_data="infoapi.refreshVariety"
+      :command="['刷新', '新建', '导出']"
+    ></modifyTable>
+    <modifyTable
+      name="商品规格"
+      :get_data="infoapi.getGrade"
+      :add_data="infoapi.addGrade"
+      :delete_data="infoapi.deletaGrade"
+      :modify_data="infoapi.refreshGrade"
+      :command="['刷新', '添加']"
+    ></modifyTable>
+    <modifyTable
+      name="商品商标"
+      :get_data="infoapi.getTrademark"
+      :add_data="infoapi.addTrademark"
+      :delete_data="infoapi.deletaTrademark"
+      :modify_data="infoapi.refreshTrademark"
+      :command="['刷新', '添加']"
+    ></modifyTable>
+  </div>
+  <div v-if="route.params.id === '4'">
+    <modifyTable
+      name="币种"
+      :get_data="infoapi.getCurrency"
+      :add_data="infoapi.addCurrency"
+      :delete_data="infoapi.deletaCurrency"
+      :modify_data="infoapi.refreshCurrency"
+      :command="['刷新', '新建', '导出']"
+    ></modifyTable>
+    <modifyTable
+      name="订单模式"
+      :get_data="getTypeUnion1"
+      :add_data="infoapi.addOrders"
+      :delete_data="infoapi.deletaOrders"
+      :modify_data="infoapi.refreshOrders"
+      :command="['刷新', '添加']"
+    ></modifyTable>
+    <div class="union">
+      <modifyTable
+        name="海关款项类别"
+        :get_data="getTypeUnion2"
+        :add_data="infoapi.addType"
+        :delete_data="infoapi.deletaType"
+        :modify_data="infoapi.refreshType"
+        :command="['刷新', '添加']"
+        class="item"
+      ></modifyTable>
+      <modifyTable
+        name="仓储款项类别"
+        :get_data="infoapi.getType"
+        :add_data="infoapi.addType"
+        :delete_data="infoapi.deletaType"
+        :modify_data="infoapi.refreshType"
+        :command="['刷新', '添加']"
+        class="item"
+      ></modifyTable>
+    </div>
+  </div>
+  <div v-if="route.params.id === '5'">
+    <modifyTable
+      name="仓储协议"
+      :get_data="infoapi.getSta"
+      :add_data="infoapi.addSta"
+      :delete_data="infoapi.deletaSta"
+      :modify_data="infoapi.refreshSta"
+      :command="['刷新', '新建', '导出']"
+    ></modifyTable>
+    <modifyTable
+      name="签约品种"
+      :get_data="infoapi.getSvar"
+      :add_data="infoapi.addSvar"
+      :delete_data="infoapi.deletaSvar"
+      :modify_data="infoapi.refreshSvar"
+      :command="['刷新', '添加']"
+    ></modifyTable>
+    <div class="union">
+      <modifyTable
+        name="收费项目"
+        :get_data="infoapi.getItem"
+        :add_data="infoapi.addItem"
+        :delete_data="infoapi.deletaItem"
+        :modify_data="infoapi.refreshItem"
+        :command="['刷新', '添加']"
+        class="item"
+      ></modifyTable>
+      <modifyTable
+        name="仓储费"
+        :get_data="infoapi.getStof"
+        :add_data="infoapi.addStof"
+        :delete_data="infoapi.deletaStof"
+        :modify_data="infoapi.refreshStof"
+        :command="['刷新', '添加']"
+        class="item"
+      ></modifyTable>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import Table from '../components/main-table.vue'
-import { reactive } from 'vue'
+import modifyTable from '../components/modify-table.vue'
+import * as infoapi from '../http/api/infomation'
+import { useRoute } from 'vue-router'
+const route = useRoute()
 
-let data = reactive([
-  {
-    m1: '设置本公司账套、部门',
-    m2: '设置合同模板',
-    m3: '购销订单录入',
-    m4: '收货',
-    m5: '入库',
-    m6: '付款',
-    m7: '保值录入（V1.1）',
-    m8: '现货盈亏',
-    m9: '现货合同'
-  },
-  {
-    m1: '设置往来单位资料、部门',
-    m2: '设置提单模板',
-    m3: '合同、印花税',
-    m4: '发货',
-    m5: '出库',
-    m6: '收款',
-    m7: '',
-    m8: '期现盈亏（V1.1）',
-    m9: '现货交易'
-  },
-  {
-    m1: '设置商品资料',
-    m2: '设置付款申请模板',
-    m3: '采购付款申请',
-    m4: '实数录入',
-    m5: '',
-    m6: '',
-    m7: '',
-    m8: '现货资金、费用',
-    m9: ''
-  },
-  {
-    m1: '设置币种、订单模式',
-    m2: '设置对账单模板',
-    m3: '销售收款匹配',
-    m4: '货物变更及对账',
-    m5: '',
-    m6: '',
-    m7: '',
-    m8: '现货开票统计',
-    m9: ''
-  },
-  {
-    m1: '仓储协议、费率登记',
-    m2: '',
-    m3: '余款对账',
-    m4: '报关及对账',
-    m5: '',
-    m6: '',
-    m7: '',
-    m8: '现货库存明细',
-    m9: ''
-  },
-  {
-    m1: '',
-    m2: '',
-    m3: '结余款',
-    m4: '仓储费及对账',
-    m5: '',
-    m6: '',
-    m7: '',
-    m8: '',
-    m9: ''
-  },
-  {
-    m1: '',
-    m2: '',
-    m3: '发票确认',
-    m4: '对账单付款申请',
-    m5: '',
-    m6: '',
-    m7: '',
-    m8: '',
-    m9: ''
-  }
-])
+// 条件按筛选处理
+//银行
+let bankSearchCondition: infoapi.BankGet = {
+  company: '',
+  name: '',
+  swcode: '',
+  accounts: '',
+  taxsign: '',
+  pageNumber: '',
+  pageSize: '',
+  sort: '',
+  order: ''
+}
+const getBankUnion = () => {
+  return infoapi.getBank(bankSearchCondition)
+}
 
-let label = reactive([
-  '资料',
-  '模板',
-  '贸易',
-  '货管',
-  '库管',
-  '财务',
-  '期货',
-  '统计报表',
-  '监控'
-])
-let property = reactive(['m1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9'])
-let command = reactive(['添加', '删除', '修改'])
+//款项
+let typeSearchCondition: infoapi.TypeGet = {
+  money: '',
+  type: '',
+  pageNumber: '',
+  pageSize: '',
+  sort: '',
+  order: ''
+}
+const getTypeUnion1 = () => {
+  let temp = typeSearchCondition
+  temp.type = '3'
+  return infoapi.getType(temp)
+}
 
-const handle = (a: number) => {
-  console.log(a)
+const getTypeUnion2 = () => {
+  let temp = typeSearchCondition
+  temp.type = '4'
+  return infoapi.getType(temp)
 }
 </script>
 
 <style lang="less" scoped>
-.t1 {
-  margin-top: 5vh;
-}
+.union {
+  display: flex;
 
-.table-area {
-  margin: 0 auto;
-  width: 99vw;
+  .item {
+    width: 50vw;
+  }
 }
 </style>

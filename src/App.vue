@@ -1,13 +1,30 @@
 <template>
   <HeadLine />
   <router-view></router-view>
+  <bottomMarqueen class="marqueen"></bottomMarqueen>
 </template>
 
 <script setup lang="ts">
 import HeadLine from './components/head-line.vue'
+import bottomMarqueen from './components/bottom-marqueen.vue'
 </script>
 
-<style scoped>
+<style lang="less">
+.marqueen {
+  height: 4vh;
+}
+
+@font-face {
+  font-family: MAIN;
+  src: url('./font/仿宋_GB2312_1.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: MAIN;
+}
+
 .logo {
   padding: 1.5em;
   height: 6em;
