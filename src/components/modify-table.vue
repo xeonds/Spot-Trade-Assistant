@@ -8,6 +8,7 @@
     :name="props.name"
     @handle="handle"
     @menu="menu"
+    @click_row="(row:any,col:any)=>{emits('click_row',row,col)}"
   ></Table>
   <ul
     v-show="visible"
@@ -59,6 +60,19 @@ import Table from '../components/main-table.vue'
 import { reactive, ref, watch } from 'vue'
 import download from '../utils/download'
 // 传参
+/**
+ * 使用说明
+ * @name 表单名称
+ * @get_data  数据获取钩子
+ * @add_data  新增数据钩子
+ * @delete_data 删除数据钩子
+ * @modify_data 修改数据钩子
+ * @command 指令
+ * @export  导出excel钩子
+ * @search 查询条件（关联表才需要）
+ * @isunio 是否为关联表
+ */
+
 const props = defineProps([
   'name',
   'get_data',
@@ -66,8 +80,11 @@ const props = defineProps([
   'delete_data',
   'modify_data',
   'command',
-  'export'
+  'export',
+  'search',
+  'isunion'
 ])
+const emits = defineEmits(['click_row', 'fresh'])
 
 //右键菜单栏
 let visible = ref(false)
@@ -94,12 +111,12 @@ let col: any[] = reactive([])
 const get_data = () => {
   data.splice(0, data.length)
   col.splice(0, col.length)
-  props.get_data().then((res: any) => {
-    for (let i in res.data.data) {
-      data.push(res.data.data[i])
+  props.get_data(props.search).then((res: any) => {
+    for (let i in res.data) {
+      data.push(res.data[i])
     }
 
-    for (let i in res.data.data[0]) {
+    for (let i in res.data[0]) {
       col.push({
         prop: i,
         label: i
@@ -162,7 +179,11 @@ const handleDelete = () => {
 }
 
 const handleFresh = () => {
-  get_data()
+  if (!props.isunion) {
+    get_data()
+  } else {
+    emits('fresh', props.name)
+  }
 }
 
 let change_form = reactive({
@@ -190,6 +211,10 @@ const modify = () => {
 }
 
 get_data()
+
+defineExpose({
+  get_data
+})
 </script>
 
 <style lang="less" scoped>

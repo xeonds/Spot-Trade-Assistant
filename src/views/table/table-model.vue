@@ -22,9 +22,9 @@
 </template>
 
 <script lang="ts" setup>
-import Table from '../components/main-table.vue'
+import Table from '../../components/main-table.vue'
 import { reactive } from 'vue'
-import TableFind from '../components/table-find.vue'
+import TableFind from '../../components/table-find.vue'
 
 let data = reactive([
   {

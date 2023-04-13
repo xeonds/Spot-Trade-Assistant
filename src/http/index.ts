@@ -1,5 +1,6 @@
 import axios from 'axios'
 import serverConfig from './config'
+import router from '../router'
 // 创建axios实例
 const serviceAxios = axios.create({
   baseURL: serverConfig.baseURL,
@@ -25,28 +26,28 @@ serviceAxios.interceptors.request.use(
 // 响应拦截
 serviceAxios.interceptors.response.use(
   (res) => {
-    // if (res.data.success) {
-    //   return res.data.data
-    // } else if (res.data.code == 22222) {
-    //   // login timeout
-    //   ElMessage({
-    //     message: '登录超时，请重新登录',
-    //     type: 'warning'
-    //   })
-    //   setTimeout(() => {
-    //     localStorage.clear()
-    //     // 获取协议
-    //     const handler = window.location.href.split(':')[0]
-    //     window.location.href = handler + '://' + window.location.host
-    //   }, 1000)
-    // } else {
-    //   ElMessage({
-    //     message: res.data.message,
-    //     type: 'warning'
-    //   })
-    //   return Promise.reject(new Error(res.data.message))
-    // }
-    return res.data
+    if (res.data.code == 20000) {
+      return res.data.data
+    } else if (res.data.code == 20002) {
+      // login timeout
+      ElMessage({
+        message: '登录超时，请重新登录',
+        type: 'warning'
+      })
+      setTimeout(() => {
+        localStorage.clear()
+        // 获取协议
+        router.replace({
+          path: '/login'
+        })
+      }, 1000)
+    } else {
+      ElMessage({
+        message: res.data.msg,
+        type: 'warning'
+      })
+      return Promise.reject(new Error(res.data.msg))
+    }
   },
   (error) => {
     let message = ''

@@ -4,7 +4,7 @@
       :contain_find="true"
       :contain_command="true"
       :table_data="data"
-      :property="property"
+      :col="property"
       :search_item="search_item"
       :command="command"
       @handle="handle"
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import Table from '../components/main-table.vue'
+import Table from '../../components/main-table.vue'
 import { reactive } from 'vue'
 
 let data = reactive([

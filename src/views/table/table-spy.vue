@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import Table from '../components/main-table.vue'
+import Table from '../../components/main-table.vue'
 import { reactive } from 'vue'
 
 let data = reactive([

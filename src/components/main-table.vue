@@ -31,6 +31,7 @@
             emits('menu', row, col, event)
           }
         "
+        @row-click="(row:any, col:any) => emits('click_row', row, col)"
       >
         <el-table-column
           v-for="(item, index) in col"
@@ -54,7 +55,7 @@ const cell_style = () => {
   return { 'white-space': 'nowrap' }
 }
 
-let emits = defineEmits(['handle', 'menu'])
+let emits = defineEmits(['handle', 'menu', 'click_row'])
 let props = defineProps({
   contain_command: Boolean,
   command: Object,

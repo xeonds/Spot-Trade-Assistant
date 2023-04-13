@@ -8,6 +8,7 @@
       :modify_data="infoapi.refreshZhangTao"
       :export="infoapi.Partmentexcel"
       :command="['刷新', '新建', '导出']"
+      @click_row="handle_click"
     ></modifyTable>
     <modifyTable
       name="本公司开户银行"
@@ -16,6 +17,10 @@
       :delete_data="infoapi.deletaBank"
       :modify_data="infoapi.refreshBank"
       :command="['刷新', '添加']"
+      :search="bankSearchCondition"
+      @fresh="hadle_fresh"
+      :isunion="true"
+      ref="bank"
     ></modifyTable>
     <modifyTable
       name="本公司业务部门"
@@ -157,26 +162,40 @@
 </template>
 
 <script lang="ts" setup>
-import modifyTable from '../components/modify-table.vue'
-import * as infoapi from '../http/api/infomation'
+import modifyTable from '../../components/modify-table.vue'
+import * as infoapi from '../../http/api/infomation'
 import { useRoute } from 'vue-router'
 const route = useRoute()
 
+let bank = ref()
+
 // 条件按筛选处理
 //银行
-let bankSearchCondition: infoapi.BankGet = {
-  company: '',
+let bankSearchCondition: infoapi.BankGet = reactive({
+  company: '0',
   name: '',
   swcode: '',
   accounts: '',
-  taxsign: '',
-  pageNumber: '',
-  pageSize: '',
+  taxsign: 'false',
+  pageNumber: '0',
+  pageSize: '0',
   sort: '',
   order: ''
+})
+
+const handle_click = (row: any, col: any) => {
+  if (route.params.id === '1') {
+    console.log(row.id)
+    bankSearchCondition.company = row.id.toString()
+    bank.value.get_data()
+  }
 }
-const getBankUnion = () => {
-  return infoapi.getBank(bankSearchCondition)
+
+const hadle_fresh = (name: string) => {
+  if (name == '本公司开户银行') {
+    bankSearchCondition.company = '0'
+    bank.value.get_data()
+  }
 }
 
 //款项

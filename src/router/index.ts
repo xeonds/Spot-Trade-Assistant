@@ -5,47 +5,51 @@ export default createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/system'
+      redirect: '/login'
+    },
+    {
+      path: '/login',
+      component: () => import('../views/system-login.vue')
     },
     {
       path: '/system',
-      component: () => import('../views/table-system.vue')
+      component: () => import('../views/table/table-system.vue')
     },
     {
       path: '/infomation/:id',
-      component: () => import('../views/table-infomation.vue')
+      component: () => import('../views/table/table-infomation.vue')
     },
     {
       path: '/model',
-      component: () => import('../views/table-model.vue')
+      component: () => import('../views/table/table-model.vue')
     },
     {
       path: '/trade',
-      component: () => import('../views/table-trade.vue')
+      component: () => import('../views/table/table-trade.vue')
     },
     {
       path: '/goods-manage',
-      component: () => import('../views/table-goods-manage.vue')
+      component: () => import('../views/table/table-goods-manage.vue')
     },
     {
       path: '/storehouse-manage',
-      component: () => import('../views/table-storehouse-manage.vue')
+      component: () => import('../views/table/table-storehouse-manage.vue')
     },
     {
       path: '/finance',
-      component: () => import('../views/table-finance.vue')
+      component: () => import('../views/table/table-finance.vue')
     },
     {
       path: '/futures',
-      component: () => import('../views/table-futures.vue')
+      component: () => import('../views/table/table-futures.vue')
     },
     {
       path: '/statistics',
-      component: () => import('../views/table-statistics.vue')
+      component: () => import('../views/table/table-statistics.vue')
     },
     {
       path: '/spy',
-      component: () => import('../views/table-spy.vue')
+      component: () => import('../views/table/table-spy.vue')
     }
   ]
 })
