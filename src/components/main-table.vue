@@ -20,7 +20,7 @@
         :data="table_data"
         row-key="id"
         align="left"
-        :cell-style="cell_style"
+        show-overflow-tooltip
         :header-cell-style="{
           background: props.color || '#fff',
           color: '#000'
@@ -35,7 +35,7 @@
       >
         <el-table-column
           v-for="(item, index) in col"
-          :key="`col_${index}`"
+          :key="`col_${item.label}`"
           :prop="col[index].prop"
           :label="item.label"
           :min-width="150"
@@ -50,10 +50,6 @@
 <script lang="ts" setup>
 import { reactive, onMounted } from 'vue'
 import Sortable from 'sortablejs'
-
-const cell_style = () => {
-  return { 'white-space': 'nowrap' }
-}
 
 let emits = defineEmits(['handle', 'menu', 'click_row'])
 let props = defineProps({
@@ -70,18 +66,6 @@ let table_data = reactive(<any>props.table_data)
 let col = reactive(<any>props.col)
 let command = reactive(<any>props.command)
 
-const rowDrop = () => {
-  const tbody: HTMLElement = <HTMLElement>(
-    document.querySelector('.el-table__body-wrapper tbody')
-  )
-
-  Sortable.create(tbody, {
-    onEnd({ newIndex, oldIndex }) {
-      const currRow = table_data.splice(oldIndex, 1)[0]
-      table_data.splice(newIndex, 0, currRow)
-    }
-  })
-}
 //列拖拽
 const columnDrop = () => {
   const wrapperTr: HTMLElement = <HTMLElement>(
@@ -94,12 +78,12 @@ const columnDrop = () => {
       const oldItem = col[evt.oldIndex]
       col.splice(evt.oldIndex, 1)
       col.splice(evt.newIndex, 0, oldItem)
+      console.log(col)
     }
   })
 }
 
 onMounted(() => {
-  rowDrop()
   columnDrop()
 })
 </script>
