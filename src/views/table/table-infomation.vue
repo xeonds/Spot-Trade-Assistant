@@ -107,7 +107,7 @@
       ></modifyTable>
       <modifyTable
         name="订单模式"
-        :get_data="getTypeUnion1"
+        :get_data="infoapi.getOrders"
         :add_data="infoapi.addOrders"
         :delete_data="infoapi.deletaOrders"
         :modify_data="infoapi.refreshOrders"
@@ -116,7 +116,7 @@
       <div class="union">
         <modifyTable
           name="海关款项类别"
-          :get_data="getTypeUnion2"
+          :get_data="infoapi.getOrders"
           :add_data="infoapi.addType"
           :delete_data="infoapi.deletaType"
           :modify_data="infoapi.refreshType"
