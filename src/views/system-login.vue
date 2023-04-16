@@ -22,7 +22,7 @@
             placeholder="请输入密码"
           ></el-input>
         </el-form-item>
-        <el-form-item label="验证码" prop="verify">
+        <!-- <el-form-item label="验证码" prop="verify">
           <el-row :gutter="20">
             <el-col :span="12" :offset="0">
               <el-input
@@ -37,9 +37,11 @@
               ></sIdentify>
             </el-col>
           </el-row>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
-          <el-button type="primary" @click="onSubmit(form)">登录</el-button>
+          <el-button type="primary" @click="onSubmit(form)" :loading="isloading"
+            >登录</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -47,61 +49,72 @@
 </template>
 
 <script setup lang="ts">
-import sIdentify from '../components/sIdentify.vue'
+// import sIdentify from '../components/sIdentify.vue'
 import { useRouter } from 'vue-router'
 import { login } from '../http/api/utils'
 const router = useRouter()
-
+let isloading = ref(false)
 // 生成验证码
-let codes = '1234567890'
-const gencode = () => {
-  let code = ''
-  for (let i = 0; i < 4; i++) {
-    let index = Math.floor(Math.random() * codes.length)
-    code += codes.slice(index, index + 1)
-  }
-  return code
-}
-// 验证码
-let codeofverify = ref(gencode())
-const changecode = () => {
-  codeofverify.value = gencode()
-}
+// let codes = '1234567890'
+// const gencode = () => {
+//   let code = ''
+//   for (let i = 0; i < 4; i++) {
+//     let index = Math.floor(Math.random() * codes.length)
+//     code += codes.slice(index, index + 1)
+//   }
+//   return code
+// }
+// // 验证码
+// let codeofverify = ref(gencode())
+// const changecode = () => {
+//   codeofverify.value = gencode()
+// }
 
 const form = ref()
 let formEl = reactive({
   username: '',
-  password: '',
-  verify: ''
+  password: ''
+  // verify: ''
 })
 
-const checkCode = (rule: any, value: any, callback: any) => {
-  if (value !== codeofverify.value) {
-    callback(new Error('请输入正确验证码'))
-  } else {
-    callback()
-  }
-}
+// const checkCode = (rule: any, value: any, callback: any) => {
+//   if (value !== codeofverify.value) {
+//     callback(new Error('请输入正确验证码'))
+//   } else {
+//     callback()
+//   }
+// }
 
 const rules = reactive({
   username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-  verify: [
-    { required: true, message: '请输入验证码', trigger: 'blur' },
-    { validator: checkCode, trigger: 'blur' }
-  ]
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+  // verify: [
+  //   { required: true, message: '请输入验证码', trigger: 'blur' },
+  //   { validator: checkCode, trigger: 'blur' }
+  // ]
 })
 
 const onSubmit = async (form: any) => {
+  isloading.value = true
   await form.validate((valid: any) => {
     if (valid) {
-      login(formEl.username, formEl.password).then((res: any) => {
-        localStorage.setItem('token', res.token)
-        router.replace('/system')
-      })
+      login(formEl.username, formEl.password).then(
+        (res: any) => {
+          localStorage.setItem('token', res.token)
+          router.replace('/main/system')
+        },
+        (msg: any) => {
+          isloading.value = false
+        }
+      )
+    } else {
+      isloading.value = false
     }
   })
 }
+onMounted(() => {
+  localStorage.clear()
+})
 </script>
 
 <style lang="less" scoped>
@@ -116,7 +129,7 @@ const onSubmit = async (form: any) => {
     justify-content: space-around;
     align-items: center;
     width: 480px;
-    height: 330px;
+    height: 280px;
     background-color: #fff;
     border-radius: 20px;
     box-shadow: 2px 2px 2px 2px #bbb;

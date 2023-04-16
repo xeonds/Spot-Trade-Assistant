@@ -1,0 +1,13 @@
+/** 表格显示内容的div样式 */
+.el-table.r-table .cell {
+  display: inline-block;
+  overflow: auto;
+  width: auto;
+  white-space: nowrap;
+}
+
+/** 表头外的显示数据的div样式 */
+.el-table.r-table,
+.el-table__body-wrapper {
+  overflow-x: auto;
+}

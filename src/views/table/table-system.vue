@@ -140,15 +140,15 @@ let col = reactive([
 const goto = (row: any, column: any) => {
   let content = row[column.property]
   if (content == '设置本公司账套、部门') {
-    router.push('./infomation/1')
+    router.push('/main/infomation/1')
   } else if (content == '设置往来单位资料、部门') {
-    router.push('./infomation/2')
+    router.push('/main/infomation/2')
   } else if (content == '设置商品资料') {
-    router.push('./infomation/3')
+    router.push('/main/infomation/3')
   } else if (content == '设置币种、订单模式') {
-    router.push('./infomation/4')
+    router.push('/main/infomation/4')
   } else if (content == '仓储协议、费率登记') {
-    router.push('./infomation/5')
+    router.push('/main/infomation/5')
   }
 }
 </script>

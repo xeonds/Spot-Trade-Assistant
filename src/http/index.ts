@@ -31,11 +31,12 @@ serviceAxios.interceptors.response.use(
     } else if (res.data.code == 20002) {
       // login timeout
       ElMessage({
-        message: '登录超时，请重新登录',
+        message: res.data.msg,
         type: 'warning'
       })
+      console.log(location.href)
+
       setTimeout(() => {
-        localStorage.clear()
         // 获取协议
         router.replace({
           path: '/login'

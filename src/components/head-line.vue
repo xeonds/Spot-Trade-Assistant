@@ -29,43 +29,47 @@ const route = useRoute()
 let items = reactive([
   {
     name: '系统',
-    route: '/system'
+    route: '/main/system'
   },
   {
     name: '资料',
-    route: '/infomation'
+    route: '/main/infomation'
   },
   {
     name: '模板',
-    route: '/model'
+    route: '/main/model'
   },
   {
     name: '贸易',
-    route: '/trade'
+    route: '/main/trade'
   },
   {
     name: '货管',
-    route: '/goods-manage'
+    route: '/main/goods-manage'
   },
   {
     name: '库管',
-    route: '/storehouse-manage'
+    route: '/main/storehouse-manage'
   },
   {
     name: '财务',
-    route: '/finance'
+    route: '/main/finance'
   },
   {
     name: '期货',
-    route: '/futures'
+    route: '/main/futures'
   },
   {
     name: '统计报表',
-    route: '/statistics'
+    route: '/main/statistics'
   },
   {
     name: '监控',
-    route: '/spy'
+    route: '/main/spy'
+  },
+  {
+    name: '权限管理',
+    route: '/main/memberManage'
   }
 ])
 
@@ -77,8 +81,8 @@ const goto = (path: string) => {
 <style lang="less" scoped>
 .main {
   padding: 1vh 1vw;
-  height: 8vh;
-  font-size: 1.5vh;
+  height: 7vh;
+  font-size: 1.8vh;
   color: #fff;
   background: #2f5496;
   box-sizing: border-box;

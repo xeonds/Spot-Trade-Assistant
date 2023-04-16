@@ -10,13 +10,18 @@
           :key="index"
           @click="emits('handle', index)"
         >
-          {{ item }}
+          【{{ item }}】
         </div>
       </div>
     </div>
 
     <div class="table-area">
       <el-table
+        v-el-table-infinite-scroll="
+          () => {
+            emits('load')
+          }
+        "
         :data="table_data"
         row-key="id"
         align="left"
@@ -33,14 +38,17 @@
         "
         @row-click="(row:any, col:any) => emits('click_row', row, col)"
       >
-        <el-table-column
-          v-for="(item, index) in col"
-          :key="`col_${item.label}`"
-          :prop="col[index].prop"
-          :label="item.label"
-          :min-width="150"
-        >
-        </el-table-column>
+        <template v-for="(item, index) in col">
+          <AFTableColumn
+            :key="`col_${item.label}`"
+            :prop="col[index].prop"
+            :label="item.label"
+            align="center"
+            v-if="item.label != 'id'"
+          >
+          </AFTableColumn>
+        </template>
+
         <slot></slot>
       </el-table>
     </div>
@@ -50,8 +58,8 @@
 <script lang="ts" setup>
 import { reactive, onMounted } from 'vue'
 import Sortable from 'sortablejs'
-
-let emits = defineEmits(['handle', 'menu', 'click_row'])
+import AFTableColumn from './AFTableColumn.vue'
+let emits = defineEmits(['handle', 'menu', 'click_row', 'load'])
 let props = defineProps({
   contain_command: Boolean,
   command: Object,
@@ -64,6 +72,7 @@ let props = defineProps({
 
 let table_data = reactive(<any>props.table_data)
 let col = reactive(<any>props.col)
+
 let command = reactive(<any>props.command)
 
 //列拖拽
@@ -125,6 +134,7 @@ onMounted(() => {
 
       .command-item {
         margin-right: 2vw;
+        cursor: pointer;
       }
     }
   }

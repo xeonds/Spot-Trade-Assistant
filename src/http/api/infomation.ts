@@ -57,7 +57,9 @@ export interface PartmentForm {
   notno: string
 }
 
-export const addPartment = (form: PartmentForm) => {
+export const addPartment = (form: any) => {
+  form.company = parseInt(form.company)
+  form.notmet = parseInt(form.notmet)
   return ServiceAxios({
     url: `/companydept`,
     method: 'POST',
@@ -75,14 +77,14 @@ export const refreshPartment = (id: number, form: PartmentForm) => {
 
 //账套
 export interface ZhangTaoGet {
-  type: string
+  type: number
   code: string
-  ladmet: string
+  ladmet: number
   fullname: string
   shortname: string
   taxid: string
   taxphone: string
-  invmax: string
+  invmax: number
   pageNumber: string
   pageSize: string
   sort: string
@@ -103,46 +105,14 @@ export const deletaZhangTao = (id: number) => {
   })
 }
 
-export interface ZhangTaoAdd {
-  /**
-   * 公司代码（1本公司账套：自定义、2贸易商：G供应K商客户）
-   */
-  code?: string
-  /**
-   * 公司全称
-   */
-  fullname?: string
-  /**
-   * 开票最大额
-   */
-  invmax?: number
-  /**
-   * 开提单方式lading method(系统/人工)
-   */
-  ladmet?: number
-  /**
-   * 公司简称
-   */
-  shortname?: string
-  /**
-   * 税票登记地址
-   */
-  taxaddr?: string
-  /**
-   * 纳税人识别号
-   */
-  taxid?: string
-  /**
-   * 税号登记电话
-   */
-  taxphone?: string
-  /**
-   * 公司类型，(枚举：1本公司账套、2贸易商、3仓库、4期货公司、5海关、6税务机关)
-   */
-  type?: number
-}
-
-export const addZhangTao = (form: ZhangTaoAdd) => {
+export const addZhangTao = (form: any) => {
+  if (form.ladmet == '系统') {
+    form.ladmet = 0
+  } else {
+    form.ladmet = 1
+  }
+  form.invmax = parseInt(form.invmax)
+  form.type = parseInt(form.type)
   return ServiceAxios({
     url: `/company`,
     method: 'POST',
@@ -150,7 +120,14 @@ export const addZhangTao = (form: ZhangTaoAdd) => {
   })
 }
 
-export const refreshZhangTao = (id: number, form: ZhangTaoAdd) => {
+export const refreshZhangTao = (id: number, form: any) => {
+  if (form.ladmet == '系统') {
+    form.ladmet = 0
+  } else {
+    form.ladmet = 1
+  }
+  form.invmax = parseInt(form.invmax)
+  form.type = parseInt(form.type)
   return ServiceAxios({
     url: `/company/${id}`,
     data: form,
@@ -212,7 +189,13 @@ export interface BankAdd {
   taxsign?: boolean
 }
 
-export const addBank = (form: BankAdd) => {
+export const addBank = (form: any) => {
+  if (form.taxsign == '是') {
+    form.taxsign = true
+  } else {
+    form.taxsign = false
+  }
+  form.company = parseInt(form.company)
   return ServiceAxios({
     url: `/bankinfo`,
     method: 'POST',

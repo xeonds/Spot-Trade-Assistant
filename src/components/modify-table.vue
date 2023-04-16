@@ -8,6 +8,7 @@
     :name="props.name"
     @handle="handle"
     @menu="menu"
+    @load="load"
     @click_row="(row:any,col:any)=>{emits('click_row',row,col)}"
   ></Table>
   <ul
@@ -21,9 +22,14 @@
   </ul>
   <!-- 编辑 -->
   <el-dialog v-model="dialogFormVisible" title="编辑">
-    <el-form :model="change_form">
-      <el-form-item :label="select_property" :label-width="100">
-        <el-input v-model="change_form.content" />
+    <el-form :model="add_form">
+      <el-form-item
+        :label="add_label[index]"
+        :label-width="200"
+        v-for="(item, key, index) in add_form"
+        :key="key"
+      >
+        <el-input v-model="add_form[key]" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -38,9 +44,9 @@
   <el-dialog v-model="dialogFormVisible2" title="增加">
     <el-form :model="add_form">
       <el-form-item
-        :label="key"
-        :label-width="100"
-        v-for="(item, key) in add_form"
+        :label="add_label[index]"
+        :label-width="200"
+        v-for="(item, key, index) in add_form"
         :key="key"
       >
         <el-input v-model="add_form[key]" />
@@ -59,6 +65,8 @@
 import Table from '../components/main-table.vue'
 import { reactive, ref, watch } from 'vue'
 import download from '../utils/download'
+let enable_get = true
+
 // 传参
 /**
  * 使用说明
@@ -69,8 +77,7 @@ import download from '../utils/download'
  * @modify_data 修改数据钩子
  * @command 指令
  * @export  导出excel钩子
- * @search 查询条件（关联表才需要）
- * @isunio 是否为关联表
+ * @search 查询条件
  */
 
 const props = defineProps([
@@ -82,8 +89,10 @@ const props = defineProps([
   'command',
   'export',
   'search',
-  'isunion'
+  'col',
+  'features'
 ])
+
 const emits = defineEmits(['click_row', 'fresh'])
 
 //右键菜单栏
@@ -106,26 +115,43 @@ watch(visible, (value) => {
 })
 
 let data: any[] = reactive([])
-let col: any[] = reactive([])
+let col: any[] = reactive(props.col)
 
-const get_data = () => {
-  data.splice(0, data.length)
-  col.splice(0, col.length)
-  props.get_data(props.search).then((res: any) => {
+let current_page = 0
+let max_page = 1
+
+const get_data = async () => {
+  if (enable_get) {
+    enable_get = false
+    let temp = props.search
+    temp['pageNumber'] = current_page //将管理权限交给表格
+    let res = await props.get_data(temp)
     for (let i in res.data) {
       data.push(res.data[i])
     }
+    max_page = res.pages
+    enable_get = true
+  }
+}
 
-    for (let i in res.data[0]) {
-      col.push({
-        prop: i,
-        label: i
-      })
-    }
-  })
+// 滑倒底部自动加载
+const load = () => {
+  if (current_page < max_page) {
+    console.log('load')
+    current_page++
+    get_data()
+  }
+}
+
+const refresh_data = () => {
+  current_page = 0
+  max_page = 1
+  data.splice(0, data.length)
+  load()
 }
 
 let add_form: { [index: string]: string } = reactive({})
+let add_label: string[] = reactive([])
 
 //新增框
 let dialogFormVisible2 = ref(false)
@@ -136,11 +162,15 @@ const handle = (index: number) => {
       break
     case 1:
       dialogFormVisible2.value = true
+      //clear
+      add_label.splice(0, add_label.length)
       for (let i in add_form) {
         delete add_form[i]
       }
-      for (let i in col) {
-        add_form[col[i].prop] = ''
+      //add
+      for (let i in props.features) {
+        add_form[props.features[i].prop] = ''
+        add_label.push(props.features[i].label)
       }
       break
     case 2:
@@ -157,7 +187,6 @@ const cancel1 = () => {
 }
 
 const modify1 = () => {
-  add_form['company'] = '0'
   props.add_data(<any>add_form).then((res: any) => {
     dialogFormVisible2.value = false
   })
@@ -179,41 +208,38 @@ const handleDelete = () => {
 }
 
 const handleFresh = () => {
-  if (!props.isunion) {
-    get_data()
-  } else {
-    emits('fresh', props.name)
-  }
+  emits('fresh', props.name)
 }
-
-let change_form = reactive({
-  content: ''
-})
 
 let dialogFormVisible = ref(false)
 
 const handleUpdate = () => {
+  //clear
+  add_label.splice(0, add_label.length)
+  for (let i in add_form) {
+    delete add_form[i]
+  }
+  //add
+  for (let i in props.features) {
+    add_form[props.features[i].prop] =
+      select_row.value[props.features[i].prop] || ''
+    add_label.push(props.features[i].label)
+  }
   dialogFormVisible.value = true
 }
 
 const cancel = () => {
-  change_form.content = ''
   dialogFormVisible.value = false
 }
 
 const modify = () => {
-  select_row.value[select_property.value] = change_form.content
-  select_row.value['company'] = 0
-  props.modify_data(select_row.value.id, select_row.value).then((res: any) => {
-    change_form.content = ''
+  props.modify_data(select_row.value.id, add_form).then((res: any) => {
     dialogFormVisible.value = false
   })
 }
 
-get_data()
-
 defineExpose({
-  get_data
+  refresh_data
 })
 </script>
 

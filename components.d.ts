@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AFTableColumn: typeof import('./src/components/AFTableColumn.vue')['default']
     BottomMarqueen: typeof import('./src/components/bottom-marqueen.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCarousel: typeof import('element-plus/es')['ElCarousel']
@@ -32,5 +33,8 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     SIdentify: typeof import('./src/components/sIdentify.vue')['default']
     TableFind: typeof import('./src/components/table-find.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
   }
 }
