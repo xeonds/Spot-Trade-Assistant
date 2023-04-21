@@ -58,8 +58,7 @@ export interface PartmentForm {
 }
 
 export const addPartment = (form: any) => {
-  form.company = parseInt(form.company)
-  form.notmet = parseInt(form.notmet)
+  form.company = 0
   return ServiceAxios({
     url: `/companydept`,
     method: 'POST',
@@ -195,7 +194,7 @@ export const addBank = (form: any) => {
   } else {
     form.taxsign = false
   }
-  form.company = parseInt(form.company)
+  form.company = 0
   return ServiceAxios({
     url: `/bankinfo`,
     method: 'POST',

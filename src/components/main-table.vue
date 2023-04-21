@@ -22,15 +22,13 @@
             emits('load')
           }
         "
+        style="border: 1px solid #000"
+        highlight-current-row
         :data="table_data"
         row-key="id"
         align="left"
         show-overflow-tooltip
-        :header-cell-style="{
-          background: props.color || '#fff',
-          color: '#000'
-        }"
-        height="200"
+        height="190"
         @cell-contextmenu="
           (row:any, col:any, _:any, event:any,) => {
             emits('menu', row, col, event)
@@ -84,9 +82,9 @@ const columnDrop = () => {
     animation: 180,
     delay: 0,
     onEnd: (evt: any) => {
-      const oldItem = col[evt.oldIndex]
-      col.splice(evt.oldIndex, 1)
-      col.splice(evt.newIndex, 0, oldItem)
+      const oldItem = col[evt.oldIndex + 1]
+      col.splice(evt.oldIndex + 1, 1)
+      col.splice(evt.newIndex + 1, 0, oldItem)
       console.log(col)
     }
   })
@@ -136,29 +134,6 @@ onMounted(() => {
         margin-right: 2vw;
         cursor: pointer;
       }
-    }
-  }
-
-  .table-area {
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    tr {
-      height: 4vh;
-    }
-
-    th {
-      padding: 1vh 1vw;
-      font-size: 0.7vw;
-      border: 1px solid black;
-      font-weight: 800;
-    }
-
-    td {
-      padding: 1vh 1vw;
-      border: 1px solid black;
     }
   }
 }

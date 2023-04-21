@@ -17,7 +17,6 @@ import bottomMarqueen from '../components/bottom-marqueen.vue'
 @font-face {
   font-family: MAIN;
   src: url('../font/仿宋_GB2312_1.ttf');
-  color: black;
   font-weight: normal;
   font-style: normal;
 }

@@ -1,6 +1,12 @@
 <template>
   <div class="table-area">
-    <el-table :data="data" row-key="id" align="left" @cell-click="goto">
+    <el-table
+      :data="data"
+      row-key="id"
+      align="left"
+      @cell-click="goto"
+      :header-cell-style="{ color: '#000', background: '#2e74b5' }"
+    >
       <el-table-column
         v-for="(item, index) in col"
         :key="`col_${index}`"
@@ -161,5 +167,6 @@ const goto = (row: any, column: any) => {
 .table-area {
   margin: 0 auto;
   width: 99vw;
+  border: 1px solid #000;
 }
 </style>

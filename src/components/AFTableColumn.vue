@@ -92,7 +92,7 @@ const minWidth = computed(() => {
       attrs.label.length * (fontRate.value as any).CHAR_RATE
     ) *
       fontSize.value +
-    80
+    50
   return attrs.width || Math.max(maxOne, getComputedWidth.value)
 })
 

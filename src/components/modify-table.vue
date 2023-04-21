@@ -29,13 +29,13 @@
         v-for="(item, key, index) in add_form"
         :key="key"
       >
-        <el-input v-model="add_form[key]" />
+        <el-input v-model="add_form[key]" if="" />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="cancel">Cancel</el-button>
-        <el-button type="primary" @click="modify"> Confirm </el-button>
+        <el-button @click="cancel">取消</el-button>
+        <el-button type="primary" @click="modify"> 确定 </el-button>
       </span>
     </template>
   </el-dialog>
@@ -44,18 +44,32 @@
   <el-dialog v-model="dialogFormVisible2" title="增加">
     <el-form :model="add_form">
       <el-form-item
-        :label="add_label[index]"
+        :label="item.label"
         :label-width="200"
-        v-for="(item, key, index) in add_form"
-        :key="key"
+        v-for="item in props.features"
+        :key="item.label"
       >
-        <el-input v-model="add_form[key]" />
+        <el-input
+          v-model="add_form[item.prop]"
+          v-if="item.type == 'string' || item.type == 'number'"
+        />
+        <el-radio-group
+          v-model="add_form[item.prop]"
+          v-if="item.type == 'select'"
+        >
+          <el-radio
+            v-for="option in item.options"
+            :key="option.label"
+            :label="option.value"
+            >{{ option.label }}</el-radio
+          >
+        </el-radio-group>
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="cancel1">Cancel</el-button>
-        <el-button type="primary" @click="modify1"> Confirm </el-button>
+        <el-button @click="cancel1">取消</el-button>
+        <el-button type="primary" @click="modify1"> 确定 </el-button>
       </span>
     </template>
   </el-dialog>
@@ -125,7 +139,7 @@ const get_data = async () => {
     enable_get = false
     let temp = props.search
     temp['pageNumber'] = current_page //将管理权限交给表格
-    let res = await props.get_data(temp)
+    let res = await props.get_data(toRaw(temp))
     for (let i in res.data) {
       data.push(res.data[i])
     }
@@ -150,7 +164,7 @@ const refresh_data = () => {
   load()
 }
 
-let add_form: { [index: string]: string } = reactive({})
+let add_form: { [index: string]: string | boolean | number } = reactive({})
 let add_label: string[] = reactive([])
 
 //新增框
@@ -170,6 +184,7 @@ const handle = (index: number) => {
       //add
       for (let i in props.features) {
         add_form[props.features[i].prop] = ''
+
         add_label.push(props.features[i].label)
       }
       break
@@ -186,9 +201,22 @@ const cancel1 = () => {
   dialogFormVisible2.value = false
 }
 
+const format_form = () => {
+  for (let i in props.features) {
+    if (props.features[i].type == 'number') {
+      add_form[props.features[i].prop] = parseInt(
+        <string>add_form[props.features[i].prop]
+      )
+    }
+  }
+  console.log(add_form)
+}
+
 const modify1 = () => {
-  props.add_data(<any>add_form).then((res: any) => {
+  format_form()
+  props.add_data(toRaw(<any>add_form)).then((res: any) => {
     dialogFormVisible2.value = false
+    handleFresh()
   })
 }
 
@@ -233,8 +261,10 @@ const cancel = () => {
 }
 
 const modify = () => {
-  props.modify_data(select_row.value.id, add_form).then((res: any) => {
+  format_form()
+  props.modify_data(select_row.value.id, toRaw(add_form)).then((res: any) => {
     dialogFormVisible.value = false
+    handleFresh()
   })
 }
 
