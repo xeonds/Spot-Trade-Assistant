@@ -52,6 +52,7 @@
 // import sIdentify from '../components/sIdentify.vue'
 import { useRouter } from 'vue-router'
 import { login } from '../http/api/utils'
+import loginStatusJudge from '../utils/loginStatus'
 const router = useRouter()
 let isloading = ref(false)
 // 生成验证码
@@ -101,6 +102,7 @@ const onSubmit = async (form: any) => {
       login(formEl.username, formEl.password).then(
         (res: any) => {
           localStorage.setItem('token', res.token)
+          localStorage.setItem('lastLoginTime', String(new Date().getTime()))
           router.replace('/main/system')
         },
         (msg: any) => {
@@ -112,9 +114,21 @@ const onSubmit = async (form: any) => {
     }
   })
 }
+
 onMounted(() => {
-  localStorage.clear()
+  //绑定监听事件
+  window.addEventListener('keydown', (e) => {
+    if (e.key == 'Enter') {
+      onSubmit(form.value)
+    }
+  })
 })
+
+if (loginStatusJudge()) {
+  router.replace('/main/system')
+} else {
+  localStorage.clear()
+}
 </script>
 
 <style lang="less" scoped>

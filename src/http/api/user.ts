@@ -59,3 +59,47 @@ export const RoleDelete = (id: string) => {
     method: 'DELETE'
   })
 }
+
+export const RoleChange = (id: string) => {
+  return serviceAxios({
+    url: `/role/status/${id}`,
+    method: 'PUT'
+  })
+}
+
+export const MenusGet = (form: any) => {
+  return serviceAxios({
+    url: '/menu/page',
+    params: form
+  })
+}
+
+export const MenusAdd = (form: any) => {
+  return serviceAxios({
+    url: `/menu`,
+    method: 'POST',
+    data: form
+  })
+}
+
+export const MenusRefresh = (id: string, form: any) => {
+  return serviceAxios({
+    url: `/menu/${id}`,
+    method: 'PUT',
+    data: form
+  })
+}
+
+export const MenusDelete = (id: string) => {
+  return serviceAxios({
+    url: `/menu/${id}`,
+    method: 'DELETE'
+  })
+}
+
+export const MenusChange = (id: string) => {
+  return serviceAxios({
+    url: `/menu/status/${id}`,
+    method: 'PUT'
+  })
+}

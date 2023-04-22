@@ -1,5 +1,6 @@
 <template>
   <Table
+    :id="props.id"
     :col="col"
     :table_data="data"
     :contain_top="true"
@@ -10,7 +11,10 @@
     @menu="menu"
     @load="load"
     @click_row="(row:any,col:any)=>{emits('click_row',row,col)}"
-  ></Table>
+    :status_change="props.status_change"
+    :width="props.width"
+  >
+  </Table>
   <ul
     v-show="visible"
     :style="{ left: left + 'px', top: top + 'px' }"
@@ -20,29 +24,10 @@
     <li @click="handleFresh()">刷新</li>
     <li @click="handleUpdate()">编辑</li>
   </ul>
+
   <!-- 编辑 -->
   <el-dialog v-model="dialogFormVisible" title="编辑">
-    <el-form :model="add_form">
-      <el-form-item
-        :label="add_label[index]"
-        :label-width="200"
-        v-for="(item, key, index) in add_form"
-        :key="key"
-      >
-        <el-input v-model="add_form[key]" if="" />
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="cancel">取消</el-button>
-        <el-button type="primary" @click="modify"> 确定 </el-button>
-      </span>
-    </template>
-  </el-dialog>
-
-  <!-- 增加 -->
-  <el-dialog v-model="dialogFormVisible2" title="增加">
-    <el-form :model="add_form">
+    <el-form :model="add_form" :rules="rules">
       <el-form-item
         :label="item.label"
         :label-width="200"
@@ -64,12 +49,79 @@
             >{{ option.label }}</el-radio
           >
         </el-radio-group>
+
+        <el-select
+          v-model="add_form[item.prop]"
+          multiple
+          placeholder="选择"
+          style="width: 240px"
+          v-if="item.type == 'multiselect'"
+        >
+          <el-option
+            v-for="option in multioptions[item.prop]"
+            :key="option.value"
+            :label="option.label"
+            :value="option.value"
+          />
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="cancel">取消</el-button>
+        <el-button type="primary" @click="modify" color="#2f5496">
+          确定
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
+
+  <!-- 增加 -->
+  <el-dialog v-model="dialogFormVisible2" title="增加">
+    <el-form :model="add_form" :rules="rules">
+      <el-form-item
+        :label="item.label"
+        :label-width="200"
+        v-for="item in props.features"
+        :key="item.label"
+      >
+        <el-input
+          v-model="add_form[item.prop]"
+          v-if="item.type == 'string' || item.type == 'number'"
+        />
+        <el-radio-group
+          v-model="add_form[item.prop]"
+          v-if="item.type == 'select'"
+        >
+          <el-radio
+            v-for="option in item.options"
+            :key="option.label"
+            :label="option.value"
+            >{{ option.label }}</el-radio
+          >
+        </el-radio-group>
+        <el-select
+          v-model="add_form[item.prop]"
+          multiple
+          placeholder="选择"
+          style="width: 240px"
+          v-if="item.type == 'multiselect'"
+        >
+          <el-option
+            v-for="option in multioptions[item.prop]"
+            :key="option.value"
+            :label="option.label"
+            :value="option.value"
+          />
+        </el-select>
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="cancel1">取消</el-button>
-        <el-button type="primary" @click="modify1"> 确定 </el-button>
+        <el-button type="primary" @click="modify1" color="#2f5496">
+          确定
+        </el-button>
       </span>
     </template>
   </el-dialog>
@@ -92,6 +144,8 @@ let enable_get = true
  * @command 指令
  * @export  导出excel钩子
  * @search 查询条件
+ * @option_get 表单动态选项
+ * @status_change 状态切换
  */
 
 const props = defineProps([
@@ -104,7 +158,12 @@ const props = defineProps([
   'export',
   'search',
   'col',
-  'features'
+  'features',
+  'option_get',
+  'id',
+  'status_change',
+  'change_base',
+  'width'
 ])
 
 const emits = defineEmits(['click_row', 'fresh'])
@@ -164,33 +223,48 @@ const refresh_data = () => {
   load()
 }
 
-let add_form: { [index: string]: string | boolean | number } = reactive({})
-let add_label: string[] = reactive([])
+let add_form: { [index: string]: any } = reactive({}) //表单对象
+let add_label: string[] = reactive([]) //表单标题
+let multioptions: { [name: string]: any } = reactive({})
+let rules: object[] = reactive([]) //校验规则
 
 //新增框
 let dialogFormVisible2 = ref(false)
+
 const handle = (index: number) => {
   switch (index) {
     case 0:
       handleFresh()
       break
     case 1:
-      dialogFormVisible2.value = true
-      //clear
-      add_label.splice(0, add_label.length)
-      for (let i in add_form) {
-        delete add_form[i]
+      if (
+        (props.change_base && props.search[props.change_base]) || //关联表条件关联字段已经具备
+        !props.change_base //非关联表
+      ) {
+        dialogFormVisible2.value = true
+        //clear
+        add_label.splice(0, add_label.length)
+        for (let i in add_form) {
+          delete add_form[i]
+        }
+        //add
+        for (let i in props.features) {
+          add_form[props.features[i].prop] = ''
+          add_label.push(props.features[i].label)
+          if (props.features[i].type == 'multiselect') {
+            props.option_get[props.features[i].prop]().then((res: any) => {
+              multioptions[props.features[i].prop] = res
+            })
+          }
+        }
       }
-      //add
-      for (let i in props.features) {
-        add_form[props.features[i].prop] = ''
 
-        add_label.push(props.features[i].label)
-      }
       break
     case 2:
       console.log(2)
       props.export().then((res: any) => {
+        console.log(res)
+
         download(res, 'excel', props.name + '.xlsx')
       })
       break
@@ -214,10 +288,19 @@ const format_form = () => {
 
 const modify1 = () => {
   format_form()
-  props.add_data(toRaw(<any>add_form)).then((res: any) => {
-    dialogFormVisible2.value = false
-    handleFresh()
-  })
+  if (props.change_base) {
+    props
+      .add_data(props.search[props.change_base], toRaw(<any>add_form))
+      .then((res: any) => {
+        dialogFormVisible2.value = false
+        handleFresh()
+      })
+  } else {
+    props.add_data(toRaw(<any>add_form)).then((res: any) => {
+      dialogFormVisible2.value = false
+      handleFresh()
+    })
+  }
 }
 
 const menu = (row: any, col: any, event: any) => {
@@ -232,28 +315,54 @@ const menu = (row: any, col: any, event: any) => {
 }
 
 const handleDelete = () => {
-  props.delete_data(select_row.value.id)
+  props.delete_data(select_row.value.id).then((res: any) => {
+    handleFresh()
+  })
 }
 
 const handleFresh = () => {
   emits('fresh', props.name)
 }
 
+//修改
 let dialogFormVisible = ref(false)
 
 const handleUpdate = () => {
   //clear
-  add_label.splice(0, add_label.length)
-  for (let i in add_form) {
-    delete add_form[i]
+  if (
+    (props.change_base && props.search[props.change_base]) || //关联表条件关联字段已经具备
+    !props.change_base //非关联表
+  ) {
+    add_label.splice(0, add_label.length)
+    for (let i in add_form) {
+      delete add_form[i]
+    }
+    //add
+    interface MultiSlect {
+      id: number
+    }
+    console.log(select_row)
+
+    for (let i in props.features) {
+      if (props.features[i].type == 'multiselect') {
+        props.option_get[props.features[i].prop]().then((res: any) => {
+          multioptions[props.features[i].prop] = res
+          add_form[props.features[i].prop] = []
+          select_row.value[props.features[i].prop].forEach(
+            (element: MultiSlect) => {
+              add_form[props.features[i].prop].push(element.id)
+            }
+          )
+          add_label.push(props.features[i].label)
+        })
+      } else {
+        add_form[props.features[i].prop] =
+          select_row.value[props.features[i].prop]
+        add_label.push(props.features[i].label)
+      }
+    }
+    dialogFormVisible.value = true
   }
-  //add
-  for (let i in props.features) {
-    add_form[props.features[i].prop] =
-      select_row.value[props.features[i].prop] || ''
-    add_label.push(props.features[i].label)
-  }
-  dialogFormVisible.value = true
 }
 
 const cancel = () => {
@@ -262,10 +371,25 @@ const cancel = () => {
 
 const modify = () => {
   format_form()
-  props.modify_data(select_row.value.id, toRaw(add_form)).then((res: any) => {
-    dialogFormVisible.value = false
-    handleFresh()
-  })
+  if (props.change_base) {
+    props
+      .modify_data(
+        props.search[props.change_base],
+        select_row.value.id,
+        toRaw(<any>add_form)
+      )
+      .then((res: any) => {
+        dialogFormVisible.value = false
+        handleFresh()
+      })
+  } else {
+    props
+      .modify_data(select_row.value.id, toRaw(<any>add_form))
+      .then((res: any) => {
+        dialogFormVisible.value = false
+        handleFresh()
+      })
+  }
 }
 
 defineExpose({

@@ -1,9 +1,5 @@
 export const ZhangTao = [
   {
-    label: 'id',
-    prop: 'id'
-  },
-  {
     label: '公司类型',
     prop: 'type'
   },
@@ -43,10 +39,6 @@ export const ZhangTao = [
 
 export const Bank = [
   {
-    label: 'id',
-    prop: 'id'
-  },
-  {
     label: '开户银行名称',
     prop: 'name'
   },
@@ -65,10 +57,6 @@ export const Bank = [
 ]
 
 export const Partment = [
-  {
-    label: 'id',
-    prop: 'id'
-  },
   {
     label: '部门代码',
     prop: 'code'
@@ -115,29 +103,218 @@ export const Partment = [
   }
 ]
 
-export const UserInfo = [
+//表3
+
+export const Variety = [
   {
-    label: 'id',
-    prop: 'id'
+    label: '品种',
+    prop: 'name'
   },
+  {
+    label: '代码',
+    prop: 'code'
+  },
+  {
+    label: '期货每手数量',
+    prop: 'nof'
+  },
+  {
+    label: '重量单位',
+    prop: 'unit'
+  },
+  {
+    label: '实数结算标志',
+    prop: 'relset'
+  },
+  {
+    label: '增值税率',
+    prop: 'vat'
+  },
+  {
+    label: '进口关税',
+    prop: 'tariff'
+  }
+]
+
+export const Grade = [
+  {
+    label: '品种',
+    prop: 'variety'
+  },
+  {
+    label: '规格',
+    prop: 'name'
+  },
+  {
+    label: '代码',
+    prop: 'code'
+  },
+
+  {
+    label: '含量',
+    prop: 'content'
+  },
+  {
+    label: '外形尺寸',
+    prop: 'size'
+  },
+  {
+    label: '计量标准（块/件）',
+    prop: 'meter'
+  },
+  {
+    label: '每（块/件）重量',
+    prop: 'weight'
+  }
+]
+
+export const Trademark = [
+  {
+    label: '品种',
+    prop: 'variety'
+  },
+  {
+    label: '商标/品牌',
+    prop: 'name'
+  },
+  {
+    label: '代码',
+    prop: 'code'
+  },
+  {
+    label: '生产国',
+    prop: 'country'
+  },
+  {
+    label: '产地',
+    prop: 'place'
+  },
+  {
+    label: '生产厂商',
+    prop: 'vendor'
+  }
+]
+
+export const Currency = [
+  {
+    label: '币种名称',
+    prop: 'name'
+  },
+  {
+    label: '币种属性',
+    prop: 'isLocal'
+  }
+]
+export const Orders = [
+  {
+    label: '订单模式',
+    prop: 'mode'
+  },
+  {
+    label: '价格修改模式',
+    prop: 'psign'
+  }
+]
+export const Type = [
+  {
+    label: '类别',
+    prop: 'type'
+  }
+]
+
+//表5
+export const Sta = [
+  {
+    label: '账套简称',
+    prop: 'ourcompany'
+  },
+  {
+    label: '仓库简称',
+    prop: 'storage'
+  },
+  {
+    label: '仓储协议号',
+    prop: 'agreeno'
+  },
+  {
+    label: '协议有效期',
+    prop: 'expdate'
+  },
+  {
+    label: '有效状态',
+    prop: 'expsign'
+  },
+  {
+    label: '签约日期',
+    prop: 'condate'
+  },
+  {
+    label: '协议扫描件',
+    prop: 'scan'
+  }
+]
+export const Svar = [
+  {
+    label: '品种',
+    prop: 'sta'
+  },
+  {
+    label: '规格',
+    prop: 'grad'
+  },
+  {
+    label: '收费币种',
+    prop: 'country'
+  }
+]
+export const Item = [
+  {
+    label: '项目名称',
+    prop: 'name'
+  },
+  {
+    label: '费率',
+    prop: 'cost'
+  },
+  {
+    label: '费用单位',
+    prop: 'iunit'
+  }
+]
+export const Stof = [
+  {
+    label: '仓储起始日',
+    prop: 'sday'
+  },
+  {
+    label: '仓储终止日',
+    prop: 'eday'
+  },
+  {
+    label: '费率',
+    prop: 'fee'
+  },
+  {
+    label: '费用单位',
+    prop: 'sunit'
+  }
+]
+
+export const UserInfo = [
   {
     label: '用户名',
     prop: 'userName'
   },
   {
-    label: '密码',
+    label: '微信号',
     prop: 'password'
-  },
-  {
-    label: '状态',
-    prop: 'status'
   },
   {
     label: '邮箱',
     prop: 'email'
   },
   {
-    label: '手机',
+    label: '手机号',
     prop: 'phonenumber'
   },
   {
@@ -145,54 +322,43 @@ export const UserInfo = [
     prop: 'sex'
   },
   {
-    label: '头像',
-    prop: 'avatar'
-  },
-  {
-    label: '创建者',
-    prop: 'createBy'
-  },
-  {
     label: '创建时间',
     prop: 'createTime'
   },
   {
-    label: '更新者',
-    prop: 'updateBy'
-  },
-  {
     label: '更新时间',
     prop: 'updateTime'
-  },
-  {
-    label: '是否删除',
-    prop: 'delFlag'
   }
 ]
 
 export const RoleInfo = [
   {
-    label: 'id',
-    prop: 'id'
-  },
-  {
     label: '名称',
     prop: 'name'
   },
-  {
-    label: '状态',
-    prop: 'status'
-  },
-  {
-    label: '删除状态',
-    prop: 'delFlag'
-  },
+
   {
     label: '备注',
     prop: 'remark'
   },
   {
-    label: '组别id',
-    prop: 'groupId'
+    label: '状态',
+    prop: 'status'
+  }
+]
+
+export const MenusInfo = [
+  {
+    label: '名称',
+    prop: 'menuName'
+  },
+
+  {
+    label: '备注',
+    prop: 'remark'
+  },
+  {
+    label: '状态',
+    prop: 'status'
   }
 ]

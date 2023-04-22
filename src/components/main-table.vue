@@ -1,5 +1,8 @@
 <template>
-  <div class="main">
+  <div
+    class="main"
+    :style="{ width: props.width ? props.width + 'vw' : '98vw' }"
+  >
     <div class="top" v-if="props.contain_top">
       <div class="name">{{ props.name }}</div>
 
@@ -22,13 +25,14 @@
             emits('load')
           }
         "
+        :header-row-class-name="props.id"
         style="border: 1px solid #000"
         highlight-current-row
         :data="table_data"
         row-key="id"
         align="left"
         show-overflow-tooltip
-        height="190"
+        height="180"
         @cell-contextmenu="
           (row:any, col:any, _:any, event:any,) => {
             emits('menu', row, col, event)
@@ -36,18 +40,32 @@
         "
         @row-click="(row:any, col:any) => emits('click_row', row, col)"
       >
-        <template v-for="(item, index) in col">
+        <template v-for="(item, index) in col" :key="`col_${item.label}`">
           <AFTableColumn
-            :key="`col_${item.label}`"
+            v-if="col[index].prop == 'status' && props.status_change"
+            label="状态"
+            width="120"
+          >
+            <template #default="scope">
+              <el-switch
+                active-value="1"
+                inactive-value="0"
+                v-model="table_data[scope.$index].status"
+                @change="change_status(table_data[scope.$index].id)"
+              />
+            </template>
+          </AFTableColumn>
+
+          <AFTableColumn
+            v-else
             :prop="col[index].prop"
             :label="item.label"
             align="center"
-            v-if="item.label != 'id'"
           >
           </AFTableColumn>
         </template>
 
-        <slot></slot>
+        <!-- 状态表 -->
       </el-table>
     </div>
   </div>
@@ -58,15 +76,18 @@ import { reactive, onMounted } from 'vue'
 import Sortable from 'sortablejs'
 import AFTableColumn from './AFTableColumn.vue'
 let emits = defineEmits(['handle', 'menu', 'click_row', 'load'])
-let props = defineProps({
-  contain_command: Boolean,
-  command: Object,
-  name: String,
-  color: String,
-  contain_top: Boolean,
-  table_data: Object,
-  col: Object
-})
+let props = defineProps([
+  'contain_command',
+  'command',
+  'name',
+  'color',
+  'contain_top',
+  'table_data',
+  'col',
+  'id',
+  'status_change',
+  'width'
+])
 
 let table_data = reactive(<any>props.table_data)
 let col = reactive(<any>props.col)
@@ -76,15 +97,15 @@ let command = reactive(<any>props.command)
 //列拖拽
 const columnDrop = () => {
   const wrapperTr: HTMLElement = <HTMLElement>(
-    document.querySelector('.el-table__header-wrapper tr')
+    document.querySelector('.' + props.id)
   )
   Sortable.create(wrapperTr, {
     animation: 180,
     delay: 0,
     onEnd: (evt: any) => {
-      const oldItem = col[evt.oldIndex + 1]
-      col.splice(evt.oldIndex + 1, 1)
-      col.splice(evt.newIndex + 1, 0, oldItem)
+      const oldItem = col[evt.oldIndex]
+      col.splice(evt.oldIndex, 1)
+      col.splice(evt.newIndex, 0, oldItem)
       console.log(col)
     }
   })
@@ -93,6 +114,11 @@ const columnDrop = () => {
 onMounted(() => {
   columnDrop()
 })
+
+//状态表切换功能
+const change_status = (id: string) => {
+  props.status_change(id)
+}
 </script>
 
 <style lang="less" scoped>
@@ -108,9 +134,6 @@ onMounted(() => {
 }
 
 .main {
-  margin: 0 auto;
-  width: 100%;
-
   .top {
     position: relative;
     padding: 1vh 1vw;

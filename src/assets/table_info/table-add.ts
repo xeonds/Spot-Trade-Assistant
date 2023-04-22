@@ -42,7 +42,17 @@ export const ZhangTao = [
   {
     label: '开提单方式',
     prop: 'ladmet',
-    type: 'number'
+    type: 'select',
+    options: [
+      {
+        label: '系统',
+        value: 0
+      },
+      {
+        label: '人工',
+        value: 1
+      }
+    ]
   }
 ]
 
@@ -80,11 +90,6 @@ export const Bank = [
 ]
 
 export const Partment = [
-  {
-    label: '关联公司id',
-    prop: 'company',
-    type: 'integer'
-  },
   {
     label: '部门代码',
     prop: 'code',
@@ -133,11 +138,279 @@ export const Partment = [
   {
     label: '通知方式',
     prop: 'notmet',
-    type: 'integer'
+    type: 'number'
   },
   {
     label: '通知号码',
     prop: 'notno',
+    type: 'string'
+  }
+]
+
+//表3
+export const Variety = [
+  {
+    label: '品种',
+    prop: 'name',
+    type: 'string'
+  },
+  {
+    label: '代码',
+    prop: 'code',
+    type: 'string'
+  },
+  {
+    label: '期货每手数量',
+    prop: 'nof',
+    type: 'number'
+  },
+  {
+    label: '重量单位',
+    prop: 'unit',
+    type: 'string'
+  },
+  {
+    label: '实数结算标志',
+    prop: 'relset',
+    type: 'number'
+  },
+  {
+    label: '增值税率',
+    prop: 'vat',
+    type: 'number'
+  },
+  {
+    label: '进口关税',
+    prop: 'tariff',
+    type: 'number'
+  }
+]
+
+export const Grade = [
+  {
+    label: '品种',
+    prop: 'variety',
+    type: 'number'
+  },
+  {
+    label: '规格',
+    prop: 'name',
+    type: 'string'
+  },
+  {
+    label: '代码',
+    prop: 'code',
+    type: 'string'
+  },
+
+  {
+    label: '含量',
+    prop: 'content',
+    type: 'string'
+  },
+  {
+    label: '外形尺寸',
+    prop: 'size',
+    type: 'string'
+  },
+  {
+    label: '计量标准（块/件）',
+    prop: 'meter',
+    type: 'string'
+  },
+  {
+    label: '每（块/件）重量',
+    prop: 'weight',
+    type: 'string'
+  }
+]
+
+export const Trademark = [
+  {
+    label: '品种',
+    prop: 'variety',
+    type: 'number'
+  },
+  {
+    label: '商标/品牌',
+    prop: 'name',
+    type: 'string'
+  },
+  {
+    label: '代码',
+    prop: 'code',
+    type: 'string'
+  },
+  {
+    label: '生产国',
+    prop: 'country',
+    type: 'string'
+  },
+  {
+    label: '产地',
+    prop: 'place',
+    type: 'string'
+  },
+  {
+    label: '生产厂商',
+    prop: 'vendor',
+    type: 'string'
+  }
+]
+//表4
+export const Currency = [
+  {
+    label: '币种名称',
+    prop: 'name',
+    type: 'string'
+  },
+  {
+    label: '币种属性',
+    prop: 'isLocal',
+    type: 'select',
+    options: [
+      {
+        label: '是',
+        value: true
+      },
+      {
+        label: '否',
+        value: false
+      }
+    ]
+  }
+]
+export const Orders = [
+  {
+    label: '订单模式',
+    prop: 'mode',
+    type: 'string'
+  },
+  {
+    label: '价格修改模式',
+    prop: 'psign',
+    type: 'select',
+    options: [
+      {
+        label: '是',
+        value: true
+      },
+      {
+        label: '否',
+        value: false
+      }
+    ]
+  }
+]
+export const Type = [
+  {
+    label: '类别',
+    prop: 'type',
+    type: 'string'
+  }
+]
+
+//表5
+export const Sta = [
+  {
+    label: '账套简称',
+    prop: 'ourcompany',
+    type: 'number'
+  },
+  {
+    label: '仓库简称',
+    prop: 'storage',
+    type: 'number'
+  },
+  {
+    label: '仓储协议号',
+    prop: 'agreeno',
+    type: 'string'
+  },
+  {
+    label: '协议有效期',
+    prop: 'expdate',
+    type: 'string'
+  },
+  {
+    label: '有效状态',
+    prop: 'expsign',
+    type: 'select',
+    options: [
+      {
+        label: '有效',
+        value: 1
+      },
+      {
+        label: '失效',
+        value: 2
+      }
+    ]
+  },
+  {
+    label: '签约日期',
+    prop: 'condate',
+    type: 'string'
+  },
+  {
+    label: '协议扫描件',
+    prop: 'scan',
+    type: 'string'
+  }
+]
+export const Svar = [
+  {
+    label: '品种',
+    prop: 'sta',
+    type: 'number'
+  },
+  {
+    label: '规格',
+    prop: 'grad',
+    type: 'number'
+  },
+  {
+    label: '收费币种',
+    prop: 'country',
+    type: 'string'
+  }
+]
+export const Item = [
+  {
+    label: '项目名称',
+    prop: 'name',
+    type: 'number'
+  },
+  {
+    label: '费率',
+    prop: 'cost',
+    type: 'number'
+  },
+  {
+    label: '费用单位',
+    prop: 'iunit',
+    type: 'string'
+  }
+]
+export const Stof = [
+  {
+    label: '仓储起始日',
+    prop: 'sday',
+    type: 'string'
+  },
+  {
+    label: '仓储终止日',
+    prop: 'eday',
+    type: 'string'
+  },
+  {
+    label: '费率',
+    prop: 'fee',
+    type: 'number'
+  },
+  {
+    label: '费用单位',
+    prop: 'sunit',
     type: 'string'
   }
 ]
@@ -164,9 +437,14 @@ export const UserInfo = [
     type: 'string'
   },
   {
-    label: '头像',
-    prop: 'avatar',
+    label: '微信号',
+    prop: 'wechat',
     type: 'string'
+  },
+  {
+    label: '角色',
+    prop: 'roles',
+    type: 'multiselect'
   }
 ]
 
@@ -184,6 +462,24 @@ export const RoleInfo = [
   {
     label: '组别id',
     prop: 'groupId',
+    type: 'string'
+  },
+  {
+    label: '权限',
+    prop: 'menus',
+    type: 'multiselect'
+  }
+]
+
+export const MenusInfo = [
+  {
+    label: '名称',
+    prop: 'menuName',
+    type: 'string'
+  },
+  {
+    label: '备注',
+    prop: 'remark',
     type: 'string'
   }
 ]

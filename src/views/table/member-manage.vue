@@ -2,6 +2,7 @@
   <div class="main">
     <div>用户管理</div>
     <modifyTable
+      id="user1"
       name="用户管理"
       :get_data="userapi.UserGet"
       :add_data="userapi.UserAdd"
@@ -13,8 +14,12 @@
       ref="user"
       :col="table_col.UserInfo"
       :features="table_add.UserInfo"
-    ></modifyTable>
+      :option_get="{ roles: roleOptionsGet }"
+    >
+    </modifyTable>
+    <div>角色管理</div>
     <modifyTable
+      id="user2"
       name="角色管理"
       :get_data="userapi.RoleGet"
       :add_data="userapi.RoleAdd"
@@ -26,6 +31,24 @@
       ref="role"
       :col="table_col.RoleInfo"
       :features="table_add.RoleInfo"
+      :option_get="{ menus: meunsOptionsGet }"
+      :status_change="userapi.RoleChange"
+    ></modifyTable>
+    <div>权限管理</div>
+    <modifyTable
+      id="user3"
+      name="权限管理"
+      :get_data="userapi.MenusGet"
+      :add_data="userapi.MenusAdd"
+      :delete_data="userapi.MenusDelete"
+      :modify_data="userapi.MenusRefresh"
+      :command="['刷新', '新建']"
+      :search="MenusCondition"
+      @fresh="handle_fresh"
+      ref="menus"
+      :col="table_col.MenusInfo"
+      :features="table_add.MenusInfo"
+      :status_change="userapi.MenusChange"
     ></modifyTable>
   </div>
 </template>
@@ -35,7 +58,6 @@ import modifyTable from '../../components/modify-table.vue'
 import * as userapi from '../../http/api/user'
 import * as table_col from '../../assets/table_info/table-title'
 import * as table_add from '../../assets/table_info/table-add'
-
 //子表示例对象
 
 let user = ref()
@@ -43,10 +65,43 @@ let user = ref()
 // 条件按筛选处理
 let UserCondition: { [kye: string]: string | number } = reactive({})
 
-let role = ref()
+//表单选项
+interface RoleList {
+  id: number
+  name: string
+}
 
+const roleOptionsGet = async () => {
+  let res = await userapi.RoleGet({})
+  let temp: any[] = []
+  res.data.forEach((element: RoleList) => {
+    temp.push({
+      label: element.name,
+      value: element.id
+    })
+  })
+  return temp
+}
+
+let role = ref()
+const meunsOptionsGet = async () => {
+  let res = await userapi.MenusGet({})
+  let temp: any[] = []
+  res.data.forEach((element: any) => {
+    temp.push({
+      label: element.menuName,
+      value: element.id
+    })
+  })
+  return temp
+}
 // 条件按筛选处理
 let RoleCondition: { [kye: string]: string | number } = reactive({})
+
+let menus = ref()
+
+// 条件按筛选处理
+let MenusCondition: { [kye: string]: string | number } = reactive({})
 
 const handle_fresh = (name: string) => {
   if (name == '用户管理') {
@@ -54,6 +109,9 @@ const handle_fresh = (name: string) => {
   }
   if (name == '角色管理') {
     role.value.refresh_data()
+  }
+  if (name == '权限管理') {
+    menus.value.refresh_data()
   }
 }
 </script>

@@ -57,8 +57,8 @@ export interface PartmentForm {
   notno: string
 }
 
-export const addPartment = (form: any) => {
-  form.company = 0
+export const addPartment = (company: any, form: any) => {
+  form.company = company
   return ServiceAxios({
     url: `/companydept`,
     method: 'POST',
@@ -66,7 +66,12 @@ export const addPartment = (form: any) => {
   })
 }
 
-export const refreshPartment = (id: number, form: PartmentForm) => {
+export const refreshPartment = (
+  company: any,
+  id: number,
+  form: PartmentForm
+) => {
+  form.company = company
   return ServiceAxios({
     url: `/companydept/${id}`,
     data: form,
@@ -91,12 +96,19 @@ export interface ZhangTaoGet {
 }
 export const getZhangTao = (form: ZhangTaoGet) => {
   return ServiceAxios({
-    url: '/company/page',
+    url: '/company/page/our',
     method: 'GET',
     params: form
   })
 }
 
+export const getZhangTao2 = (form: ZhangTaoGet) => {
+  return ServiceAxios({
+    url: '/company/page/others',
+    method: 'GET',
+    params: form
+  })
+}
 export const deletaZhangTao = (id: number) => {
   return ServiceAxios({
     url: `/company/${id}`,
@@ -105,13 +117,6 @@ export const deletaZhangTao = (id: number) => {
 }
 
 export const addZhangTao = (form: any) => {
-  if (form.ladmet == '系统') {
-    form.ladmet = 0
-  } else {
-    form.ladmet = 1
-  }
-  form.invmax = parseInt(form.invmax)
-  form.type = parseInt(form.type)
   return ServiceAxios({
     url: `/company`,
     method: 'POST',
@@ -120,13 +125,6 @@ export const addZhangTao = (form: any) => {
 }
 
 export const refreshZhangTao = (id: number, form: any) => {
-  if (form.ladmet == '系统') {
-    form.ladmet = 0
-  } else {
-    form.ladmet = 1
-  }
-  form.invmax = parseInt(form.invmax)
-  form.type = parseInt(form.type)
   return ServiceAxios({
     url: `/company/${id}`,
     data: form,
@@ -188,13 +186,8 @@ export interface BankAdd {
   taxsign?: boolean
 }
 
-export const addBank = (form: any) => {
-  if (form.taxsign == '是') {
-    form.taxsign = true
-  } else {
-    form.taxsign = false
-  }
-  form.company = 0
+export const addBank = (company: any, form: any) => {
+  form.company = company
   return ServiceAxios({
     url: `/bankinfo`,
     method: 'POST',
@@ -202,7 +195,8 @@ export const addBank = (form: any) => {
   })
 }
 
-export const refreshBank = (id: number, form: BankAdd) => {
+export const refreshBank = (company: any, id: number, form: BankAdd) => {
+  form.company = company
   return ServiceAxios({
     url: `/bankinfo/${id}`,
     data: form,
@@ -303,7 +297,7 @@ export interface SvarGet {
 
 export const getSvar = (form: StaGet) => {
   return ServiceAxios({
-    url: '/item/page',
+    url: '/svar/page',
     method: 'GET',
     params: form
   })
@@ -311,7 +305,7 @@ export const getSvar = (form: StaGet) => {
 
 export const deletaSvar = (id: number) => {
   return ServiceAxios({
-    url: `/item/${id}`,
+    url: `/svar/${id}`,
     method: 'DELETE'
   })
 }
@@ -339,7 +333,7 @@ export interface SvarAdd {
 
 export const addSvar = (form: SvarAdd) => {
   return ServiceAxios({
-    url: `/stof`,
+    url: `/svar`,
     method: 'POST',
     data: form
   })
@@ -347,7 +341,7 @@ export const addSvar = (form: SvarAdd) => {
 
 export const refreshSvar = (id: number, form: SvarAdd) => {
   return ServiceAxios({
-    url: `/stof/${id}`,
+    url: `/svar/${id}`,
     data: form,
     method: 'PUT'
   })
@@ -404,7 +398,21 @@ export interface ItemAdd {
    */
   svar?: number
 }
+export const addItem = (form: ItemAdd) => {
+  return ServiceAxios({
+    url: `/item`,
+    method: 'POST',
+    data: form
+  })
+}
 
+export const refreshItem = (id: number, form: ItemAdd) => {
+  return ServiceAxios({
+    url: `/item/${id}`,
+    data: form,
+    method: 'PUT'
+  })
+}
 //仓储费
 export interface StofGet {
   svar: string
@@ -420,7 +428,7 @@ export interface StofGet {
 
 export const getStof = (form: StofGet) => {
   return ServiceAxios({
-    url: '/moneytype/page',
+    url: '/stof/page',
     method: 'GET',
     params: form
   })
@@ -473,22 +481,6 @@ export const addStof = (form: StofAdd) => {
 export const refreshStof = (id: number, form: StofAdd) => {
   return ServiceAxios({
     url: `/stof/${id}`,
-    data: form,
-    method: 'PUT'
-  })
-}
-
-export const addItem = (form: ItemAdd) => {
-  return ServiceAxios({
-    url: `/item`,
-    method: 'POST',
-    data: form
-  })
-}
-
-export const refreshItem = (id: number, form: ItemAdd) => {
-  return ServiceAxios({
-    url: `/item/${id}`,
     data: form,
     method: 'PUT'
   })
@@ -649,7 +641,8 @@ export interface TypeAdd {
   type?: string
 }
 
-export const addType = (form: TypeAdd) => {
+export const addType4 = (form: TypeAdd) => {
+  form.money = 4
   return ServiceAxios({
     url: `/moneytype`,
     method: 'POST',
@@ -657,7 +650,8 @@ export const addType = (form: TypeAdd) => {
   })
 }
 
-export const refreshType = (id: number, form: TypeAdd) => {
+export const refreshType4 = (id: number, form: TypeAdd) => {
+  form.money = 4
   return ServiceAxios({
     url: `/moneytype/${id}`,
     data: form,
@@ -665,6 +659,23 @@ export const refreshType = (id: number, form: TypeAdd) => {
   })
 }
 
+export const addType3 = (form: TypeAdd) => {
+  form.money = 3
+  return ServiceAxios({
+    url: `/moneytype`,
+    method: 'POST',
+    data: form
+  })
+}
+
+export const refreshType3 = (id: number, form: TypeAdd) => {
+  form.money = 3
+  return ServiceAxios({
+    url: `/moneytype/${id}`,
+    data: form,
+    method: 'PUT'
+  })
+}
 //商品品种
 export interface VarietyGet {
   name: string

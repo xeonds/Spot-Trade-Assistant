@@ -34,14 +34,18 @@ serviceAxios.interceptors.response.use(
         message: res.data.msg,
         type: 'warning'
       })
-      console.log(location.href)
-
-      setTimeout(() => {
-        // 获取协议
-        router.replace({
-          path: '/login'
-        })
-      }, 1000)
+      if (location.href.slice(-5) == 'login') {
+        location.reload()
+      } else {
+        setTimeout(() => {
+          router.push({
+            path: '/login'
+          })
+        }, 1000)
+      }
+    } else if (!res.data.code) {
+      //文件对象
+      return res.data
     } else {
       ElMessage({
         message: res.data.msg,
