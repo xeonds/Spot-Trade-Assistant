@@ -78,12 +78,17 @@
 
   <!-- 增加 -->
   <el-dialog v-model="dialogFormVisible2" title="增加">
-    <el-form :model="add_form" :rules="rules">
+    <el-form
+      :model="add_form"
+      :rules="rules"
+      style="display: flex; flex-wrap: wrap"
+    >
       <el-form-item
         :label="item.label"
-        :label-width="200"
+        :label-width="150"
         v-for="item in props.features"
         :key="item.label"
+        style="width: 20vw"
       >
         <el-input
           v-model="add_form[item.prop]"
@@ -118,7 +123,7 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="cancel1">取消</el-button>
+        <el-button @click="cancel1" color="#2f5496">取消</el-button>
         <el-button type="primary" @click="modify1" color="#2f5496">
           确定
         </el-button>
@@ -131,6 +136,7 @@
 import Table from '../components/main-table.vue'
 import { reactive, ref, watch } from 'vue'
 import download from '../utils/download'
+import { ElMessage } from 'element-plus'
 let enable_get = true
 
 // 传参
@@ -257,6 +263,11 @@ const handle = (index: number) => {
             })
           }
         }
+      } else {
+        ElMessage({
+          message: '若要添加，请先进行首选项选择',
+          type: 'warning'
+        })
       }
 
       break

@@ -1,8 +1,82 @@
-export const ZhangTao = [
+export const ZhangTao1 = [
+  {
+    label: '账套代码',
+    prop: 'code',
+    type: 'string'
+  },
+  {
+    label: '公司简称',
+    prop: 'shortname',
+    type: 'string'
+  },
+  {
+    label: '公司全称',
+    prop: 'fullname',
+    type: 'string'
+  },
+  {
+    label: '纳税人识别号',
+    prop: 'taxid',
+    type: 'string'
+  },
+  {
+    label: '税票登记地址',
+    prop: 'taxaddr',
+    type: 'string'
+  },
+  {
+    label: '税票登记电话',
+    prop: 'taxphone',
+    type: 'string'
+  },
+  {
+    label: '最大票额',
+    prop: 'invmax',
+    type: 'number'
+  },
+  {
+    label: '开提单方式',
+    prop: 'ladmet',
+    type: 'select',
+    options: [
+      {
+        label: '系统',
+        value: '系统'
+      },
+      {
+        label: '人工',
+        value: '人工'
+      }
+    ]
+  }
+]
+export const ZhangTao2 = [
   {
     label: '公司类型',
     prop: 'type',
-    type: 'number'
+    type: 'select',
+    options: [
+      {
+        label: '贸易商',
+        value: 2
+      },
+      {
+        label: '仓库',
+        value: 3
+      },
+      {
+        label: '期货公司',
+        value: 4
+      },
+      {
+        label: '海关',
+        value: 5
+      },
+      {
+        label: '税务机关',
+        value: 6
+      }
+    ]
   },
   {
     label: '账套代码',
@@ -46,16 +120,15 @@ export const ZhangTao = [
     options: [
       {
         label: '系统',
-        value: 0
+        value: '系统'
       },
       {
         label: '人工',
-        value: 1
+        value: '人工'
       }
     ]
   }
 ]
-
 export const Bank = [
   {
     label: '开户银行名称',

@@ -6,7 +6,7 @@
         id="information1"
         name="本公司账套"
         :get_data="infoapi.getZhangTao"
-        :add_data="infoapi.addZhangTao"
+        :add_data="infoapi.addZhangTao1"
         :delete_data="infoapi.deletaZhangTao"
         :modify_data="infoapi.refreshZhangTao"
         :export="infoapi.Partmentexcel"
@@ -15,8 +15,8 @@
         @fresh="handle_fresh"
         ref="zhangtao"
         @click_row="handle_click"
-        :col="table_col.ZhangTao"
-        :features="table_add.ZhangTao"
+        :col="table_col.ZhangTao1"
+        :features="table_add.ZhangTao1"
       ></modifyTable>
       <modifyTable
         id="information2"
@@ -55,7 +55,7 @@
         id="information1"
         name="往来单位资料"
         :get_data="infoapi.getZhangTao2"
-        :add_data="infoapi.addZhangTao"
+        :add_data="infoapi.addZhangTao2"
         :delete_data="infoapi.deletaZhangTao"
         :modify_data="infoapi.refreshZhangTao"
         :export="infoapi.Partmentexcel"
@@ -64,8 +64,8 @@
         @fresh="handle_fresh"
         ref="zhangtao2"
         @click_row="handle_click"
-        :col="table_col.ZhangTao"
-        :features="table_add.ZhangTao"
+        :col="table_col.ZhangTao2"
+        :features="table_add.ZhangTao2"
       ></modifyTable>
       <modifyTable
         id="information2"

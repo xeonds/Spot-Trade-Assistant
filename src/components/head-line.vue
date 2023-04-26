@@ -8,14 +8,29 @@
       </div>
     </div>
     <div class="row2">
-      <div
-        :class="['row2-item', route.fullPath == item.route ? 'select' : '']"
-        v-for="(item, index) in items"
-        :key="index"
-        @click="goto(item.route)"
+      <el-menu
+        class="el-menu-demo"
+        mode="horizontal"
+        router
+        style="height: 100%"
+        background-color="#2f5496"
+        text-color="#fff"
       >
-        {{ item.name }}
-      </div>
+        <el-sub-menu>
+          <template #title>资料</template>
+          <el-menu-item index="/main/infomation/1"
+            >设置公司账套部门</el-menu-item
+          >
+          <el-menu-item index="/main/infomation/2">设置商品资料</el-menu-item>
+          <el-menu-item index="/main/infomation/3"
+            >设置币种、订单模式</el-menu-item
+          >
+          <el-menu-item index="/main/infomation/4"
+            >仓储协议、费率登记</el-menu-item
+          >
+        </el-sub-menu>
+        <el-menu-item index="/main/memberManage">管理成员</el-menu-item>
+      </el-menu>
     </div>
   </div>
 </template>
@@ -24,58 +39,6 @@
 import { reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
-const route = useRoute()
-
-let items = reactive([
-  {
-    name: '系统',
-    route: '/main/system'
-  },
-  {
-    name: '资料',
-    route: '/main/infomation'
-  },
-  {
-    name: '模板',
-    route: '/main/model'
-  },
-  {
-    name: '贸易',
-    route: '/main/trade'
-  },
-  {
-    name: '货管',
-    route: '/main/goods-manage'
-  },
-  {
-    name: '库管',
-    route: '/main/storehouse-manage'
-  },
-  {
-    name: '财务',
-    route: '/main/finance'
-  },
-  {
-    name: '期货',
-    route: '/main/futures'
-  },
-  {
-    name: '统计报表',
-    route: '/main/statistics'
-  },
-  {
-    name: '监控',
-    route: '/main/spy'
-  },
-  {
-    name: '权限管理',
-    route: '/main/memberManage'
-  }
-])
-
-const goto = (path: string) => {
-  router.replace({ path })
-}
 </script>
 
 <style lang="less" scoped>
@@ -103,17 +66,7 @@ const goto = (path: string) => {
   }
 
   .row2 {
-    display: flex;
-    margin-top: 0.5vh;
-
-    .row2-item {
-      padding: 0.2vh 0.2vw;
-      margin-right: 0.7vw;
-    }
-
-    .row2-item:hover {
-      background: #fff;
-    }
+    height: 3vh;
   }
 }
 

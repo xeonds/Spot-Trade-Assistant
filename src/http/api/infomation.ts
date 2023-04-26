@@ -116,7 +116,26 @@ export const deletaZhangTao = (id: number) => {
   })
 }
 
-export const addZhangTao = (form: any) => {
+export const addZhangTao1 = (form: any) => {
+  if (form.ladmet == '人工') {
+    form.ladmet = 1
+  } else {
+    form.ladmet = 0
+  }
+  form.type = 1
+  return ServiceAxios({
+    url: `/company`,
+    method: 'POST',
+    data: form
+  })
+}
+
+export const addZhangTao2 = (form: any) => {
+  if (form.ladmet == '人工') {
+    form.ladmet = 1
+  } else {
+    form.ladmet = 0
+  }
   return ServiceAxios({
     url: `/company`,
     method: 'POST',
@@ -125,6 +144,12 @@ export const addZhangTao = (form: any) => {
 }
 
 export const refreshZhangTao = (id: number, form: any) => {
+  if (form.ladmet == '人工') {
+    form.ladmet = 1
+  } else {
+    form.ladmet = 0
+  }
+
   return ServiceAxios({
     url: `/company/${id}`,
     data: form,

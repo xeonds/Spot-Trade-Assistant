@@ -1,4 +1,38 @@
-export const ZhangTao = [
+export const ZhangTao1 = [
+  {
+    label: '账套代码',
+    prop: 'code'
+  },
+  {
+    label: '公司简称',
+    prop: 'shortname'
+  },
+  {
+    label: '公司全称',
+    prop: 'fullname'
+  },
+  {
+    label: '纳税人识别号',
+    prop: 'taxid'
+  },
+  {
+    label: '税票登记地址',
+    prop: 'taxaddr'
+  },
+  {
+    label: '税票登记电话',
+    prop: 'taxphone'
+  },
+  {
+    label: '最大票额',
+    prop: 'invmax'
+  },
+  {
+    label: '开提单方式',
+    prop: 'ladmet'
+  }
+]
+export const ZhangTao2 = [
   {
     label: '公司类型',
     prop: 'type'
