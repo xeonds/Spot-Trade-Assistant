@@ -57,10 +57,6 @@ const router = useRouter()
 </script>
 
 <style lang="less" scoped>
-.el-menu--popup-container ul {
-  padding: 0 !important;
-}
-
 .main {
   padding: 1vh 1vw;
   height: 7vh;

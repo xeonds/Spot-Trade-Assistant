@@ -297,7 +297,7 @@ import * as table_rules from '../../assets/table_info/rule'
 const route = useRoute()
 
 const varietyOptionsGet = async () => {
-  let res = await infoapi.getallVariety({})
+  let res = await infoapi.getallVariety()
   let temp: any[] = []
   res.data.forEach((element: any) => {
     temp.push({
