@@ -724,6 +724,13 @@ export const getVariety = (form: VarietyGet) => {
   })
 }
 
+export const getallVariety = () => {
+  return ServiceAxios({
+    url: '/variety/page',
+    method: 'GET'
+  })
+}
+
 export const deletaVariety = (id: number) => {
   return ServiceAxios({
     url: `/variety/${id}`,
@@ -851,7 +858,8 @@ export interface GradeAdd {
   weight?: string
 }
 
-export const addGrade = (form: GradeAdd) => {
+export const addGrade = (variety: any, form: GradeAdd) => {
+  form.variety = variety
   return ServiceAxios({
     url: `/grade`,
     method: 'POST',
@@ -929,7 +937,8 @@ export interface TrademarkAdd {
   vendor?: string
 }
 
-export const addTrademark = (form: TrademarkAdd) => {
+export const addTrademark = (variety: any, form: TrademarkAdd) => {
+  form.variety = variety
   return ServiceAxios({
     url: `/trademark`,
     method: 'POST',

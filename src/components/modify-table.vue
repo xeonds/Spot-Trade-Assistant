@@ -14,6 +14,8 @@
     :status_change="props.status_change"
     :width="props.width"
     :hasfold="props.hasfold"
+    :enable_select="props.enable_select"
+    @cancel_select="cancel_select"
   >
   </Table>
   <ul
@@ -27,7 +29,7 @@
   </ul>
 
   <!-- 编辑 -->
-  <el-dialog v-model="dialogFormVisible" title="编辑">
+  <el-dialog v-model="dialogFormVisible" :title="'编辑' + props.name">
     <el-form :model="add_form" :rules="props.rules">
       <el-form-item
         :label="item.label"
@@ -66,20 +68,54 @@
             :value="option.value"
           />
         </el-select>
+        <el-select
+          v-model="add_form[item.prop]"
+          placeholder="选择"
+          style="width: 240px"
+          v-if="item.type == 'singleselect'"
+        >
+          <el-option
+            v-for="option in singleoptions[item.prop]"
+            :key="option.value"
+            :label="option.label"
+            :value="option.value"
+          />
+        </el-select>
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="cancel">取消</el-button>
-        <el-button type="primary" @click="modify" color="#2f5496">
+        <button
+          @click="cancel"
+          style="
+            padding: 0.5vh 0.8vw;
+            margin-right: 1vw;
+            color: #2f5496;
+            background-color: #fff;
+            border: 1.5px solid #2f5496;
+            border-radius: 5px;
+          "
+        >
+          取消
+        </button>
+        <button
+          @click="modify"
+          style="
+            padding: 0.5vh 0.8vw;
+            color: #fff;
+            background-color: #2f5496;
+            border: 1.5px solid #2f5496;
+            border-radius: 5px;
+          "
+        >
           确定
-        </el-button>
+        </button>
       </span>
     </template>
   </el-dialog>
 
   <!-- 增加 -->
-  <el-dialog v-model="dialogFormVisible2" title="增加">
+  <el-dialog v-model="dialogFormVisible2" :title="'增加' + props.name">
     <el-form
       :model="add_form"
       style="display: flex; flex-wrap: wrap"
@@ -122,14 +158,82 @@
             :value="option.value"
           />
         </el-select>
+        <el-select
+          v-model="add_form[item.prop]"
+          placeholder="选择"
+          style="width: 240px"
+          v-if="item.type == 'singleselect'"
+        >
+          <el-option
+            v-for="option in singleoptions[item.prop]"
+            :key="option.value"
+            :label="option.label"
+            :value="option.value"
+          />
+        </el-select>
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="cancel1" color="#2f5496">取消</el-button>
-        <el-button type="primary" @click="modify1" color="#2f5496">
+        <button
+          @click="cancel1"
+          style="
+            padding: 0.5vh 0.8vw;
+            margin-right: 1vw;
+            color: #2f5496;
+            background-color: #fff;
+            border: 1.5px solid #2f5496;
+            border-radius: 5px;
+          "
+        >
+          取消
+        </button>
+        <button
+          @click="modify1"
+          style="
+            padding: 0.5vh 0.8vw;
+            color: #fff;
+            background-color: #2f5496;
+            border: 1.5px solid #2f5496;
+            border-radius: 5px;
+          "
+        >
           确定
-        </el-button>
+        </button>
+      </span>
+    </template>
+  </el-dialog>
+
+  <!-- 删除确认框 -->
+  <el-dialog v-model="comfirm" title="删除确认" width="30%" align-center>
+    <span>是否确定要删除本条记录</span>
+    <template #footer>
+      <span class="dialog-footer">
+        <button
+          @click="comfirm = false"
+          style="
+            padding: 0.5vh 0.8vw;
+            margin-right: 1vw;
+            color: #2f5496;
+            background-color: #fff;
+            border: 1.5px solid #2f5496;
+            border-radius: 5px;
+          "
+        >
+          取消
+        </button>
+        <button
+          @click="deletebyid"
+          style="
+            padding: 0.5vh 0.8vw;
+            color: #fff;
+            background-color: #2f5496;
+            border: 1.5px solid #2f5496;
+            border-radius: 5px;
+          "
+        >
+          确定
+        </button>
       </span>
     </template>
   </el-dialog>
@@ -174,11 +278,17 @@ const props = defineProps([
   'change_base',
   'width',
   'hasfold',
-  'rules'
+  'rules',
+  'enable_select',
+  'enAddBeforeSelect'
 ])
-console.log(props.rules)
+const cancel_select = (name: string) => {
+  if (props.enable_select) {
+    emits('cancel_select', name)
+  }
+}
 
-const emits = defineEmits(['click_row', 'fresh'])
+const emits = defineEmits(['click_row', 'fresh', 'cancel_select'])
 
 //右键菜单栏
 let visible = ref(false)
@@ -222,7 +332,6 @@ const get_data = async () => {
 // 滑倒底部自动加载
 const load = () => {
   if (current_page < max_page) {
-    console.log('load')
     current_page++
     get_data()
   }
@@ -238,52 +347,98 @@ const refresh_data = () => {
 let add_form: { [index: string]: any } = reactive({}) //表单对象
 let add_label: string[] = reactive([]) //表单标题
 let multioptions: { [name: string]: any } = reactive({})
+let singleoptions: { [name: string]: any } = reactive({})
 let rules: object[] = reactive([]) //校验规则
 
 //新增框
 let dialogFormVisible2 = ref(false)
 
+let allow_fresh = true
+let allow_add = true
+let allow_export = true
+
 const handle = (index: number) => {
   switch (index) {
     case 0:
-      handleFresh()
+      if (allow_fresh) {
+        handleFresh()
+        allow_fresh = false
+        setTimeout(() => {
+          allow_fresh = true
+        }, 3000)
+      }
       break
     case 1:
-      if (
-        (props.change_base && props.search[props.change_base]) || //关联表条件关联字段已经具备
-        !props.change_base //非关联表
-      ) {
-        dialogFormVisible2.value = true
-        //clear
-        add_label.splice(0, add_label.length)
-        for (let i in add_form) {
-          delete add_form[i]
-        }
-        //add
-        for (let i in props.features) {
-          add_form[props.features[i].prop] = ''
-          add_label.push(props.features[i].label)
-          if (props.features[i].type == 'multiselect') {
-            props.option_get[props.features[i].prop]().then((res: any) => {
-              multioptions[props.features[i].prop] = res
-            })
+      if (allow_add) {
+        if (props.enAddBeforeSelect) {
+          //关联并选择
+          dialogFormVisible2.value = true
+          //clear
+          add_label.splice(0, add_label.length)
+          for (let i in add_form) {
+            delete add_form[i]
           }
+          //add
+          for (let i in props.features) {
+            add_form[props.features[i].prop] = ''
+            add_label.push(props.features[i].label)
+            if (props.features[i].type == 'multiselect') {
+              props.option_get[props.features[i].prop]().then((res: any) => {
+                multioptions[props.features[i].prop] = res
+              })
+            } else if (props.features[i].type == 'singleselect') {
+              props.option_get[props.features[i].prop]().then((res: any) => {
+                singleoptions[props.features[i].prop] = res
+              })
+            }
+            if (props.features[i].prop == props.change_base)
+              add_form[props.features[i].prop] = props.search[props.change_base]
+          }
+        } else if (
+          (props.change_base && props.search[props.change_base]) || //关联表条件关联字段已经具备
+          !props.change_base //非关联表
+        ) {
+          dialogFormVisible2.value = true
+          //clear
+          add_label.splice(0, add_label.length)
+          for (let i in add_form) {
+            delete add_form[i]
+          }
+          //add
+          for (let i in props.features) {
+            add_form[props.features[i].prop] = ''
+            add_label.push(props.features[i].label)
+            if (props.features[i].type == 'multiselect') {
+              props.option_get[props.features[i].prop]().then((res: any) => {
+                multioptions[props.features[i].prop] = res
+              })
+            }
+          }
+        } else {
+          ElMessage({
+            message: '若要添加，请先进行首选项选择',
+            type: 'warning'
+          })
         }
-      } else {
-        ElMessage({
-          message: '若要添加，请先进行首选项选择',
-          type: 'warning'
-        })
+        allow_add = false
+        setTimeout(() => {
+          allow_add = true
+        }, 3000)
       }
-
       break
     case 2:
-      console.log(2)
-      props.export().then((res: any) => {
-        console.log(res)
+      if (allow_export) {
+        props.export().then((res: any) => {
+          console.log(res)
 
-        download(res, 'excel', props.name + '.xlsx')
-      })
+          download(res, 'excel', props.name + '.xlsx')
+        })
+        allow_export = false
+        setTimeout(() => {
+          allow_export = true
+        }, 3000)
+      }
+
       break
   }
 }
@@ -305,17 +460,24 @@ const format_form = () => {
 
 const modify1 = () => {
   format_form()
-  if (props.change_base) {
+  if (props.enAddBeforeSelect) {
+    props
+      .add_data(add_form[props.change_base], toRaw(<any>add_form))
+      .then((res: any) => {
+        dialogFormVisible2.value = false
+        refresh_data()
+      })
+  } else if (props.change_base) {
     props
       .add_data(props.search[props.change_base], toRaw(<any>add_form))
       .then((res: any) => {
         dialogFormVisible2.value = false
-        handleFresh()
+        refresh_data()
       })
   } else {
     props.add_data(toRaw(<any>add_form)).then((res: any) => {
       dialogFormVisible2.value = false
-      handleFresh()
+      refresh_data()
     })
   }
 }
@@ -331,8 +493,15 @@ const menu = (row: any, col: any, event: any) => {
   visible.value = true
 }
 
+let comfirm = ref(false)
+
 const handleDelete = () => {
+  comfirm.value = true
+}
+
+const deletebyid = () => {
   props.delete_data(select_row.value.id).then((res: any) => {
+    comfirm.value = false
     handleFresh()
   })
 }
@@ -341,24 +510,25 @@ const handleFresh = () => {
   emits('fresh', props.name)
 }
 
+interface MultiSlect {
+  id: number
+}
 //修改
 let dialogFormVisible = ref(false)
 
 const handleUpdate = () => {
   //clear
+
   if (
     (props.change_base && props.search[props.change_base]) || //关联表条件关联字段已经具备
-    !props.change_base //非关联表
+    !props.change_base || //非关联表
+    props.enAddBeforeSelect
   ) {
     add_label.splice(0, add_label.length)
     for (let i in add_form) {
       delete add_form[i]
     }
     //add
-    interface MultiSlect {
-      id: number
-    }
-    console.log(select_row)
 
     for (let i in props.features) {
       if (props.features[i].type == 'multiselect') {
@@ -370,6 +540,14 @@ const handleUpdate = () => {
               add_form[props.features[i].prop].push(element.id)
             }
           )
+          add_label.push(props.features[i].label)
+        })
+      } else if (props.features[i].type == 'singleselect') {
+        props.option_get[props.features[i].prop]().then((res: any) => {
+          singleoptions[props.features[i].prop] = res
+          add_form[props.features[i].prop] = ''
+          add_form[props.features[i].prop] =
+            select_row.value[props.features[i].prop]
           add_label.push(props.features[i].label)
         })
       } else {
@@ -397,14 +575,14 @@ const modify = () => {
       )
       .then((res: any) => {
         dialogFormVisible.value = false
-        handleFresh()
+        refresh_data()
       })
   } else {
     props
       .modify_data(select_row.value.id, toRaw(<any>add_form))
       .then((res: any) => {
         dialogFormVisible.value = false
-        handleFresh()
+        refresh_data()
       })
   }
 }

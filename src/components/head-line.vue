@@ -18,14 +18,29 @@
       >
         <el-sub-menu>
           <template #title>资料</template>
-          <el-menu-item index="/main/infomation/1"
+          <el-menu-item
+            index="/main/infomation/1"
+            style="color: #2f5496; background-color: #fff"
             >设置公司账套部门</el-menu-item
           >
-          <el-menu-item index="/main/infomation/2">设置商品资料</el-menu-item>
-          <el-menu-item index="/main/infomation/3"
+          <el-menu-item
+            index="/main/infomation/2"
+            style="color: #2f5496; background-color: #fff"
+            >设置往来单位资料、部门</el-menu-item
+          >
+          <el-menu-item
+            index="/main/infomation/3"
+            style="color: #2f5496; background-color: #fff"
+            >设置商品资料</el-menu-item
+          >
+          <el-menu-item
+            index="/main/infomation/4"
+            style="color: #2f5496; background-color: #fff"
             >设置币种、订单模式</el-menu-item
           >
-          <el-menu-item index="/main/infomation/4"
+          <el-menu-item
+            index="/main/infomation/5"
+            style="color: #2f5496; background-color: #fff"
             >仓储协议、费率登记</el-menu-item
           >
         </el-sub-menu>
@@ -42,6 +57,10 @@ const router = useRouter()
 </script>
 
 <style lang="less" scoped>
+.el-menu--popup-container ul {
+  padding: 0 !important;
+}
+
 .main {
   padding: 1vh 1vw;
   height: 7vh;

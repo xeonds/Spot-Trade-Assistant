@@ -263,7 +263,7 @@ export const Grade = [
   {
     label: '品种',
     prop: 'variety',
-    type: 'number'
+    type: 'singleselect'
   },
   {
     label: '规格',
@@ -302,7 +302,7 @@ export const Trademark = [
   {
     label: '品种',
     prop: 'variety',
-    type: 'number'
+    type: 'singleselect'
   },
   {
     label: '商标/品牌',

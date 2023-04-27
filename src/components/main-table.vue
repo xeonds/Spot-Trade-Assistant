@@ -3,7 +3,7 @@
     class="main"
     :style="{ width: props.width ? props.width + 'vw' : '98vw' }"
   >
-    <div class="top" v-if="props.contain_top">
+    <div class="top" v-if="props.contain_top" @click="cancel_select">
       <div class="name">{{ props.name }}</div>
 
       <div v-if="props.contain_command" class="command">
@@ -11,7 +11,7 @@
           class="command-item title"
           v-for="(item, index) in command"
           :key="index"
-          @click="emits('handle', index)"
+          @click.stop="emits('handle', index)"
         >
           【{{ item }}】
         </div>
@@ -25,13 +25,13 @@
             emits('load')
           }
         "
+        border
         :header-row-class-name="props.id"
         style="border: 1px solid #000"
-        highlight-current-row
+        :highlight-current-row="props.enable_select"
         :data="table_data"
         row-key="id"
         align="left"
-        show-overflow-tooltip
         height="180"
         @cell-contextmenu="
           (row:any, col:any, _:any, event:any,) => {
@@ -39,6 +39,15 @@
           }
         "
         @row-click="(row:any, col:any) => emits('click_row', row, col)"
+        ref="main"
+        :header-cell-style="{
+          'border-right': '0.2px solid #000',
+          'border-bottom': '0.2px solid #000'
+        }"
+        :cell-style="{
+          'border-right': '0.2px solid #000',
+          'border-bottom': '0.2px solid #000'
+        }"
       >
         <!-- 折叠显示列 -->
         <AFTableColumn type="expand" v-if="props.hasfold">
@@ -106,7 +115,22 @@
 import { reactive, onMounted } from 'vue'
 import Sortable from 'sortablejs'
 import AFTableColumn from './AFTableColumn.vue'
-let emits = defineEmits(['handle', 'menu', 'click_row', 'load'])
+let main = ref()
+let emits = defineEmits([
+  'handle',
+  'menu',
+  'click_row',
+  'load',
+  'cancel_select'
+])
+
+const cancel_select = () => {
+  if (props.enable_select) {
+    main.value.setCurrentRow()
+    emits('cancel_select', props.name)
+  }
+}
+
 let props = defineProps([
   'contain_command',
   'command',
@@ -118,7 +142,8 @@ let props = defineProps([
   'id',
   'status_change',
   'width',
-  'hasfold'
+  'hasfold',
+  'enable_select'
 ])
 console.log(props.col)
 
@@ -145,7 +170,9 @@ const columnDrop = () => {
 }
 
 onMounted(() => {
-  columnDrop()
+  if (!props.hasfold) {
+    columnDrop()
+  }
 })
 
 //状态表切换功能
@@ -154,6 +181,13 @@ const change_status = (id: string) => {
 }
 </script>
 
+<style>
+.el-table--striped .el-table__body tr.el-table__row--striped.current-row td,
+.el-table__body tr.current-row > td {
+  color: #fff;
+  background-color: #2f5496 !important;
+}
+</style>
 <style lang="less" scoped>
 @font-face {
   font-family: NAME;

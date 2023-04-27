@@ -42,11 +42,6 @@ export const ZhangTao1 = [
 ]
 export const ZhangTao2 = [
   {
-    label: '公司类型',
-    prop: 'type',
-    fold: false
-  },
-  {
     label: '账套代码',
     prop: 'code',
     fold: false
@@ -443,11 +438,6 @@ export const UserInfo = [
     label: '更新时间',
     prop: 'updateTime',
     fold: false
-  },
-  {
-    label: '用户权限',
-    prop: 'menus',
-    fold: true
   },
   {
     label: '用户角色',

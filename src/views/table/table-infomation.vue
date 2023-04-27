@@ -18,6 +18,7 @@
         :col="table_col.ZhangTao1"
         :features="table_add.ZhangTao1"
         :rules="table_rules.Zhangtao1rules"
+        :enable_select="true"
       ></modifyTable>
       <modifyTable
         id="information2"
@@ -67,6 +68,8 @@
         @click_row="handle_click"
         :col="table_col.ZhangTao2"
         :features="table_add.ZhangTao2"
+        :enable_select="true"
+        @cancel_select="cancel_select"
       ></modifyTable>
       <modifyTable
         id="information2"
@@ -114,6 +117,9 @@
         ref="Variety"
         :col="table_col.Variety"
         :features="table_add.Variety"
+        :enable_select="true"
+        @cancel_select="cancel_select"
+        :option_get="{ variety: varietyOptionsGet }"
       ></modifyTable>
       <modifyTable
         id="information2"
@@ -129,6 +135,8 @@
         :col="table_col.Grade"
         :features="table_add.Grade"
         change_base="variety"
+        :option_get="{ variety: varietyOptionsGet }"
+        :enAddBeforeSelect="true"
       ></modifyTable>
       <modifyTable
         id="information3"
@@ -144,6 +152,8 @@
         :col="table_col.Trademark"
         :features="table_add.Trademark"
         change_base="variety"
+        :option_get="{ variety: varietyOptionsGet }"
+        :enAddBeforeSelect="true"
       ></modifyTable>
     </div>
     <div v-if="route.params.id === '4'">
@@ -286,6 +296,18 @@ import * as table_add from '../../assets/table_info/table-add'
 import * as table_rules from '../../assets/table_info/rule'
 const route = useRoute()
 
+const varietyOptionsGet = async () => {
+  let res = await infoapi.getallVariety({})
+  let temp: any[] = []
+  res.data.forEach((element: any) => {
+    temp.push({
+      label: element.name,
+      value: element.id
+    })
+  })
+  return temp
+}
+
 //表1
 //子表示例对象
 let zhangtao = ref()
@@ -357,9 +379,9 @@ const handle_click = (row: any, col: any) => {
   }
   if (route.params.id === '2') {
     bankSearchCondition2['company'] = row.id
-    bank.value.refresh_data()
+    bank2.value.refresh_data()
     PartmentSearchCondition2['company'] = row.id
-    partment.value.refresh_data()
+    partment2.value.refresh_data()
   }
   if (route.params.id === '3') {
     GradeSearchCondition['variety'] = row.id
@@ -408,6 +430,23 @@ const handle_fresh = (name: string) => {
     Item.value.refresh_data()
   } else if (name == '仓储费') {
     Stof.value.refresh_data()
+  }
+}
+
+const cancel_select = (name: string) => {
+  if (name == '本公司账套') {
+    zhangtao.value.refresh_data()
+  } else if (name == '往来单位资料') {
+    zhangtao2.value.refresh_data()
+    delete bankSearchCondition2['company']
+    bank2.value.refresh_data()
+    delete PartmentSearchCondition2['company']
+    partment2.value.refresh_data()
+  } else if (name == '商品品种') {
+    delete GradeSearchCondition['variety']
+    Grade.value.refresh_data()
+    delete TrademarkSearchCondition['variety']
+    Trademark.value.refresh_data()
   }
 }
 </script>
