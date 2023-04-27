@@ -28,12 +28,13 @@
 
   <!-- 编辑 -->
   <el-dialog v-model="dialogFormVisible" title="编辑">
-    <el-form :model="add_form" :rules="rules">
+    <el-form :model="add_form" :rules="props.rules">
       <el-form-item
         :label="item.label"
         :label-width="200"
         v-for="item in props.features"
         :key="item.label"
+        :prop="item.prop"
       >
         <el-input
           v-model="add_form[item.prop]"
@@ -81,8 +82,8 @@
   <el-dialog v-model="dialogFormVisible2" title="增加">
     <el-form
       :model="add_form"
-      :rules="rules"
       style="display: flex; flex-wrap: wrap"
+      :rules="props.rules"
     >
       <el-form-item
         :label="item.label"
@@ -90,6 +91,7 @@
         v-for="item in props.features"
         :key="item.label"
         style="width: 20vw"
+        :prop="item.prop"
       >
         <el-input
           v-model="add_form[item.prop]"
@@ -171,8 +173,10 @@ const props = defineProps([
   'status_change',
   'change_base',
   'width',
-  'hasfold'
+  'hasfold',
+  'rules'
 ])
+console.log(props.rules)
 
 const emits = defineEmits(['click_row', 'fresh'])
 

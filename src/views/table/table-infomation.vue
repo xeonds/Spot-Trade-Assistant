@@ -17,6 +17,7 @@
         @click_row="handle_click"
         :col="table_col.ZhangTao1"
         :features="table_add.ZhangTao1"
+        :rules="table_rules.Zhangtao1rules"
       ></modifyTable>
       <modifyTable
         id="information2"
@@ -282,7 +283,7 @@ import * as infoapi from '../../http/api/infomation'
 import { useRoute } from 'vue-router'
 import * as table_col from '../../assets/table_info/table-title'
 import * as table_add from '../../assets/table_info/table-add'
-
+import * as table_rules from '../../assets/table_info/rule'
 const route = useRoute()
 
 //表1
