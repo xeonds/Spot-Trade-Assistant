@@ -13,6 +13,7 @@
     @click_row="(row:any,col:any)=>{emits('click_row',row,col)}"
     :status_change="props.status_change"
     :width="props.width"
+    :hasfold="props.hasfold"
   >
   </Table>
   <ul
@@ -169,7 +170,8 @@ const props = defineProps([
   'id',
   'status_change',
   'change_base',
-  'width'
+  'width',
+  'hasfold'
 ])
 
 const emits = defineEmits(['click_row', 'fresh'])

@@ -15,6 +15,7 @@
       :col="table_col.UserInfo"
       :features="table_add.UserInfo"
       :option_get="{ roles: roleOptionsGet }"
+      :hasfold="true"
     >
     </modifyTable>
     <div>角色管理</div>
@@ -33,6 +34,7 @@
       :features="table_add.RoleInfo"
       :option_get="{ menus: meunsOptionsGet }"
       :status_change="userapi.RoleChange"
+      :hasfold="true"
     ></modifyTable>
     <div>权限管理</div>
     <modifyTable

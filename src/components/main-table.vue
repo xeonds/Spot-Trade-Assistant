@@ -40,9 +40,40 @@
         "
         @row-click="(row:any, col:any) => emits('click_row', row, col)"
       >
+        <!-- 折叠显示列 -->
+        <AFTableColumn type="expand" v-if="props.hasfold">
+          <template #default="props">
+            <template v-for="(item, index) in col" :key="`col_${item.label}`">
+              <div v-if="col[index].fold">
+                <div class="">{{ item.label }}:</div>
+                <div class="">
+                  <div
+                    v-for="item1 in props.row[item.prop]"
+                    :key="item1.id"
+                    style="display: flex"
+                  >
+                    <div
+                      v-for="(value, key) in item1"
+                      :key="key"
+                      style="margin: 1vh 1vw"
+                    >
+                      {{ key }}: {{ value }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </template>
+        </AFTableColumn>
+        <!-- 默认显示列 -->
         <template v-for="(item, index) in col" :key="`col_${item.label}`">
+          <!-- 状态调整 -->
           <AFTableColumn
-            v-if="col[index].prop == 'status' && props.status_change"
+            v-if="
+              col[index].prop == 'status' &&
+              props.status_change &&
+              !col[index].fold
+            "
             label="状态"
             width="120"
           >
@@ -55,9 +86,9 @@
               />
             </template>
           </AFTableColumn>
-
+          <!-- 普通显示 -->
           <AFTableColumn
-            v-else
+            v-else-if="!col[index].fold"
             :prop="col[index].prop"
             :label="item.label"
             align="center"
@@ -86,8 +117,10 @@ let props = defineProps([
   'col',
   'id',
   'status_change',
-  'width'
+  'width',
+  'hasfold'
 ])
+console.log(props.col)
 
 let table_data = reactive(<any>props.table_data)
 let col = reactive(<any>props.col)
