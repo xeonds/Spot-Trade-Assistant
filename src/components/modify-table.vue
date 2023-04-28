@@ -41,6 +41,7 @@
         <el-input
           v-model="add_form[item.prop]"
           v-if="item.type == 'string' || item.type == 'number'"
+          input-style="color:#000;border-color:'#2f5496'"
         />
         <el-radio-group
           v-model="add_form[item.prop]"
@@ -85,31 +86,8 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <button
-          @click="cancel"
-          style="
-            padding: 0.5vh 0.8vw;
-            margin-right: 1vw;
-            color: #2f5496;
-            background-color: #fff;
-            border: 1.5px solid #2f5496;
-            border-radius: 5px;
-          "
-        >
-          取消
-        </button>
-        <button
-          @click="modify"
-          style="
-            padding: 0.5vh 0.8vw;
-            color: #fff;
-            background-color: #2f5496;
-            border: 1.5px solid #2f5496;
-            border-radius: 5px;
-          "
-        >
-          确定
-        </button>
+        <button @click="cancel" class="cancel">取消</button>
+        <button @click="modify" class="comfirm">确定</button>
       </span>
     </template>
   </el-dialog>
@@ -126,11 +104,12 @@
         :label-width="150"
         v-for="item in props.features"
         :key="item.label"
-        style="width: 20vw"
+        style="width: 20vw; color: #000"
         :prop="item.prop"
       >
         <el-input
           v-model="add_form[item.prop]"
+          input-style="color:#000;border-color:#2f5496"
           v-if="item.type == 'string' || item.type == 'number'"
         />
         <el-radio-group
@@ -175,31 +154,8 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <button
-          @click="cancel1"
-          style="
-            padding: 0.5vh 0.8vw;
-            margin-right: 1vw;
-            color: #2f5496;
-            background-color: #fff;
-            border: 1.5px solid #2f5496;
-            border-radius: 5px;
-          "
-        >
-          取消
-        </button>
-        <button
-          @click="modify1"
-          style="
-            padding: 0.5vh 0.8vw;
-            color: #fff;
-            background-color: #2f5496;
-            border: 1.5px solid #2f5496;
-            border-radius: 5px;
-          "
-        >
-          确定
-        </button>
+        <button @click="cancel1" class="cancel">取消</button>
+        <button @click="modify1" class="comfirm">确定</button>
       </span>
     </template>
   </el-dialog>
@@ -209,31 +165,8 @@
     <span>是否确定要删除本条记录</span>
     <template #footer>
       <span class="dialog-footer">
-        <button
-          @click="comfirm = false"
-          style="
-            padding: 0.5vh 0.8vw;
-            margin-right: 1vw;
-            color: #2f5496;
-            background-color: #fff;
-            border: 1.5px solid #2f5496;
-            border-radius: 5px;
-          "
-        >
-          取消
-        </button>
-        <button
-          @click="deletebyid"
-          style="
-            padding: 0.5vh 0.8vw;
-            color: #fff;
-            background-color: #2f5496;
-            border: 1.5px solid #2f5496;
-            border-radius: 5px;
-          "
-        >
-          确定
-        </button>
+        <button @click="comfirm = false" class="ccancel">取消</button>
+        <button @click="deletebyid" class="comfirm">确定</button>
       </span>
     </template>
   </el-dialog>
@@ -591,7 +524,12 @@ defineExpose({
   refresh_data
 })
 </script>
-
+<style>
+.el-form-item__label {
+  color: #000;
+  font-weight: 500;
+}
+</style>
 <style lang="less" scoped>
 .contextmenu {
   position: absolute;
@@ -613,7 +551,30 @@ defineExpose({
   cursor: pointer;
 }
 
-.contextmenu li:hover {
-  background: #eee;
+.cancel {
+  cursor: pointer;
+  padding: 0.5vh 0.8vw;
+  margin-right: 1vw;
+  color: #2f5496;
+  background-color: #fff;
+  border: 1.5px solid #2f5496;
+  border-radius: 5px;
+}
+
+.comfirm {
+  cursor: pointer;
+  padding: 0.5vh 0.8vw;
+  color: #fff;
+  background-color: #2f5496;
+  border: 1.5px solid #2f5496;
+  border-radius: 5px;
+}
+
+.comfirm:hover {
+  background-color: #87aef2;
+}
+
+.cancel:hover {
+  background-color: #87aef2;
 }
 </style>

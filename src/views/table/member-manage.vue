@@ -124,7 +124,6 @@ const handle_fresh = (name: string) => {
   margin: 0.5vh auto;
   margin-bottom: 0;
   width: 99vw;
-  border: 1px solid #000;
   box-sizing: border-box;
 
   .union {

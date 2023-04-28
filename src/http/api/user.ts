@@ -1,10 +1,29 @@
 import serviceAxios from '..'
 
-export const UserGet = (form: any) => {
-  return serviceAxios({
+export const UserGet = async (form: any) => {
+  const res = await serviceAxios({
     url: '/user/page',
     params: form
   })
+  for (const i in res.data) {
+    const temp1 = new Date(res.data[i].createTime)
+    const temp2 = new Date(res.data[i].updateTime)
+    res.data[i].createTime =
+      temp1.getFullYear() +
+      '年' +
+      (temp1.getMonth() + 1) +
+      '月' +
+      temp1.getDay() +
+      '日'
+    res.data[i].updateTime =
+      temp2.getFullYear() +
+      '年' +
+      (temp2.getMonth() + 1) +
+      '月' +
+      temp2.getDay() +
+      '日'
+  }
+  return res
 }
 
 export const UserAdd = (form: any) => {

@@ -40,17 +40,22 @@
         "
         @row-click="(row:any, col:any) => emits('click_row', row, col)"
         ref="main"
+        :row-style="{ height: '0' }"
         :header-cell-style="{
           'border-right': '0.2px solid #000',
-          'border-bottom': '0.2px solid #000'
+          'border-bottom': '0.2px solid #000',
+          padding: '1.5px',
+          color: '#000'
         }"
         :cell-style="{
           'border-right': '0.2px solid #000',
-          'border-bottom': '0.2px solid #000'
+          'border-bottom': '0.2px solid #000',
+          padding: '1.5px',
+          color: '#000'
         }"
       >
         <!-- 折叠显示列 -->
-        <AFTableColumn type="expand" v-if="props.hasfold">
+        <AFTableColumn type="expand" v-if="props.hasfold" :resizable="false">
           <template #default="props">
             <template v-for="(item, index) in col" :key="`col_${item.label}`">
               <div v-if="col[index].fold">
@@ -85,6 +90,7 @@
             "
             label="状态"
             width="120"
+            :resizable="false"
           >
             <template #default="scope">
               <el-switch
@@ -97,6 +103,7 @@
           </AFTableColumn>
           <!-- 普通显示 -->
           <AFTableColumn
+            :resizable="false"
             v-else-if="!col[index].fold"
             :prop="col[index].prop"
             :label="item.label"
@@ -206,8 +213,8 @@ const change_status = (id: string) => {
     padding: 1vh 1vw;
     min-height: 5vh;
     box-sizing: border-box;
-    background-color: #e7e6e6;
-
+    border: 1px solid #000;
+    border-bottom: 0;
     .name {
       position: absolute;
       right: 2vw;

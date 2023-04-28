@@ -152,11 +152,11 @@ export const Bank = [
     options: [
       {
         label: '是',
-        value: true
+        value: '是'
       },
       {
         label: '否',
-        value: false
+        value: '否'
       }
     ]
   }

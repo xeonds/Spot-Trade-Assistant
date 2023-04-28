@@ -170,12 +170,16 @@ export interface BankGet {
   order: string
 }
 
-export const getBank = (form: BankGet) => {
-  return ServiceAxios({
+export const getBank = async (form: BankGet) => {
+  const res = await ServiceAxios({
     url: '/bankinfo/page',
     method: 'GET',
     params: form
   })
+  for (const i in res.data) {
+    res.data[i].taxsign = res.data[i].taxsign ? '是' : '否'
+  }
+  return res
 }
 
 export const deletaBank = (id: number) => {
@@ -213,6 +217,11 @@ export interface BankAdd {
 
 export const addBank = (company: any, form: any) => {
   form.company = company
+  if (form.taxsign == '是') {
+    form.taxsign = true
+  } else {
+    form.taxsign = false
+  }
   return ServiceAxios({
     url: `/bankinfo`,
     method: 'POST',
@@ -220,8 +229,13 @@ export const addBank = (company: any, form: any) => {
   })
 }
 
-export const refreshBank = (company: any, id: number, form: BankAdd) => {
+export const refreshBank = (company: any, id: number, form: any) => {
   form.company = company
+  if (form.taxsign == '是') {
+    form.taxsign = true
+  } else {
+    form.taxsign = false
+  }
   return ServiceAxios({
     url: `/bankinfo/${id}`,
     data: form,

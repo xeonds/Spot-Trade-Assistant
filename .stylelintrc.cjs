@@ -26,7 +26,9 @@ module.exports = {
     '**/*.md',
     '**/*.yaml',
     '**/style/*.css',
-    '**/main-table.vue'
+    '**/main-table.vue',
+    '**/modify-table.vue',
+    '**/head-line.vue'
   ],
   rules: {
     'no-descending-specificity': null, // 禁止在具有较高优先级的选择器后出现被其覆盖的较低优先级的选择器

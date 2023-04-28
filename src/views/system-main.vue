@@ -11,17 +11,17 @@ import bottomMarqueen from '../components/bottom-marqueen.vue'
 
 <style lang="less">
 .marqueen {
-  height: 4vh;
+  height: 3vh;
 }
 
 @font-face {
   font-family: MAIN;
-  src: url('../font/仿宋_GB2312_1.ttf');
+  src: url('../font/songti.ttf');
   font-weight: normal;
   font-style: normal;
 }
 
-body {
+* {
   font-family: MAIN, sans-serif;
 }
 
