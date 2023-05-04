@@ -13,6 +13,7 @@ export default (res: any, type: string, filename: string) => {
   const herf = URL.createObjectURL(blob)
   // 下载链接
   a.href = herf
+  console.log(a)
   // 下载文件名,如果后端没有返回，可以自己写a.download = '文件.pdf'
   a.download = filename
   document.body.appendChild(a)

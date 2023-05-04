@@ -62,7 +62,13 @@
               <!-- 找到需要折叠的列 -->
               <template v-if="col[index].fold">
                 <div class="table_fold">
-                  <div style="font-size: 1.5vh; font-weight: 600; margin-bottom: 1vh;">
+                  <div
+                    style="
+                      font-size: 1.5vh;
+                      font-weight: 600;
+                      margin-bottom: 1vh;
+                    "
+                  >
                     {{ col[index].label }}
                   </div>
                   <!-- 将列的数据通过表格呈现 -->

@@ -363,7 +363,6 @@ const handle = (index: number) => {
       if (allow_export) {
         props.export().then((res: any) => {
           console.log(res)
-
           download(res, 'excel', props.name + '.xlsx')
         })
         allow_export = false
