@@ -411,7 +411,7 @@ export const UserInfo = [
   },
   {
     label: '微信号',
-    prop: 'password',
+    prop: 'wechat',
     fold: false
   },
   {
@@ -442,7 +442,17 @@ export const UserInfo = [
   {
     label: '用户角色',
     prop: 'roles',
-    fold: true
+    fold: true,
+    son_labels: [
+      {
+        label: 'id',
+        prop: 'id'
+      },
+      {
+        label: '用户名',
+        prop: 'name'
+      }
+    ]
   }
 ]
 
@@ -466,7 +476,17 @@ export const RoleInfo = [
   {
     label: '拥有该角色的用户',
     prop: 'users',
-    fold: true
+    fold: true,
+    son_labels: [
+      {
+        label: 'id',
+        prop: 'id'
+      },
+      {
+        label: '用户名',
+        prop: 'name'
+      }
+    ]
   }
 ]
 

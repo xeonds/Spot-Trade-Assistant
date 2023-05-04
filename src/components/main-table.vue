@@ -57,25 +57,40 @@
         <!-- 折叠显示列 -->
         <AFTableColumn type="expand" v-if="props.hasfold" :resizable="false">
           <template #default="props">
-            <template v-for="(item, index) in col" :key="`col_${item.label}`">
-              <div v-if="col[index].fold">
-                <div class="">{{ item.label }}:</div>
-                <div class="">
-                  <div
-                    v-for="item1 in props.row[item.prop]"
-                    :key="item1.id"
-                    style="display: flex"
-                  >
-                    <div
-                      v-for="(value, key) in item1"
-                      :key="key"
-                      style="margin: 1vh 1vw"
-                    >
-                      {{ key }}: {{ value }}
-                    </div>
+            <!-- 遍历col数组 -->
+            <template v-for="(item, index) in col" :key="item.prop">
+              <!-- 找到需要折叠的列 -->
+              <template v-if="col[index].fold">
+                <div class="table_fold">
+                  <div style="font-size: 1.5vh; font-weight: 600; margin-bottom: 1vh;">
+                    {{ col[index].label }}
                   </div>
+                  <!-- 将列的数据通过表格呈现 -->
+                  <el-table
+                    :data="props.row[col[index].prop]"
+                    :row-style="{ height: '0' }"
+                    :header-cell-style="{
+                      'border-right': '0.2px solid #000',
+                      'border-bottom': '0.2px solid #000',
+                      padding: '1.5px',
+                      color: '#000'
+                    }"
+                    :cell-style="{
+                      'border-right': '0.2px solid #000',
+                      'border-bottom': '0.2px solid #000',
+                      padding: '1.5px',
+                      color: '#000'
+                    }"
+                  >
+                    <el-table-column
+                      v-for="item2 in col[index].son_labels"
+                      :label="item2.label"
+                      :prop="item2.prop"
+                      :key="item2.prop"
+                    />
+                  </el-table>
                 </div>
-              </div>
+              </template>
             </template>
           </template>
         </AFTableColumn>
@@ -152,10 +167,16 @@ let props = defineProps([
   'hasfold',
   'enable_select'
 ])
-console.log(props.col)
+
+interface COL {
+  label: string
+  prop: string
+  fold: boolean
+  son_labels: any
+}
 
 let table_data = reactive(<any>props.table_data)
-let col = reactive(<any>props.col)
+let col: COL[] = reactive(<any>props.col)
 
 let command = reactive(<any>props.command)
 
@@ -176,6 +197,21 @@ const columnDrop = () => {
   })
 }
 
+//提取折叠列
+// let flod_data: any = reactive({})
+// const get_floddta = () => {
+//   if (props.hasfold) {
+//     for (let index = 0; index < col.length; index++) {
+//       if (col[index].fold) {
+//         flod_data[col[index].label] = {
+//           data: table_data[col[index].prop],
+//           labels: col[index].son_labels
+//         }
+//       }
+//     }
+//   }
+// }
+
 onMounted(() => {
   if (!props.hasfold) {
     columnDrop()
@@ -191,8 +227,7 @@ const change_status = (id: string) => {
 <style>
 .el-table--striped .el-table__body tr.el-table__row--striped.current-row td,
 .el-table__body tr.current-row > td {
-  color: #fff;
-  background-color: #2f5496 !important;
+  background-color: #f3f6f9 !important;
 }
 </style>
 <style lang="less" scoped>
@@ -233,5 +268,9 @@ const change_status = (id: string) => {
       }
     }
   }
+}
+.table_fold {
+  width: 50vw;
+  margin: 5vh auto;
 }
 </style>

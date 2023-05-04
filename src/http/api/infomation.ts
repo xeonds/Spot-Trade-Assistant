@@ -3,7 +3,7 @@ import ServiceAxios from '..'
 //部门
 export const Partmentexcel = () => {
   return ServiceAxios({
-    url: '/company/export',
+    url: '/company/export/our',
     method: 'GET'
   })
 }
