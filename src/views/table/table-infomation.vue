@@ -1,7 +1,6 @@
 <template>
   <div class="main">
     <div v-if="route.params.id === '1'">
-      <div>2.1设置本公司账套、部门</div>
       <modifyTable
         id="information1"
         name="本公司账套"
@@ -34,6 +33,7 @@
         :col="table_col.Bank"
         :features="table_add.Bank"
         change_base="company"
+        :rules="table_rules.Bankrules"
       ></modifyTable>
       <modifyTable
         id="information3"
@@ -49,10 +49,10 @@
         :col="table_col.Partment"
         :features="table_add.Partment"
         change_base="company"
+        :rules="table_rules.Partmentrules"
       ></modifyTable>
     </div>
     <div v-if="route.params.id === '2'">
-      <div>2.1设置往来单位账套、部门</div>
       <modifyTable
         id="information1"
         name="往来单位资料"
@@ -70,6 +70,7 @@
         :features="table_add.ZhangTao2"
         :enable_select="true"
         @cancel_select="cancel_select"
+        :rules="table_rules.ZhangTao2rules"
       ></modifyTable>
       <modifyTable
         id="information2"
@@ -85,6 +86,7 @@
         :col="table_col.Bank"
         :features="table_add.Bank"
         change_base="company"
+        :rules="table_rules.Bankrules"
       ></modifyTable>
       <modifyTable
         id="information3"
@@ -100,6 +102,7 @@
         :col="table_col.Partment"
         :features="table_add.Partment"
         change_base="company"
+        :rules="table_rules.Partmentrules"
       ></modifyTable>
     </div>
     <div v-if="route.params.id === '3'">
@@ -157,36 +160,44 @@
       ></modifyTable>
     </div>
     <div v-if="route.params.id === '4'">
-      <modifyTable
-        id="information1"
-        name="币种"
-        :get_data="infoapi.getCurrency"
-        :add_data="infoapi.addCurrency"
-        :delete_data="infoapi.deletaCurrency"
-        :modify_data="infoapi.refreshCurrency"
-        :command="['刷新', '新建', '导出']"
-        :search="CurrencySearchCondition"
-        @fresh="handle_fresh"
-        ref="Currency"
-        :col="table_col.Currency"
-        :features="table_add.Currency"
-      ></modifyTable>
-      <modifyTable
-        id="information2"
-        name="订单模式"
-        :get_data="infoapi.getOrders"
-        :add_data="infoapi.addOrders"
-        :delete_data="infoapi.deletaOrders"
-        :modify_data="infoapi.refreshOrders"
-        :command="['刷新', '添加']"
-        :search="OrdersSearchCondition"
-        @fresh="handle_fresh"
-        ref="Orders"
-        :col="table_col.Orders"
-        :features="table_add.Orders"
-      ></modifyTable>
-      <div class="union">
+      <div class="verticalbox">
         <modifyTable
+          class="vertical"
+          id="information1"
+          name="币种"
+          :get_data="infoapi.getCurrency"
+          :add_data="infoapi.addCurrency"
+          :delete_data="infoapi.deletaCurrency"
+          :modify_data="infoapi.refreshCurrency"
+          :command="['刷新', '新建', '导出']"
+          :search="CurrencySearchCondition"
+          @fresh="handle_fresh"
+          ref="Currency"
+          :col="table_col.Currency"
+          :features="table_add.Currency"
+          width="25"
+          height="80"
+        ></modifyTable>
+        <modifyTable
+          class="vertical"
+          id="information2"
+          name="订单模式"
+          :get_data="infoapi.getOrders"
+          :add_data="infoapi.addOrders"
+          :delete_data="infoapi.deletaOrders"
+          :modify_data="infoapi.refreshOrders"
+          :command="['刷新', '添加']"
+          :search="OrdersSearchCondition"
+          @fresh="handle_fresh"
+          ref="Orders"
+          :col="table_col.Orders"
+          :features="table_add.Orders"
+          width="25"
+          height="80"
+        ></modifyTable>
+
+        <modifyTable
+          class="vertical"
           id="information3"
           name="海关款项类别"
           :get_data="infoapi.getType"
@@ -194,15 +205,16 @@
           :delete_data="infoapi.deletaType"
           :modify_data="infoapi.refreshType4"
           :command="['刷新', '添加']"
-          class="item"
           :search="TypeSearchCondition"
           @fresh="handle_fresh"
           ref="Type"
           :col="table_col.Type"
           :features="table_add.Type"
-          width="49"
+          width="24"
+          height="80"
         ></modifyTable>
         <modifyTable
+          class="vertical"
           id="information4"
           name="仓储款项类别"
           :get_data="infoapi.getType"
@@ -210,13 +222,13 @@
           :delete_data="infoapi.deletaType"
           :modify_data="infoapi.refreshType3"
           :command="['刷新', '添加']"
-          class="item"
           :search="TypeSearchCondition2"
           @fresh="handle_fresh"
           ref="Type2"
           :col="table_col.Type"
           :features="table_add.Type"
-          width="49"
+          width="24"
+          height="80"
         ></modifyTable>
       </div>
     </div>
@@ -460,7 +472,7 @@ const cancel_select = (name: string) => {
   border: 1px solid #000;
   box-sizing: border-box;
 
-  .union {
+  .verticalbox {
     display: flex;
   }
 }

@@ -16,7 +16,7 @@ import bottomMarqueen from '../components/bottom-marqueen.vue'
 
 @font-face {
   font-family: MAIN;
-  src: url('../font/songti.ttf');
+  src: url('../font/Songti.ttc');
   font-weight: normal;
   font-style: normal;
 }

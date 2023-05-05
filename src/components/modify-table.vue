@@ -13,6 +13,7 @@
     @click_row="(row:any,col:any)=>{emits('click_row',row,col)}"
     :status_change="props.status_change"
     :width="props.width"
+    :height="props.height"
     :hasfold="props.hasfold"
     :enable_select="props.enable_select"
     @cancel_select="cancel_select"
@@ -154,8 +155,10 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <button @click="cancel1" class="cancel">取消</button>
-        <button @click="modify1" class="comfirm">确定</button>
+        <button @click="cancel1" class="cancel" style="width: 6vw">取消</button>
+        <button @click="modify1" class="comfirm" style="width: 6vw">
+          确定
+        </button>
       </span>
     </template>
   </el-dialog>
@@ -165,8 +168,12 @@
     <span>是否确定要删除本条记录</span>
     <template #footer>
       <span class="dialog-footer">
-        <button @click="comfirm = false" class="ccancel">取消</button>
-        <button @click="deletebyid" class="comfirm">确定</button>
+        <button @click="comfirm = false" class="ccancel" style="width: 6vw">
+          取消
+        </button>
+        <button @click="deletebyid" class="comfirm" style="width: 6vw">
+          确定
+        </button>
       </span>
     </template>
   </el-dialog>
@@ -213,7 +220,8 @@ const props = defineProps([
   'hasfold',
   'rules',
   'enable_select',
-  'enAddBeforeSelect'
+  'enAddBeforeSelect',
+  'height'
 ])
 const cancel_select = (name: string) => {
   if (props.enable_select) {

@@ -211,7 +211,22 @@ export const Partment = [
   {
     label: '通知方式',
     prop: 'notmet',
-    type: 'number'
+    type: 'select',
+    options: [
+      {
+        label: '邮件',
+        value: '邮件'
+      },
+      {
+        label: '微信',
+        value: '微信'
+      },
+      {
+        label: '短信',
+        value: '短信'
+      }
+    ]
+
   },
   {
     label: '通知号码',

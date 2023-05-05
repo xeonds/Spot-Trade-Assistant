@@ -24,6 +24,7 @@
               color: route.params.id == '1' ? '#fff' : '#2f5496',
               'background-color': route.params.id == '1' ? '#2f5496' : '#fff'
             }"
+            class="el-item"
             >设置公司账套部门</el-menu-item
           >
           <el-menu-item
@@ -32,6 +33,7 @@
               color: route.params.id == '2' ? '#fff' : '#2f5496',
               'background-color': route.params.id == '2' ? '#2f5496' : '#fff'
             }"
+            class="el-item"
             >设置往来单位资料、部门</el-menu-item
           >
           <el-menu-item
@@ -40,6 +42,7 @@
               color: route.params.id == '3' ? '#fff' : '#2f5496',
               'background-color': route.params.id == '3' ? '#2f5496' : '#fff'
             }"
+            class="el-item"
             >设置商品资料</el-menu-item
           >
           <el-menu-item
@@ -48,6 +51,7 @@
               color: route.params.id == '4' ? '#fff' : '#2f5496',
               'background-color': route.params.id == '4' ? '#2f5496' : '#fff'
             }"
+            class="el-item"
             >设置币种、订单模式</el-menu-item
           >
           <el-menu-item
@@ -56,6 +60,7 @@
               color: route.params.id == '5' ? '#fff' : '#2f5496',
               'background-color': route.params.id == '5' ? '#2f5496' : '#fff'
             }"
+            class="el-item"
             >仓储协议、费率登记</el-menu-item
           >
         </el-sub-menu>
@@ -77,6 +82,10 @@ console.log(route)
 <style>
 .el-sub-menu__title {
   color: #fff !important;
+}
+.el-menu-item:hover {
+  background-color: #2f5496 !important;
+  color: white !important;
 }
 </style>
 <style lang="less" scoped>

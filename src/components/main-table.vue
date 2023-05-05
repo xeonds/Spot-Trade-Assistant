@@ -13,7 +13,7 @@
           :key="index"
           @click.stop="emits('handle', index)"
         >
-          【{{ item }}】
+          <button class="btn">{{ item }}</button>
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
         :data="table_data"
         row-key="id"
         align="left"
-        height="180"
+        :height="props.height ? props.height + 'vh' : '180'"
         @cell-contextmenu="
           (row:any, col:any, _:any, event:any,) => {
             emits('menu', row, col, event)
@@ -40,12 +40,14 @@
         "
         @row-click="(row:any, col:any) => emits('click_row', row, col)"
         ref="main"
-        :row-style="{ height: '0' }"
+        :row-style="{ height: '2.7vh' }"
         :header-cell-style="{
           'border-right': '0.2px solid #000',
           'border-bottom': '0.2px solid #000',
+          'background-color': '#f7f6f4',
           padding: '1.5px',
-          color: '#000'
+          color: '#000',
+          'font-size': '1.8vh'
         }"
         :cell-style="{
           'border-right': '0.2px solid #000',
@@ -74,7 +76,7 @@
                   <!-- 将列的数据通过表格呈现 -->
                   <el-table
                     :data="props.row[col[index].prop]"
-                    :row-style="{ height: '0' }"
+                    :row-style="{ height: '2.7vh' }"
                     :header-cell-style="{
                       'border-right': '0.2px solid #000',
                       'border-bottom': '0.2px solid #000',
@@ -116,6 +118,7 @@
             <template #default="scope">
               <el-switch
                 active-value="1"
+                style="height: 0.9vh"
                 inactive-value="0"
                 v-model="table_data[scope.$index].status"
                 @change="change_status(table_data[scope.$index].id)"
@@ -171,7 +174,8 @@ let props = defineProps([
   'status_change',
   'width',
   'hasfold',
-  'enable_select'
+  'enable_select',
+  'height'
 ])
 
 interface COL {
@@ -247,14 +251,23 @@ const change_status = (id: string) => {
 .title {
   font-weight: 600;
 }
-
+.btn {
+  height: 3vh;
+  background-color: #e4e1e1;
+  border: 0;
+  border-radius: 5px;
+  width: 4vw;
+}
+.btn:hover {
+  background-color: #2f5496;
+  color: white;
+}
 .main {
   .top {
     position: relative;
     padding: 1vh 1vw;
     min-height: 5vh;
     box-sizing: border-box;
-    border: 1px solid #000;
     border-bottom: 0;
     .name {
       position: absolute;

@@ -1,6 +1,5 @@
 <template>
   <div class="main">
-    <div>用户管理</div>
     <modifyTable
       id="user1"
       name="用户管理"
@@ -18,7 +17,6 @@
       :hasfold="true"
     >
     </modifyTable>
-    <div>角色管理</div>
     <modifyTable
       id="user2"
       name="角色管理"
@@ -36,7 +34,6 @@
       :status_change="userapi.RoleChange"
       :hasfold="true"
     ></modifyTable>
-    <div>权限管理</div>
     <modifyTable
       id="user3"
       name="权限管理"

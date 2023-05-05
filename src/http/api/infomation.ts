@@ -27,12 +27,18 @@ export interface PageForm {
   order: string
 }
 
-export const getPartment = (form: PageForm) => {
-  return ServiceAxios({
+export const getPartment = async (form: PageForm) => {
+  const res: any = await ServiceAxios({
     url: '/companydept/page',
     method: 'GET',
     params: form
   })
+  for (const i in res.data) {
+    res.data[i].notmet =
+      res.data.notmet == '1' ? '微信' : res.data.notmet == '2' ? '短信' : '邮件'
+  }
+
+  return res
 }
 
 export const deletaPartment = (id: number) => {
@@ -59,6 +65,7 @@ export interface PartmentForm {
 
 export const addPartment = (company: any, form: any) => {
   form.company = company
+  form.notmet = form.notmet == '微信' ? '1' : form.notmet == '短信' ? '2' : '3'
   return ServiceAxios({
     url: `/companydept`,
     method: 'POST',
@@ -66,12 +73,9 @@ export const addPartment = (company: any, form: any) => {
   })
 }
 
-export const refreshPartment = (
-  company: any,
-  id: number,
-  form: PartmentForm
-) => {
+export const refreshPartment = (company: any, id: number, form: any) => {
   form.company = company
+  form.notmet = form.notmet == '微信' ? '1' : form.notmet == '短信' ? '2' : '3'
   return ServiceAxios({
     url: `/companydept/${id}`,
     data: form,
