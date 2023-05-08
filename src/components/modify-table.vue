@@ -371,7 +371,11 @@ const handle = (index: number) => {
     case 2:
       if (allow_export) {
         props.export().then((res: any) => {
-          download(res, 'xlsx', props.name + '.xlsx')
+          download(
+            res,
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            props.name + '.xlsx'
+          )
         })
         allow_export = false
         setTimeout(() => {
