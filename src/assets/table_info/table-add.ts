@@ -226,7 +226,6 @@ export const Partment = [
         value: '短信'
       }
     ]
-
   },
   {
     label: '通知号码',

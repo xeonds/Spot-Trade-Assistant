@@ -27,7 +27,7 @@
         "
         border
         :header-row-class-name="props.id"
-        style="border: 1px solid #000"
+        style="border: 2px solid #f2f2f4"
         :highlight-current-row="props.enable_select"
         :data="table_data"
         row-key="id"

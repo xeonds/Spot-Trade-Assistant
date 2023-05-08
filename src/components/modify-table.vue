@@ -221,7 +221,8 @@ const props = defineProps([
   'rules',
   'enable_select',
   'enAddBeforeSelect',
-  'height'
+  'height',
+  'read_only'
 ])
 const cancel_select = (name: string) => {
   if (props.enable_select) {
@@ -369,9 +370,8 @@ const handle = (index: number) => {
       break
     case 2:
       if (allow_export) {
-        props.export().then((res: any) => {
-          console.log(res)
-          download(res, 'excel', props.name + '.xlsx')
+        props.export().then((res) => {
+          download(res, 'xlsx', props.name + '.xlsx')
         })
         allow_export = false
         setTimeout(() => {
@@ -390,7 +390,7 @@ const cancel1 = () => {
 const format_form = () => {
   for (let i in props.features) {
     if (props.features[i].type == 'number') {
-      add_form[props.features[i].prop] = parseInt(
+      add_form[props.features[i].prop] = Number(
         <string>add_form[props.features[i].prop]
       )
     }
@@ -424,13 +424,15 @@ const modify1 = () => {
 
 const menu = (row: any, col: any, event: any) => {
   event.preventDefault()
-  select_row.value = row
-  select_property.value = col.property
-  var x = event.pageX
-  var y = event.pageY
-  top.value = y
-  left.value = x
-  visible.value = true
+  if (!props.read_only) {
+    select_row.value = row
+    select_property.value = col.property
+    var x = event.pageX
+    var y = event.pageY
+    top.value = y
+    left.value = x
+    visible.value = true
+  }
 }
 
 let comfirm = ref(false)
@@ -578,10 +580,10 @@ defineExpose({
 }
 
 .comfirm:hover {
-  background-color: #87aef2;
+  background-color: #007eba;
 }
 
 .cancel:hover {
-  background-color: #87aef2;
+  background-color: #cddcf5;
 }
 </style>

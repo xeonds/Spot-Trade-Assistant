@@ -15,6 +15,7 @@
       :features="table_add.UserInfo"
       :option_get="{ roles: roleOptionsGet }"
       :hasfold="true"
+      :rules="table_rules.UserInforules"
     >
     </modifyTable>
     <modifyTable
@@ -33,6 +34,7 @@
       :option_get="{ menus: meunsOptionsGet }"
       :status_change="userapi.RoleChange"
       :hasfold="true"
+      :rules="table_rules.RoleInforules"
     ></modifyTable>
     <modifyTable
       id="user3"
@@ -48,6 +50,8 @@
       :col="table_col.MenusInfo"
       :features="table_add.MenusInfo"
       :status_change="userapi.MenusChange"
+      :read_only="true"
+      :rules="table_rules.MenusInforules"
     ></modifyTable>
   </div>
 </template>
@@ -57,6 +61,7 @@ import modifyTable from '../../components/modify-table.vue'
 import * as userapi from '../../http/api/user'
 import * as table_col from '../../assets/table_info/table-title'
 import * as table_add from '../../assets/table_info/table-add'
+import * as table_rules from '../../assets/table_info/rule'
 //子表示例对象
 
 let user = ref()

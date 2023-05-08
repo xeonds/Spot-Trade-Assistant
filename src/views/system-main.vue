@@ -21,10 +21,6 @@ import bottomMarqueen from '../components/bottom-marqueen.vue'
   font-style: normal;
 }
 
-* {
-  font-family: MAIN, sans-serif;
-}
-
 .logo {
   padding: 1.5em;
   height: 6em;

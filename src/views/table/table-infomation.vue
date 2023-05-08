@@ -26,7 +26,7 @@
         :add_data="infoapi.addBank"
         :delete_data="infoapi.deletaBank"
         :modify_data="infoapi.refreshBank"
-        :command="['刷新', '添加']"
+        :command="['刷新', '新建']"
         :search="bankSearchCondition"
         @fresh="handle_fresh"
         ref="bank"
@@ -45,7 +45,7 @@
         :search="PartmentSearchCondition"
         @fresh="handle_fresh"
         ref="partment"
-        :command="['刷新', '添加']"
+        :command="['刷新', '新建']"
         :col="table_col.Partment"
         :features="table_add.Partment"
         change_base="company"
@@ -79,7 +79,7 @@
         :add_data="infoapi.addBank"
         :delete_data="infoapi.deletaBank"
         :modify_data="infoapi.refreshBank"
-        :command="['刷新', '添加']"
+        :command="['刷新', '新建']"
         :search="bankSearchCondition2"
         @fresh="handle_fresh"
         ref="bank2"
@@ -98,7 +98,7 @@
         :search="PartmentSearchCondition2"
         @fresh="handle_fresh"
         ref="partment2"
-        :command="['刷新', '添加']"
+        :command="['刷新', '新建']"
         :col="table_col.Partment"
         :features="table_add.Partment"
         change_base="company"
@@ -123,6 +123,7 @@
         :enable_select="true"
         @cancel_select="cancel_select"
         :option_get="{ variety: varietyOptionsGet }"
+        :rules="table_rules.Varietyrules"
       ></modifyTable>
       <modifyTable
         id="information2"
@@ -131,7 +132,7 @@
         :add_data="infoapi.addGrade"
         :delete_data="infoapi.deletaGrade"
         :modify_data="infoapi.refreshGrade"
-        :command="['刷新', '添加']"
+        :command="['刷新', '新建']"
         :search="GradeSearchCondition"
         @fresh="handle_fresh"
         ref="Grade"
@@ -140,6 +141,7 @@
         change_base="variety"
         :option_get="{ variety: varietyOptionsGet }"
         :enAddBeforeSelect="true"
+        :rules="table_rules.Graderules"
       ></modifyTable>
       <modifyTable
         id="information3"
@@ -148,7 +150,7 @@
         :add_data="infoapi.addTrademark"
         :delete_data="infoapi.deletaTrademark"
         :modify_data="infoapi.refreshTrademark"
-        :command="['刷新', '添加']"
+        :command="['刷新', '新建']"
         :search="TrademarkSearchCondition"
         @fresh="handle_fresh"
         ref="Trademark"
@@ -157,6 +159,7 @@
         change_base="variety"
         :option_get="{ variety: varietyOptionsGet }"
         :enAddBeforeSelect="true"
+        :rules="table_rules.Trademarkrules"
       ></modifyTable>
     </div>
     <div v-if="route.params.id === '4'">
@@ -177,6 +180,7 @@
           :features="table_add.Currency"
           width="25"
           height="80"
+          :rules="table_rules.Currencyrules"
         ></modifyTable>
         <modifyTable
           class="vertical"
@@ -186,7 +190,7 @@
           :add_data="infoapi.addOrders"
           :delete_data="infoapi.deletaOrders"
           :modify_data="infoapi.refreshOrders"
-          :command="['刷新', '添加']"
+          :command="['刷新', '新建']"
           :search="OrdersSearchCondition"
           @fresh="handle_fresh"
           ref="Orders"
@@ -194,6 +198,7 @@
           :features="table_add.Orders"
           width="25"
           height="80"
+          :rules="table_rules.Ordersrules"
         ></modifyTable>
 
         <modifyTable
@@ -204,7 +209,7 @@
           :add_data="infoapi.addType4"
           :delete_data="infoapi.deletaType"
           :modify_data="infoapi.refreshType4"
-          :command="['刷新', '添加']"
+          :command="['刷新', '新建']"
           :search="TypeSearchCondition"
           @fresh="handle_fresh"
           ref="Type"
@@ -212,6 +217,7 @@
           :features="table_add.Type"
           width="24"
           height="80"
+          :rules="table_rules.Typerules"
         ></modifyTable>
         <modifyTable
           class="vertical"
@@ -221,7 +227,7 @@
           :add_data="infoapi.addType3"
           :delete_data="infoapi.deletaType"
           :modify_data="infoapi.refreshType3"
-          :command="['刷新', '添加']"
+          :command="['刷新', '新建']"
           :search="TypeSearchCondition2"
           @fresh="handle_fresh"
           ref="Type2"
@@ -229,6 +235,7 @@
           :features="table_add.Type"
           width="24"
           height="80"
+          :rules="table_rules.Typerules"
         ></modifyTable>
       </div>
     </div>
@@ -246,6 +253,7 @@
         ref="Sta"
         :col="table_col.Sta"
         :features="table_add.Sta"
+        :rules="table_rules.Starules"
       ></modifyTable>
       <modifyTable
         id="information2"
@@ -254,12 +262,13 @@
         :add_data="infoapi.addSvar"
         :delete_data="infoapi.deletaSvar"
         :modify_data="infoapi.refreshSvar"
-        :command="['刷新', '添加']"
+        :command="['刷新', '新建']"
         :search="SvarSearchCondition"
         @fresh="handle_fresh"
         ref="Svar"
         :col="table_col.Svar"
         :features="table_add.Svar"
+        :rules="table_rules.Svarrules"
       ></modifyTable>
       <div class="union">
         <modifyTable
@@ -269,14 +278,14 @@
           :add_data="infoapi.addItem"
           :delete_data="infoapi.deletaItem"
           :modify_data="infoapi.refreshItem"
-          :command="['刷新', '添加']"
-          class="item"
+          :command="['刷新', '新建']"
           :search="ItemSearchCondition"
           @fresh="handle_fresh"
           ref="Item"
           :col="table_col.Item"
           :features="table_add.Item"
-          width="50"
+          width="49"
+          :rules="table_rules.Itemrules"
         ></modifyTable>
         <modifyTable
           id="information4"
@@ -285,14 +294,14 @@
           :add_data="infoapi.addStof"
           :delete_data="infoapi.deletaStof"
           :modify_data="infoapi.refreshStof"
-          :command="['刷新', '添加']"
-          class="item"
+          :command="['刷新', '新建']"
           :search="StofSearchCondition"
           @fresh="handle_fresh"
           ref="Stof"
           :col="table_col.Stof"
           :features="table_add.Stof"
-          width="50"
+          width="49"
+          :rules="table_rules.Stofrules"
         ></modifyTable>
       </div>
     </div>
@@ -473,6 +482,10 @@ const cancel_select = (name: string) => {
   box-sizing: border-box;
 
   .verticalbox {
+    display: flex;
+  }
+
+  .union {
     display: flex;
   }
 }
