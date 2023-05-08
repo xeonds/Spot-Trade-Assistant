@@ -370,7 +370,7 @@ const handle = (index: number) => {
       break
     case 2:
       if (allow_export) {
-        props.export().then((res) => {
+        props.export().then((res: any) => {
           download(res, 'xlsx', props.name + '.xlsx')
         })
         allow_export = false
