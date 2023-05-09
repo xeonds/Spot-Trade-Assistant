@@ -182,7 +182,6 @@
 <script lang="ts" setup>
 import Table from '../components/main-table.vue'
 import { reactive, ref, watch } from 'vue'
-import download from '../utils/download'
 import { ElMessage } from 'element-plus'
 let enable_get = true
 
@@ -290,7 +289,6 @@ let add_form: { [index: string]: any } = reactive({}) //表单对象
 let add_label: string[] = reactive([]) //表单标题
 let multioptions: { [name: string]: any } = reactive({})
 let singleoptions: { [name: string]: any } = reactive({})
-let rules: object[] = reactive([]) //校验规则
 
 //新增框
 let dialogFormVisible2 = ref(false)
@@ -370,13 +368,7 @@ const handle = (index: number) => {
       break
     case 2:
       if (allow_export) {
-        props.export().then((res: any) => {
-          download(
-            res,
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            props.name + '.xlsx'
-          )
-        })
+        props.export()
         allow_export = false
         setTimeout(() => {
           allow_export = true
