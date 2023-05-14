@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import HeadLine from '../components/head-line.vue'
 import bottomMarqueen from '../components/bottom-marqueen.vue'
+import HeadLine from '../components/head-line.vue'
 </script>
 
 <style lang="less">
