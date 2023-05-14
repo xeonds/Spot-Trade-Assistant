@@ -10,7 +10,7 @@
     @handle="handle"
     @menu="menu"
     @load="load"
-    @click_row="(row:any,col:any)=>{emits('click_row',row,col)}"
+    @click_row="(row: any, col: any) => { emits('click_row', row, col) }"
     :status_change="props.status_change"
     :width="props.width"
     :height="props.height"

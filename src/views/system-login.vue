@@ -1,51 +1,29 @@
 <template>
-  <div class="main">
-    <div class="box">
-      <div class="title">用户登录</div>
-      <el-form
-        :model="formEl"
-        ref="form"
-        label-width="80px"
-        :inline="false"
-        :rules="rules"
-      >
+  <el-container>
+    <el-card class="login">
+      <el-text class="login-text">用户登录</el-text>
+      <el-form :model="formEl" ref="form" label-width="80px" :inline="false" :rules="rules">
         <el-form-item label="用户名" prop="username">
-          <el-input
-            v-model="formEl.username"
-            placeholder="请输入用户名"
-          ></el-input>
+          <el-input v-model="formEl.username" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input
-            v-model="formEl.password"
-            type="password"
-            placeholder="请输入密码"
-          ></el-input>
+          <el-input v-model="formEl.password" type="password" placeholder="请输入密码"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="验证码" prop="verify">
+        <el-form-item label="验证码" prop="verify">
           <el-row :gutter="20">
             <el-col :span="12" :offset="0">
-              <el-input
-                v-model="formEl.verify"
-                placeholder="请输入验证码"
-              ></el-input
-            ></el-col>
+              <el-input v-model="formEl.verify" placeholder="请输入验证码"></el-input></el-col>
             <el-col :span="12" :offset="0">
-              <sIdentify
-                :identifyCode="codeofverify"
-                @click="changecode"
-              ></sIdentify>
+              <sIdentify :identifyCode="codeofverify" @click="changeCode"></sIdentify>
             </el-col>
           </el-row>
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit(form)" :loading="isloading"
-            >登录</el-button
-          >
+          <el-button type="primary" @click="onSubmit(form)" :loading="isloading">登录</el-button>
         </el-form-item>
       </el-form>
-    </div>
-  </div>
+    </el-card>
+  </el-container>
 </template>
 
 <script setup lang="ts">
@@ -54,45 +32,46 @@ import { useRouter } from 'vue-router'
 import { login } from '../http/api/utils'
 import loginStatusJudge from '../utils/loginStatus'
 const router = useRouter()
-let isloading = ref(false)
-// 生成验证码
-// let codes = '1234567890'
-// const gencode = () => {
-//   let code = ''
-//   for (let i = 0; i < 4; i++) {
-//     let index = Math.floor(Math.random() * codes.length)
-//     code += codes.slice(index, index + 1)
-//   }
-//   return code
-// }
-// // 验证码
-// let codeofverify = ref(gencode())
-// const changecode = () => {
-//   codeofverify.value = gencode()
-// }
-
 const form = ref()
 let formEl = reactive({
   username: '',
-  password: ''
-  // verify: ''
+  password: '',
+  verify: ''
 })
+let isloading = ref(false)
+let codes = '1234567890'
 
-// const checkCode = (rule: any, value: any, callback: any) => {
-//   if (value !== codeofverify.value) {
-//     callback(new Error('请输入正确验证码'))
-//   } else {
-//     callback()
-//   }
-// }
+// 生成验证码
+const gencode = () => {
+  let code = ''
+  for (let i = 0; i < 4; i++) {
+    let index = Math.floor(Math.random() * codes.length)
+    code += codes.slice(index, index + 1)
+  }
+  return code
+}
+
+// 验证码
+let codeofverify = ref(gencode())
+const changeCode = () => {
+  codeofverify.value = gencode()
+}
+
+const checkCode = (rule: any, value: any, callback: any) => {
+  if (value !== codeofverify.value) {
+    callback(new Error('请输入正确验证码'))
+  } else {
+    callback()
+  }
+}
 
 const rules = reactive({
   username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
-  // verify: [
-  //   { required: true, message: '请输入验证码', trigger: 'blur' },
-  //   { validator: checkCode, trigger: 'blur' }
-  // ]
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+  verify: [
+    { required: true, message: '请输入验证码', trigger: 'blur' },
+    { validator: checkCode, trigger: 'blur' }
+  ]
 })
 
 const onSubmit = async (form: any) => {
@@ -132,26 +111,28 @@ if (loginStatusJudge()) {
 </script>
 
 <style lang="less" scoped>
-.main {
+.el-container {
+  height: 80vh;
+  width: 100vw;
   display: flex;
+  flex-flow: row;
   justify-content: center;
   align-items: center;
-  height: 80vh;
 
-  .box {
+  .login {
+    width: 24rem;
     display: flex;
+    flex-flow: column;
     justify-content: space-around;
-    align-items: center;
-    width: 480px;
-    height: 280px;
-    background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 2px 2px 2px 2px #bbb;
-    flex-direction: column;
 
-    .title {
-      font-size: 18px;
-      font-weight: 600;
+    .login-text {
+      text-align: center;
+      font-size: 1.5rem;
+      margin: 0.5rem;
+    }
+
+    .el-form {
+      margin-top: 1rem;
     }
   }
 }

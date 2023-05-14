@@ -5,7 +5,6 @@
   >
     <div class="top" v-if="props.contain_top" @click="cancel_select">
       <div class="name">{{ props.name }}</div>
-
       <div v-if="props.contain_command" class="command">
         <div
           class="command-item title"
@@ -33,12 +32,11 @@
         row-key="id"
         align="left"
         :height="props.height ? props.height + 'vh' : '180'"
-        @cell-contextmenu="
-          (row:any, col:any, _:any, event:any,) => {
-            emits('menu', row, col, event)
-          }
-        "
-        @row-click="(row:any, col:any) => emits('click_row', row, col)"
+        @cell-contextmenu="(row: any, col: any, _: any, event: any,) => {
+          emits('menu', row, col, event)
+        }
+          "
+        @row-click="(row: any, col: any) => emits('click_row', row, col)"
         ref="main"
         :row-style="{ height: '2.7vh' }"
         :header-cell-style="{
@@ -251,6 +249,7 @@ const change_status = (id: string) => {
 .title {
   font-weight: 600;
 }
+
 .btn {
   height: 3vh;
   background-color: #e4e1e1;
@@ -258,10 +257,12 @@ const change_status = (id: string) => {
   border-radius: 5px;
   width: 4vw;
 }
+
 .btn:hover {
   background-color: #2f5496;
   color: white;
 }
+
 .main {
   .top {
     position: relative;
@@ -269,6 +270,7 @@ const change_status = (id: string) => {
     min-height: 5vh;
     box-sizing: border-box;
     border-bottom: 0;
+
     .name {
       position: absolute;
       right: 2vw;
@@ -288,6 +290,7 @@ const change_status = (id: string) => {
     }
   }
 }
+
 .table_fold {
   width: 50vw;
   margin: 5vh auto;

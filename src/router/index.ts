@@ -20,8 +20,8 @@ export default createRouter({
           component: () => import('../views/table/table-system.vue')
         },
         {
-          path: 'infomation/:id',
-          component: () => import('../views/table/table-infomation.vue')
+          path: 'information/:id',
+          component: () => import('../views/table/table-information.vue')
         },
         {
           path: 'model',
