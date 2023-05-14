@@ -1,50 +1,60 @@
 <template>
   <el-header class="main">
     <el-row class="row1">
-      <div class="row1-left">期现交易小助手</div>
+      <div class="row1-left">百连贸易系统</div>
       <div class="row1-right">
         <div class="row1-item1">撤单通知</div>
         <div class="row1-item2">登录人名称部门</div>
       </div>
     </el-row>
-    <el-menu class="row2" mode="horizontal" :default-active="activeIndex" @select="handleSelect">
+    <el-menu class="row2" mode="horizontal" :default-active="activeIndex" :router="true">
       <el-sub-menu index="2">
         <template #title>资料</template>
-        <el-menu-item class="el-submenu-item" index="2-1">设置公司账套部门</el-menu-item>
-        <el-menu-item class="el-submenu-item" index="2-2">设置往来单位资料、部门</el-menu-item>
-        <el-menu-item class="el-submenu-item" index="2-3">设置商品资料</el-menu-item>
-        <el-menu-item class="el-submenu-item" index="2-4">设置币种、订单模式</el-menu-item>
-        <el-menu-item class="el-submenu-item" index="2-5">仓储协议、费率登记</el-menu-item>
+        <el-menu-item class="el-submenu-item" index="2-1" route="/main/information/1">设置公司账套部门</el-menu-item>
+        <el-menu-item class="el-submenu-item" index="2-2" route="/main/information/2">设置往来单位资料、部门</el-menu-item>
+        <el-menu-item class="el-submenu-item" index="2-3" route="/main/information/3">设置商品资料</el-menu-item>
+        <el-menu-item class="el-submenu-item" index="2-4" route="/main/information/4">设置币种、订单模式</el-menu-item>
+        <el-menu-item class="el-submenu-item" index="2-5" route="/main/information/5">仓储协议、费率登记</el-menu-item>
       </el-sub-menu>
-      <el-menu-item index="3">模板</el-menu-item>
-      <el-menu-item index="4">贸易</el-menu-item>
-      <el-menu-item index="5">货管</el-menu-item>
-      <el-menu-item index="6">库管</el-menu-item>
-      <el-menu-item index="7">财务</el-menu-item>
-      <el-menu-item index="8">期贷</el-menu-item>
-      <el-menu-item index="9">统计报表</el-menu-item>
-      <el-menu-item index="10">监控</el-menu-item>
+      <el-sub-menu index="3">
+        <template #title>模板</template>
+        <el-menu-item class="el-submenu-item" index="3-1">设置公司账套部门</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="4">
+        <template #title>贸易</template>
+        <el-menu-item class="el-submenu-item" index="4-1">设置公司账套部门</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="5">
+        <template #title>货管</template>
+        <el-menu-item class="el-submenu-item" index="5-1">设置公司账套部门</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="6">
+        <template #title>库管</template>
+        <el-menu-item class="el-submenu-item" index="6-1">设置公司账套部门</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="7">
+        <template #title>财务</template>
+        <el-menu-item class="el-submenu-item" index="7-1">设置公司账套部门</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="8">
+        <template #title>期贷</template>
+        <el-menu-item class="el-submenu-item" index="8-1">设置公司账套部门</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="9">
+        <template #title>统计报表</template>
+        <el-menu-item class="el-submenu-item" index="9-1">设置公司账套部门</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="10">
+        <template #title>监控</template>
+        <el-menu-item class="el-submenu-item" index="10-1">设置公司账套部门</el-menu-item>
+      </el-sub-menu>
     </el-menu>
   </el-header>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  data() {
-    return {
-      activeIndex: '1',
-      route: this.$route
-    }
-  },
-  methods: {
-    handleSelect(key: string, keyPath: string[]) {
-      this.$router.push(key)
-      console.log(key, keyPath)
-    }
-  }
-})
+<script setup lang="ts">
+import { ref } from 'vue';
+const activeIndex = ref('1');
 </script>
 
 <style lang="less">
@@ -80,6 +90,7 @@ export default defineComponent({
   .row1 {
     height: 3rem;
     display: flex;
+    flex-flow: row nowrap;
     justify-content: space-between;
     padding-top: 1rem;
 
