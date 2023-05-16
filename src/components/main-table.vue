@@ -1,36 +1,55 @@
 <template>
   <el-card class="main">
-    <template #header v-if="props.contain_top" @click="cancel_select">
-      <div class="card-header">
+    <template #header v-if="props.contain_top">
+      <div class="card-header" @click="cancel_select">
         <div class="operation">
-          <el-button class="op-button" v-for="(item, index) in command" :key="index"
-            @click.stop="emits('handle', index)">{{ item }}</el-button>
+          <el-button
+            class="op-button"
+            v-for="(item, index) in command"
+            :key="index"
+            @click.stop="emits('handle', index)"
+            >{{ item }}</el-button
+          >
         </div>
         <div class="title">{{ props.name }}</div>
       </div>
     </template>
-    <div class=" table-area">
-      <el-table v-el-table-infinite-scroll="() => {
-        emits('load')
-      }
-        " border :header-row-class-name="props.id" :highlight-current-row="props.enable_select" :data="table_data"
-        row-key="id" align="left" :height="props.height ? props.height + 'vh' : '180'" @cell-contextmenu="(row: any, col: any, _: any, event: any,) => {
+    <div class="table-area">
+      <el-table
+        v-el-table-infinite-scroll="
+          () => {
+            emits('load')
+          }
+        "
+        border
+        :header-row-class-name="props.id"
+        :highlight-current-row="props.enable_select"
+        :data="table_data"
+        row-key="id"
+        align="left"
+        :height="props.height ? props.height + 'vh' : '180'"
+        @cell-contextmenu="(row: any, col: any, _: any, event: any,) => {
           emits('menu', row, col, event)
         }
-          " @row-click="(row: any, col: any) => emits('click_row', row, col)" ref="main"
-        :row-style="{ height: '2.7vh' }" :header-cell-style="{
+          "
+        @row-click="(row: any, col: any) => emits('click_row', row, col)"
+        ref="main"
+        :row-style="{ height: '2.7vh' }"
+        :header-cell-style="{
           'border-right': '0.2px solid #000',
           'border-bottom': '0.2px solid #000',
           'background-color': '#f7f6f4',
           padding: '1.5px',
           color: '#000',
           'font-size': '1.8vh'
-        }" :cell-style="{
-  'border-right': '0.2px solid #000',
-  'border-bottom': '0.2px solid #000',
-  padding: '1.5px',
-  color: '#000'
-}">
+        }"
+        :cell-style="{
+          'border-right': '0.2px solid #000',
+          'border-bottom': '0.2px solid #000',
+          padding: '1.5px',
+          color: '#000'
+        }"
+      >
         <!-- 折叠显示列 -->
         <AFTableColumn type="expand" v-if="props.hasfold" :resizable="false">
           <template #default="props">
@@ -39,27 +58,38 @@
               <!-- 找到需要折叠的列 -->
               <template v-if="col[index].fold">
                 <div class="table_fold">
-                  <div style="
+                  <div
+                    style="
                       font-size: 1.5vh;
                       font-weight: 600;
                       margin-bottom: 1vh;
-                    ">
+                    "
+                  >
                     {{ col[index].label }}
                   </div>
                   <!-- 将列的数据通过表格呈现 -->
-                  <el-table :data="props.row[col[index].prop]" :row-style="{ height: '2.7vh' }" :header-cell-style="{
-                    'border-right': '0.2px solid #000',
-                    'border-bottom': '0.2px solid #000',
-                    padding: '1.5px',
-                    color: '#000'
-                  }" :cell-style="{
-  'border-right': '0.2px solid #000',
-  'border-bottom': '0.2px solid #000',
-  padding: '1.5px',
-  color: '#000'
-}">
-                    <el-table-column v-for="item2 in col[index].son_labels" :label="item2.label" :prop="item2.prop"
-                      :key="item2.prop" />
+                  <el-table
+                    :data="props.row[col[index].prop]"
+                    :row-style="{ height: '2.7vh' }"
+                    :header-cell-style="{
+                      'border-right': '0.2px solid #000',
+                      'border-bottom': '0.2px solid #000',
+                      padding: '1.5px',
+                      color: '#000'
+                    }"
+                    :cell-style="{
+                      'border-right': '0.2px solid #000',
+                      'border-bottom': '0.2px solid #000',
+                      padding: '1.5px',
+                      color: '#000'
+                    }"
+                  >
+                    <el-table-column
+                      v-for="item2 in col[index].son_labels"
+                      :label="item2.label"
+                      :prop="item2.prop"
+                      :key="item2.prop"
+                    />
                   </el-table>
                 </div>
               </template>
@@ -69,18 +99,34 @@
         <!-- 默认显示列 -->
         <template v-for="(item, index) in col" :key="`col_${item.label}`">
           <!-- 状态调整 -->
-          <AFTableColumn v-if="col[index].prop == 'status' &&
-            props.status_change &&
-            !col[index].fold
-            " label="状态" width="120" :resizable="false">
+          <AFTableColumn
+            v-if="
+              col[index].prop == 'status' &&
+              props.status_change &&
+              !col[index].fold
+            "
+            label="状态"
+            width="120"
+            :resizable="false"
+          >
             <template #default="scope">
-              <el-switch active-value="1" style="height: 0.9vh" inactive-value="0"
-                v-model="table_data[scope.$index].status" @change="change_status(table_data[scope.$index].id)" />
+              <el-switch
+                active-value="1"
+                style="height: 0.9vh"
+                inactive-value="0"
+                v-model="table_data[scope.$index].status"
+                @change="change_status(table_data[scope.$index].id)"
+              />
             </template>
           </AFTableColumn>
           <!-- 普通显示 -->
-          <AFTableColumn :resizable="false" v-else-if="!col[index].fold" :prop="col[index].prop" :label="item.label"
-            align="center">
+          <AFTableColumn
+            :resizable="false"
+            v-else-if="!col[index].fold"
+            :prop="col[index].prop"
+            :label="item.label"
+            align="center"
+          >
           </AFTableColumn>
         </template>
 
@@ -184,7 +230,7 @@ const change_status = (id: string) => {
 
 <style lang="less">
 .el-table--striped .el-table__body tr.el-table__row--striped.current-row td,
-.el-table__body tr.current-row>td {
+.el-table__body tr.current-row > td {
   background-color: #f3f6f9 !important;
 }
 
@@ -207,7 +253,6 @@ const change_status = (id: string) => {
 .main {
   border: 1px solid #000;
   box-shadow: none;
-  margin-bottom: 20px;
 
   .card-header {
     display: flex;
@@ -224,9 +269,7 @@ const change_status = (id: string) => {
     width: 100%;
     height: 100%;
   }
-
 }
-
 
 .table_fold {
   width: 50vw;
