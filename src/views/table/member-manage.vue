@@ -1,19 +1,58 @@
 <template>
   <div class="main">
-    <modifyTable id="user1" name="用户管理" :get_data="userapi.UserGet" :add_data="userapi.UserAdd"
-      :delete_data="userapi.UserDelete" :modify_data="userapi.UserRefresh" :command="['刷新', '新建']" :search="UserCondition"
-      @fresh="handle_fresh" ref="user" :col="table_col.UserInfo" :features="table_add.UserInfo"
-      :option_get="{ roles: roleOptionsGet }" :hasfold="true" :rules="table_rules.UserInforules">
+    <modifyTable
+      id="user1"
+      name="用户管理"
+      :get_data="userapi.UserGet"
+      :add_data="userapi.UserAdd"
+      :delete_data="userapi.UserDelete"
+      :modify_data="userapi.UserRefresh"
+      :command="['刷新', '新建']"
+      :search="UserCondition"
+      @fresh="handle_fresh"
+      ref="user"
+      :col="table_col.UserInfo"
+      :features="table_add.UserInfo"
+      :option_get="{ roles: roleOptionsGet }"
+      :hasfold="true"
+      :rules="table_rules.UserInforules"
+    >
     </modifyTable>
-    <modifyTable id="user2" name="角色管理" :get_data="userapi.RoleGet" :add_data="userapi.RoleAdd"
-      :delete_data="userapi.RoleDelete" :modify_data="userapi.RoleRefresh" :command="['刷新', '新建']" :search="RoleCondition"
-      @fresh="handle_fresh" ref="role" :col="table_col.RoleInfo" :features="table_add.RoleInfo"
-      :option_get="{ menus: meunsOptionsGet }" :status_change="userapi.RoleChange" :hasfold="true"
-      :rules="table_rules.RoleInforules"></modifyTable>
-    <modifyTable id="user3" name="权限管理" :get_data="userapi.MenusGet" :add_data="userapi.MenusAdd"
-      :delete_data="userapi.MenusDelete" :modify_data="userapi.MenusRefresh" :command="['刷新']" :search="MenusCondition"
-      @fresh="handle_fresh" ref="menus" :col="table_col.MenusInfo" :features="table_add.MenusInfo"
-      :status_change="userapi.MenusChange" :read_only="true" :rules="table_rules.MenusInforules"></modifyTable>
+    <modifyTable
+      id="user2"
+      name="角色管理"
+      :get_data="userapi.RoleGet"
+      :add_data="userapi.RoleAdd"
+      :delete_data="userapi.RoleDelete"
+      :modify_data="userapi.RoleRefresh"
+      :command="['刷新', '新建']"
+      :search="RoleCondition"
+      @fresh="handle_fresh"
+      ref="role"
+      :col="table_col.RoleInfo"
+      :features="table_add.RoleInfo"
+      :option_get="{ menus: meunsOptionsGet }"
+      :status_change="userapi.RoleChange"
+      :hasfold="true"
+      :rules="table_rules.RoleInforules"
+    ></modifyTable>
+    <modifyTable
+      id="user3"
+      name="权限管理"
+      :get_data="userapi.MenusGet"
+      :add_data="userapi.MenusAdd"
+      :delete_data="userapi.MenusDelete"
+      :modify_data="userapi.MenusRefresh"
+      :command="['刷新']"
+      :search="MenusCondition"
+      @fresh="handle_fresh"
+      ref="menus"
+      :col="table_col.MenusInfo"
+      :features="table_add.MenusInfo"
+      :status_change="userapi.MenusChange"
+      :read_only="true"
+      :rules="table_rules.MenusInforules"
+    ></modifyTable>
   </div>
 </template>
 
@@ -83,18 +122,9 @@ const handle_fresh = (name: string) => {
 
 <style lang="less" scoped>
 .main {
-  padding: 1vh 0.5vw;
-  margin: 0.5vh auto;
-  margin-bottom: 0;
-  width: 99vw;
-  box-sizing: border-box;
-
-  .union {
-    display: flex;
-
-    .item {
-      width: 50vw;
-    }
+  * {
+    padding-inline: 1rem;
+    padding-top: 1rem;
   }
 }
 </style>
