@@ -1,23 +1,19 @@
 <template>
-  <div
-    class="main"
-    :style="{ width: props.width ? props.width + 'vw' : '98vw' }"
-  >
-    <div class="top" v-if="props.contain_top" @click="cancel_select">
-      <div class="name">{{ props.name }}</div>
-
-      <div v-if="props.contain_command" class="command">
-        <div
-          class="command-item title"
-          v-for="(item, index) in command"
-          :key="index"
-          @click.stop="emits('handle', index)"
-        >
-          <button class="btn">{{ item }}</button>
+  <el-card class="main">
+    <template #header v-if="props.contain_top">
+      <div class="card-header" @click="cancel_select">
+        <div class="operation">
+          <el-button
+            class="op-button"
+            v-for="(item, index) in command"
+            :key="index"
+            @click.stop="emits('handle', index)"
+            >{{ item }}</el-button
+          >
         </div>
+        <div class="title">{{ props.name }}</div>
       </div>
-    </div>
-
+    </template>
     <div class="table-area">
       <el-table
         v-el-table-infinite-scroll="
@@ -27,18 +23,16 @@
         "
         border
         :header-row-class-name="props.id"
-        style="border: 2px solid #f2f2f4"
         :highlight-current-row="props.enable_select"
         :data="table_data"
         row-key="id"
         align="left"
         :height="props.height ? props.height + 'vh' : '180'"
-        @cell-contextmenu="
-          (row:any, col:any, _:any, event:any,) => {
-            emits('menu', row, col, event)
-          }
-        "
-        @row-click="(row:any, col:any) => emits('click_row', row, col)"
+        @cell-contextmenu="(row: any, col: any, _: any, event: any,) => {
+          emits('menu', row, col, event)
+        }
+          "
+        @row-click="(row: any, col: any) => emits('click_row', row, col)"
         ref="main"
         :row-style="{ height: '2.7vh' }"
         :header-cell-style="{
@@ -139,7 +133,7 @@
         <!-- 状态表 -->
       </el-table>
     </div>
-  </div>
+  </el-card>
 </template>
 
 <script lang="ts" setup>
@@ -234,10 +228,18 @@ const change_status = (id: string) => {
 }
 </script>
 
-<style>
+<style lang="less">
 .el-table--striped .el-table__body tr.el-table__row--striped.current-row td,
 .el-table__body tr.current-row > td {
   background-color: #f3f6f9 !important;
+}
+
+.main {
+  width: 100%;
+
+  .el-card__body {
+    padding: 0px;
+  }
 }
 </style>
 <style lang="less" scoped>
@@ -248,46 +250,27 @@ const change_status = (id: string) => {
   font-style: normal;
 }
 
-.title {
-  font-weight: 600;
-}
-.btn {
-  height: 3vh;
-  background-color: #e4e1e1;
-  border: 0;
-  border-radius: 5px;
-  width: 4vw;
-}
-.btn:hover {
-  background-color: #2f5496;
-  color: white;
-}
 .main {
-  .top {
-    position: relative;
-    padding: 1vh 1vw;
-    min-height: 5vh;
-    box-sizing: border-box;
-    border-bottom: 0;
-    .name {
-      position: absolute;
-      right: 2vw;
-      bottom: 2vh;
-      font-size: 2.2vh;
+  border: 1px solid #000;
+  box-shadow: none;
+
+  .card-header {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+
+    .title {
+      font-size: 1.4rem;
       font-family: NAME, sans-serif;
     }
+  }
 
-    .command {
-      display: flex;
-      margin-top: auto 0;
-
-      .command-item {
-        margin-right: 2vw;
-        cursor: pointer;
-      }
-    }
+  .table-area {
+    width: 100%;
+    height: 100%;
   }
 }
+
 .table_fold {
   width: 50vw;
   margin: 5vh auto;

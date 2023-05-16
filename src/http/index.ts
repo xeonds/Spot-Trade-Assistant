@@ -1,6 +1,7 @@
 import axios from 'axios'
 import serverConfig from './config'
 import router from '../router'
+import download from '../utils/download'
 // 创建axios实例
 const serviceAxios = axios.create({
   baseURL: serverConfig.baseURL,

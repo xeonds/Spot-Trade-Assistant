@@ -43,7 +43,7 @@
       :add_data="userapi.MenusAdd"
       :delete_data="userapi.MenusDelete"
       :modify_data="userapi.MenusRefresh"
-      :command="['刷新', '新建']"
+      :command="['刷新']"
       :search="MenusCondition"
       @fresh="handle_fresh"
       ref="menus"
@@ -122,18 +122,9 @@ const handle_fresh = (name: string) => {
 
 <style lang="less" scoped>
 .main {
-  padding: 1vh 0.5vw;
-  margin: 0.5vh auto;
-  margin-bottom: 0;
-  width: 99vw;
-  box-sizing: border-box;
-
-  .union {
-    display: flex;
-
-    .item {
-      width: 50vw;
-    }
+  * {
+    padding-inline: 1rem;
+    padding-top: 1rem;
   }
 }
 </style>

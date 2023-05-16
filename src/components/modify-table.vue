@@ -1,188 +1,191 @@
 <template>
-  <Table
-    :id="props.id"
-    :col="col"
-    :table_data="data"
-    :contain_top="true"
-    :contain_command="true"
-    :command="props.command"
-    :name="props.name"
-    @handle="handle"
-    @menu="menu"
-    @load="load"
-    @click_row="(row:any,col:any)=>{emits('click_row',row,col)}"
-    :status_change="props.status_change"
-    :width="props.width"
-    :height="props.height"
-    :hasfold="props.hasfold"
-    :enable_select="props.enable_select"
-    @cancel_select="cancel_select"
-  >
-  </Table>
-  <ul
-    v-show="visible"
-    :style="{ left: left + 'px', top: top + 'px' }"
-    class="contextmenu"
-  >
-    <li @click="handleDelete()">删除</li>
-    <li @click="handleFresh()">刷新</li>
-    <li @click="handleUpdate()">编辑</li>
-  </ul>
-
-  <!-- 编辑 -->
-  <el-dialog v-model="dialogFormVisible" :title="'编辑' + props.name">
-    <el-form :model="add_form" :rules="props.rules">
-      <el-form-item
-        :label="item.label"
-        :label-width="200"
-        v-for="item in props.features"
-        :key="item.label"
-        :prop="item.prop"
-      >
-        <el-input
-          v-model="add_form[item.prop]"
-          v-if="item.type == 'string' || item.type == 'number'"
-          input-style="color:#000;border-color:'#2f5496'"
-        />
-        <el-radio-group
-          v-model="add_form[item.prop]"
-          v-if="item.type == 'select'"
-        >
-          <el-radio
-            v-for="option in item.options"
-            :key="option.label"
-            :label="option.value"
-            >{{ option.label }}</el-radio
-          >
-        </el-radio-group>
-
-        <el-select
-          v-model="add_form[item.prop]"
-          multiple
-          placeholder="选择"
-          style="width: 240px"
-          v-if="item.type == 'multiselect'"
-        >
-          <el-option
-            v-for="option in multioptions[item.prop]"
-            :key="option.value"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
-        <el-select
-          v-model="add_form[item.prop]"
-          placeholder="选择"
-          style="width: 240px"
-          v-if="item.type == 'singleselect'"
-        >
-          <el-option
-            v-for="option in singleoptions[item.prop]"
-            :key="option.value"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <button @click="cancel" class="cancel">取消</button>
-        <button @click="modify" class="comfirm">确定</button>
-      </span>
-    </template>
-  </el-dialog>
-
-  <!-- 增加 -->
-  <el-dialog v-model="dialogFormVisible2" :title="'增加' + props.name">
-    <el-form
-      :model="add_form"
-      style="display: flex; flex-wrap: wrap"
-      :rules="props.rules"
+  <div>
+    <Table
+      :id="props.id"
+      :col="col"
+      :table_data="data"
+      :contain_top="true"
+      :contain_command="true"
+      :command="props.command"
+      :name="props.name"
+      @handle="handle"
+      @menu="menu"
+      @load="load"
+      @click_row="(row: any, col: any) => { emits('click_row', row, col) }"
+      :status_change="props.status_change"
+      :width="props.width"
+      :height="props.height"
+      :hasfold="props.hasfold"
+      :enable_select="props.enable_select"
+      @cancel_select="cancel_select"
     >
-      <el-form-item
-        :label="item.label"
-        :label-width="150"
-        v-for="item in props.features"
-        :key="item.label"
-        style="width: 20vw; color: #000"
-        :prop="item.prop"
-      >
-        <el-input
-          v-model="add_form[item.prop]"
-          input-style="color:#000;border-color:#2f5496"
-          v-if="item.type == 'string' || item.type == 'number'"
-        />
-        <el-radio-group
-          v-model="add_form[item.prop]"
-          v-if="item.type == 'select'"
-        >
-          <el-radio
-            v-for="option in item.options"
-            :key="option.label"
-            :label="option.value"
-            >{{ option.label }}</el-radio
-          >
-        </el-radio-group>
-        <el-select
-          v-model="add_form[item.prop]"
-          multiple
-          placeholder="选择"
-          style="width: 240px"
-          v-if="item.type == 'multiselect'"
-        >
-          <el-option
-            v-for="option in multioptions[item.prop]"
-            :key="option.value"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
-        <el-select
-          v-model="add_form[item.prop]"
-          placeholder="选择"
-          style="width: 240px"
-          v-if="item.type == 'singleselect'"
-        >
-          <el-option
-            v-for="option in singleoptions[item.prop]"
-            :key="option.value"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <button @click="cancel1" class="cancel" style="width: 6vw">取消</button>
-        <button @click="modify1" class="comfirm" style="width: 6vw">
-          确定
-        </button>
-      </span>
-    </template>
-  </el-dialog>
+    </Table>
+    <ul
+      v-show="visible"
+      :style="{ left: left + 'px', top: top + 'px' }"
+      class="contextmenu"
+    >
+      <li @click="handleDelete()">删除</li>
+      <li @click="handleFresh()">刷新</li>
+      <li @click="handleUpdate()">编辑</li>
+    </ul>
 
-  <!-- 删除确认框 -->
-  <el-dialog v-model="comfirm" title="删除确认" width="30%" align-center>
-    <span>是否确定要删除本条记录</span>
-    <template #footer>
-      <span class="dialog-footer">
-        <button @click="comfirm = false" class="ccancel" style="width: 6vw">
-          取消
-        </button>
-        <button @click="deletebyid" class="comfirm" style="width: 6vw">
-          确定
-        </button>
-      </span>
-    </template>
-  </el-dialog>
+    <!-- 编辑 -->
+    <el-dialog v-model="dialogFormVisible" :title="'编辑' + props.name">
+      <el-form :model="add_form" :rules="props.rules">
+        <el-form-item
+          :label="item.label"
+          :label-width="200"
+          v-for="item in props.features"
+          :key="item.label"
+          :prop="item.prop"
+        >
+          <el-input
+            v-model="add_form[item.prop]"
+            v-if="item.type == 'string' || item.type == 'number'"
+            input-style="color:#000;border-color:'#2f5496'"
+          />
+          <el-radio-group
+            v-model="add_form[item.prop]"
+            v-if="item.type == 'select'"
+          >
+            <el-radio
+              v-for="option in item.options"
+              :key="option.label"
+              :label="option.value"
+              >{{ option.label }}</el-radio
+            >
+          </el-radio-group>
+
+          <el-select
+            v-model="add_form[item.prop]"
+            multiple
+            placeholder="选择"
+            style="width: 240px"
+            v-if="item.type == 'multiselect'"
+          >
+            <el-option
+              v-for="option in multioptions[item.prop]"
+              :key="option.value"
+              :label="option.label"
+              :value="option.value"
+            />
+          </el-select>
+          <el-select
+            v-model="add_form[item.prop]"
+            placeholder="选择"
+            style="width: 240px"
+            v-if="item.type == 'singleselect'"
+          >
+            <el-option
+              v-for="option in singleoptions[item.prop]"
+              :key="option.value"
+              :label="option.label"
+              :value="option.value"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <button @click="cancel" class="cancel">取消</button>
+          <button @click="modify" class="comfirm">确定</button>
+        </span>
+      </template>
+    </el-dialog>
+
+    <!-- 增加 -->
+    <el-dialog v-model="dialogFormVisible2" :title="'增加' + props.name">
+      <el-form
+        :model="add_form"
+        style="display: flex; flex-wrap: wrap"
+        :rules="props.rules"
+      >
+        <el-form-item
+          :label="item.label"
+          :label-width="150"
+          v-for="item in props.features"
+          :key="item.label"
+          style="width: 20vw; color: #000"
+          :prop="item.prop"
+        >
+          <el-input
+            v-model="add_form[item.prop]"
+            input-style="color:#000;border-color:#2f5496"
+            v-if="item.type == 'string' || item.type == 'number'"
+          />
+          <el-radio-group
+            v-model="add_form[item.prop]"
+            v-if="item.type == 'select'"
+          >
+            <el-radio
+              v-for="option in item.options"
+              :key="option.label"
+              :label="option.value"
+              >{{ option.label }}</el-radio
+            >
+          </el-radio-group>
+          <el-select
+            v-model="add_form[item.prop]"
+            multiple
+            placeholder="选择"
+            style="width: 240px"
+            v-if="item.type == 'multiselect'"
+          >
+            <el-option
+              v-for="option in multioptions[item.prop]"
+              :key="option.value"
+              :label="option.label"
+              :value="option.value"
+            />
+          </el-select>
+          <el-select
+            v-model="add_form[item.prop]"
+            placeholder="选择"
+            style="width: 240px"
+            v-if="item.type == 'singleselect'"
+          >
+            <el-option
+              v-for="option in singleoptions[item.prop]"
+              :key="option.value"
+              :label="option.label"
+              :value="option.value"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <button @click="cancel1" class="cancel" style="width: 6vw">
+            取消
+          </button>
+          <button @click="modify1" class="comfirm" style="width: 6vw">
+            确定
+          </button>
+        </span>
+      </template>
+    </el-dialog>
+
+    <!-- 删除确认框 -->
+    <el-dialog v-model="comfirm" title="删除确认" width="30%" align-center>
+      <span>是否确定要删除本条记录</span>
+      <template #footer>
+        <span class="dialog-footer">
+          <button @click="comfirm = false" class="ccancel" style="width: 6vw">
+            取消
+          </button>
+          <button @click="deletebyid" class="comfirm" style="width: 6vw">
+            确定
+          </button>
+        </span>
+      </template>
+    </el-dialog>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import Table from '../components/main-table.vue'
 import { reactive, ref, watch } from 'vue'
-import download from '../utils/download'
 import { ElMessage } from 'element-plus'
 let enable_get = true
 
@@ -290,7 +293,6 @@ let add_form: { [index: string]: any } = reactive({}) //表单对象
 let add_label: string[] = reactive([]) //表单标题
 let multioptions: { [name: string]: any } = reactive({})
 let singleoptions: { [name: string]: any } = reactive({})
-let rules: object[] = reactive([]) //校验规则
 
 //新增框
 let dialogFormVisible2 = ref(false)
@@ -370,9 +372,7 @@ const handle = (index: number) => {
       break
     case 2:
       if (allow_export) {
-        props.export().then((res: any) => {
-          download(res, 'xlsx', props.name + '.xlsx')
-        })
+        props.export()
         allow_export = false
         setTimeout(() => {
           allow_export = true

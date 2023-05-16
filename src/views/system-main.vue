@@ -1,38 +1,49 @@
 <template>
-  <HeadLine />
-  <router-view></router-view>
-  <bottomMarqueen class="marqueen"></bottomMarqueen>
+  <HeadLine id="view-header" />
+  <router-view id="view-content"></router-view>
+  <div id="view-footer">
+    <bottomMarqueen id="marqueen"></bottomMarqueen>
+    <div id="version">{{ getDate() }} &copy;百连V1.0</div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import HeadLine from '../components/head-line.vue'
 import bottomMarqueen from '../components/bottom-marqueen.vue'
+import HeadLine from '../components/head-line.vue'
+const getDate = () => {
+  let date = new Date()
+  let year = date.getFullYear()
+  let month = date.getMonth() + 1
+  let day = date.getDate()
+  return `${year}年${month}月${day}日`
+}
 </script>
 
 <style lang="less">
-.marqueen {
-  height: 3vh;
+#view-header {
+  overflow: hidden;
+  max-height: 6rem !important;
 }
 
-@font-face {
-  font-family: MAIN;
-  src: url('../font/Songti.ttc');
-  font-weight: normal;
-  font-style: normal;
-}
+#view-footer {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
 
-.logo {
-  padding: 1.5em;
-  height: 6em;
-  transition: filter 300ms;
-  will-change: filter;
-}
+  #marqueen {
+    overflow: hidden;
+    margin-top: 2rem;
+    margin-inline: 1rem;
+    width: calc(100vw - 16rem);
+    height: 2rem;
+    max-height: 3rem !important;
+  }
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+  #version {
+    margin-top: 2rem;
+    width: 14rem;
+    height: 2rem;
+    text-align: center;
+  }
 }
 </style>
