@@ -1,7 +1,7 @@
 <template>
   <el-header class="main">
     <el-row class="row1">
-      <div class="row1-left">百连贸易系统</div>
+      <div class="logo">百连贸易系统</div>
       <div class="row1-right">
         <el-popover placement="bottom" trigger="click">
           <template #reference>
@@ -176,6 +176,12 @@ if (user) {
 
 <style lang="less" scoped>
 @import '../assets/style/theme.less';
+@font-face {
+  font-family: MAIN;
+  src: url('../font/Songti.ttc');
+  font-weight: normal;
+  font-style: normal;
+}
 
 .main {
   height: 6rem;
@@ -191,6 +197,20 @@ if (user) {
     flex-flow: row nowrap;
     justify-content: space-between;
     padding-top: 1rem;
+
+    .logo {
+      font-family: MAIN;
+      transition: filter 300ms;
+      will-change: filter;
+    }
+
+    .logo:hover {
+      filter: drop-shadow(0 0 2em #646cffaa);
+    }
+
+    .logo.vue:hover {
+      filter: drop-shadow(0 0 2em #42b883aa);
+    }
   }
 
   .row2 {
