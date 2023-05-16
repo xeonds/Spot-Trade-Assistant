@@ -10,3 +10,10 @@ export const login = (userName: string, password: string) => {
     }
   })
 }
+
+export const logout = () => {
+  return ServiceAxios({
+    url: '/user/logout',
+    method: 'POST',
+  })
+}

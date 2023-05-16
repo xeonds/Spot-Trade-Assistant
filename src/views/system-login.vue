@@ -31,6 +31,7 @@
 import { useRouter } from 'vue-router'
 import { login } from '../http/api/utils'
 import loginStatusJudge from '../utils/loginStatus'
+
 const router = useRouter()
 const form = ref()
 let formEl = reactive({
@@ -80,6 +81,7 @@ const onSubmit = async (form: any) => {
     if (valid) {
       login(formEl.username, formEl.password).then(
         (res: any) => {
+          localStorage.setItem('username', formEl.username)
           localStorage.setItem('token', res.token)
           localStorage.setItem('lastLoginTime', String(new Date().getTime()))
           router.replace('/main/system')
