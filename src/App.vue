@@ -7,8 +7,9 @@
 <script setup lang="ts">
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 </script>
-<style>
+<style lang="less">
+@import './assets/style/theme.less';
 :root {
-  --el-color-primary: #2f5496;
+  --el-color-primary: @theme-color-primary;
 }
 </style>
