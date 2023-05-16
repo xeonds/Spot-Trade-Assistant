@@ -2,24 +2,46 @@
   <el-container>
     <el-card class="login">
       <el-text class="login-text">用户登录</el-text>
-      <el-form :model="formEl" ref="form" label-width="80px" :inline="false" :rules="rules">
+      <el-form
+        :model="formEl"
+        ref="form"
+        label-width="80px"
+        :inline="false"
+        :rules="rules"
+      >
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="formEl.username" placeholder="请输入用户名"></el-input>
+          <el-input
+            v-model="formEl.username"
+            placeholder="请输入用户名"
+          ></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="formEl.password" type="password" placeholder="请输入密码"></el-input>
+          <el-input
+            v-model="formEl.password"
+            type="password"
+            placeholder="请输入密码"
+          ></el-input>
         </el-form-item>
         <el-form-item label="验证码" prop="verify">
           <el-row :gutter="20">
             <el-col :span="12" :offset="0">
-              <el-input v-model="formEl.verify" placeholder="请输入验证码"></el-input></el-col>
+              <el-input
+                v-model="formEl.verify"
+                placeholder="请输入验证码"
+              ></el-input
+            ></el-col>
             <el-col :span="12" :offset="0">
-              <sIdentify :identifyCode="codeofverify" @click="changeCode"></sIdentify>
+              <sIdentify
+                :identifyCode="codeofverify"
+                @click="changeCode"
+              ></sIdentify>
             </el-col>
           </el-row>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit(form)" :loading="isloading">登录</el-button>
+          <el-button type="primary" @click="onSubmit(form)" :loading="isloading"
+            >登录</el-button
+          >
         </el-form-item>
       </el-form>
     </el-card>
@@ -31,6 +53,7 @@
 import { useRouter } from 'vue-router'
 import { login } from '../http/api/utils'
 import loginStatusJudge from '../utils/loginStatus'
+
 const router = useRouter()
 const form = ref()
 let formEl = reactive({
@@ -80,9 +103,10 @@ const onSubmit = async (form: any) => {
     if (valid) {
       login(formEl.username, formEl.password).then(
         (res: any) => {
+          localStorage.setItem('username', formEl.username)
           localStorage.setItem('token', res.token)
           localStorage.setItem('lastLoginTime', String(new Date().getTime()))
-          router.replace('/main/system')
+          router.replace('/main/memberManage')
         },
         (msg: any) => {
           isloading.value = false
@@ -104,7 +128,7 @@ onMounted(() => {
 })
 
 if (loginStatusJudge()) {
-  router.replace('/main/system')
+  router.replace('/main/memberManage')
 } else {
   localStorage.clear()
 }
@@ -112,23 +136,23 @@ if (loginStatusJudge()) {
 
 <style lang="less" scoped>
 .el-container {
-  height: 80vh;
-  width: 100vw;
   display: flex;
-  flex-flow: row;
   justify-content: center;
   align-items: center;
+  width: 100vw;
+  height: 80vh;
+  flex-flow: row;
 
   .login {
-    width: 24rem;
     display: flex;
-    flex-flow: column;
     justify-content: space-around;
+    width: 24rem;
+    flex-flow: column;
 
     .login-text {
-      text-align: center;
-      font-size: 1.5rem;
       margin: 0.5rem;
+      font-size: 1.5rem;
+      text-align: center;
     }
 
     .el-form {

@@ -2,6 +2,7 @@
   <div class="main">
     <div v-if="route.params.id === '1'">
       <modifyTable
+        class="table-pane"
         id="information1"
         name="本公司账套"
         :get_data="infoapi.getZhangTao"
@@ -20,6 +21,7 @@
         :enable_select="true"
       ></modifyTable>
       <modifyTable
+        class="table-pane"
         id="information2"
         name="本公司开户银行"
         :get_data="infoapi.getBank"
@@ -36,6 +38,7 @@
         :rules="table_rules.Bankrules"
       ></modifyTable>
       <modifyTable
+        class="table-pane"
         id="information3"
         name="本公司业务部门"
         :get_data="infoapi.getPartment"
@@ -50,10 +53,12 @@
         :features="table_add.Partment"
         change_base="company"
         :rules="table_rules.Partmentrules"
-      ></modifyTable>
+      >
+      </modifyTable>
     </div>
     <div v-if="route.params.id === '2'">
       <modifyTable
+        class="table-pane"
         id="information1"
         name="往来单位资料"
         :get_data="infoapi.getZhangTao2"
@@ -73,6 +78,7 @@
         :rules="table_rules.ZhangTao2rules"
       ></modifyTable>
       <modifyTable
+        class="table-pane"
         id="information2"
         name="往来单位银行"
         :get_data="infoapi.getBank"
@@ -89,6 +95,7 @@
         :rules="table_rules.Bankrules"
       ></modifyTable>
       <modifyTable
+        class="table-pane"
         id="information3"
         name="往来单位部门"
         :get_data="infoapi.getPartment"
@@ -103,10 +110,12 @@
         :features="table_add.Partment"
         change_base="company"
         :rules="table_rules.Partmentrules"
-      ></modifyTable>
+      >
+      </modifyTable>
     </div>
     <div v-if="route.params.id === '3'">
       <modifyTable
+        class="table-pane"
         id="information1"
         name="商品品种"
         :get_data="infoapi.getVariety"
@@ -124,8 +133,10 @@
         @cancel_select="cancel_select"
         :option_get="{ variety: varietyOptionsGet }"
         :rules="table_rules.Varietyrules"
-      ></modifyTable>
+      >
+      </modifyTable>
       <modifyTable
+        class="table-pane"
         id="information2"
         name="商品规格"
         :get_data="infoapi.getGrade"
@@ -144,6 +155,7 @@
         :rules="table_rules.Graderules"
       ></modifyTable>
       <modifyTable
+        class="table-pane"
         id="information3"
         name="商品商标"
         :get_data="infoapi.getTrademark"
@@ -160,12 +172,13 @@
         :option_get="{ variety: varietyOptionsGet }"
         :enAddBeforeSelect="true"
         :rules="table_rules.Trademarkrules"
-      ></modifyTable>
+      >
+      </modifyTable>
     </div>
     <div v-if="route.params.id === '4'">
-      <div class="verticalbox">
+      <div class="vertical-box">
         <modifyTable
-          class="vertical"
+          class="vertical-table-pane"
           id="information1"
           name="币种"
           :get_data="infoapi.getCurrency"
@@ -183,7 +196,7 @@
           :rules="table_rules.Currencyrules"
         ></modifyTable>
         <modifyTable
-          class="vertical"
+          class="vertical-table-pane"
           id="information2"
           name="订单模式"
           :get_data="infoapi.getOrders"
@@ -199,10 +212,11 @@
           width="25"
           height="80"
           :rules="table_rules.Ordersrules"
-        ></modifyTable>
+        >
+        </modifyTable>
 
         <modifyTable
-          class="vertical"
+          class="vertical-table-pane"
           id="information3"
           name="海关款项类别"
           :get_data="infoapi.getType"
@@ -220,7 +234,7 @@
           :rules="table_rules.Typerules"
         ></modifyTable>
         <modifyTable
-          class="vertical"
+          class="vertical-table-pane"
           id="information4"
           name="仓储款项类别"
           :get_data="infoapi.getType"
@@ -241,6 +255,7 @@
     </div>
     <div v-if="route.params.id === '5'">
       <modifyTable
+        class="table-pane"
         id="information1"
         name="仓储协议"
         :get_data="infoapi.getSta"
@@ -256,6 +271,7 @@
         :rules="table_rules.Starules"
       ></modifyTable>
       <modifyTable
+        class="table-pane"
         id="information2"
         name="签约品种"
         :get_data="infoapi.getSvar"
@@ -272,6 +288,7 @@
       ></modifyTable>
       <div class="union">
         <modifyTable
+          class="table-pane"
           id="information3"
           name="收费项目"
           :get_data="infoapi.getItem"
@@ -288,6 +305,7 @@
           :rules="table_rules.Itemrules"
         ></modifyTable>
         <modifyTable
+          class="table-pane"
           id="information4"
           name="仓储费"
           :get_data="infoapi.getStof"
@@ -473,20 +491,20 @@ const cancel_select = (name: string) => {
 </script>
 
 <style lang="less" scoped>
-.main {
-  padding: 1vh 0.5vw;
-  margin: 0.5vh auto;
-  margin-bottom: 0;
-  width: 99vw;
-  border: 1px solid #000;
-  box-sizing: border-box;
+.table-pane {
+  padding-inline: 1rem;
+  padding-top: 1rem;
+}
 
-  .verticalbox {
-    display: flex;
-  }
+.vertical-table-pane {
+  padding-top: 1rem;
+  padding-left: 1rem;
+  width: calc((100vw - 5rem) / 4);
+}
 
-  .union {
-    display: flex;
-  }
+.vertical-box {
+  display: flex;
+  flex-flow: row;
+  height: 100%;
 }
 </style>
