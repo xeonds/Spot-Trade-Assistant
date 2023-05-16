@@ -88,8 +88,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <button @click="cancel" class="cancel">取消</button>
-          <button @click="modify" class="comfirm">确定</button>
+          <el-button @click="cancel" class="cancel">取消</el-button>
+          <el-button @click="modify" class="comfirm">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -156,12 +156,12 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <button @click="cancel1" class="cancel" style="width: 6vw">
+          <el-button @click="cancel1" class="cancel" style="width: 6vw">
             取消
-          </button>
-          <button @click="modify1" class="comfirm" style="width: 6vw">
+          </el-button>
+          <el-button @click="modify1" class="comfirm" style="width: 6vw">
             确定
-          </button>
+          </el-button>
         </span>
       </template>
     </el-dialog>
@@ -171,9 +171,9 @@
       <span>是否确定要删除本条记录</span>
       <template #footer>
         <span class="dialog-footer">
-          <button @click="comfirm = false" class="ccancel" style="width: 6vw">
+          <el-button @click="comfirm = false" class="cancel" style="width: 6vw">
             取消
-          </button>
+          </el-button>
           <button @click="deletebyid" class="comfirm" style="width: 6vw">
             确定
           </button>
