@@ -2,21 +2,35 @@
   <div class="model">
     <Table
       class="model-box"
-      :col="table_col.UserInfo"
-      :table_data="model"
+      id="table-model"
+      :col="table_col.ModelInfo"
+      :table_data="data"
       :contain_top="true"
       :contain_command="true"
-      :command="['添加', '编辑', '删除', '导出']"
+      :command="command"
       :name="'模板'"
-      @handle="handle_fresh"
-      @menu="handle_fresh"
-      @load="handle_fresh"
       @click_row="console.log('clicked')"
       :hasfold="false"
       :enable_select="false"
+      :height="32"
     >
       <template #top>
         <TableFind :search_item="search_item" class="table-find"></TableFind>
+      </template>
+      <template #table-extend-start>
+        <el-table-column type="selection" width="55" align="center">
+          <template #header>选择</template>
+        </el-table-column>
+      </template>
+      <template #table-extend-end>
+        <el-table-column label="操作" width="240" align="center">
+          <template #default="">
+            <div class="table-op-group">
+              <el-button>上传</el-button>
+              <el-button>查看</el-button>
+            </div>
+          </template>
+        </el-table-column>
       </template>
     </Table>
   </div>
@@ -28,17 +42,62 @@ import TableFind from '../../components/table-find.vue'
 import { reactive } from 'vue'
 import * as table_col from '../../assets/table_info/table-title'
 
+let data = reactive([
+  {
+    m1: '内贸',
+    m2: '一般（固定值）',
+    m3: '现货',
+    m4: '购',
+    m5: '0.0003'
+  },
+  {
+    m1: '内贸',
+    m2: '一般（固定值）',
+    m3: '现货',
+    m4: '购',
+    m5: '0.0003'
+  },
+  {
+    m1: '内贸',
+    m2: '一般（固定值）',
+    m3: '现货',
+    m4: '购',
+    m5: '0.0003'
+  },
+  {
+    m1: '内贸',
+    m2: '一般（固定值）',
+    m3: '现货',
+    m4: '购',
+    m5: '0.0003'
+  },
+  {
+    m1: '内贸',
+    m2: '一般（固定值）',
+    m3: '现货',
+    m4: '购',
+    m5: '0.0003'
+  },
+  {
+    m1: '内贸',
+    m2: '一般（固定值）',
+    m3: '现货',
+    m4: '购',
+    m5: '0.0003'
+  },
+  {
+    m1: '内贸',
+    m2: '一般（固定值）',
+    m3: '现货',
+    m4: '购',
+    m5: '0.0003'
+  }
+])
 let search_item = reactive(['贸易类型', '订单模式', '交收方式', '购/销'])
-let model = ref()
-let menus = ref()
+let command = reactive(['添加', '修改', '删除', '导出'])
 
-const handle_fresh = (name: string) => {
-  if (name == '用户管理') {
-    model.value.refresh_data()
-  }
-  if (name == '权限管理') {
-    menus.value.refresh_data()
-  }
+const handle = (a: number) => {
+  console.log(a)
 }
 </script>
 
@@ -49,7 +108,12 @@ const handle_fresh = (name: string) => {
     margin-top: 1rem !important;
   }
 }
+
 .table-find {
   margin-bottom: 20px;
+}
+.table-op-group {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 </style>
