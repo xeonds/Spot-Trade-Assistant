@@ -55,6 +55,7 @@
           color: '#000'
         }"
       >
+        <slot name="table-extend-start"></slot>
         <!-- 折叠显示列 -->
         <AFTableColumn type="expand" v-if="props.hasfold" :resizable="false">
           <template #default="props">
@@ -134,7 +135,7 @@
           >
           </AFTableColumn>
         </template>
-
+        <slot name="table-extend-end"></slot>
         <!-- 状态表 -->
       </el-table>
     </div>
@@ -238,10 +239,7 @@ const change_status = (id: string) => {
 .el-table__body tr.current-row > td {
   background-color: #f3f6f9 !important;
 }
-
 .main {
-  width: 100%;
-
   .el-card__body {
     padding: 0px;
   }

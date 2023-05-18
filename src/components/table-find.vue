@@ -36,11 +36,12 @@ for (let i = 0; i < search.length; i++) {
 
 <style lang="less" scoped>
 .find-item {
-  height: 2rem;
   display: flex;
-  flex-flow: row;
-  align-items: center;
   justify-content: flex-start;
+  align-items: center;
+  height: 2rem;
+  flex-flow: row;
+
   #title {
     font-weight: 600;
     margin: auto 0;

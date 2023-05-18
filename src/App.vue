@@ -8,7 +8,8 @@
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 </script>
 <style lang="less">
-@import './assets/style/theme.less';
+@import url('./assets/style/theme.less');
+
 :root {
   --el-color-primary: @theme-color-primary;
 }
