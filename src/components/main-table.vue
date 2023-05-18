@@ -2,16 +2,21 @@
   <el-card class="main">
     <template #header v-if="props.contain_top">
       <div class="card-header" @click="cancel_select">
-        <div class="operation">
-          <el-button
-            class="op-button"
-            v-for="(item, index) in command"
-            :key="index"
-            @click.stop="emits('handle', index)"
-            >{{ item }}</el-button
-          >
-        </div>
-        <div class="title">{{ props.name }}</div>
+        <el-row>
+          <slot name="top"></slot>
+        </el-row>
+        <el-row class="card-nav">
+          <div class="operation">
+            <el-button
+              class="op-button"
+              v-for="(item, index) in command"
+              :key="index"
+              @click.stop="emits('handle', index)"
+              >{{ item }}</el-button
+            >
+          </div>
+          <div class="title">{{ props.name }}</div>
+        </el-row>
       </div>
     </template>
     <div class="table-area">
@@ -255,13 +260,14 @@ const change_status = (id: string) => {
   box-shadow: none;
 
   .card-header {
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-
     .title {
       font-size: 1.4rem;
       font-family: NAME, sans-serif;
+    }
+    .card-nav {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
     }
   }
 

@@ -1,10 +1,12 @@
 <template>
-  <HeadLine id="view-header" />
-  <router-view id="view-content"></router-view>
-  <div id="view-footer">
-    <bottomMarqueen id="marqueen"></bottomMarqueen>
-    <div id="version">{{ getDate() }} &copy;百连V1.0</div>
-  </div>
+  <el-scrollbar id="scroll-container">
+    <HeadLine id="view-header" />
+    <router-view id="view-content"></router-view>
+    <div id="view-footer">
+      <bottomMarqueen id="marqueen"></bottomMarqueen>
+      <div id="version">{{ getDate() }} &copy;百连V1.0</div>
+    </div>
+  </el-scrollbar>
 </template>
 
 <script setup lang="ts">
@@ -20,30 +22,34 @@ const getDate = () => {
 </script>
 
 <style lang="less">
-#view-header {
-  overflow: hidden;
-  max-height: 6rem !important;
-}
-
-#view-footer {
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-
-  #marqueen {
+#scroll-container {
+  height: 100vh;
+  width: 100vw;
+  #view-header {
     overflow: hidden;
-    margin-top: 2rem;
-    margin-inline: 1rem;
-    width: calc(100vw - 16rem);
-    height: 2rem;
-    max-height: 3rem !important;
+    max-height: 6rem !important;
   }
 
-  #version {
-    margin-top: 2rem;
-    width: 14rem;
-    height: 2rem;
-    text-align: center;
+  #view-footer {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+
+    #marqueen {
+      overflow: hidden;
+      margin-top: 2rem;
+      margin-inline: 1rem;
+      width: calc(100vw - 16rem);
+      height: 2rem;
+      max-height: 3rem !important;
+    }
+
+    #version {
+      margin-top: 2rem;
+      width: 14rem;
+      height: 2rem;
+      text-align: center;
+    }
   }
 }
 </style>

@@ -19,7 +19,6 @@
       mode="horizontal"
       :default-active="activeIndex"
       :router="true"
-      @select="handleSelect"
     >
       <el-menu-item index="1" route="/main/memberManage">人员管理</el-menu-item>
       <el-sub-menu index="2">
@@ -57,51 +56,159 @@
       </el-sub-menu>
       <el-sub-menu index="3">
         <template #title>模板</template>
-        <el-menu-item class="el-submenu-item" index="3-1"
-          >设置公司账套部门</el-menu-item
+        <el-menu-item class="el-submenu-item" index="3-1" route="/main/model"
+          >合同模板</el-menu-item
+        >
+        <el-menu-item class="el-submenu-item" index="3-2" route="/main/model"
+          >提单模板</el-menu-item
+        >
+        <el-menu-item class="el-submenu-item" index="3-3" route="/main/model"
+          >付款申请模板</el-menu-item
+        >
+        <el-menu-item class="el-submenu-item" index="3-4" route="/main/model"
+          >对账单模板</el-menu-item
         >
       </el-sub-menu>
       <el-sub-menu index="4">
         <template #title>贸易</template>
-        <el-menu-item class="el-submenu-item" index="4-1"
-          >设置公司账套部门</el-menu-item
+        <el-menu-item class="el-submenu-item" index="4-1" route="/main/trade"
+          >购销订单录入</el-menu-item
+        >
+        <el-menu-item class="el-submenu-item" index="4-2" route="/main/trade"
+          >合同</el-menu-item
+        >
+        <el-menu-item class="el-submenu-item" index="4-3" route="/main/trade"
+          >采购付款申请</el-menu-item
+        >
+        <el-menu-item class="el-submenu-item" index="4-4" route="/main/trade"
+          >销售收款匹配</el-menu-item
+        >
+        <el-menu-item class="el-submenu-item" index="4-5" route="/main/trade"
+          >余款对账</el-menu-item
+        >
+        <el-menu-item class="el-submenu-item" index="4-6" route="/main/trade"
+          >结余款</el-menu-item
+        >
+        <el-menu-item class="el-submenu-item" index="4-7" route="/main/trade"
+          >发票确认</el-menu-item
         >
       </el-sub-menu>
       <el-sub-menu index="5">
         <template #title>货管</template>
-        <el-menu-item class="el-submenu-item" index="5-1"
-          >设置公司账套部门</el-menu-item
+        <el-menu-item
+          class="el-submenu-item"
+          index="5-1"
+          route="/main/goods-manage"
+          >收货</el-menu-item
+        >
+        <el-menu-item
+          class="el-submenu-item"
+          index="5-2"
+          route="/main/goods-manage"
+          >发货</el-menu-item
+        >
+        <el-menu-item
+          class="el-submenu-item"
+          index="5-3"
+          route="/main/goods-manage"
+          >实数确认</el-menu-item
+        >
+        <el-menu-item
+          class="el-submenu-item"
+          index="5-4"
+          route="/main/goods-manage"
+          >货物变更及对账</el-menu-item
+        >
+        <el-menu-item
+          class="el-submenu-item"
+          index="5-5"
+          route="/main/goods-manage"
+          >进口及对账</el-menu-item
+        >
+        <el-menu-item
+          class="el-submenu-item"
+          index="5-6"
+          route="/main/goods-manage"
+          >仓储费及对账</el-menu-item
+        >
+        <el-menu-item
+          class="el-submenu-item"
+          index="5-7"
+          route="/main/goods-manage"
+          >对账单付款申请</el-menu-item
         >
       </el-sub-menu>
       <el-sub-menu index="6">
         <template #title>库管</template>
-        <el-menu-item class="el-submenu-item" index="6-1"
-          >设置公司账套部门</el-menu-item
-        >
+        <el-menu-item
+          class="el-submenu-item"
+          index="6-1"
+          route="/main/storehouse-manage"
+          >入库
+        </el-menu-item>
+        <el-menu-item
+          class="el-submenu-item"
+          index="6-2"
+          route="/main/storehouse-manage"
+          >出库
+        </el-menu-item>
       </el-sub-menu>
       <el-sub-menu index="7">
         <template #title>财务</template>
-        <el-menu-item class="el-submenu-item" index="7-1"
-          >设置公司账套部门</el-menu-item
+        <el-menu-item class="el-submenu-item" index="7-1" route="/main/finance"
+          >付款</el-menu-item
+        >
+        <el-menu-item class="el-submenu-item" index="7-2" route="/main/finance"
+          >收款</el-menu-item
         >
       </el-sub-menu>
       <el-sub-menu index="8">
         <template #title>期贷</template>
-        <el-menu-item class="el-submenu-item" index="8-1"
-          >设置公司账套部门</el-menu-item
+        <el-menu-item class="el-submenu-item" index="8-1" route="/main/futures"
+          >保值录入（V1.1）</el-menu-item
         >
       </el-sub-menu>
       <el-sub-menu index="9">
         <template #title>统计报表</template>
-        <el-menu-item class="el-submenu-item" index="9-1"
-          >设置公司账套部门</el-menu-item
+        <el-menu-item
+          class="el-submenu-item"
+          index="9-1"
+          route="/main/statistics"
+          >现货盈亏</el-menu-item
+        >
+        <el-menu-item
+          class="el-submenu-item"
+          index="9-2"
+          route="/main/statistics"
+          >期现盈亏</el-menu-item
+        >
+        <el-menu-item
+          class="el-submenu-item"
+          index="9-3"
+          route="/main/statistics"
+          >现货资金</el-menu-item
+        >
+        <el-menu-item
+          class="el-submenu-item"
+          index="9-4"
+          route="/main/statistics"
+          >现货开票统计</el-menu-item
+        >
+        <el-menu-item
+          class="el-submenu-item"
+          index="9-5"
+          route="/main/statistics"
+          >现货库存明细</el-menu-item
         >
       </el-sub-menu>
       <el-sub-menu index="10">
         <template #title>监控</template>
-        <el-menu-item class="el-submenu-item" index="10-1"
-          >设置公司账套部门</el-menu-item
-        >
+        <el-menu-item class="el-submenu-item" index="10-1" route="/main/spy"
+          >现货合同
+        </el-menu-item>
+        <el-menu-item class="el-submenu-item" index="10-2" route="/main/spy"
+          >现货交易
+        </el-menu-item>
       </el-sub-menu>
     </el-menu>
   </el-header>
@@ -119,11 +226,6 @@ const router = useRouter()
 let username = ref('')
 let role = ref('')
 
-const handleSelect = (index: string) => {
-  if (index.indexOf('-') > -1) {
-    index = index.split('-')[0]
-  }
-}
 const logout = () => {
   basicLogout()
   localStorage.removeItem('username')
