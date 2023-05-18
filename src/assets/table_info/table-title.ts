@@ -508,3 +508,31 @@ export const MenusInfo = [
     fold: false
   }
 ]
+
+export const ModelInfo = [
+  {
+    label: '贸易类型',
+    prop: 'm1',
+    fold: false
+  },
+  {
+    label: '订单模式',
+    prop: 'm2',
+    fold: false
+  },
+  {
+    label: '交收方式',
+    prop: 'm3',
+    fold: false
+  },
+  {
+    label: '购销方向',
+    prop: 'm4',
+    fold: false
+  },
+  {
+    label: '印花税率',
+    prop: 'm5',
+    fold: false
+  }
+]

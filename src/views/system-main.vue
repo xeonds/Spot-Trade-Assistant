@@ -23,8 +23,9 @@ const getDate = () => {
 
 <style lang="less">
 #scroll-container {
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
+
   #view-header {
     overflow: hidden;
     max-height: 6rem !important;
