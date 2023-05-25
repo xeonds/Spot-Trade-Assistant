@@ -9,6 +9,7 @@
       :property="property"
       @handle="handle"
       name="采购贸易记录"
+      id="goods1"
       :label="label"
     ></Table>
   </div>
@@ -25,6 +26,7 @@
       name="现货收货记录"
       :label="label1"
       :haveslot="true"
+      id="goods2"
     >
       <template #tr_extend>
         <div style="height: 1.5vh">
@@ -49,6 +51,7 @@
           name="货物批次"
           :label="label2"
           :haveslot="true"
+          id="goods3"
         >
           <template #tr_extend>
             <div style="height: 1.5vh">
@@ -70,6 +73,7 @@
           @handle="handle3"
           name="在途信息"
           :label="label3"
+          id="goods4"
         ></Table>
       </div>
     </div>

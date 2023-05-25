@@ -22,22 +22,6 @@
             placeholder="请输入密码"
           ></el-input>
         </el-form-item>
-        <el-form-item label="验证码" prop="verify">
-          <el-row :gutter="20">
-            <el-col :span="12" :offset="0">
-              <el-input
-                v-model="formEl.verify"
-                placeholder="请输入验证码"
-              ></el-input
-            ></el-col>
-            <el-col :span="12" :offset="0">
-              <sIdentify
-                :identifyCode="codeofverify"
-                @click="changeCode"
-              ></sIdentify>
-            </el-col>
-          </el-row>
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit(form)" :loading="isloading"
             >登录</el-button
@@ -58,43 +42,14 @@ const router = useRouter()
 const form = ref()
 let formEl = reactive({
   username: '',
-  password: '',
-  verify: ''
+  password: ''
 })
 let isloading = ref(false)
 let codes = '1234567890'
 
-// 生成验证码
-const gencode = () => {
-  let code = ''
-  for (let i = 0; i < 4; i++) {
-    let index = Math.floor(Math.random() * codes.length)
-    code += codes.slice(index, index + 1)
-  }
-  return code
-}
-
-// 验证码
-let codeofverify = ref(gencode())
-const changeCode = () => {
-  codeofverify.value = gencode()
-}
-
-const checkCode = (rule: any, value: any, callback: any) => {
-  if (value !== codeofverify.value) {
-    callback(new Error('请输入正确验证码'))
-  } else {
-    callback()
-  }
-}
-
 const rules = reactive({
   username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-  verify: [
-    { required: true, message: '请输入验证码', trigger: 'blur' },
-    { validator: checkCode, trigger: 'blur' }
-  ]
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 })
 
 const onSubmit = async (form: any) => {

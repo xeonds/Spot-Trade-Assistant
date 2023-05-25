@@ -163,7 +163,6 @@ const cancel_select = () => {
 }
 
 let props = defineProps([
-  'contain_command',
   'command',
   'name',
   'color',

@@ -10,6 +10,7 @@
       @handle="handle"
       name="合同模板"
       color="#e7e6e6"
+      id="finance1"
     ></Table>
   </div>
 </template>
