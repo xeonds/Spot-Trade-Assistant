@@ -53,7 +53,17 @@ export default createRouter({
         },
         {
           path: 'spy',
-          component: () => import('../views/table/table-spy.vue')
+          component: () => import('../views/table/table-spy.vue'),
+          children: [
+            {
+              path: 'trade',
+              component: () => import('../views/table/table-spy-trade.vue'),
+            },
+            {
+              path: 'deal',
+              component: () => import('../views/table/table-spy-deal.vue'),
+            }
+          ]
         },
         {
           path: 'memberManage',

@@ -203,10 +203,10 @@
       </el-sub-menu>
       <el-sub-menu index="10">
         <template #title>监控</template>
-        <el-menu-item class="el-submenu-item" index="10-1" route="/main/spy"
+        <el-menu-item class="el-submenu-item" index="10-1" route="/main/spy/deal"
           >现货合同
         </el-menu-item>
-        <el-menu-item class="el-submenu-item" index="10-2" route="/main/spy"
+        <el-menu-item class="el-submenu-item" index="10-2" route="/main/spy/trade"
           >现货交易
         </el-menu-item>
       </el-sub-menu>
