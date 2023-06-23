@@ -536,3 +536,215 @@ export const ModelInfo = [
     fold: false
   }
 ]
+
+export const TradeInfo = [
+  {
+    label: '购销日期',
+    prop: 'date',
+    fold: false
+  },
+  {
+    label: '本公司账套',
+    prop: 'ledger',
+    fold: false
+  },
+  {
+    label: '本公司部门',
+    prop: 'ourDept',
+    fold: false
+  },
+  {
+    label: '贸易商公司',
+    prop: 'company',
+    fold: false
+  },
+  {
+    label: '贸易商部门',
+    prop: 'companyDept',
+    fold: false
+  },
+  {
+    label: '购/销',
+    prop: 'ps',
+    fold: false
+  },
+  {
+    label: '品种',
+    prop: 'variety',
+    fold: false
+  },
+  {
+    label: '规格',
+    prop: 'grade',
+    fold: false
+  },
+  {
+    label: '品牌',
+    prop: 'trademark',
+    fold: false
+  },
+  {
+    label: '订单数量',
+    prop: 'realQty',
+    fold: false
+  },
+  {
+    label: '数量单位',
+    prop: 'meter',
+    fold: false
+  },
+  {
+    label: '订单价格',
+    prop: 'atPrice',
+    fold: false
+  },
+  {
+    label: '订单币种',
+    prop: 'currency',
+    fold: false
+  },
+  {
+    label: '贸易类型',
+    prop: 'type',
+    fold: false
+  },
+  {
+    label: '订单模式',
+    prop: 'order',
+    fold: false
+  },
+  {
+    label: '交货方式',
+    prop: 'deliver',
+    fold: false
+  }
+]
+
+export const PositionInfo = [
+  { prop: 'date', label: '采购日期', fold: false },
+
+  {
+    prop: 'ledger',
+    label: '账套',
+    fold: false
+  },
+
+  {
+    prop: 'ourdept',
+
+    label: '业务部门',
+    fold: false
+  },
+
+  {
+    prop: 'company',
+
+    label: '贸易商',
+    fold: false
+  },
+
+  {
+    prop: 'variety',
+
+    label: '品种',
+    fold: false
+  },
+
+  {
+    prop: 'grade',
+
+    label: '规格',
+    fold: false
+  },
+
+  {
+    prop: 'trademark',
+
+    label: '品牌',
+    fold: false
+  },
+
+  {
+    prop: 'oi',
+
+    label: '持仓量',
+    fold: false
+  },
+
+  {
+    prop: 'meter',
+
+    label: '数量单位',
+    fold: false
+  },
+
+  {
+    prop: 'costPrice',
+
+    label: '成本价',
+    fold: false
+  },
+
+  {
+    prop: 'sprice',
+
+    label: '币种结算价',
+    fold: false
+  },
+
+  { prop: 'currency', label: '币种', fold: false },
+
+  {
+    prop: 'type',
+
+    label: '贸易类型',
+    fold: false
+  },
+
+  {
+    prop: 'order',
+
+    label: '订单模式',
+    fold: false
+  },
+
+  {
+    prop: 'deliver',
+
+    label: '交货方式',
+    fold: false
+  },
+
+  { prop: 'fpl', label: '现货浮动盈亏', fold: false }
+]
+
+export const Tcost = [
+  {
+    prop: 'lsprice',
+    label: '进出口结算价',
+    fold: false
+  },
+
+  {
+    prop: 'positionCur',
+    label: '币种',
+    fold: false
+  },
+
+  {
+    prop: 'exrate',
+    label: '参考汇率',
+    fold: false
+  },
+  {
+    prop: 'lcprice',
+    label: '参考成本',
+    fold: false
+  },
+
+  {
+    prop: 'fpl',
+    label: '浮盈',
+    fold: false
+  }
+] 

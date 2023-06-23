@@ -12,6 +12,7 @@
       name="现货收货记录"
       :label="label"
       :haveslot="true"
+      id="storehouse1"
     >
       <template #tr_extend>
         <button>查看</button>
@@ -31,6 +32,7 @@
           @handle="handle1"
           name="货物批次"
           :label="label1"
+          id="storehouse2"
         >
           <template #tr_extend>
             <div>
@@ -52,6 +54,7 @@
           @handle="handle2"
           name="输信息"
           :label="label2"
+          id="storehouse3"
         ></Table>
       </div>
     </div>
@@ -69,6 +72,7 @@
       name="入库记录"
       :label="label3"
       :haveslot="true"
+      id="storehouse4"
     >
       <template #tr_extend>
         <button style="margin-left: 1vw; font-size: 0.7vw">上传</button>
@@ -86,6 +90,7 @@
       :command="command4"
       @handle="handle4"
       name="销售贸易记录"
+      id="storehouse5"
       :label="label4"
     ></Table>
   </div>
@@ -99,6 +104,7 @@
       @handle="handle5"
       name="可售库存"
       :label="label5"
+      id="storehouse6"
     ></Table>
   </div>
   <div class="table-area">
@@ -113,6 +119,7 @@
       @handle="handle6"
       name="出库记录"
       :label="label6"
+      id="storehouse7"
     ></Table>
   </div>
 </template>

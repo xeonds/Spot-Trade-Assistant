@@ -71,25 +71,25 @@
       </el-sub-menu>
       <el-sub-menu index="4">
         <template #title>贸易</template>
-        <el-menu-item class="el-submenu-item" index="4-1" route="/main/trade"
+        <el-menu-item class="el-submenu-item" index="4-1" route="/main/trade/1"
           >购销订单录入</el-menu-item
         >
-        <el-menu-item class="el-submenu-item" index="4-2" route="/main/trade"
+        <el-menu-item class="el-submenu-item" index="4-2" route="/main/trade/2"
           >合同</el-menu-item
         >
-        <el-menu-item class="el-submenu-item" index="4-3" route="/main/trade"
+        <el-menu-item class="el-submenu-item" index="4-3" route="/main/trade/3"
           >采购付款申请</el-menu-item
         >
-        <el-menu-item class="el-submenu-item" index="4-4" route="/main/trade"
+        <el-menu-item class="el-submenu-item" index="4-4" route="/main/trade/4"
           >销售收款匹配</el-menu-item
         >
-        <el-menu-item class="el-submenu-item" index="4-5" route="/main/trade"
+        <el-menu-item class="el-submenu-item" index="4-5" route="/main/trade/5"
           >余款对账</el-menu-item
         >
-        <el-menu-item class="el-submenu-item" index="4-6" route="/main/trade"
+        <el-menu-item class="el-submenu-item" index="4-6" route="/main/trade/6"
           >结余款</el-menu-item
         >
-        <el-menu-item class="el-submenu-item" index="4-7" route="/main/trade"
+        <el-menu-item class="el-submenu-item" index="4-7" route="/main/trade/7"
           >发票确认</el-menu-item
         >
       </el-sub-menu>
