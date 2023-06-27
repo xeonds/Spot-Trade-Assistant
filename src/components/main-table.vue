@@ -39,7 +39,7 @@
           "
         @row-click="(row: any, col: any) => emits('click_row', row, col)"
         ref="main"
-        :row-style="{ height: '2.7vh' }"
+        :row-style="{ height: '1.7vh' }"
         :header-cell-style="{
           'border-right': '0.2px solid #000',
           'border-bottom': '0.2px solid #000',

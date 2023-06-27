@@ -40,6 +40,7 @@ declare module '@vue/runtime-core' {
     HeadLine: typeof import('./src/components/head-line.vue')['default']
     MainTable: typeof import('./src/components/main-table.vue')['default']
     ModifyTable: typeof import('./src/components/modify-table.vue')['default']
+    ModifyTable2: typeof import('./src/components/modify-table2.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SIdentify: typeof import('./src/components/sIdentify.vue')['default']

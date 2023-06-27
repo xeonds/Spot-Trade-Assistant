@@ -1,107 +1,75 @@
 <template>
+  <!-- 右键弹出框 -->
+  <ul
+    v-show="visible"
+    :style="{ left: left + 'px', top: top + 'px' }"
+    class="contextmenu"
+  >
+    <li @click="handleDelete()">删除</li>
+    <li @click="handleFresh()">刷新</li>
+    <li @click="handleUpdate()">编辑</li>
+  </ul>
+
   <div v-if="route.params.id === '1'">
     <div class="table-area">
       <TableFind :search_item="search_item"></TableFind>
-      <Table
-        :contain_command="true"
-        :contain_top="true"
-        :table_data="data"
-        :property="property"
+      <Modify_table
+        :data="data"
         :command="command"
-        @handle="handle"
         name="贸易记录"
         id="trade1"
         :col="table_col.TradeInfo"
-      ></Table>
+        @handle="handle"
+        @menu="menu"
+      ></Modify_table>
     </div>
     <div class="table-area">
       <TableFind :search_item="search_item"></TableFind>
       <div class="double-table">
         <div class="left">
-          <Table
-            :contain_command="true"
-            :contain_top="true"
-            :table_data="data1"
-            :property="property1"
+          <Modify_table
+            :data="data1"
             :command="command1"
-            @handle="handle1"
             name="现货持仓"
-            :label="label1"
             id="trade2"
             :col="table_col.PositionInfo"
-          ></Table>
+            @handle="handle1"
+            @menu="menu"
+          ></Modify_table>
         </div>
 
         <div class="space"></div>
         <div class="right">
-          <Table
-            :contain_command="true"
-            :contain_top="true"
-            :table_data="data2"
-            :property="property2"
+          <Modify_table
+            :data="data2"
             :command="command2"
-            @handle="handle2"
-            name="进口成本参考"
-            :label="label2"
-            id="trade3"
+            name="现货持仓"
+            id="trade2"
             :col="table_col.Tcost"
-          ></Table>
+            @handle="handle2"
+            @menu="menu"
+          ></Modify_table>
         </div>
       </div>
-    </div>
-  </div>
-  <div v-if="route.params.id === '2'">
-    <div class="table-area">
-      <TableFind :search_item="search_item"></TableFind>
-      <Table
-        :contain_command="true"
-        :contain_top="true"
-        :table_data="data"
-        :property="property"
-        :command="command"
-        @handle="handle"
-        name="购销记录"
-        id="trade1"
-        :col="table_col.TradeInfo"
-      ></Table>
-    </div>
-    <div class="table-area">
-      <TableFind :search_item="search_item"></TableFind>
-      <Table
-        :contain_command="true"
-        :contain_top="true"
-        :table_data="data"
-        :property="property"
-        :command="command"
-        @handle="handle"
-        name="购销合同"
-        id="trade2"
-        :col="table_col.TradeInfo"
-      ></Table>
-    </div>
-    <div class="table-area">
-      <TableFind :search_item="search_item"></TableFind>
-      <Table
-        :contain_command="true"
-        :contain_top="true"
-        :table_data="data"
-        :property="property"
-        :command="command"
-        @handle="handle"
-        name="印花税付款申请"
-        id="trade3"
-        :col="table_col.TradeInfo"
-      ></Table>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import Table from '../../components/main-table.vue'
+import Modify_table from '../../components/modify-table2.vue'
 import TableFind from '../../components/table-find.vue'
 import * as table_col from '../../assets/table_info/table-title'
 import { useRoute } from 'vue-router'
 const route = useRoute()
+
+let left = ref()
+let right = ref()
+const menu = (name, row, col) => {
+  console.log(name)
+  console.log(row)
+  console.log(col)
+}
 
 let data = reactive([
   {
@@ -137,6 +105,7 @@ let data = reactive([
     test34: 'fdas'
   }
 ])
+
 let search_item = reactive([
   '日期',
   '账套',

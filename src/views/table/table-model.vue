@@ -112,6 +112,7 @@ const handle = (a: number) => {
 .table-find {
   margin-bottom: 20px;
 }
+
 .table-op-group {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;

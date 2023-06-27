@@ -5,12 +5,12 @@
     <el-form
       style="
         display: flex;
-        width: 90vw;
         justify-content: space-around;
         align-items: center;
+        width: 90vw;
       "
     >
-      <el-scrollbar style="height: 4rem; width: 70vw">
+      <el-scrollbar style=" width: 70vw;height: 4rem">
         <div
           style="
             display: flex;
@@ -54,6 +54,8 @@ for (let i = 0; i < search.length; i++) {
 }
 
 const submit = () => {
+  console.log(search_form);
+  
   emits('submit', search_form)
 }
 </script>
@@ -63,9 +65,10 @@ const submit = () => {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 1.5vh;
   height: 2rem;
   flex-flow: row;
-  margin-bottom: 1.5vh;
+
   #title {
     font-weight: 600;
     margin: auto 0;
