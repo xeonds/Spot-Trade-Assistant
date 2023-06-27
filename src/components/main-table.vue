@@ -138,14 +138,15 @@
         <slot name="table-extend-end"></slot>
         <!-- 状态表 -->
 
-
-        <AFTableColumn :resizable="false" :label="props.contain_extend" v-if="props.contain_extend">
+        <AFTableColumn
+          :resizable="false"
+          :label="props.contain_extend"
+          v-if="props.contain_extend"
+        >
           <template #default="scope">
             <slot name="table-extend-end2" v-bind:row="scope"></slot>
           </template>
         </AFTableColumn>
-
-
       </el-table>
     </div>
   </el-card>
@@ -155,7 +156,6 @@
 import { reactive, onMounted } from 'vue'
 import Sortable from 'sortablejs'
 import AFTableColumn from './AFTableColumn.vue'
-
 
 let main = ref()
 let emits = defineEmits([

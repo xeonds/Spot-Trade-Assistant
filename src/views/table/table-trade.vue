@@ -300,9 +300,15 @@ const menu = (name, row, col, event) => {
   visible.value = true
 }
 
-const handleUpdate = () => {}
-const handleFresh = () => {}
-const handleDelete = () => {}
+const handleUpdate = () => {
+  console.log(1)
+}
+const handleFresh = () => {
+  console.log(2)
+}
+const handleDelete = () => {
+  console.log(3)
+}
 
 let data = reactive([
   {
