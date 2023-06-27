@@ -21,7 +21,7 @@
     <template #table-extend-start> </template>
     <template #table-extend-end>
       <el-table-column label="操作" width="240" align="center">
-        <template #default="">
+        <template>
           <div class="table-op-group">
             <el-button>上传</el-button>
             <el-button>查看</el-button>
@@ -53,5 +53,3 @@ const menu = (row: any, col: any, event: any) => {
   emits('menu', props.name, row, col)
 }
 </script>
-
-<style lang="less"></style>
