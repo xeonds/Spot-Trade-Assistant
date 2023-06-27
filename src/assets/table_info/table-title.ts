@@ -748,3 +748,921 @@ export const Tcost = [
     fold: false
   }
 ]
+
+export const Gouxiaojilu = [
+  {
+    prop: 'fpl',
+    label: '交易日期',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '合同生成状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '账套',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '业务部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '购/销',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '品种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '规格',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '品牌',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '订单数量',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '数量单位',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '订单价格',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '订单币种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '成交金额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易类型',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '订单模式',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '交货方式',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '订单号',
+    fold: false
+  }
+]
+
+export const Gouxiaohetong = [
+  {
+    prop: 'fpl',
+    label: '合同日期',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '归档状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '签订状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '付款申请状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '账套',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '业务部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '购/销',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '合同金额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '印花税',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '实付印花税',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '币种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '合同号',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '备注',
+    fold: false
+  }
+]
+
+export const Yinhuashui = [
+  {
+    prop: 'fpl',
+    label: '申请日期',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '付款状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '款项',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '款项类别',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '账套',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '业务部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '税务机关',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '对方银行名称',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '对方银行账号',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '申请金额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '币种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '付款申请单号',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '备注',
+    fold: false
+  }
+]
+
+export const Caigoujilu = [
+  {
+    prop: 'fpl',
+    label: '交易日期',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '申请状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '签订状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '账套',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '业务部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '品种',
+    fold: false
+  },
+
+  {
+    prop: 'fpl',
+    label: '品牌',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '数量',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '数量单位',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '价格',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '币种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '成交金额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '实付金额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易类型',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '订单模式',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '交货方式',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '交货方式',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '合同号',
+    fold: false
+  }
+]
+
+export const Caigoufukuan = [
+  {
+    prop: 'fpl',
+    label: '申请日期',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '付款状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '账套',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '业务部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '款项',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '款项类别',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '对方银行名称',
+    fold: false
+  },
+
+  {
+    prop: 'fpl',
+    label: '对方银行账号',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '申请金额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '币种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '付款申请单号',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '备注',
+    fold: false
+  }
+]
+
+export const Xiaoshoujilu = [
+  {
+    prop: 'fpl',
+    label: '交易日期',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '收款状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '账套',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '业务部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '品种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '规格',
+    fold: false
+  },
+
+  {
+    prop: 'fpl',
+    label: '品牌',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '数量',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '数量单位',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '价格',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '成交金额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '实收金额',
+    fold: false
+  },
+
+  {
+    prop: 'fpl',
+    label: '币种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易类型',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易类型',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易类型',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '订单号',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '合同号',
+    fold: false
+  }
+]
+
+export const Gouxiaoyukuan = [
+  {
+    prop: 'fpl',
+    label: '交易日期',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '对账状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '账套',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '业务部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '品种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '规格',
+    fold: false
+  },
+
+  {
+    prop: 'fpl',
+    label: '品牌',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '订单数',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '实数',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '单位',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '原价格',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '最终价',
+    fold: false
+  },
+
+  {
+    prop: 'fpl',
+    label: '成交金额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '应结余额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '实结余额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '币种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '订单号',
+    fold: false
+  }
+]
+
+export const Yukuanduizhang = [
+  {
+    prop: 'fpl',
+    label: '对账日期',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '结算状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '收/付方向',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '账套',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '业务部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '应结总额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '实结金额',
+    fold: false
+  },
+
+  {
+    prop: 'fpl',
+    label: '币种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '对账单号',
+    fold: false
+  }
+]
+
+export const Yukuanfukuan = [
+  {
+    prop: 'fpl',
+    label: '申请日期',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '付款状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '账套',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '业务部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商银行名称',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商银行账号',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '款项',
+    fold: false
+  },
+
+  {
+    prop: 'fpl',
+    label: '款项类别',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '申请金额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '币种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '付款申请单号',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '备注',
+    fold: false
+  }
+]
+
+export const Shoukuanjilu = [
+  {
+    prop: 'fpl',
+    label: '收款日期',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '匹配日期',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '匹配状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '账套',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '业务部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '本公司开户行',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '本公司银行账号',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商',
+    fold: false
+  },
+
+  {
+    prop: 'fpl',
+    label: '贸易商开户银行',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商银行账号',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '收款金额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '匹配金额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '币种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '银行回单号',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '收款确认单号',
+    fold: false
+  }
+]
+
+export const Maoyijilu = [
+  {
+    prop: 'fpl',
+    label: '确认日期',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '交易日期',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '发票状态',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '账套',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '业务部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商部门',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '品种',
+    fold: false
+  },
+
+  {
+    prop: 'fpl',
+    label: '规格',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '品牌',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '数量',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '单位',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '含税价',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '不含税价',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '币种',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '税额',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '价税合计',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '贸易类型',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '订单模式',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '交货方式',
+    fold: false
+  },
+  {
+    prop: 'fpl',
+    label: '备注',
+    fold: false
+  }
+]

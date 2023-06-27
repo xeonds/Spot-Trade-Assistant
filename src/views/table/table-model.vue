@@ -24,7 +24,7 @@
       </template>
       <template #table-extend-end>
         <el-table-column label="操作" width="240" align="center">
-          <template>
+          <template #default="">
             <div class="table-op-group">
               <el-button>上传</el-button>
               <el-button>查看</el-button>
