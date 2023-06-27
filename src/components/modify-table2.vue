@@ -39,9 +39,6 @@ const emits = defineEmits(['menu', 'handle'])
  */
 
 const props = defineProps(['id', 'col', 'name', 'data', 'command', 'extend'])
-const test = (scpoe) => {
-  console.log(scpoe)
-}
 const menu = (row: any, col: any, event: any) => {
   event.preventDefault()
   emits('menu', props.name, row, col, event)

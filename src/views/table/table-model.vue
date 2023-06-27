@@ -9,7 +9,6 @@
       :contain_command="true"
       :command="command"
       :name="'模板'"
-      @click_row="console.log('clicked')"
       :hasfold="false"
       :enable_select="false"
       :height="32"

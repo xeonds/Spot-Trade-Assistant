@@ -177,7 +177,7 @@
         :command="[]"
         name="购销合同"
         id="trade2"
-        :col="table_col.Caigoushenqing"
+        :col="table_col.Gouxiaohetong"
         @handle="handle"
         @menu="menu"
       >
@@ -270,7 +270,7 @@ import * as table_col from '../../assets/table_info/table-title'
 import { useRoute } from 'vue-router'
 const route = useRoute()
 
-const test = (a) => {
+const test = (a: any) => {
   console.log(a)
 }
 
@@ -292,7 +292,7 @@ watch(visible, (value) => {
   }
 })
 
-const menu = (name, row, col, event) => {
+const menu = (name: any, row: any, col: any, event: any) => {
   mfrow.value = row
   mfproperty.value = col.property
   left.value = event.pageX
