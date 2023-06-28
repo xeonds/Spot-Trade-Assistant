@@ -537,6 +537,104 @@ export const ModelInfo = [
   }
 ]
 
+export const FutureInfo = [
+  {
+    label: '成交日期',
+    prop: 'f1',
+    fold: false
+  },
+  {
+    label: '保值类型',
+    prop: 'f2',
+    fold: false
+  },
+  {
+    label: '账套',
+    prop: 'f3',
+    fold: false
+  },
+  {
+    label: '业务部门',
+    prop: 'f4',
+    fold: false
+  },
+  {
+    label: '期贷公司',
+    prop: 'f5',
+    fold: false
+  },
+  {
+    label: '期贷合约',
+    prop: 'f6',
+    fold: false
+  },
+  {
+    label: '开/平仓',
+    prop: 'f7',
+    fold: false
+  },
+  {
+    label: '买/卖',
+    prop: 'f8',
+    fold: false
+  },
+  {
+    label: '品种',
+    prop: 'f9',
+    fold: false
+  },
+  {
+    label: '规格',
+    prop: 'f10',
+    fold: false
+  },
+  {
+    label: '手数',
+    prop: 'f11',
+    fold: false
+  },
+  {
+    label: '每手数量',
+    prop: 'f12',
+    fold: false
+  },
+  {
+    label: '单位',
+    prop: 'f13',
+    fold: false
+  },
+  {
+    label: '加权价',
+    prop: 'f14',
+    fold: false
+  },
+  {
+    label: '平仓盈亏',
+    prop: 'f15',
+    fold: false
+  },
+  {
+    label: '币种',
+    prop: 'f16',
+    fold: false
+  },
+  {
+    label: '头寸号',
+    prop: 'f17',
+    fold: false
+  },
+  {
+    label: '交易单号',
+    prop: 'f18',
+    fold: false
+  },
+  {
+    label: '备注',
+    prop: 'f19',
+    fold: false
+  }
+]
+
 export const TradeInfo = [
   {
     label: '购销日期',
