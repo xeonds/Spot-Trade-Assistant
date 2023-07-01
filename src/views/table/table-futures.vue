@@ -2,13 +2,31 @@
   <div class="model">
     <Table
       class="model-box"
-      id="table-future"
+      id="table-future-1"
       :col="table_col.FutureInfo"
       :table_data="data"
       :contain_top="true"
       :contain_command="true"
       :command="command"
       :name="'保值成交记录'"
+      @click_row="handle"
+      :hasfold="false"
+      :enable_select="false"
+      :height="32"
+    >
+      <template #top>
+        <TableFind :search_item="search_item" class="table-find"></TableFind>
+      </template>
+    </Table>
+    <Table
+      class="model-box"
+      id="table-future-2"
+      :col="table_col.FutureInfo2"
+      :table_data="data"
+      :contain_top="true"
+      :contain_command="true"
+      :command="command2"
+      :name="'保值头寸'"
       @click_row="handle"
       :hasfold="false"
       :enable_select="false"
@@ -104,6 +122,7 @@ let search_item = reactive([
   '头寸号'
 ])
 let command = reactive(['保值开仓'])
+let command2 = reactive(['保值平仓', '期贷结算价', '导出'])
 
 const handle = (a: number) => {
   console.log(a)
