@@ -6,10 +6,17 @@
         <el-popover placement="bottom" trigger="click">
           <template #reference>
             <el-link class="link-item"
-              >欢迎，{{ username }}，{{ role }}</el-link
+              >欢迎，{{ username }}【{{ role }}】</el-link
             >
           </template>
-          <el-button class="pop-menu-button" @click="logout">登出</el-button>
+          <el-row>
+            <el-button class="pop-menu-button" @click="user_info"
+              >个人信息</el-button
+            >
+          </el-row>
+          <el-row>
+            <el-button class="pop-menu-button" @click="logout">登出</el-button>
+          </el-row>
         </el-popover>
         <el-link class="link-item">撤单通知</el-link>
       </div>
@@ -231,6 +238,10 @@ const logout = () => {
   localStorage.removeItem('username')
   localStorage.removeItem('token')
   router.replace('/login')
+}
+
+const user_info = () => {
+  router.push('/user')
 }
 
 if (user) {
