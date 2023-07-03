@@ -174,9 +174,9 @@
           <el-button @click="comfirm = false" class="cancel" style="width: 6vw">
             取消
           </el-button>
-          <button @click="deletebyid" class="comfirm" style="width: 6vw">
+          <el-button @click="deletebyid" class="comfirm" style="width: 6vw">
             确定
-          </button>
+          </el-button>
         </span>
       </template>
     </el-dialog>

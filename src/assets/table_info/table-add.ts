@@ -570,3 +570,96 @@ export const MenusInfo = [
     type: 'string'
   }
 ]
+
+export const Gouxiaojilu = [
+  {
+    prop: 'fpl',
+    label: '交易日期',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '合同生成状态',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '账套',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '业务部门',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '贸易商',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '购/销',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '品种',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '规格',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '品牌',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '订单数量',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '数量单位',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '订单价格',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '订单币种',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '成交金额',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '贸易类型',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '订单模式',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '交货方式',
+    type: 'string'
+  },
+  {
+    prop: 'fpl',
+    label: '订单号',
+    type: 'string'
+  }
+]

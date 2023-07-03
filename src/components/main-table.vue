@@ -38,6 +38,7 @@
         }
           "
         @row-click="(row: any, col: any) => emits('click_row', row, col)"
+        @selection-change="handleSelectionChange"
         ref="main"
         :row-style="{ height: '3vh' }"
         :header-cell-style="{
@@ -56,6 +57,7 @@
         }"
       >
         <slot name="table-extend-start"></slot>
+        <el-table-column v-if="props.selectable" type="selection" width="55" />
         <!-- 折叠显示列 -->
         <AFTableColumn type="expand" v-if="props.hasfold" :resizable="false">
           <template #default="props">
@@ -138,6 +140,7 @@
         <slot name="table-extend-end"></slot>
         <!-- 状态表 -->
 
+        <!-- 表格尾部按键插槽 -->
         <AFTableColumn
           :resizable="false"
           :label="props.contain_extend"
@@ -145,6 +148,16 @@
         >
           <template #default="scope">
             <slot name="table-extend-end2" v-bind:row="scope"></slot>
+          </template>
+        </AFTableColumn>
+
+        <AFTableColumn
+          :resizable="false"
+          :label="props.contain_extend2"
+          v-if="props.contain_extend2"
+        >
+          <template #default="scope">
+            <slot name="table-extend-end3" v-bind:row="scope"></slot>
           </template>
         </AFTableColumn>
       </el-table>
@@ -163,7 +176,8 @@ let emits = defineEmits([
   'menu',
   'click_row',
   'load',
-  'cancel_select'
+  'cancel_select',
+  'select'
 ])
 
 const cancel_select = () => {
@@ -186,7 +200,9 @@ let props = defineProps([
   'hasfold',
   'enable_select',
   'height',
-  'contain_extend'
+  'contain_extend',
+  'contain_extend2',
+  'selectable'
 ])
 
 interface COL {
@@ -218,20 +234,9 @@ const columnDrop = () => {
   })
 }
 
-//提取折叠列
-// let flod_data: any = reactive({})
-// const get_floddta = () => {
-//   if (props.hasfold) {
-//     for (let index = 0; index < col.length; index++) {
-//       if (col[index].fold) {
-//         flod_data[col[index].label] = {
-//           data: table_data[col[index].prop],
-//           labels: col[index].son_labels
-//         }
-//       }
-//     }
-//   }
-// }
+const handleSelectionChange = (val: any) => {
+  emits('select', val, props.id)
+}
 
 onMounted(() => {
   if (!props.hasfold) {

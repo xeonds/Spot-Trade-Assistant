@@ -9,22 +9,186 @@
     <li @click="handleFresh()">刷新</li>
     <li @click="handleUpdate()">编辑</li>
   </ul>
+  <el-dialog v-model="delete_show" title="删除确认" width="30%" align-center>
+    <span>是否确定要删除本条记录</span>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button
+          @click="delete_show = false"
+          class="cancel"
+          style="width: 6vw"
+        >
+          取消
+        </el-button>
+        <el-button @click="deletebyid" class="comfirm" style="width: 6vw">
+          确定
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
+  <!-- 修改框 -->
+  <el-dialog v-model="update_show" title="修改" width="30%" align-center>
+    <el-form
+      :label-position="top"
+      label-width="100px"
+      :model="updateform"
+      style="max-width: 460px"
+    >
+      <el-form-item label="修改值">
+        <el-input v-model="updateform.value" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button
+          @click="update_show = false"
+          class="cancel"
+          style="width: 6vw"
+        >
+          取消
+        </el-button>
+        <el-button @click="update" class="comfirm" style="width: 6vw"
+          >确定</el-button
+        >
+      </span>
+    </template>
+  </el-dialog>
+
+  <!-- 新增 -->
+  <el-dialog v-model="dialogFormVisible" title="采购">
+    <el-form :model="add_form" style="display: flex; flex-wrap: wrap">
+      <el-form-item
+        :label="item.label"
+        :label-width="150"
+        v-for="item in table_add.Gouxiaojilu"
+        :key="item.label"
+        style="width: 20vw; color: #000"
+        :prop="item.prop"
+      >
+        <el-input
+          v-model="add_form[item.prop]"
+          input-style="color:#000;border-color:#2f5496"
+          v-if="item.type == 'string' || item.type == 'number'"
+        />
+        <el-radio-group
+          v-model="add_form[item.prop]"
+          v-if="item.type == 'select'"
+        >
+          <el-radio
+            v-for="option in item.options"
+            :key="option.label"
+            :label="option.value"
+            >{{ option.label }}</el-radio
+          >
+        </el-radio-group>
+        <el-select
+          v-model="add_form[item.prop]"
+          multiple
+          placeholder="选择"
+          style="width: 240px"
+          v-if="item.type == 'multiselect'"
+        >
+          <el-option
+            v-for="option in multioptions[item.prop]"
+            :key="option.value"
+            :label="option.label"
+            :value="option.value"
+          />
+        </el-select>
+        <el-select
+          v-model="add_form[item.prop]"
+          placeholder="选择"
+          style="width: 240px"
+          v-if="item.type == 'singleselect'"
+        >
+          <el-option
+            v-for="option in singleoptions[item.prop]"
+            :key="option.value"
+            :label="option.label"
+            :value="option.value"
+          />
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button
+          @click="dialogFormVisible = false"
+          class="cancel"
+          style="width: 6vw"
+        >
+          取消
+        </el-button>
+        <el-button @click="modify" class="comfirm" style="width: 6vw">
+          确定
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
+
+  <!-- 现货结算价 -->
+  <el-dialog v-model="dialogFormVisible1" title="现货结算价">
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button
+          @click="dialogFormVisible1 = false"
+          class="cancel"
+          style="width: 6vw"
+        >
+          取消
+        </el-button>
+        <el-button @click="modify1" class="comfirm" style="width: 6vw">
+          确定
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
+
+  <el-dialog v-model="dialogFormVisible2" title="汇率">
+    <el-form
+      :label-position="top"
+      label-width="100px"
+      :model="Huilv"
+      style="max-width: 460px"
+    >
+      <el-form-item label="汇率参考值">
+        <el-input v-model="Huilv.refvalue" />
+      </el-form-item>
+      <el-form-item label="本币结算价">
+        <el-input v-model="Huilv.finalvalue" />
+      </el-form-item>
+    </el-form>
+
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button
+          @click="dialogFormVisible2 = false"
+          class="cancel"
+          style="width: 6vw"
+        >
+          取消
+        </el-button>
+        <el-button @click="modify2" class="comfirm" style="width: 6vw">
+          确定
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 
   <div v-if="route.params.id === '1'">
     <div class="table-area">
       <TableFind :search_item="search_item"></TableFind>
       <Modify_table
         :data="data"
-        :command="command"
+        :command="['采购', '发送完成交易确认']"
         name="贸易记录"
         id="trade1"
         :col="table_col.TradeInfo"
         @handle="handle"
         @menu="menu"
+        @select="select"
+        :selectable="true"
       >
-        <template #default="props">
-          <el-button @click="test(props)"></el-button>
-        </template>
       </Modify_table>
     </div>
     <div class="table-area">
@@ -33,22 +197,31 @@
         <div class="left">
           <Modify_table
             :data="data1"
-            :command="command1"
+            :command="['销售', '现货结算价', '导出']"
             name="现货持仓"
             id="trade2"
             :col="table_col.PositionInfo"
             @handle="handle1"
+            @select="select"
+            :selectable="true"
             @menu="menu"
-          ></Modify_table>
+            extend="操作"
+          >
+            <template #extend2="props">
+              <el-button style="height: 1.2vh" @click="test(props)"
+                >查库存</el-button
+              >
+            </template>
+          </Modify_table>
         </div>
 
         <div class="space"></div>
         <div class="right">
           <Modify_table
             :data="data2"
-            :command="command2"
-            name="现货持仓"
-            id="trade2"
+            :command="['汇率']"
+            name="进出口成本参考"
+            id="trade3"
             :col="table_col.Tcost"
             @handle="handle2"
             @menu="menu"
@@ -82,6 +255,7 @@
         :col="table_col.Gouxiaojilu"
         @handle="handle"
         @menu="menu"
+        :selectable="true"
       >
       </Modify_table>
     </div>
@@ -99,11 +273,11 @@
       ></TableFind>
       <Modify_table
         :data="data"
-        :command="['生成合同']"
+        :command="['印花税付款', '合同归档']"
         name="购销合同"
         id="trade2"
         :col="table_col.Gouxiaohetong"
-        @handle="handle"
+        @handle="handle1"
         @menu="menu"
       >
       </Modify_table>
@@ -121,11 +295,10 @@
       ></TableFind>
       <Modify_table
         :data="data"
-        :command="['生成合同']"
         name="购销记录"
         id="trade3"
         :col="table_col.Yinhuashui"
-        @handle="handle"
+        @handle="handle2"
         @menu="menu"
       >
       </Modify_table>
@@ -268,6 +441,9 @@ import Modify_table from '../../components/modify-table2.vue'
 import TableFind from '../../components/table-find.vue'
 import * as table_col from '../../assets/table_info/table-title'
 import { useRoute } from 'vue-router'
+import * as table_add from '../../assets/table_info/table-add'
+import { ElMessage } from 'element-plus'
+
 const route = useRoute()
 
 const test = (a: any) => {
@@ -299,17 +475,27 @@ const menu = (name: any, row: any, col: any, event: any) => {
   top.value = event.pageY
   visible.value = true
 }
-
+let update_show = ref(false)
+let updateform = reactive({
+  value: ''
+})
 const handleUpdate = () => {
-  console.log(1)
+  updateform.value = ''
+  update_show.value = true
+}
+const update = () => {
+  ElMessage('更新' + updateform.value)
 }
 const handleFresh = () => {
-  console.log(2)
+  ElMessage('刷新')
 }
+let delete_show = ref(false)
 const handleDelete = () => {
-  console.log(3)
+  delete_show.value = true
 }
-
+const deletebyid = () => {
+  ElMessage('删除' + mfrow)
+}
 let data = reactive([
   {
     name: '341134',
@@ -364,58 +550,7 @@ let search_item = reactive([
   '订单模式',
   '交货方式'
 ])
-let label = reactive([
-  '日期',
-  '账套',
-  '业务部门',
-  '贸易商',
-  '贸易商部门',
-  '购/销',
-  '币种',
-  '品种',
-  '规格',
-  '品牌',
-  '数量',
-  '数量单位',
-  '价格',
-  '币种',
-  '贸易类型',
-  '订单模式',
-  '交货方式'
-])
-let property = reactive([
-  'm1',
-  'm2',
-  'm3',
-  'm4',
-  'm5',
-  'm6',
-  'm7',
-  'm8',
-  'm9',
-  'm10',
-  'm11',
-  'm12',
-  'm13',
-  'm14',
-  'm15',
-  'm16',
-  'm17'
-])
-let command = reactive(['采购', '发送完成交易确认'])
 
-let search_item1 = reactive([
-  '采购日期',
-  '张涛',
-  '业务部门',
-  '购/销',
-  '币种',
-  '规格',
-  '品牌',
-  '贸易类型',
-  '订单模式',
-  '交货方式'
-])
 let data1 = reactive([
   {
     name: '341134',
@@ -450,45 +585,6 @@ let data1 = reactive([
     test34: 'fdas'
   }
 ])
-
-let label1 = reactive([
-  '采购日期',
-  '账套',
-  '业务部门',
-  '贸易商',
-  '品种',
-  '规格',
-  '品牌',
-  '持仓量',
-  '数量单位',
-  '成本价',
-  '币种',
-  '贸易类型',
-  '订单模式',
-  '交货方式',
-  '币种结算价',
-  '浮盈'
-])
-
-let property1 = reactive([
-  'm1',
-  'm2',
-  'm3',
-  'm4',
-  'm5',
-  'm6',
-  'm7',
-  'm8',
-  'm9',
-  'm10',
-  'm11',
-  'm12',
-  'm13',
-  'm14',
-  'm15',
-  'm16'
-])
-let command1 = reactive(['销售', '现货结算价', '导出'])
 
 let data2 = reactive([
   {
@@ -525,18 +621,118 @@ let data2 = reactive([
   }
 ])
 
-let label2 = reactive(['参考汇率', '参考成本', '本币结算价', '浮盈'])
-let property2 = reactive(['m1', 'm2', 'm3', 'm4'])
-let command2 = reactive(['汇率'])
+//新增功能
+let dialogFormVisible = ref(false)
+let add_form: any = reactive({})
+const add = () => {
+  // init add form
+  for (let key in add_form) {
+    delete add_form[key]
+  }
+  for (let item in table_add.Gouxiaojilu) {
+    add_form[item.prop] = ''
+  }
+  dialogFormVisible.value = true
+}
+
+const modify = () => {
+  ElMessage({
+    message: '采购',
+    type: 'success'
+  })
+  dialogFormVisible.value = false
+}
+//发送交易确认
+const send = () => {
+  ElMessage({
+    message: '发送交易确认',
+    type: 'success'
+  })
+}
+//现货结算
+let dialogFormVisible1 = ref(false)
+const calculate = () => {
+  dialogFormVisible1.value = true
+}
+
+const modify1 = () => {
+  ElMessage({
+    message: '结算',
+    type: 'success'
+  })
+}
+//现货持仓导出
+const xianhuoexport = () => {
+  ElMessage({
+    message: '导出现货持仓表格',
+    type: 'success'
+  })
+}
+
+//汇率
+let Huilv = reactive({
+  refvalue: '',
+  finalvalue: ''
+})
+let dialogFormVisible2 = ref(false)
+const calfpl = () => {
+  dialogFormVisible2.value = true
+}
+const modify2 = () => {
+  ElMessage({
+    message: '计算fpl',
+    type: 'success'
+  })
+}
+
+// 选取功能
+let select_list: any = ref([])
+let select_list1: any = ref([])
+const select = (val: any, id: string) => {
+  if (id == 'trade') select_list.value = val
+  if (id == 'trade1') select_list1.value = val
+}
 
 const handle = (a: number) => {
-  console.log(a)
+  if (route.params.id == '1') {
+    switch (a) {
+      case 0:
+        add()
+        break
+      case 1:
+        send()
+        console.log(select_list)
+        break
+    }
+  }
 }
 const handle1 = (a: number) => {
-  console.log(a)
+  if (route.params.id == '1') {
+    switch (a) {
+      case 0:
+        ElMessage({
+          message: '销售',
+          type: 'success'
+        })
+        console.log(select_list1)
+        break
+      case 1:
+        calculate()
+        break
+      case 2:
+        xianhuoexport()
+        break
+    }
+  }
 }
 const handle2 = (a: number) => {
-  console.log(a)
+  if (route.params.id == 1) {
+    switch (a) {
+      case 0:
+        calfpl()
+        break
+    }
+  }
 }
 </script>
 
