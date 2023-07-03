@@ -21,7 +21,7 @@
                 src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
               />
               <span class="text-large font-600 mr-3">欢迎，{{ username }}</span>
-              <el-tag>{{ role }}</el-tag>
+              <el-tag style="margin-inline: 1rem">{{ role }}</el-tag>
             </div>
           </template>
           <template #extra>
@@ -59,7 +59,7 @@ let username = ref('')
 let role = ref('')
 
 const onBack = () => {
-  window.history.back()
+  window.location.href = '/main/memberManage'
 }
 
 if (user) {
@@ -112,7 +112,7 @@ if (user) {
     #profile-main {
       background-color: #ffffff;
       box-shadow: 0 0 1rem 0 rgba(136, 152, 170, 0.15);
-      border-top-left-radius: 2px;
+      border-top-left-radius: 0.5rem;
     }
   }
 }
@@ -127,6 +127,7 @@ if (user) {
 }
 .el-menu-item {
   border-radius: 0.5rem;
+  margin-bottom: 20px;
 }
 .is-active {
   background-color: #2d50a1 !important;

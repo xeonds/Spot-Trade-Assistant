@@ -3,7 +3,7 @@
     <HeadLine id="view-header" />
     <router-view id="view-content"></router-view>
     <div id="view-footer">
-      <bottomMarqueen id="marqueen"></bottomMarqueen>
+      <!-- <bottomMarqueen id="marqueen"></bottomMarqueen> -->
       <div id="version">{{ getDate() }} &copy;百连V1.0</div>
     </div>
   </el-scrollbar>
