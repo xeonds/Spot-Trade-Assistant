@@ -5,7 +5,7 @@
         <el-page-header @back="onBack">
           <template #breadcrumb>
             <el-breadcrumb separator="/">
-              <el-breadcrumb-item :to="{ path: '/main/' }">
+              <el-breadcrumb-item :to="{ path: '/main/memberManage' }">
                 主页
               </el-breadcrumb-item>
               <el-breadcrumb-item
@@ -132,5 +132,19 @@ if (user) {
 .is-active {
   background-color: #2d50a1 !important;
   color: #ffffff !important;
+}
+</style>
+
+<style lang="less">
+.row-title {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  .section-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+.row-content {
+  margin-bottom: 20px;
 }
 </style>

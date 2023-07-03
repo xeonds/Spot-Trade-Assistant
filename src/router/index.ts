@@ -71,7 +71,7 @@ export default createRouter({
         },
         {
           path: 'password',
-          component: () => import('../views/user/password.vue')
+          component: () => import('../views/user/password-change.vue')
         }
       ]
     }
