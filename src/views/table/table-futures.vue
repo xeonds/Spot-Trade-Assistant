@@ -12,7 +12,7 @@
       @click_row="handle"
       :hasfold="false"
       :enable_select="false"
-      :height="32"
+      :height="25"
     >
       <template #top>
         <TableFind :search_item="search_item" class="table-find"></TableFind>
@@ -30,7 +30,7 @@
       @click_row="handle"
       :hasfold="false"
       :enable_select="false"
-      :height="32"
+      :height="25"
     >
       <template #top>
         <TableFind :search_item="search_item" class="table-find"></TableFind>

@@ -501,12 +501,12 @@ export const MenusInfo = [
     label: '备注',
     prop: 'remark',
     fold: false
-  },
-  {
-    label: '状态',
-    prop: 'status',
-    fold: false
   }
+  // {
+  //   label: '状态',
+  //   prop: 'status',
+  //   fold: false
+  // }
 ]
 
 export const ModelInfo = [
