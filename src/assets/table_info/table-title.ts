@@ -444,10 +444,10 @@ export const UserInfo = [
     prop: 'roles',
     fold: true,
     son_labels: [
-      {
-        label: 'id',
-        prop: 'id'
-      },
+      // {
+      //   label: 'id',
+      //   prop: 'id'
+      // },
       {
         label: '用户名',
         prop: 'name'

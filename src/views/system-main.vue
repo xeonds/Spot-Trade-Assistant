@@ -4,13 +4,14 @@
     <router-view id="view-content"></router-view>
     <div id="view-footer">
       <!-- <bottomMarqueen id="marqueen"></bottomMarqueen> -->
+      <div id="marqueen"></div>
       <div id="version">{{ getDate() }} &copy;百连V1.0</div>
     </div>
   </el-scrollbar>
 </template>
 
 <script setup lang="ts">
-import bottomMarqueen from '../components/bottom-marqueen.vue'
+// import bottomMarqueen from '../components/bottom-marqueen.vue'
 import HeadLine from '../components/head-line.vue'
 const getDate = () => {
   let date = new Date()
