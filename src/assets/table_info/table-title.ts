@@ -429,16 +429,16 @@ export const UserInfo = [
     prop: 'sex',
     fold: false
   },
-  {
-    label: '创建时间',
-    prop: 'createTime',
-    fold: false
-  },
-  {
-    label: '更新时间',
-    prop: 'updateTime',
-    fold: false
-  },
+  // {
+  //   label: '创建时间',
+  //   prop: 'createTime',
+  //   fold: false
+  // },
+  // {
+  //   label: '更新时间',
+  //   prop: 'updateTime',
+  //   fold: false
+  // },
   {
     label: '用户角色',
     prop: 'roles',
@@ -462,7 +462,6 @@ export const RoleInfo = [
     prop: 'name',
     fold: false
   },
-
   {
     label: '备注',
     prop: 'remark',
@@ -478,10 +477,10 @@ export const RoleInfo = [
     prop: 'users',
     fold: true,
     son_labels: [
-      {
-        label: 'id',
-        prop: 'id'
-      },
+      // {
+      //   label: 'id',
+      //   prop: 'id'
+      // },
       {
         label: '用户名',
         prop: 'name'

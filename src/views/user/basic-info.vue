@@ -1,8 +1,11 @@
 <template>
   <div>
     <el-row class="row-title">
-      <el-col :span="24">
+      <el-col :span="12">
         <el-text class="section-title">基本信息</el-text>
+      </el-col>
+      <el-col :span="12" class="section-option">
+        <el-button type="primary" plain>修改</el-button>
       </el-col>
     </el-row>
     <el-row class="row-content">

@@ -63,16 +63,16 @@
       </el-sub-menu>
       <el-sub-menu index="3">
         <template #title>模板</template>
-        <el-menu-item class="el-submenu-item" index="3-1" route="/main/model"
+        <el-menu-item class="el-submenu-item" index="3-1" route="/main/model/1"
           >合同模板</el-menu-item
         >
-        <el-menu-item class="el-submenu-item" index="3-2" route="/main/model"
+        <el-menu-item class="el-submenu-item" index="3-2" route="/main/model/2"
           >提单模板</el-menu-item
         >
-        <el-menu-item class="el-submenu-item" index="3-3" route="/main/model"
+        <el-menu-item class="el-submenu-item" index="3-3" route="/main/model/3"
           >付款申请模板</el-menu-item
         >
-        <el-menu-item class="el-submenu-item" index="3-4" route="/main/model"
+        <el-menu-item class="el-submenu-item" index="3-4" route="/main/model/4"
           >对账单模板</el-menu-item
         >
       </el-sub-menu>
