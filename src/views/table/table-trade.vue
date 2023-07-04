@@ -571,8 +571,8 @@ let data2 = reactive([
 ])
 
 //新增功能
-let singleoptions = reactive([])
-let multioptions = reactive([])
+let singleoptions: any = reactive([])
+let multioptions: any = reactive([])
 let dialogFormVisible = ref(false)
 let add_form: any = reactive({})
 const add = () => {
