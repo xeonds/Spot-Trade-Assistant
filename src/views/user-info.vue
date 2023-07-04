@@ -92,26 +92,32 @@ if (user) {
   font-weight: normal;
   font-style: normal;
 }
+
 #profile {
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
   background-color: #f5f7fa;
+
   #profile-header {
-    height: 8rem;
     padding: 2rem;
+    height: 8rem;
   }
+
   #profile-container {
     height: calc(100vh - 8rem);
+
     #profile-aside {
       padding-inline: 1rem;
+
       & > * {
         background-color: transparent;
         border-right: none;
       }
     }
+
     #profile-main {
-      background-color: #ffffff;
-      box-shadow: 0 0 1rem 0 rgba(136, 152, 170, 0.15);
+      background-color: #fff;
+      box-shadow: 0 0 1rem 0 rgb(136 152 170 / 15%);
       border-top-left-radius: 0.5rem;
     }
   }
@@ -121,17 +127,20 @@ if (user) {
   display: flex;
   align-items: center;
 }
+
 .logo {
-  font-family: MAIN;
   font-size: 1.2rem;
+  font-family: MAIN, sans-serif;
 }
+
 .el-menu-item {
-  border-radius: 0.5rem;
   margin-bottom: 20px;
+  border-radius: 0.5rem;
 }
+
 .is-active {
+  color: #fff !important;
   background-color: #2d50a1 !important;
-  color: #ffffff !important;
 }
 </style>
 
@@ -139,11 +148,13 @@ if (user) {
 .row-title {
   margin-top: 20px;
   margin-bottom: 20px;
+
   .section-title {
     font-size: 20px;
     font-weight: bold;
   }
 }
+
 .row-content {
   margin-bottom: 20px;
 }

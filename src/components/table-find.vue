@@ -9,6 +9,7 @@
         align-items: center;
         width: 90vw;
       "
+      :model="search_form"
     >
       <el-scrollbar style="width: 70vw; height: 4rem">
         <div
@@ -19,12 +20,15 @@
           "
         >
           <el-form-item
-            v-for="(item, index) in search"
-            :label="item"
+            v-for="(item, index) in props.search_item"
+            :label="item.label"
             :key="index"
             class="form-item"
           >
-            <el-input :placeholder="item" v-bind="search_form[item]" />
+            <el-input
+              :placeholder="item.label"
+              v-model="search_form[item.prop]"
+            />
           </el-form-item>
         </div>
       </el-scrollbar>
@@ -40,17 +44,14 @@ interface SearchItem {
   [index: string]: string
 }
 
-const props = defineProps({
-  search_item: Object
-})
+const props = defineProps(['search_item'])
 
 const emits = defineEmits(['submit'])
 
-let search = reactive(<string[]>props.search_item)
 let search_form: SearchItem = reactive({})
 
-for (let i = 0; i < search.length; i++) {
-  search_form[search[i]] = ''
+for (let i = 0; i < props.search_item.length; i++) {
+  search_form[props.search_item[i].prop] = ''
 }
 
 const submit = () => {

@@ -25,9 +25,9 @@
       :style="{ left: left + 'px', top: top + 'px' }"
       class="contextmenu"
     >
-      <li @click="handleDelete()">删除</li>
-      <li @click="handleFresh()">刷新</li>
-      <li @click="handleUpdate()">编辑</li>
+      <li class="menu-li" @click="handleDelete()">删除</li>
+      <li class="menu-li" @click="handleFresh()">刷新</li>
+      <li class="menu-li" @click="handleUpdate()">编辑</li>
     </ul>
 
     <!-- 编辑 -->
@@ -174,9 +174,9 @@
           <el-button @click="comfirm = false" class="cancel" style="width: 6vw">
             取消
           </el-button>
-          <button @click="deletebyid" class="comfirm" style="width: 6vw">
+          <el-button @click="deletebyid" class="comfirm" style="width: 6vw">
             确定
-          </button>
+          </el-button>
         </span>
       </template>
     </el-dialog>
@@ -552,6 +552,9 @@ defineExpose({
   box-shadow: 2px 2px 3px 0 rgb(0 0 0 / 30%);
   list-style-type: none;
   font-weight: 400;
+  .menu-li:hover {
+    background-color: #f5f7fa;
+  }
 }
 
 .contextmenu li {
@@ -560,7 +563,7 @@ defineExpose({
   cursor: pointer;
 }
 
-.cancel {
+l {
   cursor: pointer;
   padding: 0.5vh 0.8vw;
   margin-right: 1vw;
