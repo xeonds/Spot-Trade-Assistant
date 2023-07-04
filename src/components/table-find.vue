@@ -10,7 +10,7 @@
         width: 90vw;
       "
     >
-      <el-scrollbar style=" width: 70vw;height: 4rem">
+      <el-scrollbar style="width: 70vw; height: 4rem">
         <div
           style="
             display: flex;
@@ -54,8 +54,8 @@ for (let i = 0; i < search.length; i++) {
 }
 
 const submit = () => {
-  console.log(search_form);
-  
+  console.log(search_form)
+
   emits('submit', search_form)
 }
 </script>
