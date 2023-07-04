@@ -571,6 +571,9 @@ l {
   background-color: #fff;
   border: 1.5px solid #2f5496;
   border-radius: 5px;
+  &:hover {
+    background-color: #cddcf5;
+  }
 }
 
 .comfirm {
@@ -580,13 +583,8 @@ l {
   background-color: #2f5496;
   border: 1.5px solid #2f5496;
   border-radius: 5px;
-}
-
-.comfirm:hover {
-  background-color: #007eba;
-}
-
-.cancel:hover {
-  background-color: #cddcf5;
+  &:hover {
+    background-color: #007eba;
+  }
 }
 </style>
