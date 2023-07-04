@@ -1,70 +1,148 @@
 <template>
-  <div class="table-area">
+  <div class="model">
     <Table
-      :contain_find="true"
-      :contain_command="true"
+      class="model-box"
+      id="table-future-1"
+      :col="table_col.FutureInfo"
       :table_data="data"
-      :property="property"
-      :search_item="search_item"
+      :contain_top="true"
+      :contain_command="true"
       :command="command"
-      @handle="handle"
-      name="合同模板"
-      color="#e7e6e6"
-      id="futures1"
-    ></Table>
+      :name="'保值成交记录'"
+      @click_row="handle"
+      :hasfold="false"
+      :enable_select="false"
+      :height="25"
+    >
+      <template #top>
+        <TableFind :search_item="search_item" class="table-find"></TableFind>
+      </template>
+    </Table>
+    <Table
+      class="model-box"
+      id="table-future-2"
+      :col="table_col.FutureInfo2"
+      :table_data="data"
+      :contain_top="true"
+      :contain_command="true"
+      :command="command2"
+      :name="'保值头寸'"
+      @click_row="handle"
+      :hasfold="false"
+      :enable_select="false"
+      :height="25"
+    >
+      <template #top>
+        <TableFind :search_item="search_item" class="table-find"></TableFind>
+      </template>
+    </Table>
   </div>
 </template>
 
 <script lang="ts" setup>
 import Table from '../../components/main-table.vue'
+import TableFind from '../../components/table-find.vue'
 import { reactive } from 'vue'
+import * as table_col from '../../assets/table_info/table-title'
 
 let data = reactive([
   {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
+    f1: '2023-06-22',
+    f2: '建仓',
+    f3: '华一',
+    f4: '一部',
+    f5: '海通',
+    f6: 'Ru2305',
+    f7: '开',
+    f8: '卖',
+    f9: '橡胶',
+    f10: '全乳胶',
+    f11: '151',
+    f12: '',
+    f13: '吨',
+    f14: '12150',
+    f15: '',
+    f16: '人民币',
+    f17: '',
+    f18: '',
+    f19: ''
   },
   {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
+    f1: '2023-06-22',
+    f2: '建仓',
+    f3: '华一',
+    f4: '一部',
+    f5: '海通',
+    f6: 'Ru2305',
+    f7: '开',
+    f8: '卖',
+    f9: '橡胶',
+    f10: '全乳胶',
+    f11: '151',
+    f12: '',
+    f13: '吨',
+    f14: '12150',
+    f15: '',
+    f16: '人民币',
+    f17: '',
+    f18: '',
+    f19: ''
   },
   {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
+    f1: '2023-06-22',
+    f2: '建仓',
+    f3: '华一',
+    f4: '一部',
+    f5: '海通',
+    f6: 'Ru2305',
+    f7: '开',
+    f8: '卖',
+    f9: '橡胶',
+    f10: '全乳胶',
+    f11: '151',
+    f12: '',
+    f13: '吨',
+    f14: '12150',
+    f15: '',
+    f16: '人民币',
+    f17: '',
+    f18: '',
+    f19: ''
   }
 ])
-let search_item = reactive(['贸易类型', '订单模式', '交收方式', '购/销'])
-let property = reactive(['name', 'date', 'sex', 'test', 'test2', 'test34'])
-let command = reactive(['添加', '删除', '修改'])
+let search_item = reactive([
+  '成交日期',
+  '保值类型',
+  '账套',
+  '业务部门',
+  '期贷公司',
+  '期贷合约',
+  '品种',
+  '规格',
+  '头寸号'
+])
+let command = reactive(['保值开仓'])
+let command2 = reactive(['保值平仓', '期贷结算价', '导出'])
 
 const handle = (a: number) => {
   console.log(a)
 }
 </script>
 
-<style lang="less" scoped>
-.table-area {
-  margin: 0 auto;
-  width: 99vw;
+<style lang="less">
+.model {
+  .model-box {
+    margin-inline: 1rem !important;
+    margin-top: 1rem !important;
+  }
+}
+
+.table-find {
+  margin-bottom: 20px;
+}
+
+.table-op-group {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 </style>
