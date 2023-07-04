@@ -13,21 +13,13 @@
     @menu="menu"
     @handle="
         (index:any) => {
-          emits('handle', index)
+          emits('handle', index);
         }
       "
-    @click_row="console.log('clicked')"
+    :contain_extend="props.extend"
   >
-    <template #table-extend-start> </template>
-    <template #table-extend-end>
-      <el-table-column label="操作" width="240" align="center">
-        <template #default="">
-          <div class="table-op-group">
-            <el-button>上传</el-button>
-            <el-button>查看</el-button>
-          </div>
-        </template>
-      </el-table-column>
+    <template #table-extend-end2="Slotprops">
+      <slot v-bind:row="Slotprops.row"></slot>
     </template>
   </Table>
 </template>
@@ -46,12 +38,9 @@ const emits = defineEmits(['menu', 'handle'])
  * @command 表格命令
  */
 
-const props = defineProps(['id', 'col', 'name', 'data', 'command'])
-
+const props = defineProps(['id', 'col', 'name', 'data', 'command', 'extend'])
 const menu = (row: any, col: any, event: any) => {
   event.preventDefault()
-  emits('menu', props.name, row, col)
+  emits('menu', props.name, row, col, event)
 }
 </script>
-
-<style lang="less"></style>

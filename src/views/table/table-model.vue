@@ -9,7 +9,6 @@
       :contain_command="true"
       :command="command"
       :name="'模板'"
-      @click_row="console.log('clicked')"
       :hasfold="false"
       :enable_select="false"
       :height="32"
@@ -24,7 +23,7 @@
       </template>
       <template #table-extend-end>
         <el-table-column label="操作" width="240" align="center">
-          <template #default="">
+          <template #default>
             <div class="table-op-group">
               <el-button>上传</el-button>
               <el-button>查看</el-button>

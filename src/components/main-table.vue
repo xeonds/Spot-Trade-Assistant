@@ -39,7 +39,7 @@
           "
         @row-click="(row: any, col: any) => emits('click_row', row, col)"
         ref="main"
-        :row-style="{ height: '1.7vh' }"
+        :row-style="{ height: '3vh' }"
         :header-cell-style="{
           'border-right': '0.2px solid #000',
           'border-bottom': '0.2px solid #000',
@@ -137,6 +137,16 @@
         </template>
         <slot name="table-extend-end"></slot>
         <!-- 状态表 -->
+
+        <AFTableColumn
+          :resizable="false"
+          :label="props.contain_extend"
+          v-if="props.contain_extend"
+        >
+          <template #default="scope">
+            <slot name="table-extend-end2" v-bind:row="scope"></slot>
+          </template>
+        </AFTableColumn>
       </el-table>
     </div>
   </el-card>
@@ -146,6 +156,7 @@
 import { reactive, onMounted } from 'vue'
 import Sortable from 'sortablejs'
 import AFTableColumn from './AFTableColumn.vue'
+
 let main = ref()
 let emits = defineEmits([
   'handle',
@@ -174,7 +185,8 @@ let props = defineProps([
   'width',
   'hasfold',
   'enable_select',
-  'height'
+  'height',
+  'contain_extend'
 ])
 
 interface COL {
