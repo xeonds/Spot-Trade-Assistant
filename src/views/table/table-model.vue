@@ -92,7 +92,24 @@ let data = reactive([
     m5: '0.0003'
   }
 ])
-let search_item = reactive(['贸易类型', '订单模式', '交收方式', '购/销'])
+let search_item = reactive([
+  {
+    label: '贸易类型',
+    prop: 'm1'
+  },
+  {
+    label: '订单模式',
+    prop: 'm1'
+  },
+  {
+    label: '交收方式',
+    prop: 'm1'
+  },
+  {
+    label: '购/销',
+    prop: 'm1'
+  }
+])
 let command = reactive(['添加', '修改', '删除', '导出'])
 
 const handle = (a: number) => {

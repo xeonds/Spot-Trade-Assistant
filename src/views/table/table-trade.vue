@@ -177,7 +177,7 @@
 
   <div v-if="route.params.id === '1'">
     <div class="table-area">
-      <TableFind :search_item="search_item"></TableFind>
+      <TableFind :search_item="search_items.TradeInfo"></TableFind>
       <Modify_table
         :data="data"
         :command="['采购', '发送完成交易确认']"
@@ -192,7 +192,7 @@
       </Modify_table>
     </div>
     <div class="table-area">
-      <TableFind :search_item="search_item"></TableFind>
+      <TableFind :search_item="search_items.TradeInfo"></TableFind>
       <div class="double-table">
         <div class="left">
           <Modify_table
@@ -232,21 +232,7 @@
   </div>
   <div v-if="route.params.id === '2'">
     <div class="table-area">
-      <TableFind
-        :search_item="[
-          '交易日期',
-          '合同生成状态',
-          '购/销',
-          '账套',
-          '业务部门',
-          '贸易商',
-          '贸易商部门',
-          '贸易类型',
-          '订单模式',
-          '交货方式',
-          '订单号'
-        ]"
-      ></TableFind>
+      <TableFind :search_item="search_items.TradeInfo"></TableFind>
       <Modify_table
         :data="data"
         :command="['生成合同']"
@@ -260,17 +246,7 @@
       </Modify_table>
     </div>
     <div class="table-area">
-      <TableFind
-        :search_item="[
-          '合同日期',
-          '够/销',
-          '账套',
-          '业务部门',
-          '合同签订状',
-          '合同归档状态',
-          '印花税付款申请状态'
-        ]"
-      ></TableFind>
+      <TableFind :search_item="search_items.TradeInfo"></TableFind>
       <Modify_table
         :data="data"
         :command="['印花税付款', '合同归档']"
@@ -279,20 +255,12 @@
         :col="table_col.Gouxiaohetong"
         @handle="handle1"
         @menu="menu"
+        :selectable="true"
       >
       </Modify_table>
     </div>
     <div class="table-area">
-      <TableFind
-        :search_item="[
-          '付款申请日期',
-          '付款状态',
-          '账套',
-          '业务部门',
-          '税务机关',
-          '付款申请单号'
-        ]"
-      ></TableFind>
+      <TableFind :search_item="search_items.TradeInfo"></TableFind>
       <Modify_table
         :data="data"
         name="购销记录"
@@ -443,6 +411,7 @@ import * as table_col from '../../assets/table_info/table-title'
 import { useRoute } from 'vue-router'
 import * as table_add from '../../assets/table_info/table-add'
 import { ElMessage } from 'element-plus'
+import * as search_items from '../../assets/table_info/search_item'
 
 const route = useRoute()
 
@@ -529,26 +498,6 @@ let data = reactive([
     test2: 'dfas',
     test34: 'fdas'
   }
-])
-
-let search_item = reactive([
-  '日期',
-  '账套',
-  '业务部门',
-  '贸易商',
-  '贸易商部门',
-  '购/销',
-  '币种',
-  '品种',
-  '规格',
-  '品牌',
-  '数量',
-  '数量单位',
-  '价格',
-  '币种',
-  '贸易类型',
-  '订单模式',
-  '交货方式'
 ])
 
 let data1 = reactive([
