@@ -60,7 +60,7 @@
       <el-form-item
         :label="item.label"
         :label-width="150"
-        v-for="item in table_add.Gouxiaojilu"
+        v-for="item in <any>table_add.Gouxiaojilu"
         :key="item.label"
         style="width: 20vw; color: #000"
         :prop="item.prop"
@@ -571,6 +571,8 @@ let data2 = reactive([
 ])
 
 //新增功能
+let singleoptions = reactive([])
+let multioptions = reactive([])
 let dialogFormVisible = ref(false)
 let add_form: any = reactive({})
 const add = () => {
@@ -578,8 +580,8 @@ const add = () => {
   for (let key in add_form) {
     delete add_form[key]
   }
-  for (let item in table_add.Gouxiaojilu) {
-    add_form[item.prop] = ''
+  for (let item = 0; item < table_add.Gouxiaojilu.length; item++) {
+    add_form[table_add.Gouxiaojilu[item].prop] = ''
   }
   dialogFormVisible.value = true
 }
@@ -675,7 +677,7 @@ const handle1 = (a: number) => {
   }
 }
 const handle2 = (a: number) => {
-  if (route.params.id == 1) {
+  if (route.params.id == '1') {
     switch (a) {
       case 0:
         calfpl()
