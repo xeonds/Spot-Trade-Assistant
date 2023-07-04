@@ -66,39 +66,24 @@
               <!-- 找到需要折叠的列 -->
               <template v-if="col[index].fold">
                 <div class="table_fold">
-                  <div
-                    style="
-                      font-size: 1.5vh;
-                      font-weight: 600;
-                      margin-bottom: 1vh;
-                    "
+                  <el-descriptions
+                    :title="col[index].label"
+                    direction="vertical"
+                    :column="col[index].son_labels.length"
+                    border
                   >
-                    {{ col[index].label }}
-                  </div>
-                  <!-- 将列的数据通过表格呈现 -->
-                  <el-table
-                    :data="props.row[col[index].prop]"
-                    :row-style="{ height: '2.7vh' }"
-                    :header-cell-style="{
-                      'border-right': '0.2px solid #000',
-                      'border-bottom': '0.2px solid #000',
-                      padding: '1.5px',
-                      color: '#000'
-                    }"
-                    :cell-style="{
-                      'border-right': '0.2px solid #000',
-                      'border-bottom': '0.2px solid #000',
-                      padding: '1.5px',
-                      color: '#000'
-                    }"
-                  >
-                    <el-table-column
-                      v-for="item2 in col[index].son_labels"
-                      :label="item2.label"
-                      :prop="item2.prop"
-                      :key="item2.prop"
-                    />
-                  </el-table>
+                    <template
+                      v-for="(i, j) in props.row[col[index].prop]"
+                      :key="j"
+                    >
+                      <el-descriptions-item
+                        v-for="item2 in col[index].son_labels"
+                        :label="item2.label"
+                        :key="item2.prop"
+                        >{{ i[item2.prop] }}
+                      </el-descriptions-item>
+                    </template>
+                  </el-descriptions>
                 </div>
               </template>
             </template>
