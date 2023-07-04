@@ -3,13 +3,20 @@
     <el-row class="row1">
       <div class="logo">百连贸易系统</div>
       <div class="row1-right">
-        <el-popover placement="bottom" trigger="click">
+        <el-popover placement="bottom" trigger="hover">
           <template #reference>
             <el-link class="link-item"
-              >欢迎，{{ username }}，{{ role }}</el-link
+              >欢迎，{{ username }}【{{ role }}】</el-link
             >
           </template>
-          <el-button class="pop-menu-button" @click="logout">登出</el-button>
+          <el-row>
+            <el-button class="pop-menu-button" @click="user_info"
+              >个人信息</el-button
+            >
+          </el-row>
+          <el-row>
+            <el-button class="pop-menu-button" @click="logout">登出</el-button>
+          </el-row>
         </el-popover>
         <el-link class="link-item">撤单通知</el-link>
       </div>
@@ -233,6 +240,10 @@ const logout = () => {
   router.replace('/login')
 }
 
+const user_info = () => {
+  router.push('/user')
+}
+
 if (user) {
   username.value = user
   serviceAxios({
@@ -263,6 +274,7 @@ if (user) {
   background-color: @theme-color-primary;
   color: #fff !important;
   border: none !important;
+  border-radius: 0.4rem;
 
   &:hover {
     color: @theme-color-primary !important;
@@ -325,20 +337,24 @@ if (user) {
   background-color: @theme-color-primary;
   color: #fff !important;
   border: none;
+  border-radius: 0.4rem;
 
   .el-menu-item {
     background-color: @theme-color-primary;
     color: #fff;
+    border-radius: 0.4rem;
 
     &:hover {
       background-color: #d0e1ff;
       color: @theme-color-primary;
+      border-radius: 0.4rem;
     }
 
     &.is-active {
       background-color: #fff;
       color: @theme-color-primary;
       border: none;
+      border-radius: 0.4rem;
     }
   }
 }

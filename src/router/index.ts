@@ -60,6 +60,20 @@ export default createRouter({
           component: () => import('../views/table/member-manage.vue')
         }
       ]
+    },
+    {
+      path: '/user/',
+      component: () => import('../views/user-info.vue'),
+      children: [
+        {
+          path: '',
+          component: () => import('../views/user/basic-info.vue')
+        },
+        {
+          path: 'password',
+          component: () => import('../views/user/password-change.vue')
+        }
+      ]
     }
   ]
 })
