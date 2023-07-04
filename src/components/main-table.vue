@@ -41,17 +41,7 @@
         ref="main"
         :row-style="{ height: '3vh' }"
         :header-cell-style="{
-          'border-right': '0.2px solid #000',
-          'border-bottom': '0.2px solid #000',
           'background-color': '#f7f6f4',
-          padding: '1.5px',
-          color: '#000',
-          'font-size': '1.8vh'
-        }"
-        :cell-style="{
-          'border-right': '0.2px solid #000',
-          'border-bottom': '0.2px solid #000',
-          padding: '1.5px',
           color: '#000'
         }"
       >
@@ -64,39 +54,21 @@
               <!-- 找到需要折叠的列 -->
               <template v-if="col[index].fold">
                 <div class="table_fold">
-                  <div
-                    style="
-                      font-size: 1.5vh;
-                      font-weight: 600;
-                      margin-bottom: 1vh;
-                    "
-                  >
-                    {{ col[index].label }}
-                  </div>
-                  <!-- 将列的数据通过表格呈现 -->
-                  <el-table
-                    :data="props.row[col[index].prop]"
-                    :row-style="{ height: '2.7vh' }"
-                    :header-cell-style="{
-                      'border-right': '0.2px solid #000',
-                      'border-bottom': '0.2px solid #000',
-                      padding: '1.5px',
-                      color: '#000'
-                    }"
-                    :cell-style="{
-                      'border-right': '0.2px solid #000',
-                      'border-bottom': '0.2px solid #000',
-                      padding: '1.5px',
-                      color: '#000'
-                    }"
-                  >
-                    <el-table-column
+                  <el-descriptions :title="col[index].label">
+                    <el-descriptions-item
                       v-for="item2 in col[index].son_labels"
                       :label="item2.label"
-                      :prop="item2.prop"
                       :key="item2.prop"
-                    />
-                  </el-table>
+                    >
+                      <el-tag
+                        style="margin-inline: 0.5rem"
+                        v-for="desc in props.row[col[index].prop]"
+                        :key="desc"
+                      >
+                        {{ desc[item2.prop] }}</el-tag
+                      >
+                    </el-descriptions-item>
+                  </el-descriptions>
                 </div>
               </template>
             </template>
@@ -112,7 +84,7 @@
               !col[index].fold
             "
             label="状态"
-            width="120"
+            width="80"
             :resizable="false"
           >
             <template #default="scope">
@@ -246,17 +218,13 @@ const change_status = (id: string) => {
 </script>
 
 <style lang="less">
-.el-table--striped .el-table__body tr.el-table__row--striped.current-row td,
-.el-table__body tr.current-row > td {
-  background-color: #f3f6f9 !important;
-}
-.main {
-  .el-card__body {
-    padding: 0px;
-  }
+.el-card__body {
+  padding: 0px;
 }
 </style>
+
 <style lang="less" scoped>
+@import '../assets/style/theme.less';
 @font-face {
   font-family: NAME;
   src: url('../font/华文琥珀.ttf');
@@ -265,13 +233,11 @@ const change_status = (id: string) => {
 }
 
 .main {
-  border: 1px solid #000;
-  box-shadow: none;
-
   .card-header {
     .title {
       font-size: 1.4rem;
       font-family: NAME, sans-serif;
+      color: @theme-color-primary;
     }
     .card-nav {
       display: flex;
@@ -279,15 +245,8 @@ const change_status = (id: string) => {
       justify-content: space-between;
     }
   }
-
-  .table-area {
-    width: 100%;
-    height: 100%;
-  }
 }
-
 .table_fold {
-  width: 50vw;
-  margin: 5vh auto;
+  padding-inline: 1rem;
 }
 </style>
