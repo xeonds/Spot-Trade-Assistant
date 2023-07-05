@@ -226,7 +226,7 @@ import serviceAxios from '../http'
 const activeIndex = ref('1')
 const user = localStorage.getItem('username')
 const router = useRouter()
-const models = ref([{}])
+const models = ref([{ name: '全部', id: 0 }])
 let username = ref('')
 let role = ref('')
 
@@ -246,7 +246,7 @@ const getModels = () => {
     url: '/template/category',
     method: 'GET'
   })
-    .then((res) => {
+    .then((res: any) => {
       models.value = res
     })
     .catch((err) => {

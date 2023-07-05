@@ -570,3 +570,41 @@ export const MenusInfo = [
     type: 'string'
   }
 ]
+
+export const ModelInfo = [
+  {
+    label: '名称',
+    prop: 'name',
+    type: 'string'
+  },
+  {
+    label: '地址',
+    prop: 'place',
+    type: 'string'
+  },
+  {
+    label: '时间日期',
+    prop: 'date',
+    type: 'string'
+  },
+  {
+    label: '甲方姓名',
+    prop: 'firstParty.name',
+    type: 'string'
+  },
+  {
+    label: '甲方电话',
+    prop: 'firstParty.phone',
+    type: 'string'
+  },
+  {
+    label: '甲方传真',
+    prop: 'firstParty.fax',
+    type: 'string'
+  },
+  {
+    label: '协议',
+    prop: 'clauses',
+    type: 'string'
+  }
+]
