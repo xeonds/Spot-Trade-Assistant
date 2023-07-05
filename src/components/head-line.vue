@@ -273,12 +273,12 @@ if (user) {
 .el-sub-menu__title {
   background-color: @theme-color-primary;
   color: #fff !important;
-  border: none !important;
+  border-bottom: none !important;
   border-radius: 0.4rem;
 
   &:hover {
-    color: @theme-color-primary !important;
-    background-color: #fff;
+    background-color: @theme-color-primary !important;
+    border: #fff 2px solid !important;
   }
 
   &.is-active {
@@ -336,25 +336,26 @@ if (user) {
 .el-menu {
   background-color: @theme-color-primary;
   color: #fff !important;
-  border: none;
+  border-bottom: none !important;
   border-radius: 0.4rem;
-
+  & > * {
+    margin-inline: 0.2rem;
+  }
   .el-menu-item {
     background-color: @theme-color-primary;
     color: #fff;
     border-radius: 0.4rem;
+    border-bottom: 0px;
 
     &:hover {
-      background-color: #d0e1ff;
-      color: @theme-color-primary;
-      border-radius: 0.4rem;
+      background-color: @theme-color-primary;
+      color: #fff;
+      border: #fff 2px solid;
     }
 
     &.is-active {
       background-color: #fff;
       color: @theme-color-primary;
-      border: none;
-      border-radius: 0.4rem;
     }
   }
 }
@@ -364,8 +365,8 @@ if (user) {
   background-color: #fff !important;
 
   &:hover {
-    color: @theme-color-primary !important;
-    background-color: @theme-color-secondary !important;
+    border: @theme-color-primary 2px solid !important;
+    background-color: none !important;
   }
 
   &.is-active {
