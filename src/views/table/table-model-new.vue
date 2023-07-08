@@ -23,7 +23,7 @@
                     >生成</el-button
                   >
                   <el-button type="primary" link @click="preview"
-                    >预览</el-button
+                    >导出</el-button
                   >
                 </div>
               </template>
@@ -84,7 +84,7 @@ export default {
     Table
   },
   watch: {
-    $route(to, from) {
+    $route(to, _from) {
       this.id = to.params.id
       this.getName()
       this.getTemplate()
@@ -108,22 +108,31 @@ export default {
       this.isShow = true
       serviceAxios.get(`/template/generate/${id}`).then((res) => {
         this.form_data = res
-        console.log(this.form_data)
       })
     },
     async getName() {
       const res = await serviceAxios.get(`/template/category`)
       this.name = res[this.id - 1].name
     },
+    downloadFile() {
+      const data = JSON.stringify(this.data)
+      const blob = new Blob([data], { type: 'application/json' })
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'export.xls'
+      link.click()
+    },
     genearteTemplate() {
       serviceAxios
         .post(`/template/export/${this.form_data.id}`, this.form_data)
         .then((res) => {
           this.isShow = false
+          this.downloadFile(res)
           ElMessage.success('生成成功')
         })
         .catch((err) => {
-          ElMessage.error('生成失败')
+          ElMessage.error('生成失败：' + err)
         })
     }
   }
