@@ -24,26 +24,8 @@ export default createRouter({
           component: () => import('../views/table/table-information.vue')
         },
         {
-          path: 'model/',
-          redirect: 'model/1',
-          children: [
-            {
-              path: '1',
-              component: () => import('../views/table/table-model-1.vue')
-            },
-            {
-              path: '2',
-              component: () => import('../views/table/table-model-2.vue')
-            },
-            {
-              path: '3',
-              component: () => import('../views/table/table-model-3.vue')
-            },
-            {
-              path: '4',
-              component: () => import('../views/table/table-model-4.vue')
-            }
-          ]
+          path: 'model/:id',
+          component: () => import('../views/table/table-model-new.vue')
         },
         {
           path: 'trade/:id',

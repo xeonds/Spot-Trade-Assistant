@@ -63,17 +63,13 @@
       </el-sub-menu>
       <el-sub-menu index="3">
         <template #title>模板</template>
-        <el-menu-item class="el-submenu-item" index="3-1" route="/main/model/1"
-          >合同模板</el-menu-item
-        >
-        <el-menu-item class="el-submenu-item" index="3-2" route="/main/model/2"
-          >提单模板</el-menu-item
-        >
-        <el-menu-item class="el-submenu-item" index="3-3" route="/main/model/3"
-          >付款申请模板</el-menu-item
-        >
-        <el-menu-item class="el-submenu-item" index="3-4" route="/main/model/4"
-          >对账单模板</el-menu-item
+        <el-menu-item
+          v-for="nav in models"
+          class="el-submenu-item"
+          :index="`3-${nav.id}`"
+          :route="`/main/model/${nav.id}`"
+          :key="nav.id"
+          >{{ nav.name }}</el-menu-item
         >
       </el-sub-menu>
       <el-sub-menu index="4">
@@ -230,6 +226,7 @@ import serviceAxios from '../http'
 const activeIndex = ref('1')
 const user = localStorage.getItem('username')
 const router = useRouter()
+const models = ref([{ name: '全部', id: 0 }])
 let username = ref('')
 let role = ref('')
 
@@ -242,6 +239,19 @@ const logout = () => {
 
 const user_info = () => {
   router.push('/user')
+}
+
+const getModels = () => {
+  serviceAxios({
+    url: '/template/category',
+    method: 'GET'
+  })
+    .then((res: any) => {
+      models.value = res
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 if (user) {
@@ -265,6 +275,7 @@ if (user) {
       console.log(err)
     })
 }
+getModels()
 </script>
 
 <style lang="less">
@@ -292,7 +303,7 @@ if (user) {
 @import '../assets/style/theme.less';
 @font-face {
   font-family: MAIN;
-  src: url('../font/Songti.ttc');
+  src: url('../assets/font/Songti.ttc');
   font-weight: normal;
   font-style: normal;
 }

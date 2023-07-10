@@ -94,7 +94,7 @@ const roleOptionsGet = async () => {
   res.data.forEach((element: RoleList) => {
     temp.push({
       label: element.name,
-      value: element.id
+      value: element.name == 'sex' ? ['男', '女'][element.id] : element.id
     })
   })
   return temp

@@ -63,11 +63,11 @@
                       :key="item2.prop"
                     >
                       <el-tag
-                        style="margin-inline: 0.5rem"
-                        v-for="desc in props.row[col[index].prop]"
+                        style="margin-inline: 0.4rem"
+                        v-for="desc in props.row[item2.prop]"
                         :key="desc"
                       >
-                        {{ desc[item2.prop] }}</el-tag
+                        {{ desc }}</el-tag
                       >
                     </el-descriptions-item>
                   </el-descriptions>
@@ -232,7 +232,7 @@ const change_status = (id: string) => {
 @import '../assets/style/theme.less';
 @font-face {
   font-family: NAME;
-  src: url('../font/华文琥珀.ttf');
+  src: url('../assets/font/方正苏新诗柳楷简体.ttf');
   font-weight: normal;
   font-style: normal;
 }
