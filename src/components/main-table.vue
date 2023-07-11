@@ -63,12 +63,22 @@
                       :key="item2.prop"
                     >
                       <el-tag
-                        style="margin-inline: 0.5rem"
-                        v-for="desc in props.row[col[index].prop]"
-                        :key="desc"
+                        style="margin-inline: 0.4rem"
+                        v-if="typeof item2.prop == 'string'"
                       >
-                        {{ desc[item2.prop] }}</el-tag
+                        {{ props.row[item2.prop] }}</el-tag
                       >
+                      <!-- 最大支持两层嵌套的prop -->
+                      <template v-else-if="typeof item2.prop == 'object'">
+                        <div class="tag-container">
+                          <el-tag
+                            v-for="item3 in props.row[item2.prop[0]]"
+                            :key="item3"
+                          >
+                            {{ item3[item2.prop[1]] }}</el-tag
+                          >
+                        </div>
+                      </template>
                     </el-descriptions-item>
                   </el-descriptions>
                 </div>
@@ -232,7 +242,7 @@ const change_status = (id: string) => {
 @import '../assets/style/theme.less';
 @font-face {
   font-family: NAME;
-  src: url('../font/华文琥珀.ttf');
+  src: url('../assets/font/方正苏新诗柳楷简体.ttf');
   font-weight: normal;
   font-style: normal;
 }
@@ -253,5 +263,14 @@ const change_status = (id: string) => {
 }
 .table_fold {
   padding-inline: 1rem;
+}
+.tag-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+  .el-tag {
+    margin: 0.4rem;
+  }
 }
 </style>

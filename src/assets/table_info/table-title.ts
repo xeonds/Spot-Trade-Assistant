@@ -449,8 +449,8 @@ export const UserInfo = [
       //   prop: 'id'
       // },
       {
-        label: '用户名',
-        prop: 'name'
+        label: ' ',
+        prop: ['roles', 'name']
       }
     ]
   }
@@ -467,23 +467,23 @@ export const RoleInfo = [
     prop: 'remark',
     fold: false
   },
-  {
-    label: '状态',
-    prop: 'status',
-    fold: false
-  },
+  // {
+  //   label: '状态',
+  //   prop: 'status',
+  //   fold: false
+  // },
   {
     label: '拥有该角色的用户',
     prop: 'users',
     fold: true,
     son_labels: [
-      // {
-      //   label: 'id',
-      //   prop: 'id'
-      // },
       {
         label: '用户名',
-        prop: 'name'
+        prop: ['users', 'name']
+      },
+      {
+        label: '角色权限',
+        prop: ['menus', 'menuName']
       }
     ]
   }
@@ -510,28 +510,8 @@ export const MenusInfo = [
 
 export const ModelInfo = [
   {
-    label: '贸易类型',
-    prop: 'm1',
-    fold: false
-  },
-  {
-    label: '订单模式',
-    prop: 'm2',
-    fold: false
-  },
-  {
-    label: '交收方式',
-    prop: 'm3',
-    fold: false
-  },
-  {
-    label: '购销方向',
-    prop: 'm4',
-    fold: false
-  },
-  {
-    label: '印花税率',
-    prop: 'm5',
+    label: '模板名称',
+    prop: 'name',
     fold: false
   }
 ]

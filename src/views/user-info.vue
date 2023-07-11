@@ -88,7 +88,7 @@ if (user) {
 <style scoped lang="less">
 @font-face {
   font-family: MAIN;
-  src: url('../font/Songti.ttc');
+  src: url('../assets/font/Songti.ttc');
   font-weight: normal;
   font-style: normal;
 }
