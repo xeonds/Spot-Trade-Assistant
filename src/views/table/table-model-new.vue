@@ -133,6 +133,7 @@ import Table from '../../components/main-table.vue'
 import * as table_col from '../../assets/table_info/table-title'
 import * as table_add from '../../assets/table_info/table-add'
 import serviceAxios from '../../http'
+import download from '../../utils/download'
 
 export default {
   data() {
@@ -246,27 +247,63 @@ export default {
       const res = await serviceAxios.get(`/template/category`)
       this.name = res[this.id - 1].name
     },
-    download(content, filename) {
-      var eleLink = document.createElement('a')
-      eleLink.download = filename
-      eleLink.style.display = 'none'
-      var blob = new Blob([content])
-      eleLink.href = URL.createObjectURL(blob)
-      document.body.appendChild(eleLink)
-      eleLink.click()
-      document.body.removeChild(eleLink)
-    },
     genearteTemplate() {
-      serviceAxios
-        .post(`/template/export/${this.form_data.id}`, this.form_data)
+      serviceAxios({
+        method: 'POST',
+        url: `/template/export/${this.form_data.id}`,
+        headers: {
+          Accept: 'application/vnd.ms-excel',
+          'Content-Type': 'application/json',
+          Token: localStorage.getItem('token')
+        },
+        data: this.form_data,
+        responseType: 'blob'
+      })
         .then((res) => {
           this.isShow = false
-          this.download(res, this.form_data.name)
+          console.log(res)
+          download(
+            res,
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            this.form_data.name
+          )
           ElMessage.success('生成成功')
         })
         .catch((err) => {
           ElMessage.error('生成失败：' + err)
         })
+      //
+      // const url = `http://43.140.194.131:9001/template/export/${this.form_data.id}`
+      // const token = localStorage.getItem('token')
+      // const headers = new Headers({
+      //   Token: token,
+      //   'User-Agent': 'apifox/1.0.0 (https://www.apifox.cn)',
+      //   Accept: '*/*',
+      //   Host: '43.140.194.131:9001',
+      //   Connection: 'keep-alive'
+      // })
+      // fetch(url, {
+      //   method: 'POST',
+      //   headers,
+      //   redirect: 'follow',
+      //   body: JSON.stringify(this.form_data) // body data type must match "Content-Type" header
+      // })
+      //   .then((response) => {
+      //     console.log(response.headers.get('content-disposition'))
+      //     return response.blob()
+      //   })
+      //   .then((blob) => {
+      //     const excelBlob = new Blob([blob], {
+      //       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      //     })
+      //     const excelUrl = URL.createObjectURL(excelBlob)
+      //     const a = document.createElement('a')
+      //     a.href = excelUrl
+      //     a.download = this.form_data.name
+      //     a.click()
+      //     URL.revokeObjectURL(excelUrl)
+      //   })
+      //   .catch((error) => console.log('error', error))
     }
   }
 }
