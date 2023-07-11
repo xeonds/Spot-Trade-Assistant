@@ -23,7 +23,7 @@
                     >生成</el-button
                   >
                   <el-button type="primary" link @click="preview"
-                    >导出</el-button
+                    >预览</el-button
                   >
                 </div>
               </template>
@@ -120,7 +120,7 @@
             @click="genearteTemplate"
             class="comfirm"
             plain
-            >确定</el-button
+            >导出</el-button
           >
         </span>
       </template>

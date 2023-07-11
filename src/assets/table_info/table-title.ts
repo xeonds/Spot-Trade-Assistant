@@ -467,11 +467,11 @@ export const RoleInfo = [
     prop: 'remark',
     fold: false
   },
-  {
-    label: '状态',
-    prop: 'status',
-    fold: false
-  },
+  // {
+  //   label: '状态',
+  //   prop: 'status',
+  //   fold: false
+  // },
   {
     label: '拥有该角色的用户',
     prop: 'users',
@@ -480,6 +480,10 @@ export const RoleInfo = [
       {
         label: '用户名',
         prop: ['users', 'name']
+      },
+      {
+        label: '角色权限',
+        prop: ['menus', 'menuName']
       }
     ]
   }
