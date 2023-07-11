@@ -64,11 +64,20 @@
                     >
                       <el-tag
                         style="margin-inline: 0.4rem"
-                        v-for="desc in props.row[item2.prop]"
-                        :key="desc"
+                        v-if="typeof item2.prop == 'string'"
                       >
-                        {{ desc }}</el-tag
+                        {{ props.row[item2.prop] }}</el-tag
                       >
+                      <!-- 最大支持两层嵌套的prop -->
+                      <template v-else-if="typeof item2.prop == 'object'">
+                        <el-tag
+                          style="margin-inline: 0.4rem"
+                          v-for="item3 in props.row[item2.prop[0]]"
+                          :key="item3"
+                        >
+                          {{ item3[item2.prop[1]] }}</el-tag
+                        >
+                      </template>
                     </el-descriptions-item>
                   </el-descriptions>
                 </div>
