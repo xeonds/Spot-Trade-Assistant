@@ -38,56 +38,12 @@
       width="80%"
     >
       <el-form label-width="100">
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item label="编号">
-              <el-input v-model="form_data.no" />
-            </el-form-item>
-            <el-form-item label="日期">
-              <el-date-picker
-                v-model="form_data.date"
-                type="date"
-                placeholder="选择日期"
-                :shortcuts="shortcuts"
-              ></el-date-picker>
-            </el-form-item>
-            <el-form-item label="签订地点">
-              <el-input v-model="form_data.place" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="甲方">
-              <el-input v-model="form_data.firstParty.name" />
-            </el-form-item>
-            <el-form-item label="甲方联系人">
-              <el-input v-model="form_data.firstParty.proxy" />
-            </el-form-item>
-            <el-form-item label="甲方电话">
-              <el-input v-model="form_data.firstParty.phone" />
-            </el-form-item>
-            <el-form-item label="甲方传真">
-              <el-input v-model="form_data.firstParty.fax" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="乙方">
-              <el-input v-model="form_data.secondParty.name" />
-            </el-form-item>
-            <el-form-item label="乙方联系人">
-              <el-input v-model="form_data.secondParty.preview" />
-            </el-form-item>
-            <el-form-item label="乙方电话">
-              <el-input v-model="form_data.secondParty.phone" />
-            </el-form-item>
-            <el-form-item label="乙方传真">
-              <el-input v-model="form_data.secondParty.fax" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row></el-row>
+        <el-form-item label="签订地点">
+          <el-input v-model="form_data.place" clearable style="width: 300px" />
+        </el-form-item>
         <el-form-item label="合同条款">
           <div
-            v-for="(clause, index) in form_data.clauses"
+            v-for="(_clause, index) in form_data.clauses"
             :key="index"
             style="width: 100%"
           >
@@ -96,7 +52,7 @@
                 <el-input
                   v-model="form_data.clauses[index]"
                   type="textarea"
-                  :rows="4"
+                  :rows="2"
                   style="padding-right: 1rem"
                 />
                 <el-button type="danger" plain @click="removeClause(index)"
