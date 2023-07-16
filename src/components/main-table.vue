@@ -14,6 +14,7 @@
               @click.stop="emits('handle', index)"
               >{{ item }}</el-button
             >
+            <slot name="command"></slot>
           </div>
           <div class="title">{{ props.name }}</div>
         </el-row>
@@ -40,9 +41,11 @@
         @row-click="(row: any, col: any) => emits('click_row', row, col)"
         @selection-change="handleSelectionChange"
         ref="main"
-        :row-style="{ height: '3vh' }"
         :header-cell-style="{
-          'background-color': '#f7f6f4',
+          color: '#000'
+        }"
+        :cell-style="{
+          padding: '2px',
           color: '#000'
         }"
       >
@@ -233,6 +236,11 @@ const change_status = (id: string) => {
 </script>
 
 <style lang="less">
+.el-card__header {
+  background-color: #f7f6f4;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
 .el-card__body {
   padding: 0px;
 }
@@ -258,6 +266,15 @@ const change_status = (id: string) => {
       display: flex;
       flex-flow: row nowrap;
       justify-content: space-between;
+      .operation {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+        .op-button {
+          margin-right: 0.5rem;
+        }
+      }
     }
   }
 }
