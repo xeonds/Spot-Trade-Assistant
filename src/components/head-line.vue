@@ -3,22 +3,12 @@
     <el-row class="row1">
       <div class="logo">百连贸易系统</div>
       <div class="row1-right">
-        <el-popover placement="bottom" trigger="hover">
-          <template #reference>
-            <el-link class="link-item"
-              >欢迎，{{ username }}【{{ role }}】</el-link
-            >
-          </template>
-          <el-row>
-            <el-button class="pop-menu-button" @click="user_info"
-              >个人信息</el-button
-            >
-          </el-row>
-          <el-row>
-            <el-button class="pop-menu-button" @click="logout">登出</el-button>
-          </el-row>
-        </el-popover>
-        <el-link class="link-item">撤单通知</el-link>
+        <el-button link type="primary" class="menu-link-item" @click="user_info"
+          >欢迎，{{ username }}【{{ role }}】</el-button
+        >
+        <el-button link type="primary" class="menu-link-item" @click="logout"
+          >登出</el-button
+        >
       </div>
     </el-row>
     <el-menu
@@ -386,18 +376,13 @@ getModels()
   }
 }
 
-.link-item {
+.menu-link-item {
   color: #fff;
   border-bottom: 1px solid #fff;
+  border-radius: 0;
   margin-inline: 1rem;
   padding: 0.5rem;
   border-bottom: 2px solid #fff;
-
-  &:hover {
-    background-color: #fff;
-    color: @theme-color-primary;
-    border-bottom: 1px solid @theme-color-primary;
-  }
 }
 
 .pop-menu-button {
