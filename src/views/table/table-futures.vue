@@ -49,13 +49,7 @@
     <el-dialog v-model="isShow.table1.menu1" title="保值开仓">
       <el-form label-width="100">
         <el-form-item label="开/平仓">
-          <el-radio-group v-model="data.input.input1">
-            <el-radio-button label="开仓"></el-radio-button>
-            <el-radio-button label="平仓"></el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="当日均值">
-          <el-text>{{ avg_daily(data.input.input1) }}</el-text>
+          <el-input v-model="formInline.add1.m1"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -113,7 +107,8 @@ import * as table_col from '../../assets/table_info/table-title'
 
 let formInline = reactive({
   table1: '',
-  table2: ''
+  table2: '',
+  add1: { m1: '' }
 })
 let isShow = reactive({
   table1: {
@@ -214,35 +209,6 @@ const form2_filter = computed(() => {
     return item.f1.indexOf(formInline.table2) > -1
   })
 })
-const avg_daily = (a: string) => {
-  if (a === '开仓') {
-    let avg = 0
-    for (let i = 0; i < data.form1.length; i++) {
-      if (data.form1[i].f7 === '开') {
-        avg += Number(data.form1[i].f14)
-      }
-    }
-    return (
-      avg /
-      data.form1.filter((item: { f7: string }) => {
-        return item.f7 === '开'
-      }).length
-    )
-  } else {
-    let avg = 0
-    for (let i = 0; i < data.form1.length; i++) {
-      if (data.form1[i].f7 === '平') {
-        avg += Number(data.form1[i].f14)
-      }
-    }
-    return (
-      avg /
-      data.form1.filter((item: { f7: string }) => {
-        return item.f7 === '平'
-      }).length
-    )
-  }
-}
 </script>
 
 <style lang="less">

@@ -156,7 +156,7 @@
         >
       </el-sub-menu>
       <el-sub-menu index="8">
-        <template #title>期贷</template>
+        <template #title>期货</template>
         <el-menu-item class="el-submenu-item" index="8-1" route="/main/futures"
           >保值录入（V1.1）</el-menu-item
         >

@@ -701,6 +701,44 @@ export const FutureInfo2 = [
   }
 ]
 
+export const StatisticsInfo = [
+  {
+    label: '日期',
+    prop: 'f1',
+    fold: false
+  },
+  {
+    label: '账套',
+    prop: 'f2',
+    fold: false
+  },
+  {
+    label: '业务部门',
+    prop: 'f3',
+    fold: false
+  },
+  {
+    label: '品种',
+    prop: 'f4',
+    fold: false
+  },
+  {
+    label: '规格',
+    prop: 'f5',
+    fold: false
+  },
+  {
+    label: '单位',
+    prop: 'f6',
+    fold: false
+  },
+  {
+    label: '币种',
+    prop: 'f7',
+    fold: false
+  }
+]
+
 export const TradeInfo = [
   {
     label: '购销日期',
