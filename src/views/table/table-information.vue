@@ -286,42 +286,46 @@
         :features="table_add.Svar"
         :rules="table_rules.Svarrules"
       ></modifyTable>
-      <div class="union">
-        <modifyTable
-          class="table-pane"
-          id="information3"
-          name="收费项目"
-          :get_data="infoapi.getItem"
-          :add_data="infoapi.addItem"
-          :delete_data="infoapi.deletaItem"
-          :modify_data="infoapi.refreshItem"
-          :command="['刷新', '新建']"
-          :search="ItemSearchCondition"
-          @fresh="handle_fresh"
-          ref="Item"
-          :col="table_col.Item"
-          :features="table_add.Item"
-          width="49"
-          :rules="table_rules.Itemrules"
-        ></modifyTable>
-        <modifyTable
-          class="table-pane"
-          id="information4"
-          name="仓储费"
-          :get_data="infoapi.getStof"
-          :add_data="infoapi.addStof"
-          :delete_data="infoapi.deletaStof"
-          :modify_data="infoapi.refreshStof"
-          :command="['刷新', '新建']"
-          :search="StofSearchCondition"
-          @fresh="handle_fresh"
-          ref="Stof"
-          :col="table_col.Stof"
-          :features="table_add.Stof"
-          width="49"
-          :rules="table_rules.Stofrules"
-        ></modifyTable>
-      </div>
+      <el-row>
+        <el-col :span="12">
+          <modifyTable
+            class="table-pane"
+            id="information3"
+            name="收费项目"
+            :get_data="infoapi.getItem"
+            :add_data="infoapi.addItem"
+            :delete_data="infoapi.deletaItem"
+            :modify_data="infoapi.refreshItem"
+            :command="['刷新', '新建']"
+            :search="ItemSearchCondition"
+            @fresh="handle_fresh"
+            ref="Item"
+            :col="table_col.Item"
+            :features="table_add.Item"
+            width="49"
+            :rules="table_rules.Itemrules"
+          ></modifyTable>
+        </el-col>
+        <el-col :span="12">
+          <modifyTable
+            class="table-pane"
+            id="information4"
+            name="仓储费"
+            :get_data="infoapi.getStof"
+            :add_data="infoapi.addStof"
+            :delete_data="infoapi.deletaStof"
+            :modify_data="infoapi.refreshStof"
+            :command="['刷新', '新建']"
+            :search="StofSearchCondition"
+            @fresh="handle_fresh"
+            ref="Stof"
+            :col="table_col.Stof"
+            :features="table_add.Stof"
+            width="49"
+            :rules="table_rules.Stofrules"
+          ></modifyTable>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
