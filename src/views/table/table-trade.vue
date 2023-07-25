@@ -177,7 +177,6 @@
 
   <div v-if="route.params.id === '1'">
     <div class="table-area">
-      <TableFind :search_item="search_items.TradeInfo"></TableFind>
       <Modify_table
         :data="data"
         :command="['采购', '发送完成交易确认']"
@@ -189,10 +188,12 @@
         @select="select"
         :selectable="true"
       >
+        <template #top>
+          <TableFind :search_item="search_items.TradeInfo"></TableFind>
+        </template>
       </Modify_table>
     </div>
     <div class="table-area">
-      <TableFind :search_item="search_items.TradeInfo"></TableFind>
       <div class="double-table">
         <div class="left">
           <Modify_table
@@ -207,6 +208,9 @@
             @menu="menu"
             extend="操作"
           >
+            <template #top>
+              <TableFind :search_item="search_items.TradeInfo"></TableFind>
+            </template>
             <template #extend2="props">
               <el-button style="height: 1.2vh" @click="test(props)"
                 >查库存</el-button
@@ -232,7 +236,6 @@
   </div>
   <div v-if="route.params.id === '2'">
     <div class="table-area">
-      <TableFind :search_item="search_items.TradeInfo"></TableFind>
       <Modify_table
         :data="data"
         :command="['生成合同']"
@@ -243,10 +246,12 @@
         @menu="menu"
         :selectable="true"
       >
+        <template #top>
+          <TableFind :search_item="search_items.TradeInfo"></TableFind>
+        </template>
       </Modify_table>
     </div>
     <div class="table-area">
-      <TableFind :search_item="search_items.TradeInfo"></TableFind>
       <Modify_table
         :data="data"
         :command="['印花税付款', '合同归档']"
@@ -257,6 +262,9 @@
         @menu="menu"
         :selectable="true"
       >
+        <template #top>
+          <TableFind :search_item="search_items.TradeInfo"></TableFind>
+        </template>
       </Modify_table>
     </div>
     <div class="table-area">
@@ -299,20 +307,27 @@
         @handle="handle"
         @menu="menu"
       >
+        <template #top>
+          <TableFind
+            :search_item="[
+              '交易日期',
+              '付款申请状态',
+              '合同签订状态',
+              '账套',
+              '业务部门',
+              '贸易商',
+              '贸易商部门',
+              '贸易类型',
+              '订单模式',
+              '交货方式',
+              '合同号',
+              '订单号'
+            ]"
+          ></TableFind>
+        </template>
       </Modify_table>
     </div>
     <div class="table-area">
-      <TableFind
-        :search_item="[
-          '付款申请日期',
-          '付款状态',
-          '账套',
-          '业务部门',
-          '付款状态',
-          '贸易商',
-          '付款申请单号'
-        ]"
-      ></TableFind>
       <Modify_table
         :data="data"
         :command="[]"
@@ -322,24 +337,24 @@
         @handle="handle"
         @menu="menu"
       >
+        <template #top>
+          <TableFind
+            :search_item="[
+              '付款申请日期',
+              '付款状态',
+              '账套',
+              '业务部门',
+              '付款状态',
+              '贸易商',
+              '付款申请单号'
+            ]"
+          ></TableFind>
+        </template>
       </Modify_table>
     </div>
   </div>
   <div v-if="route.params.id === '4'">
     <div class="table-area">
-      <TableFind
-        :search_item="[
-          '交易日期',
-          '收款状态',
-          '账套',
-          '业务部门',
-          '贸易商',
-          '贸易商',
-          '贸易商部门',
-          '合同号',
-          '订单号'
-        ]"
-      ></TableFind>
       <Modify_table
         :data="data"
         :command="['']"
@@ -349,19 +364,24 @@
         @handle="handle"
         @menu="menu"
       >
+        <template #top>
+          <TableFind
+            :search_item="[
+              '交易日期',
+              '收款状态',
+              '账套',
+              '业务部门',
+              '贸易商',
+              '贸易商',
+              '贸易商部门',
+              '合同号',
+              '订单号'
+            ]"
+          ></TableFind>
+        </template>
       </Modify_table>
     </div>
     <div class="table-area">
-      <TableFind
-        :search_item="[
-          '匹配状态',
-          '账套',
-          '业务部门',
-          '贸易商',
-          '收款确认单号',
-          '回单号'
-        ]"
-      ></TableFind>
       <Modify_table
         :data="data"
         :command="['打印收款确认单']"
@@ -371,25 +391,23 @@
         @handle="handle"
         @menu="menu"
       >
+        <template #top>
+          <TableFind
+            :search_item="[
+              '匹配状态',
+              '账套',
+              '业务部门',
+              '贸易商',
+              '收款确认单号',
+              '回单号'
+            ]"
+          ></TableFind>
+        </template>
       </Modify_table>
     </div>
   </div>
   <div v-if="route.params.id === '5'">
     <div class="table-area">
-      <TableFind
-        :search_item="[
-          '交易日期',
-          '余款对账状态',
-          '账套',
-          '业务部门',
-          '贸易商',
-          '贸易商部门',
-          '品种',
-          '规格',
-          '币种',
-          '订单号'
-        ]"
-      ></TableFind>
       <Modify_table
         :data="data"
         :command="['余额对账']"
@@ -399,6 +417,22 @@
         @handle="handle"
         @menu="menu"
       >
+        <template #top>
+          <TableFind
+            :search_item="[
+              '交易日期',
+              '余款对账状态',
+              '账套',
+              '业务部门',
+              '贸易商',
+              '贸易商部门',
+              '品种',
+              '规格',
+              '币种',
+              '订单号'
+            ]"
+          ></TableFind>
+        </template>
       </Modify_table>
     </div>
   </div>

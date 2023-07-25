@@ -25,6 +25,9 @@
     :contain_extend2="props.extend2"
     :selectable="props.selectable"
   >
+    <template #top>
+      <slot name="top"></slot>
+    </template>
     <template #table-extend-end2="Slotprops">
       <slot name="extend2" v-bind:row="Slotprops.row"></slot>
     </template>

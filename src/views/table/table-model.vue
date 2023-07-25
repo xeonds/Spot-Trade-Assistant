@@ -20,7 +20,7 @@
                     type="primary"
                     link
                     @click="showGenerateTemplate(scope.row.id)"
-                    >生成</el-button
+                    >编辑条款</el-button
                   >
                   <el-button type="primary" link @click="preview"
                     >预览</el-button

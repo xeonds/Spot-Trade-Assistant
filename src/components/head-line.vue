@@ -204,6 +204,23 @@
         </el-menu-item>
       </el-sub-menu>
     </el-menu>
+    <el-row class="row3">
+      <el-tabs
+        v-model="editableTabsValue"
+        class="row3"
+        closable
+        @tab-remove="removeTab"
+      >
+        <el-tab-pane
+          v-for="item in editableTabs"
+          :key="item.name"
+          :label="item.title"
+          :name="item.name"
+        >
+          {{ item.content }}
+        </el-tab-pane>
+      </el-tabs>
+    </el-row>
   </el-header>
 </template>
 
@@ -217,6 +234,19 @@ const activeIndex = ref('1')
 const user = localStorage.getItem('username')
 const router = useRouter()
 const models = ref([{ name: '全部', id: 0 }])
+const editableTabsValue = ref('2')
+const editableTabs = ref([
+  {
+    title: 'Tab 1',
+    name: '1',
+    content: 'Tab 1 content'
+  },
+  {
+    title: 'Tab 2',
+    name: '2',
+    content: 'Tab 2 content'
+  }
+])
 let username = ref('')
 let role = ref('')
 
@@ -242,6 +272,21 @@ const getModels = () => {
     .catch((err) => {
       console.log(err)
     })
+}
+
+const removeTab = (targetName: string) => {
+  const tabs = editableTabs.value
+  let activeName = editableTabsValue.value
+  if (activeName === targetName) {
+    tabs.forEach((tab, index) => {
+      if (tab.name === targetName) {
+        const nextTab = tabs[index + 1] || tabs[index - 1]
+        if (nextTab) {
+          activeName = nextTab.name
+        }
+      }
+    })
+  }
 }
 
 if (user) {
@@ -330,7 +375,10 @@ getModels()
 
   .row2 {
     height: 2rem;
-    margin-top: 0.5rem;
+    margin-top: 0.125rem;
+  }
+  .row3 {
+    height: 1rem;
   }
 }
 

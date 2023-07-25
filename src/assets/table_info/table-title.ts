@@ -510,7 +510,27 @@ export const MenusInfo = [
 
 export const ModelInfo = [
   {
-    label: '模板名称',
+    label: '贸易类型',
+    prop: 'name',
+    fold: false
+  },
+  {
+    label: '订单模式',
+    prop: 'name',
+    fold: false
+  },
+  {
+    label: '交收方式',
+    prop: 'name',
+    fold: false
+  },
+  {
+    label: '购销方向',
+    prop: 'name',
+    fold: false
+  },
+  {
+    label: '印花税率',
     prop: 'name',
     fold: false
   }

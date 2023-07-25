@@ -33,7 +33,7 @@ const getDate = () => {
 
   #view-header {
     overflow: hidden;
-    height: 6rem !important;
+    height: 8rem !important;
   }
 
   #view-content {

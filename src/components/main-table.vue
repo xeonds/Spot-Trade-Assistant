@@ -116,11 +116,15 @@
           </AFTableColumn>
           <!-- 普通显示 -->
           <AFTableColumn
-            :resizable="false"
             v-else-if="!col[index].fold"
             :prop="col[index].prop"
             :label="item.label"
             align="center"
+            :filters="[
+              { text: '条件1', value: '1' },
+              { text: '条件2', value: '2' }
+            ]"
+            :filter-method="() => {}"
           >
           </AFTableColumn>
         </template>
