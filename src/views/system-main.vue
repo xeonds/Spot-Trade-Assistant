@@ -1,11 +1,15 @@
 <template>
   <el-scrollbar id="scroll-container">
     <HeadLine id="view-header" />
-    <router-view id="view-content"></router-view>
+    <div id="view-content">
+      <router-view></router-view>
+    </div>
     <div id="view-footer">
       <!-- <bottomMarqueen id="marqueen"></bottomMarqueen> -->
       <div id="marqueen"></div>
-      <div id="version">{{ getDate() }} &copy;百连V1.0</div>
+      <div id="footer">
+        <el-text style="color: white">{{ getDate() }} &copy;百连V1.0</el-text>
+      </div>
     </div>
   </el-scrollbar>
 </template>
@@ -29,28 +33,28 @@ const getDate = () => {
 
   #view-header {
     overflow: hidden;
-    max-height: 6rem !important;
+    height: 6rem !important;
+  }
+
+  #view-content {
+    min-height: calc(100vh - 12rem);
+    padding: 1rem;
   }
 
   #view-footer {
+    background-color: var(--el-color-primary);
     display: flex;
     flex-flow: row;
     justify-content: space-between;
-
+    align-items: center;
+    height: 4rem;
+    padding-inline: 1rem;
+    color: white;
     #marqueen {
       overflow: hidden;
-      margin-top: 2rem;
-      margin-inline: 1rem;
-      width: calc(100vw - 16rem);
-      height: 2rem;
-      max-height: 3rem !important;
     }
-
-    #version {
-      margin-top: 2rem;
-      width: 14rem;
-      height: 2rem;
-      text-align: center;
+    #footer {
+      align-self: center;
     }
   }
 }

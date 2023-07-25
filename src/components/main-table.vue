@@ -8,6 +8,8 @@
         <el-row class="card-nav">
           <div class="operation">
             <el-button
+              type="primary"
+              plain
               class="op-button"
               v-for="(item, index) in command"
               :key="index"
