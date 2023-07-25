@@ -1,14 +1,14 @@
 <template>
   <el-scrollbar id="scroll-container">
     <HeadLine id="view-header" />
-    <router-view id="view-content"></router-view>
-    <div position="bottom">
-      <div id="view-footer">
-        <!-- <bottomMarqueen id="marqueen"></bottomMarqueen> -->
-        <div id="marqueen"></div>
-        <div id="footer">
-          <el-text style="color: white">{{ getDate() }} &copy;百连V1.0</el-text>
-        </div>
+    <div id="view-content">
+      <router-view></router-view>
+    </div>
+    <div id="view-footer">
+      <!-- <bottomMarqueen id="marqueen"></bottomMarqueen> -->
+      <div id="marqueen"></div>
+      <div id="footer">
+        <el-text style="color: white">{{ getDate() }} &copy;百连V1.0</el-text>
       </div>
     </div>
   </el-scrollbar>
@@ -33,11 +33,15 @@ const getDate = () => {
 
   #view-header {
     overflow: hidden;
-    max-height: 6rem !important;
+    height: 6rem !important;
+  }
+
+  #view-content {
+    min-height: calc(100vh - 12rem);
+    padding: 1rem;
   }
 
   #view-footer {
-    margin-top: 1.5rem;
     background-color: var(--el-color-primary);
     display: flex;
     flex-flow: row;
