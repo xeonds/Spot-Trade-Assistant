@@ -194,3 +194,6 @@ export const MenusInforules = {
   menuName: [{ required: true, message: '请填写名称', trigger: 'blur' }],
   remark: [{ required: true, message: '请填写备注', trigger: 'blur' }]
 }
+
+export const FutureInfo = {}
+export const FutureInfo2 = {}

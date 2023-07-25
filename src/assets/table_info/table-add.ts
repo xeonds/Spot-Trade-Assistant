@@ -701,3 +701,6 @@ export const ModelInfo = [
     type: 'string'
   }
 ]
+
+export const FutureInfo = []
+export const FutureInfo2 = []
