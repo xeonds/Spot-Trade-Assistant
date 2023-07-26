@@ -1,7 +1,7 @@
 <template>
   <el-scrollbar id="scroll-container">
     <HeadLine id="view-header" />
-    <el-row class="row3"> </el-row>
+    <div id="sub-nav"></div>
     <div id="view-content">
       <router-view></router-view>
     </div>
@@ -9,7 +9,7 @@
       <!-- <bottomMarqueen id="marqueen"></bottomMarqueen> -->
       <div id="marqueen"></div>
       <div id="footer">
-        <el-text style="color: white">{{ getDate() }} &copy;百连V1.0</el-text>
+        <span>{{ getDate() }} &copy;百连V1.0</span>
       </div>
     </div>
   </el-scrollbar>
@@ -18,39 +18,12 @@
 <script setup lang="ts">
 // import bottomMarqueen from '../components/bottom-marqueen.vue'
 import HeadLine from '../components/head-line.vue'
-const editableTabsValue = ref('2')
-const editableTabs = ref([
-  {
-    title: 'Tab 1',
-    name: '1',
-    content: 'Tab 1 content'
-  },
-  {
-    title: 'Tab 2',
-    name: '2',
-    content: 'Tab 2 content'
-  }
-])
 const getDate = () => {
   let date = new Date()
   let year = date.getFullYear()
   let month = date.getMonth() + 1
   let day = date.getDate()
   return `${year}年${month}月${day}日`
-}
-const removeTab = (targetName: string) => {
-  const tabs = editableTabs.value
-  let activeName = editableTabsValue.value
-  if (activeName === targetName) {
-    tabs.forEach((tab, index) => {
-      if (tab.name === targetName) {
-        const nextTab = tabs[index + 1] || tabs[index - 1]
-        if (nextTab) {
-          activeName = nextTab.name
-        }
-      }
-    })
-  }
 }
 </script>
 
@@ -64,7 +37,7 @@ const removeTab = (targetName: string) => {
     height: 6rem !important;
   }
 
-  .row3 {
+  #sub-nav {
     height: 2rem;
     background-color: var(--el-color-secondary);
   }
@@ -75,14 +48,14 @@ const removeTab = (targetName: string) => {
   }
 
   #view-footer {
-    background-color: var(--el-color-primary);
+    background-color: var(--el-color-secondary);
     display: flex;
     flex-flow: row;
     justify-content: space-between;
     align-items: center;
     height: 4rem;
     padding-inline: 1rem;
-    color: white;
+    color: var(--el-color-primary);
     #marqueen {
       overflow: hidden;
     }
@@ -90,5 +63,8 @@ const removeTab = (targetName: string) => {
       align-self: center;
     }
   }
+}
+.el-card__body {
+  padding: 0px;
 }
 </style>

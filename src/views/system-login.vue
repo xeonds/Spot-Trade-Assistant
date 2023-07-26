@@ -116,3 +116,9 @@ if (loginStatusJudge()) {
   }
 }
 </style>
+
+<style>
+.el-card__body {
+  padding: 20px;
+}
+</style>

@@ -12,5 +12,6 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 :root {
   --el-color-primary: @theme-color-primary;
+  --el-color-secondary: @theme-color-secondary;
 }
 </style>
