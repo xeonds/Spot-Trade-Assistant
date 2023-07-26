@@ -23,7 +23,7 @@
         </modifyTable>
       </el-col>
     </el-row>
-    <el-row class="rows" :gutter="20">
+    <el-row class="rows" :gutter="10">
       <el-col :span="12">
         <modifyTable
           id="user2"
@@ -132,11 +132,3 @@ const handle_fresh = (name: string) => {
   }
 }
 </script>
-
-<style lang="less" scoped>
-.rows {
-  margin-inline: 0.5rem !important;
-  margin-top: 1rem;
-  max-width: 100%;
-}
-</style>

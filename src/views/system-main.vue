@@ -39,12 +39,17 @@ const getDate = () => {
 
   #sub-nav {
     height: 2rem;
+    padding-inline: 1rem;
     background-color: var(--el-color-secondary);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+    align-items: center;
   }
 
   #view-content {
-    min-height: calc(100vh - 12rem);
-    padding: 1rem;
+    min-height: calc(100vh - 11rem);
+    padding: 0.5rem;
   }
 
   #view-footer {
@@ -53,7 +58,7 @@ const getDate = () => {
     flex-flow: row;
     justify-content: space-between;
     align-items: center;
-    height: 4rem;
+    height: 2rem;
     padding-inline: 1rem;
     color: var(--el-color-primary);
     #marqueen {
@@ -66,5 +71,8 @@ const getDate = () => {
 }
 .el-card__body {
   padding: 0px;
+}
+.rows {
+  margin-top: 0.5rem;
 }
 </style>
