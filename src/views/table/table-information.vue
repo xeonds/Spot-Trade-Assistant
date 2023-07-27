@@ -1,332 +1,331 @@
 <template>
-  <div class="main">
-    <div v-if="route.params.id === '1'">
+  <div v-if="route.params.id === '1'">
+    <modifyTable
+      class="table-pane"
+      id="information1"
+      name="本公司账套"
+      :get_data="infoapi.getZhangTao"
+      :add_data="infoapi.addZhangTao1"
+      :delete_data="infoapi.deletaZhangTao"
+      :modify_data="infoapi.refreshZhangTao"
+      :export="infoapi.Partmentexcel"
+      :command="['刷新', '新建', '导出']"
+      :search="ZhangTaoSearchCondition"
+      @fresh="handle_fresh"
+      ref="zhangtao"
+      @click_row="handle_click"
+      :col="table_col.ZhangTao1"
+      :features="table_add.ZhangTao1"
+      :rules="table_rules.Zhangtao1rules"
+      :enable_select="true"
+    ></modifyTable>
+    <modifyTable
+      class="table-pane"
+      id="information2"
+      name="本公司开户银行"
+      :get_data="infoapi.getBank"
+      :add_data="infoapi.addBank"
+      :delete_data="infoapi.deletaBank"
+      :modify_data="infoapi.refreshBank"
+      :command="['刷新', '新建']"
+      :search="bankSearchCondition"
+      @fresh="handle_fresh"
+      ref="bank"
+      :col="table_col.Bank"
+      :features="table_add.Bank"
+      change_base="company"
+      :rules="table_rules.Bankrules"
+    ></modifyTable>
+    <modifyTable
+      class="table-pane"
+      id="information3"
+      name="本公司业务部门"
+      :get_data="infoapi.getPartment"
+      :add_data="infoapi.addPartment"
+      :delete_data="infoapi.deletaPartment"
+      :modify_data="infoapi.refreshPartment"
+      :search="PartmentSearchCondition"
+      @fresh="handle_fresh"
+      ref="partment"
+      :command="['刷新', '新建']"
+      :col="table_col.Partment"
+      :features="table_add.Partment"
+      change_base="company"
+      :rules="table_rules.Partmentrules"
+    >
+    </modifyTable>
+  </div>
+  <div v-if="route.params.id === '2'">
+    <modifyTable
+      class="table-pane"
+      id="information1"
+      name="往来单位资料"
+      :get_data="infoapi.getZhangTao2"
+      :add_data="infoapi.addZhangTao2"
+      :delete_data="infoapi.deletaZhangTao"
+      :modify_data="infoapi.refreshZhangTao"
+      :export="infoapi.Partmentexcel"
+      :command="['刷新', '新建', '导出']"
+      :search="ZhangTaoSearchCondition2"
+      @fresh="handle_fresh"
+      ref="zhangtao2"
+      @click_row="handle_click"
+      :col="table_col.ZhangTao2"
+      :features="table_add.ZhangTao2"
+      :enable_select="true"
+      @cancel_select="cancel_select"
+      :rules="table_rules.ZhangTao2rules"
+    ></modifyTable>
+    <modifyTable
+      class="table-pane"
+      id="information2"
+      name="往来单位银行"
+      :get_data="infoapi.getBank"
+      :add_data="infoapi.addBank"
+      :delete_data="infoapi.deletaBank"
+      :modify_data="infoapi.refreshBank"
+      :command="['刷新', '新建']"
+      :search="bankSearchCondition2"
+      @fresh="handle_fresh"
+      ref="bank2"
+      :col="table_col.Bank"
+      :features="table_add.Bank"
+      change_base="company"
+      :rules="table_rules.Bankrules"
+    ></modifyTable>
+    <modifyTable
+      class="table-pane"
+      id="information3"
+      name="往来单位部门"
+      :get_data="infoapi.getPartment"
+      :add_data="infoapi.addPartment"
+      :delete_data="infoapi.deletaPartment"
+      :modify_data="infoapi.refreshPartment"
+      :search="PartmentSearchCondition2"
+      @fresh="handle_fresh"
+      ref="partment2"
+      :command="['刷新', '新建']"
+      :col="table_col.Partment"
+      :features="table_add.Partment"
+      change_base="company"
+      :rules="table_rules.Partmentrules"
+    >
+    </modifyTable>
+  </div>
+  <div v-if="route.params.id === '3'">
+    <modifyTable
+      class="table-pane"
+      id="information1"
+      name="商品品种"
+      :get_data="infoapi.getVariety"
+      :add_data="infoapi.addVariety"
+      :delete_data="infoapi.deletaVariety"
+      :modify_data="infoapi.refreshVariety"
+      :command="['刷新', '新建', '导出']"
+      :search="VarietySearchCondition"
+      @fresh="handle_fresh"
+      @click_row="handle_click"
+      ref="Variety"
+      :col="table_col.Variety"
+      :features="table_add.Variety"
+      :enable_select="true"
+      @cancel_select="cancel_select"
+      :option_get="{ variety: varietyOptionsGet }"
+      :rules="table_rules.Varietyrules"
+    >
+    </modifyTable>
+    <modifyTable
+      class="table-pane"
+      id="information2"
+      name="商品规格"
+      :get_data="infoapi.getGrade"
+      :add_data="infoapi.addGrade"
+      :delete_data="infoapi.deletaGrade"
+      :modify_data="infoapi.refreshGrade"
+      :command="['刷新', '新建']"
+      :search="GradeSearchCondition"
+      @fresh="handle_fresh"
+      ref="Grade"
+      :col="table_col.Grade"
+      :features="table_add.Grade"
+      change_base="variety"
+      :option_get="{ variety: varietyOptionsGet }"
+      :enAddBeforeSelect="true"
+      :rules="table_rules.Graderules"
+    ></modifyTable>
+    <modifyTable
+      class="table-pane"
+      id="information3"
+      name="商品商标"
+      :get_data="infoapi.getTrademark"
+      :add_data="infoapi.addTrademark"
+      :delete_data="infoapi.deletaTrademark"
+      :modify_data="infoapi.refreshTrademark"
+      :command="['刷新', '新建']"
+      :search="TrademarkSearchCondition"
+      @fresh="handle_fresh"
+      ref="Trademark"
+      :col="table_col.Trademark"
+      :features="table_add.Trademark"
+      change_base="variety"
+      :option_get="{ variety: varietyOptionsGet }"
+      :enAddBeforeSelect="true"
+      :rules="table_rules.Trademarkrules"
+    >
+    </modifyTable>
+  </div>
+  <el-row v-if="route.params.id === '4'">
+    <el-col :span="6">
       <modifyTable
-        class="table-pane"
+        class="vertical-table-pane"
         id="information1"
-        name="本公司账套"
-        :get_data="infoapi.getZhangTao"
-        :add_data="infoapi.addZhangTao1"
-        :delete_data="infoapi.deletaZhangTao"
-        :modify_data="infoapi.refreshZhangTao"
-        :export="infoapi.Partmentexcel"
+        name="币种"
+        :get_data="infoapi.getCurrency"
+        :add_data="infoapi.addCurrency"
+        :delete_data="infoapi.deletaCurrency"
+        :modify_data="infoapi.refreshCurrency"
         :command="['刷新', '新建', '导出']"
-        :search="ZhangTaoSearchCondition"
+        :search="CurrencySearchCondition"
         @fresh="handle_fresh"
-        ref="zhangtao"
-        @click_row="handle_click"
-        :col="table_col.ZhangTao1"
-        :features="table_add.ZhangTao1"
-        :rules="table_rules.Zhangtao1rules"
-        :enable_select="true"
+        ref="Currency"
+        :col="table_col.Currency"
+        :features="table_add.Currency"
+        height="72"
+        :rules="table_rules.Currencyrules"
       ></modifyTable>
+    </el-col>
+    <el-col :span="6">
       <modifyTable
-        class="table-pane"
+        class="vertical-table-pane"
         id="information2"
-        name="本公司开户银行"
-        :get_data="infoapi.getBank"
-        :add_data="infoapi.addBank"
-        :delete_data="infoapi.deletaBank"
-        :modify_data="infoapi.refreshBank"
+        name="订单模式"
+        :get_data="infoapi.getOrders"
+        :add_data="infoapi.addOrders"
+        :delete_data="infoapi.deletaOrders"
+        :modify_data="infoapi.refreshOrders"
         :command="['刷新', '新建']"
-        :search="bankSearchCondition"
+        :search="OrdersSearchCondition"
         @fresh="handle_fresh"
-        ref="bank"
-        :col="table_col.Bank"
-        :features="table_add.Bank"
-        change_base="company"
-        :rules="table_rules.Bankrules"
-      ></modifyTable>
+        ref="Orders"
+        :col="table_col.Orders"
+        :features="table_add.Orders"
+        height="72"
+        :rules="table_rules.Ordersrules"
+      >
+      </modifyTable>
+    </el-col>
+    <el-col :span="6">
       <modifyTable
-        class="table-pane"
+        class="vertical-table-pane"
         id="information3"
-        name="本公司业务部门"
-        :get_data="infoapi.getPartment"
-        :add_data="infoapi.addPartment"
-        :delete_data="infoapi.deletaPartment"
-        :modify_data="infoapi.refreshPartment"
-        :search="PartmentSearchCondition"
-        @fresh="handle_fresh"
-        ref="partment"
+        name="海关款项类别"
+        :get_data="infoapi.getType"
+        :add_data="infoapi.addType4"
+        :delete_data="infoapi.deletaType"
+        :modify_data="infoapi.refreshType4"
         :command="['刷新', '新建']"
-        :col="table_col.Partment"
-        :features="table_add.Partment"
-        change_base="company"
-        :rules="table_rules.Partmentrules"
-      >
-      </modifyTable>
-    </div>
-    <div v-if="route.params.id === '2'">
-      <modifyTable
-        class="table-pane"
-        id="information1"
-        name="往来单位资料"
-        :get_data="infoapi.getZhangTao2"
-        :add_data="infoapi.addZhangTao2"
-        :delete_data="infoapi.deletaZhangTao"
-        :modify_data="infoapi.refreshZhangTao"
-        :export="infoapi.Partmentexcel"
-        :command="['刷新', '新建', '导出']"
-        :search="ZhangTaoSearchCondition2"
+        :search="TypeSearchCondition"
         @fresh="handle_fresh"
-        ref="zhangtao2"
-        @click_row="handle_click"
-        :col="table_col.ZhangTao2"
-        :features="table_add.ZhangTao2"
-        :enable_select="true"
-        @cancel_select="cancel_select"
-        :rules="table_rules.ZhangTao2rules"
+        ref="Type"
+        :col="table_col.Type"
+        :features="table_add.Type"
+        height="72"
+        :rules="table_rules.Typerules"
       ></modifyTable>
+    </el-col>
+    <el-col :span="6">
       <modifyTable
-        class="table-pane"
-        id="information2"
-        name="往来单位银行"
-        :get_data="infoapi.getBank"
-        :add_data="infoapi.addBank"
-        :delete_data="infoapi.deletaBank"
-        :modify_data="infoapi.refreshBank"
+        class="vertical-table-pane"
+        id="information4"
+        name="仓储款项类别"
+        :get_data="infoapi.getType"
+        :add_data="infoapi.addType3"
+        :delete_data="infoapi.deletaType"
+        :modify_data="infoapi.refreshType3"
         :command="['刷新', '新建']"
-        :search="bankSearchCondition2"
+        :search="TypeSearchCondition2"
         @fresh="handle_fresh"
-        ref="bank2"
-        :col="table_col.Bank"
-        :features="table_add.Bank"
-        change_base="company"
-        :rules="table_rules.Bankrules"
+        ref="Type2"
+        :col="table_col.Type"
+        :features="table_add.Type"
+        height="72"
+        :rules="table_rules.Typerules"
       ></modifyTable>
-      <modifyTable
-        class="table-pane"
-        id="information3"
-        name="往来单位部门"
-        :get_data="infoapi.getPartment"
-        :add_data="infoapi.addPartment"
-        :delete_data="infoapi.deletaPartment"
-        :modify_data="infoapi.refreshPartment"
-        :search="PartmentSearchCondition2"
-        @fresh="handle_fresh"
-        ref="partment2"
-        :command="['刷新', '新建']"
-        :col="table_col.Partment"
-        :features="table_add.Partment"
-        change_base="company"
-        :rules="table_rules.Partmentrules"
-      >
-      </modifyTable>
-    </div>
-    <div v-if="route.params.id === '3'">
-      <modifyTable
-        class="table-pane"
-        id="information1"
-        name="商品品种"
-        :get_data="infoapi.getVariety"
-        :add_data="infoapi.addVariety"
-        :delete_data="infoapi.deletaVariety"
-        :modify_data="infoapi.refreshVariety"
-        :command="['刷新', '新建', '导出']"
-        :search="VarietySearchCondition"
-        @fresh="handle_fresh"
-        @click_row="handle_click"
-        ref="Variety"
-        :col="table_col.Variety"
-        :features="table_add.Variety"
-        :enable_select="true"
-        @cancel_select="cancel_select"
-        :option_get="{ variety: varietyOptionsGet }"
-        :rules="table_rules.Varietyrules"
-      >
-      </modifyTable>
-      <modifyTable
-        class="table-pane"
-        id="information2"
-        name="商品规格"
-        :get_data="infoapi.getGrade"
-        :add_data="infoapi.addGrade"
-        :delete_data="infoapi.deletaGrade"
-        :modify_data="infoapi.refreshGrade"
-        :command="['刷新', '新建']"
-        :search="GradeSearchCondition"
-        @fresh="handle_fresh"
-        ref="Grade"
-        :col="table_col.Grade"
-        :features="table_add.Grade"
-        change_base="variety"
-        :option_get="{ variety: varietyOptionsGet }"
-        :enAddBeforeSelect="true"
-        :rules="table_rules.Graderules"
-      ></modifyTable>
-      <modifyTable
-        class="table-pane"
-        id="information3"
-        name="商品商标"
-        :get_data="infoapi.getTrademark"
-        :add_data="infoapi.addTrademark"
-        :delete_data="infoapi.deletaTrademark"
-        :modify_data="infoapi.refreshTrademark"
-        :command="['刷新', '新建']"
-        :search="TrademarkSearchCondition"
-        @fresh="handle_fresh"
-        ref="Trademark"
-        :col="table_col.Trademark"
-        :features="table_add.Trademark"
-        change_base="variety"
-        :option_get="{ variety: varietyOptionsGet }"
-        :enAddBeforeSelect="true"
-        :rules="table_rules.Trademarkrules"
-      >
-      </modifyTable>
-    </div>
-    <div v-if="route.params.id === '4'">
-      <div class="vertical-box">
+    </el-col>
+  </el-row>
+  <div v-if="route.params.id === '5'">
+    <modifyTable
+      class="table-pane"
+      id="information1"
+      name="仓储协议"
+      :get_data="infoapi.getSta"
+      :add_data="infoapi.addSta"
+      :delete_data="infoapi.deletaSta"
+      :modify_data="infoapi.refreshSta"
+      :command="['刷新', '新建', '导出']"
+      :search="StaSearchCondition"
+      @fresh="handle_fresh"
+      ref="Sta"
+      :col="table_col.Sta"
+      :features="table_add.Sta"
+      :rules="table_rules.Starules"
+    ></modifyTable>
+    <modifyTable
+      class="table-pane"
+      id="information2"
+      name="签约品种"
+      :get_data="infoapi.getSvar"
+      :add_data="infoapi.addSvar"
+      :delete_data="infoapi.deletaSvar"
+      :modify_data="infoapi.refreshSvar"
+      :command="['刷新', '新建']"
+      :search="SvarSearchCondition"
+      @fresh="handle_fresh"
+      ref="Svar"
+      :col="table_col.Svar"
+      :features="table_add.Svar"
+      :rules="table_rules.Svarrules"
+    ></modifyTable>
+    <el-row>
+      <el-col :span="12">
         <modifyTable
-          class="vertical-table-pane"
-          id="information1"
-          name="币种"
-          :get_data="infoapi.getCurrency"
-          :add_data="infoapi.addCurrency"
-          :delete_data="infoapi.deletaCurrency"
-          :modify_data="infoapi.refreshCurrency"
-          :command="['刷新', '新建', '导出']"
-          :search="CurrencySearchCondition"
-          @fresh="handle_fresh"
-          ref="Currency"
-          :col="table_col.Currency"
-          :features="table_add.Currency"
-          width="25"
-          height="80"
-          :rules="table_rules.Currencyrules"
-        ></modifyTable>
-        <modifyTable
-          class="vertical-table-pane"
-          id="information2"
-          name="订单模式"
-          :get_data="infoapi.getOrders"
-          :add_data="infoapi.addOrders"
-          :delete_data="infoapi.deletaOrders"
-          :modify_data="infoapi.refreshOrders"
-          :command="['刷新', '新建']"
-          :search="OrdersSearchCondition"
-          @fresh="handle_fresh"
-          ref="Orders"
-          :col="table_col.Orders"
-          :features="table_add.Orders"
-          width="25"
-          height="80"
-          :rules="table_rules.Ordersrules"
-        >
-        </modifyTable>
-
-        <modifyTable
-          class="vertical-table-pane"
+          class="table-pane"
           id="information3"
-          name="海关款项类别"
-          :get_data="infoapi.getType"
-          :add_data="infoapi.addType4"
-          :delete_data="infoapi.deletaType"
-          :modify_data="infoapi.refreshType4"
+          name="收费项目"
+          :get_data="infoapi.getItem"
+          :add_data="infoapi.addItem"
+          :delete_data="infoapi.deletaItem"
+          :modify_data="infoapi.refreshItem"
           :command="['刷新', '新建']"
-          :search="TypeSearchCondition"
+          :search="ItemSearchCondition"
           @fresh="handle_fresh"
-          ref="Type"
-          :col="table_col.Type"
-          :features="table_add.Type"
-          width="24"
-          height="80"
-          :rules="table_rules.Typerules"
+          ref="Item"
+          :col="table_col.Item"
+          :features="table_add.Item"
+          width="49"
+          :rules="table_rules.Itemrules"
         ></modifyTable>
+      </el-col>
+      <el-col :span="12">
         <modifyTable
-          class="vertical-table-pane"
+          class="table-pane"
           id="information4"
-          name="仓储款项类别"
-          :get_data="infoapi.getType"
-          :add_data="infoapi.addType3"
-          :delete_data="infoapi.deletaType"
-          :modify_data="infoapi.refreshType3"
+          name="仓储费"
+          :get_data="infoapi.getStof"
+          :add_data="infoapi.addStof"
+          :delete_data="infoapi.deletaStof"
+          :modify_data="infoapi.refreshStof"
           :command="['刷新', '新建']"
-          :search="TypeSearchCondition2"
+          :search="StofSearchCondition"
           @fresh="handle_fresh"
-          ref="Type2"
-          :col="table_col.Type"
-          :features="table_add.Type"
-          width="24"
-          height="80"
-          :rules="table_rules.Typerules"
+          ref="Stof"
+          :col="table_col.Stof"
+          :features="table_add.Stof"
+          width="49"
+          :rules="table_rules.Stofrules"
         ></modifyTable>
-      </div>
-    </div>
-    <div v-if="route.params.id === '5'">
-      <modifyTable
-        class="table-pane"
-        id="information1"
-        name="仓储协议"
-        :get_data="infoapi.getSta"
-        :add_data="infoapi.addSta"
-        :delete_data="infoapi.deletaSta"
-        :modify_data="infoapi.refreshSta"
-        :command="['刷新', '新建', '导出']"
-        :search="StaSearchCondition"
-        @fresh="handle_fresh"
-        ref="Sta"
-        :col="table_col.Sta"
-        :features="table_add.Sta"
-        :rules="table_rules.Starules"
-      ></modifyTable>
-      <modifyTable
-        class="table-pane"
-        id="information2"
-        name="签约品种"
-        :get_data="infoapi.getSvar"
-        :add_data="infoapi.addSvar"
-        :delete_data="infoapi.deletaSvar"
-        :modify_data="infoapi.refreshSvar"
-        :command="['刷新', '新建']"
-        :search="SvarSearchCondition"
-        @fresh="handle_fresh"
-        ref="Svar"
-        :col="table_col.Svar"
-        :features="table_add.Svar"
-        :rules="table_rules.Svarrules"
-      ></modifyTable>
-      <el-row>
-        <el-col :span="12">
-          <modifyTable
-            class="table-pane"
-            id="information3"
-            name="收费项目"
-            :get_data="infoapi.getItem"
-            :add_data="infoapi.addItem"
-            :delete_data="infoapi.deletaItem"
-            :modify_data="infoapi.refreshItem"
-            :command="['刷新', '新建']"
-            :search="ItemSearchCondition"
-            @fresh="handle_fresh"
-            ref="Item"
-            :col="table_col.Item"
-            :features="table_add.Item"
-            width="49"
-            :rules="table_rules.Itemrules"
-          ></modifyTable>
-        </el-col>
-        <el-col :span="12">
-          <modifyTable
-            class="table-pane"
-            id="information4"
-            name="仓储费"
-            :get_data="infoapi.getStof"
-            :add_data="infoapi.addStof"
-            :delete_data="infoapi.deletaStof"
-            :modify_data="infoapi.refreshStof"
-            :command="['刷新', '新建']"
-            :search="StofSearchCondition"
-            @fresh="handle_fresh"
-            ref="Stof"
-            :col="table_col.Stof"
-            :features="table_add.Stof"
-            width="49"
-            :rules="table_rules.Stofrules"
-          ></modifyTable>
-        </el-col>
-      </el-row>
-    </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -493,22 +492,3 @@ const cancel_select = (name: string) => {
   }
 }
 </script>
-
-<style lang="less" scoped>
-.table-pane {
-  padding-inline: 1rem;
-  padding-top: 1rem;
-}
-
-.vertical-table-pane {
-  padding-top: 1rem;
-  padding-left: 1rem;
-  width: calc((100vw - 5rem) / 4);
-}
-
-.vertical-box {
-  display: flex;
-  flex-flow: row;
-  height: 100%;
-}
-</style>

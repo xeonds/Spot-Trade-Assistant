@@ -1,103 +1,101 @@
 <template>
-  <div class="model">
-    <Table
-      class="model-box"
-      id="table-future-1"
-      :col="table_col.FutureInfo"
-      :table_data="form1_filter"
-      :contain_top="true"
-      :contain_command="true"
-      :command="commands.command"
-      :name="'保值成交记录'"
-      @handle="handle"
-      :hasfold="false"
-      :enable_select="false"
-      :height="33"
-    >
-      <template #command>
-        <el-input
-          class="inline-search"
-          v-model="formInline.table1"
-          placeholder="输入关键字，用空格隔开"
-          clearable
-        />
-      </template>
-    </Table>
-    <Table
-      class="model-box"
-      id="table-future-2"
-      :col="table_col.FutureInfo2"
-      :table_data="form2_filter"
-      :contain_top="true"
-      :contain_command="true"
-      :command="commands.command2"
-      :name="'保值头寸'"
-      @handle="handle2"
-      :hasfold="false"
-      :enable_select="false"
-      :height="33"
-    >
-      <template #command>
-        <el-input
-          class="inline-search"
-          v-model="formInline.table2"
-          placeholder="输入关键字，用空格隔开"
-          clearable
-        />
-      </template>
-    </Table>
-    <el-dialog v-model="isShow.table1.menu1" title="保值开仓">
-      <el-form label-width="100">
-        <el-form-item label="开/平仓">
-          <el-input v-model="formInline.add1.m1"></el-input>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="isShow.table1.menu1 = false" class="cancel" plain
-            >取消</el-button
-          >
-          <el-button type="primary" class="comfirm" plain>确定</el-button>
-        </span>
-      </template>
-    </el-dialog>
-    <el-dialog v-model="isShow.table2.menu1" title="保值平仓">
-      <el-form label-width="100">
-        <el-form-item label="期贷合约数据">
-          <el-input v-model="data.form2" clearable style="width: 300px" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="isShow.table2.menu1 = false" class="cancel" plain
-            >取消</el-button
-          >
-          <el-button
-            type="primary"
-            class="comfirm"
-            plain
-            @click="isShow.table1.menu1 = false"
-            >确定</el-button
-          >
-        </span>
-      </template>
-    </el-dialog>
-    <el-dialog v-model="isShow.table2.menu2" title="期货结算价">
-      <el-form label-width="100">
-        <el-form-item label="期贷合约数据">
-          <el-input v-model="data.form2" clearable style="width: 300px" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="isShow.table2.menu2 = false" class="cancel" plain
-            >取消</el-button
-          >
-          <el-button type="primary" class="comfirm" plain>确定</el-button>
-        </span>
-      </template>
-    </el-dialog>
-  </div>
+  <Table
+    class="model-box"
+    id="table-future-1"
+    :col="table_col.FutureInfo"
+    :table_data="form1_filter"
+    :contain_top="true"
+    :contain_command="true"
+    :command="commands.command"
+    :name="'保值成交记录'"
+    @handle="handle"
+    :hasfold="false"
+    :enable_select="false"
+    :height="33"
+  >
+    <template #command>
+      <el-input
+        class="inline-search"
+        v-model="formInline.table1"
+        placeholder="输入关键字，用空格隔开"
+        clearable
+      />
+    </template>
+  </Table>
+  <Table
+    class="model-box"
+    id="table-future-2"
+    :col="table_col.FutureInfo2"
+    :table_data="form2_filter"
+    :contain_top="true"
+    :contain_command="true"
+    :command="commands.command2"
+    :name="'保值头寸'"
+    @handle="handle2"
+    :hasfold="false"
+    :enable_select="false"
+    :height="33"
+  >
+    <template #command>
+      <el-input
+        class="inline-search"
+        v-model="formInline.table2"
+        placeholder="输入关键字，用空格隔开"
+        clearable
+      />
+    </template>
+  </Table>
+  <el-dialog v-model="isShow.table1.menu1" title="保值开仓">
+    <el-form label-width="100">
+      <el-form-item label="开/平仓">
+        <el-input v-model="formInline.add1.m1"></el-input>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="isShow.table1.menu1 = false" class="cancel" plain
+          >取消</el-button
+        >
+        <el-button type="primary" class="comfirm" plain>确定</el-button>
+      </span>
+    </template>
+  </el-dialog>
+  <el-dialog v-model="isShow.table2.menu1" title="保值平仓">
+    <el-form label-width="100">
+      <el-form-item label="期贷合约数据">
+        <el-input v-model="data.form2" clearable style="width: 300px" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="isShow.table2.menu1 = false" class="cancel" plain
+          >取消</el-button
+        >
+        <el-button
+          type="primary"
+          class="comfirm"
+          plain
+          @click="isShow.table1.menu1 = false"
+          >确定</el-button
+        >
+      </span>
+    </template>
+  </el-dialog>
+  <el-dialog v-model="isShow.table2.menu2" title="期货结算价">
+    <el-form label-width="100">
+      <el-form-item label="期贷合约数据">
+        <el-input v-model="data.form2" clearable style="width: 300px" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="isShow.table2.menu2 = false" class="cancel" plain
+          >取消</el-button
+        >
+        <el-button type="primary" class="comfirm" plain>确定</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -212,14 +210,6 @@ const form2_filter = computed(() => {
 </script>
 
 <style lang="less">
-@import '../../assets/style/theme.less';
-.model {
-  .model-box {
-    margin-inline: 1rem !important;
-    margin-top: 1rem !important;
-  }
-}
-
 .table-find {
   margin-bottom: 20px;
 }
@@ -232,7 +222,7 @@ const form2_filter = computed(() => {
 .inline-search {
   margin-left: 0.5rem;
   padding-left: 0.5rem;
-  border-left: 1px solid @theme-color-secondary;
+  border-left: 1px solid var(--el-color-secondary);
   * {
     margin: auto auto;
   }

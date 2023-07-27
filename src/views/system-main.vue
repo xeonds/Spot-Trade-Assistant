@@ -48,8 +48,10 @@ const getDate = () => {
   }
 
   #view-content {
-    min-height: calc(100vh - 11rem);
-    padding: 0.5rem;
+    min-height: calc(100vh - 10rem);
+    .el-card {
+      margin: 0.25rem;
+    }
   }
 
   #view-footer {

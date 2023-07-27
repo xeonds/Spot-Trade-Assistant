@@ -1,62 +1,60 @@
 <template>
-  <div class="model">
-    <Table
-      class="model-box"
-      id="table-future-1"
-      :col="table_col.StatisticsInfo"
-      :table_data="form1_filter"
-      :contain_top="true"
-      :contain_command="true"
-      :command="commands.command"
-      :name="'现货盈亏记录'"
-      @handle="handle"
-      :hasfold="false"
-      :enable_select="false"
-      :height="64"
-    >
-      <template #top>
-        <div
-          style="
-            display: flex;
-            flex-flow: row;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            width: 100%;
-          "
-        >
-          <div>
-            <span>
-              <el-button type="primary" plain>每日统计</el-button>
-              <el-button type="primary" plain>累计统计</el-button>
-            </span>
-          </div>
-          <div>
-            <span>
-              <el-text>起始日：</el-text>
-              <el-text>终止日：</el-text>
-            </span>
-          </div>
+  <Table
+    class="model-box"
+    id="table-future-1"
+    :col="table_col.StatisticsInfo"
+    :table_data="form1_filter"
+    :contain_top="true"
+    :contain_command="true"
+    :command="commands.command"
+    :name="'现货盈亏记录'"
+    @handle="handle"
+    :hasfold="false"
+    :enable_select="false"
+    :height="64"
+  >
+    <template #top>
+      <div
+        style="
+          display: flex;
+          flex-flow: row;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.5rem;
+          width: 100%;
+        "
+      >
+        <div>
+          <span>
+            <el-button type="primary" plain>每日统计</el-button>
+            <el-button type="primary" plain>累计统计</el-button>
+          </span>
         </div>
-      </template>
-      <template #command>
-        <el-input
-          class="inline-search"
-          v-model="formInline.table1"
-          placeholder="输入关键字，用空格隔开"
-          clearable
-        />
-      </template>
-      <template #table-extend-end>
-        <el-table-column label="每日/累计现货库存">
-          <!-- <el-table-column label="现货结算价" />
+        <div>
+          <span>
+            <el-text>起始日：</el-text>
+            <el-text>终止日：</el-text>
+          </span>
+        </div>
+      </div>
+    </template>
+    <template #command>
+      <el-input
+        class="inline-search"
+        v-model="formInline.table1"
+        placeholder="输入关键字，用空格隔开"
+        clearable
+      />
+    </template>
+    <template #table-extend-end>
+      <el-table-column label="每日/累计现货库存">
+        <!-- <el-table-column label="现货结算价" />
           <el-table-comumn label="持仓量" />
           <el-table-comumn label="浮动盈亏" />
           <el-table-comumn label="库存资金占用" /> -->
-        </el-table-column>
-      </template>
-    </Table>
-  </div>
+      </el-table-column>
+    </template>
+  </Table>
 </template>
 
 <script lang="ts" setup>

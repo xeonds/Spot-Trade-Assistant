@@ -53,7 +53,6 @@
       </span>
     </template>
   </el-dialog>
-
   <!-- 新增 -->
   <el-dialog v-model="dialogFormVisible" title="采购">
     <el-form :model="add_form" style="display: flex; flex-wrap: wrap">
@@ -125,7 +124,6 @@
       </span>
     </template>
   </el-dialog>
-
   <!-- 现货结算价 -->
   <el-dialog v-model="dialogFormVisible1" title="现货结算价">
     <template #footer>
@@ -143,7 +141,6 @@
       </span>
     </template>
   </el-dialog>
-
   <el-dialog v-model="dialogFormVisible2" title="汇率">
     <el-form
       :label-position="top"
@@ -174,267 +171,231 @@
       </span>
     </template>
   </el-dialog>
-
   <div v-if="route.params.id === '1'">
-    <div class="table-area">
-      <Modify_table
-        :data="data"
-        :command="['采购', '发送完成交易确认']"
-        name="贸易记录"
-        id="trade1"
-        :col="table_col.TradeInfo"
-        @handle="handle"
-        @menu="menu"
-        @select="select"
-        :selectable="true"
-      >
-        <template #top>
-          <TableFind :search_item="search_items.TradeInfo"></TableFind>
-        </template>
-      </Modify_table>
-    </div>
-    <div class="table-area">
-      <div class="double-table">
-        <div class="left">
-          <Modify_table
-            :data="data1"
-            :command="['销售', '现货结算价', '导出']"
-            name="现货持仓"
-            id="trade2"
-            :col="table_col.PositionInfo"
-            @handle="handle1"
-            @select="select"
-            :selectable="true"
-            @menu="menu"
-            extend="操作"
-          >
-            <template #top>
-              <TableFind :search_item="search_items.TradeInfo"></TableFind>
-            </template>
-            <template #extend2="props">
-              <el-button style="height: 1.2vh" @click="test(props)"
-                >查库存</el-button
-              >
-            </template>
-          </Modify_table>
-        </div>
+    <Modify_table
+      :data="data"
+      :command="['采购', '发送完成交易确认']"
+      name="贸易记录"
+      id="trade1"
+      :col="table_col.TradeInfo"
+      @handle="handle"
+      @menu="menu"
+      @select="select"
+      :selectable="true"
+    >
+      <template #top>
+        <TableFind :search_item="search_items.TradeInfo"></TableFind>
+      </template>
+    </Modify_table>
+    <el-row>
+      <el-col :span="12">
+        <Modify_table
+          :data="data1"
+          :command="['销售', '现货结算价', '导出']"
+          name="现货持仓"
+          id="trade2"
+          :col="table_col.PositionInfo"
+          @handle="handle1"
+          @select="select"
+          :selectable="true"
+          @menu="menu"
+          extend="操作"
+        >
+          <template #top>
+            <TableFind :search_item="search_items.TradeInfo"></TableFind>
+          </template>
+          <template #extend2="props">
+            <el-button style="height: 1.2vh" @click="test(props)"
+              >查库存</el-button
+            >
+          </template>
+        </Modify_table>
+      </el-col>
 
-        <div class="space"></div>
-        <div class="right">
-          <Modify_table
-            :data="data2"
-            :command="['汇率']"
-            name="进出口成本参考"
-            id="trade3"
-            :col="table_col.Tcost"
-            @handle="handle2"
-            @menu="menu"
-          ></Modify_table>
-        </div>
-      </div>
-    </div>
+      <el-col :span="12">
+        <Modify_table
+          :data="data2"
+          :command="['汇率']"
+          name="进出口成本参考"
+          id="trade3"
+          :col="table_col.Tcost"
+          @handle="handle2"
+          @menu="menu"
+        ></Modify_table>
+      </el-col>
+    </el-row>
   </div>
   <div v-if="route.params.id === '2'">
-    <div class="table-area">
-      <Modify_table
-        :data="data"
-        :command="['生成合同']"
-        name="购销记录"
-        id="trade1"
-        :col="table_col.Gouxiaojilu"
-        @handle="handle"
-        @menu="menu"
-        :selectable="true"
-      >
-        <template #top>
-          <TableFind :search_item="search_items.TradeInfo"></TableFind>
-        </template>
-      </Modify_table>
-    </div>
-    <div class="table-area">
-      <Modify_table
-        :data="data"
-        :command="['印花税付款', '合同归档']"
-        name="购销合同"
-        id="trade2"
-        :col="table_col.Gouxiaohetong"
-        @handle="handle1"
-        @menu="menu"
-        :selectable="true"
-      >
-        <template #top>
-          <TableFind :search_item="search_items.TradeInfo"></TableFind>
-        </template>
-      </Modify_table>
-    </div>
-    <div class="table-area">
-      <TableFind :search_item="search_items.TradeInfo"></TableFind>
-      <Modify_table
-        :data="data"
-        name="购销记录"
-        id="trade3"
-        :col="table_col.Yinhuashui"
-        @handle="handle2"
-        @menu="menu"
-      >
-      </Modify_table>
-    </div>
+    <Modify_table
+      :data="data"
+      :command="['生成合同']"
+      name="购销记录"
+      id="trade1"
+      :col="table_col.Gouxiaojilu"
+      @handle="handle"
+      @menu="menu"
+      :selectable="true"
+    >
+      <template #top>
+        <TableFind :search_item="search_items.TradeInfo"></TableFind>
+      </template>
+    </Modify_table>
+    <Modify_table
+      :data="data"
+      :command="['印花税付款', '合同归档']"
+      name="购销合同"
+      id="trade2"
+      :col="table_col.Gouxiaohetong"
+      @handle="handle1"
+      @menu="menu"
+      :selectable="true"
+    >
+      <template #top>
+        <TableFind :search_item="search_items.TradeInfo"></TableFind>
+      </template>
+    </Modify_table>
+    <Modify_table
+      :data="data"
+      name="购销记录"
+      id="trade3"
+      :col="table_col.Yinhuashui"
+      @handle="handle2"
+      @menu="menu"
+    >
+      <template #top>
+        <TableFind :search_item="search_items.TradeInfo"></TableFind>
+      </template>
+    </Modify_table>
   </div>
   <div v-if="route.params.id === '3'">
-    <div class="table-area">
-      <TableFind
-        :search_item="[
-          '交易日期',
-          '付款申请状态',
-          '合同签订状态',
-          '账套',
-          '业务部门',
-          '贸易商',
-          '贸易商部门',
-          '贸易类型',
-          '订单模式',
-          '交货方式',
-          '合同号',
-          '订单号'
-        ]"
-      ></TableFind>
-      <Modify_table
-        :data="data"
-        :command="['付款申请']"
-        name="采购记录"
-        id="trade1"
-        :col="table_col.Gouxiaojilu"
-        @handle="handle"
-        @menu="menu"
-      >
-        <template #top>
-          <TableFind
-            :search_item="[
-              '交易日期',
-              '付款申请状态',
-              '合同签订状态',
-              '账套',
-              '业务部门',
-              '贸易商',
-              '贸易商部门',
-              '贸易类型',
-              '订单模式',
-              '交货方式',
-              '合同号',
-              '订单号'
-            ]"
-          ></TableFind>
-        </template>
-      </Modify_table>
-    </div>
-    <div class="table-area">
-      <Modify_table
-        :data="data"
-        :command="[]"
-        name="购销合同"
-        id="trade2"
-        :col="table_col.Gouxiaohetong"
-        @handle="handle"
-        @menu="menu"
-      >
-        <template #top>
-          <TableFind
-            :search_item="[
-              '付款申请日期',
-              '付款状态',
-              '账套',
-              '业务部门',
-              '付款状态',
-              '贸易商',
-              '付款申请单号'
-            ]"
-          ></TableFind>
-        </template>
-      </Modify_table>
-    </div>
+    <Modify_table
+      :data="data"
+      :command="['付款申请']"
+      name="采购记录"
+      id="trade1"
+      :col="table_col.Gouxiaojilu"
+      @handle="handle"
+      @menu="menu"
+    >
+      <template #top>
+        <TableFind
+          :search_item="[
+            '交易日期',
+            '付款申请状态',
+            '合同签订状态',
+            '账套',
+            '业务部门',
+            '贸易商',
+            '贸易商部门',
+            '贸易类型',
+            '订单模式',
+            '交货方式',
+            '合同号',
+            '订单号'
+          ]"
+        ></TableFind>
+      </template>
+    </Modify_table>
+    <Modify_table
+      :data="data"
+      :command="[]"
+      name="购销合同"
+      id="trade2"
+      :col="table_col.Gouxiaohetong"
+      @handle="handle"
+      @menu="menu"
+    >
+      <template #top>
+        <TableFind
+          :search_item="[
+            '付款申请日期',
+            '付款状态',
+            '账套',
+            '业务部门',
+            '付款状态',
+            '贸易商',
+            '付款申请单号'
+          ]"
+        ></TableFind>
+      </template>
+    </Modify_table>
   </div>
   <div v-if="route.params.id === '4'">
-    <div class="table-area">
-      <Modify_table
-        :data="data"
-        :command="['']"
-        name="购销记录"
-        id="trade1"
-        :col="table_col.Gouxiaojilu"
-        @handle="handle"
-        @menu="menu"
-      >
-        <template #top>
-          <TableFind
-            :search_item="[
-              '交易日期',
-              '收款状态',
-              '账套',
-              '业务部门',
-              '贸易商',
-              '贸易商',
-              '贸易商部门',
-              '合同号',
-              '订单号'
-            ]"
-          ></TableFind>
-        </template>
-      </Modify_table>
-    </div>
-    <div class="table-area">
-      <Modify_table
-        :data="data"
-        :command="['打印收款确认单']"
-        name="购销合同"
-        id="trade2"
-        :col="table_col.Gouxiaohetong"
-        @handle="handle"
-        @menu="menu"
-      >
-        <template #top>
-          <TableFind
-            :search_item="[
-              '匹配状态',
-              '账套',
-              '业务部门',
-              '贸易商',
-              '收款确认单号',
-              '回单号'
-            ]"
-          ></TableFind>
-        </template>
-      </Modify_table>
-    </div>
+    <Modify_table
+      :data="data"
+      :command="['']"
+      name="购销记录"
+      id="trade1"
+      :col="table_col.Gouxiaojilu"
+      @handle="handle"
+      @menu="menu"
+    >
+      <template #top>
+        <TableFind
+          :search_item="[
+            '交易日期',
+            '收款状态',
+            '账套',
+            '业务部门',
+            '贸易商',
+            '贸易商',
+            '贸易商部门',
+            '合同号',
+            '订单号'
+          ]"
+        ></TableFind>
+      </template>
+    </Modify_table>
+    <Modify_table
+      :data="data"
+      :command="['打印收款确认单']"
+      name="购销合同"
+      id="trade2"
+      :col="table_col.Gouxiaohetong"
+      @handle="handle"
+      @menu="menu"
+    >
+      <template #top>
+        <TableFind
+          :search_item="[
+            '匹配状态',
+            '账套',
+            '业务部门',
+            '贸易商',
+            '收款确认单号',
+            '回单号'
+          ]"
+        ></TableFind>
+      </template>
+    </Modify_table>
   </div>
   <div v-if="route.params.id === '5'">
-    <div class="table-area">
-      <Modify_table
-        :data="data"
-        :command="['余额对账']"
-        name="贸易记录"
-        id="trade3"
-        :col="table_col.Maoyijilu"
-        @handle="handle"
-        @menu="menu"
-      >
-        <template #top>
-          <TableFind
-            :search_item="[
-              '交易日期',
-              '余款对账状态',
-              '账套',
-              '业务部门',
-              '贸易商',
-              '贸易商部门',
-              '品种',
-              '规格',
-              '币种',
-              '订单号'
-            ]"
-          ></TableFind>
-        </template>
-      </Modify_table>
-    </div>
+    <Modify_table
+      :data="data"
+      :command="['余额对账']"
+      name="贸易记录"
+      id="trade3"
+      :col="table_col.Maoyijilu"
+      @handle="handle"
+      @menu="menu"
+    >
+      <template #top>
+        <TableFind
+          :search_item="[
+            '交易日期',
+            '余款对账状态',
+            '账套',
+            '业务部门',
+            '贸易商',
+            '贸易商部门',
+            '品种',
+            '规格',
+            '币种',
+            '订单号'
+          ]"
+        ></TableFind>
+      </template>
+    </Modify_table>
   </div>
 </template>
 

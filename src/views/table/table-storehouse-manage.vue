@@ -1,67 +1,60 @@
 <template>
-  <div class="table-area">
-    <TableFind :search_item="search_item"></TableFind>
-
-    <Table
-      :contain_command="true"
-      :contain_top="true"
-      :command="command"
-      :table_data="data"
-      :property="property"
-      @handle="handle"
-      name="现货收货记录"
-      :label="label"
-      :haveslot="true"
-      id="storehouse1"
-    >
-      <template #tr_extend>
-        <button>查看</button>
-      </template>
-    </Table>
-  </div>
-  <div class="table-area">
-    <TableFind :search_item="search_item"></TableFind>
-    <div class="double-table">
-      <div class="left">
-        <Table
-          :contain_command="true"
-          :contain_top="true"
-          :table_data="search_item1"
-          :property="property1"
-          :command="command1"
-          @handle="handle1"
-          name="货物批次"
-          :label="label1"
-          id="storehouse2"
-        >
-          <template #tr_extend>
-            <div>
-              <button style="margin-right: 2vw">上传</button>
-              <button>查看</button>
-            </div>
-          </template>
-        </Table>
-      </div>
-
-      <div class="space"></div>
-      <div class="right">
-        <Table
-          :contain_command="true"
-          :contain_top="true"
-          :table_data="data2"
-          :property="property2"
-          :command="command2"
-          @handle="handle2"
-          name="输信息"
-          :label="label2"
-          id="storehouse3"
-        ></Table>
-      </div>
-    </div>
-  </div>
-  <div class="table-area">
-    <TableFind :search_item="search_item"></TableFind>
-
+  <Table
+    :contain_command="true"
+    :contain_top="true"
+    :command="command"
+    :table_data="data"
+    :property="property"
+    @handle="handle"
+    name="现货收货记录"
+    :label="label"
+    :haveslot="true"
+    id="storehouse1"
+  >
+    <template #top>
+      <TableFind :search_item="search_item"></TableFind>
+    </template>
+    <template #tr_extend>
+      <button>查看</button>
+    </template>
+  </Table>
+  <el-row>
+    <el-col :span="12">
+      <Table
+        :contain_command="true"
+        :contain_top="true"
+        :table_data="search_item1"
+        :property="property1"
+        :command="command1"
+        @handle="handle1"
+        name="货物批次"
+        :label="label1"
+        id="storehouse2"
+      >
+        <template #top>
+          <TableFind :search_item="search_item"></TableFind>
+        </template>
+        <template #tr_extend>
+          <div>
+            <button style="margin-right: 2vw">上传</button>
+            <button>查看</button>
+          </div>
+        </template>
+      </Table>
+    </el-col>
+    <el-col :span="12">
+      <Table
+        :contain_command="true"
+        :contain_top="true"
+        :table_data="data2"
+        :property="property2"
+        :command="command2"
+        @handle="handle2"
+        name="输信息"
+        :label="label2"
+        id="storehouse3"
+      ></Table>
+    </el-col>
     <Table
       :contain_command="true"
       :contain_top="true"
@@ -74,54 +67,52 @@
       :haveslot="true"
       id="storehouse4"
     >
+      <template #top>
+        <TableFind :search_item="search_item"></TableFind>
+      </template>
       <template #tr_extend>
         <button style="margin-left: 1vw; font-size: 0.7vw">上传</button>
         <button style="margin-left: 1vw; font-size: 0.7vw">查看</button>
       </template>
     </Table>
-  </div>
-
-  <div class="table-area">
-    <Table
-      :contain_command="true"
-      :contain_top="true"
-      :table_data="data4"
-      :property="property4"
-      :command="command4"
-      @handle="handle4"
-      name="销售贸易记录"
-      id="storehouse5"
-      :label="label4"
-    ></Table>
-  </div>
-  <div class="table-area">
-    <Table
-      :contain_command="true"
-      :contain_top="true"
-      :table_data="data5"
-      :property="property5"
-      :command="command5"
-      @handle="handle5"
-      name="可售库存"
-      :label="label5"
-      id="storehouse6"
-    ></Table>
-  </div>
-  <div class="table-area">
-    <TableFind :search_item="search_item"></TableFind>
-
-    <Table
-      :contain_command="true"
-      :contain_top="true"
-      :table_data="data6"
-      :property="property6"
-      :command="command6"
-      @handle="handle6"
-      name="出库记录"
-      :label="label6"
-      id="storehouse7"
-    ></Table>
-  </div>
+  </el-row>
+  <Table
+    :contain_command="true"
+    :contain_top="true"
+    :table_data="data4"
+    :property="property4"
+    :command="command4"
+    @handle="handle4"
+    name="销售贸易记录"
+    id="storehouse5"
+    :label="label4"
+  ></Table>
+  <Table
+    :contain_command="true"
+    :contain_top="true"
+    :table_data="data5"
+    :property="property5"
+    :command="command5"
+    @handle="handle5"
+    name="可售库存"
+    :label="label5"
+    id="storehouse6"
+  ></Table>
+  <Table
+    :contain_command="true"
+    :contain_top="true"
+    :table_data="data6"
+    :property="property6"
+    :command="command6"
+    @handle="handle6"
+    name="出库记录"
+    :label="label6"
+    id="storehouse7"
+  >
+    <template #top>
+      <TableFind :search_item="search_item"></TableFind>
+    </template>
+  </Table>
 </template>
 
 <script lang="ts" setup>
