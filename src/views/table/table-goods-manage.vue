@@ -1,83 +1,79 @@
 <template>
-  <div class="table-area">
-    <TableFind :search_item="search_item"></TableFind>
-
-    <Table
-      :contain_command="true"
-      :contain_top="true"
-      :table_data="data"
-      :property="property"
-      @handle="handle"
-      name="采购贸易记录"
-      id="goods1"
-      :label="label"
-    ></Table>
-  </div>
-  <div class="table-area">
-    <TableFind :search_item="search_item"></TableFind>
-
-    <Table
-      :contain_command="true"
-      :contain_top="true"
-      :table_data="data1"
-      :property="property1"
-      :command="command1"
-      @handle="handle1"
-      name="现货收货记录"
-      :label="label1"
-      :haveslot="true"
-      id="goods2"
-    >
-      <template #tr_extend>
-        <div style="height: 1.5vh">
-          <button style="margin-right: 2vw">上传</button>
-          <button>查看</button>
-        </div>
-      </template>
-    </Table>
-  </div>
-
-  <div class="table-area">
-    <TableFind :search_item="search_item"></TableFind>
-    <div class="double-table">
-      <div class="left">
-        <Table
-          :contain_command="true"
-          :contain_top="true"
-          :table_data="data2"
-          :property="property2"
-          :command="command2"
-          @handle="handle2"
-          name="货物批次"
-          :label="label2"
-          :haveslot="true"
-          id="goods3"
-        >
-          <template #tr_extend>
-            <div style="height: 1.5vh">
-              <button style="margin-right: 2vw">上传</button>
-              <button>查看</button>
-            </div>
-          </template>
-        </Table>
+  <Table
+    :contain_command="true"
+    :contain_top="true"
+    :table_data="data"
+    :property="property"
+    @handle="handle"
+    name="采购贸易记录"
+    id="goods1"
+    :label="label"
+  >
+    <template #top>
+      <TableFind :search_item="search_item"></TableFind>
+    </template>
+  </Table>
+  <Table
+    :contain_command="true"
+    :contain_top="true"
+    :table_data="data1"
+    :property="property1"
+    :command="command1"
+    @handle="handle1"
+    name="现货收货记录"
+    :label="label1"
+    :haveslot="true"
+    id="goods2"
+  >
+    <template #top>
+      <TableFind :search_item="search_item"></TableFind>
+    </template>
+    <template #tr_extend>
+      <div style="height: 1.5vh">
+        <button style="margin-right: 2vw">上传</button>
+        <button>查看</button>
       </div>
-
-      <div class="space"></div>
-      <div class="right">
-        <Table
-          :contain_command="true"
-          :contain_top="true"
-          :table_data="data3"
-          :property="property3"
-          :command="command3"
-          @handle="handle3"
-          name="在途信息"
-          :label="label3"
-          id="goods4"
-        ></Table>
-      </div>
-    </div>
-  </div>
+    </template>
+  </Table>
+  <el-row>
+    <el-col :span="16">
+      <Table
+        :contain_command="true"
+        :contain_top="true"
+        :table_data="data2"
+        :property="property2"
+        :command="command2"
+        @handle="handle2"
+        name="货物批次"
+        :label="label2"
+        :haveslot="true"
+        id="goods3"
+      >
+        <template #top>
+          <TableFind :search_item="search_item"></TableFind>
+        </template>
+        <template #tr_extend>
+          <div style="height: 1.5vh">
+            <button style="margin-right: 2vw">上传</button>
+            <button>查看</button>
+          </div>
+        </template>
+      </Table>
+    </el-col>
+    <el-col :span="8">
+      <Table
+        :contain_command="true"
+        :contain_top="true"
+        :table_data="data3"
+        :property="property3"
+        :command="command3"
+        @handle="handle3"
+        name="在途信息"
+        :label="label3"
+        id="goods4"
+      ></Table>
+    </el-col>
+  </el-row>
 </template>
 
 <script lang="ts" setup>
@@ -364,27 +360,4 @@ const handle3 = (a: number) => {
 }
 </script>
 
-<style lang="less" scoped>
-.table-area {
-  margin-top: 3vh;
-}
-
-.double-table {
-  display: flex;
-
-  .left {
-    width: 76%;
-    height: 100%;
-  }
-
-  .space {
-    width: 2%;
-    height: 100%;
-  }
-
-  .right {
-    width: 22%;
-    height: 100%;
-  }
-}
-</style>
+<style lang="less" scoped></style>

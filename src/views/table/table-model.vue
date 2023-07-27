@@ -1,87 +1,75 @@
 <template>
-  <div class="table-rows">
-    <el-row>
-      <el-col :span="24">
-        <Table
-          class="model-box"
-          id="table-model"
-          :col="table_col.ModelInfo"
-          :table_data="data"
-          :contain_top="true"
-          :enable_select="false"
-          :name="`合同模板-${name}`"
-          :height="64"
+  <Table
+    class="model-box"
+    id="table-model"
+    :col="table_col.ModelInfo"
+    :table_data="data"
+    :contain_top="true"
+    :enable_select="false"
+    :name="`合同模板-${name}`"
+    :height="64"
+  >
+    <template #table-extend-end>
+      <el-table-column label="操作" width="240" align="center">
+        <template #default="scope">
+          <div class="table-op-group">
+            <el-button
+              type="primary"
+              link
+              @click="showGenerateTemplate(scope.row.id)"
+              >编辑条款</el-button
+            >
+            <el-button type="primary" link @click="preview">预览</el-button>
+          </div>
+        </template>
+      </el-table-column>
+    </template>
+  </Table>
+  <el-dialog
+    v-model="isShow"
+    :title="form_data['name'].split('.xlsx')[0] + ' 基础信息'"
+    width="80%"
+  >
+    <el-form label-width="100">
+      <el-form-item label="签订地点">
+        <el-input v-model="form_data.place" clearable style="width: 300px" />
+      </el-form-item>
+      <el-form-item label="合同条款">
+        <div
+          v-for="(_clause, index) in form_data.clauses"
+          :key="index"
+          style="width: 100%"
         >
-          <template #table-extend-end>
-            <el-table-column label="操作" width="240" align="center">
-              <template #default="scope">
-                <div class="table-op-group">
-                  <el-button
-                    type="primary"
-                    link
-                    @click="showGenerateTemplate(scope.row.id)"
-                    >编辑条款</el-button
-                  >
-                  <el-button type="primary" link @click="preview"
-                    >预览</el-button
-                  >
-                </div>
-              </template>
-            </el-table-column>
-          </template>
-        </Table>
-      </el-col>
-    </el-row>
-    <el-dialog
-      v-model="isShow"
-      :title="form_data['name'].split('.xlsx')[0] + ' 基础信息'"
-      width="80%"
-    >
-      <el-form label-width="100">
-        <el-form-item label="签订地点">
-          <el-input v-model="form_data.place" clearable style="width: 300px" />
-        </el-form-item>
-        <el-form-item label="合同条款">
-          <div
-            v-for="(_clause, index) in form_data.clauses"
-            :key="index"
-            style="width: 100%"
-          >
-            <div style="width: 100%; padding-bottom: 1rem">
-              <div style="display: flex; flex-flow: row">
-                <el-input
-                  v-model="form_data.clauses[index]"
-                  type="textarea"
-                  :rows="2"
-                  style="padding-right: 1rem"
-                />
-                <el-button type="danger" plain @click="removeClause(index)"
-                  >删除</el-button
-                >
-              </div>
+          <div style="width: 100%; padding-bottom: 1rem">
+            <div style="display: flex; flex-flow: row">
+              <el-input
+                v-model="form_data.clauses[index]"
+                type="textarea"
+                :rows="2"
+                style="padding-right: 1rem"
+              />
+              <el-button type="danger" plain @click="removeClause(index)"
+                >删除</el-button
+              >
             </div>
           </div>
-          <el-button type="primary" plain @click="addClause"
-            >添加条款</el-button
-          >
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="isShow = false" class="cancel" plain
-            >取消</el-button
-          >
-          <el-button
-            type="primary"
-            @click="genearteTemplate"
-            class="comfirm"
-            plain
-            >导出</el-button
-          >
-        </span>
-      </template>
-    </el-dialog>
-  </div>
+        </div>
+        <el-button type="primary" plain @click="addClause">添加条款</el-button>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="isShow = false" class="cancel" plain>取消</el-button>
+        <el-button
+          type="primary"
+          @click="genearteTemplate"
+          class="comfirm"
+          plain
+          >导出</el-button
+        >
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script>

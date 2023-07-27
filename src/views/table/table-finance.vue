@@ -1,18 +1,16 @@
 <template>
-  <div class="table-area">
-    <Table
-      :contain_find="true"
-      :contain_command="true"
-      :table_data="data"
-      :col="property"
-      :search_item="search_item"
-      :command="command"
-      @handle="handle"
-      name="合同模板"
-      color="#e7e6e6"
-      id="finance1"
-    ></Table>
-  </div>
+  <Table
+    :contain_find="true"
+    :contain_command="true"
+    :table_data="data"
+    :col="property"
+    :search_item="search_item"
+    :command="command"
+    @handle="handle"
+    name="合同模板"
+    color="#e7e6e6"
+    id="finance1"
+  ></Table>
 </template>
 
 <script lang="ts" setup>
@@ -61,10 +59,3 @@ const handle = (a: number) => {
   console.log(a)
 }
 </script>
-
-<style lang="less" scoped>
-.table-area {
-  margin: 0 auto;
-  width: 99vw;
-}
-</style>
