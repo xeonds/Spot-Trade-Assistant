@@ -38,12 +38,14 @@ const getDate = () => {
 const nav_list = ref([
   {
     index: '0',
-    name: '首页',
+    name: '人员管理',
     route: '/main/memberManage'
   }
 ])
 const appendTab = (item: any) => {
-  console.log(item)
+  if (nav_list.value.some((nav) => nav.route == item.route)) {
+    return
+  }
   nav_list.value.push(item)
 }
 const handleClose = (tag: any) => {
@@ -118,5 +120,13 @@ const handleClose = (tag: any) => {
 }
 .rows {
   margin-top: 0.5rem;
+}
+.inline-search {
+  margin-left: 0.5rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--el-color-secondary);
+  * {
+    margin: auto auto;
+  }
 }
 </style>

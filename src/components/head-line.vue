@@ -55,14 +55,20 @@ import serviceAxios from '../http'
 const activeIndex = ref('1')
 const user = localStorage.getItem('username')
 const router = useRouter()
-const models = ref([{ name: '全部', id: 0 }])
+const models = ref([
+  {
+    index: '3-1',
+    name: '合同模板',
+    route: '/main/model/1'
+  },
+  {
+    index: '3-2',
+    name: '提单模板',
+    route: '/main/model/2'
+  }
+])
 const emits = defineEmits(['select'])
 const navs = ref([
-  // {
-  //   index: '0',
-  //   name: '系统',
-  //   route: '/main/memberManage'
-  // },
   {
     index: '1',
     name: '人员管理',
@@ -104,33 +110,7 @@ const navs = ref([
     index: '3',
     name: '模板',
     route: '/main/model/0',
-    children: [
-      {
-        index: '3-1',
-        name: '模板1',
-        route: '/main/model/1'
-      },
-      {
-        index: '3-2',
-        name: '模板2',
-        route: '/main/model/2'
-      },
-      {
-        index: '3-3',
-        name: '模板3',
-        route: '/main/model/3'
-      },
-      {
-        index: '3-4',
-        name: '模板4',
-        route: '/main/model/4'
-      },
-      {
-        index: '3-5',
-        name: '模板5',
-        route: '/main/model/5'
-      }
-    ]
+    children: models
   },
   {
     index: '4',
@@ -327,18 +307,18 @@ const user_info = () => {
   router.push('/user')
 }
 
-const getModels = () => {
-  serviceAxios({
-    url: '/template/category',
-    method: 'GET'
-  })
-    .then((res: any) => {
-      models.value = res
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-}
+// const getModels = () => {
+//   serviceAxios({
+//     url: '/template/category',
+//     method: 'GET'
+//   })
+//     .then((res: any) => {
+//       models.value = res
+//     })
+//     .catch((err) => {
+//       console.log(err)
+//     })
+// }
 
 const handleSelect = (index: string) => {
   activeIndex.value = index
@@ -377,7 +357,7 @@ if (user) {
       console.log(err)
     })
 }
-getModels()
+// getModels()
 </script>
 
 <style lang="less">
