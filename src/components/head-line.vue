@@ -38,7 +38,6 @@
           :key="`${nav.index}-item`"
           :index="nav.index"
           :route="nav.route"
-          class="el-submenu-item"
         >
           <span>{{ nav.name }}</span>
         </el-menu-item>
@@ -408,7 +407,7 @@ getModels()
 }
 
 .main {
-  height: 6rem;
+  height: 4rem;
   color: #fff;
   background: @theme-color-primary;
   box-sizing: border-box;
@@ -416,11 +415,11 @@ getModels()
   font-weight: 600;
 
   .row1 {
-    height: 3rem;
+    height: 2rem;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    padding-top: 1rem;
+    padding-top: 0.5rem;
 
     .logo {
       font-family: MAIN;
@@ -438,8 +437,8 @@ getModels()
   }
 
   .row2 {
-    height: 2rem;
-    margin-top: 0.125rem;
+    height: 1.75rem;
+    margin-top: 0.25rem;
   }
 }
 

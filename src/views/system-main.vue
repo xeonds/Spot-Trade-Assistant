@@ -56,7 +56,7 @@ const handleClose = (tag: any) => {
 
   #view-header {
     overflow: hidden;
-    height: 6rem !important;
+    height: 4.5rem !important;
   }
 
   #sub-nav {
@@ -76,7 +76,7 @@ const handleClose = (tag: any) => {
   }
 
   #view-content {
-    min-height: calc(100vh - 10rem);
+    min-height: calc(100vh - 8.5rem);
     .el-card {
       margin: 0.25rem;
     }
