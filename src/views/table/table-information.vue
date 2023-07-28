@@ -88,7 +88,7 @@
       :search="bankSearchCondition2"
       @fresh="handle_fresh"
       ref="bank2"
-      :col="table_col.Bank"
+      :col="table_col.Bank2"
       :features="table_add.Bank"
       change_base="company"
       :rules="table_rules.Bankrules"

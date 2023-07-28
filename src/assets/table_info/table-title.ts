@@ -5,12 +5,12 @@ export const ZhangTao1 = [
     fold: false
   },
   {
-    label: '公司简称',
+    label: '账套简称',
     prop: 'shortname',
     fold: false
   },
   {
-    label: '公司全称',
+    label: '账套全称',
     prop: 'fullname',
     fold: false
   },
@@ -42,17 +42,17 @@ export const ZhangTao1 = [
 ]
 export const ZhangTao2 = [
   {
-    label: '账套代码',
+    label: '往来单位代码',
     prop: 'code',
     fold: false
   },
   {
-    label: '公司简称',
+    label: '往来单位简称',
     prop: 'shortname',
     fold: false
   },
   {
-    label: '公司全称',
+    label: '往来单位全称',
     prop: 'fullname',
     fold: false
   },
@@ -84,6 +84,40 @@ export const ZhangTao2 = [
 ]
 
 export const Bank = [
+  //TODO
+  {
+    label: '账套全称',
+    prop: 'fullname',
+    fold: false
+  },
+  {
+    label: '开户银行名称',
+    prop: 'name',
+    fold: false
+  },
+  {
+    label: '开户银行账号',
+    prop: 'accounts',
+    fold: false
+  },
+  {
+    label: '开户行行号',
+    prop: 'swcode',
+    fold: false
+  },
+  {
+    label: '税票账号标志',
+    prop: 'taxsign',
+    fold: false
+  }
+]
+export const Bank2 = [
+  //TODO
+  {
+    label: '往来单位全称',
+    prop: 'fullname',
+    fold: false
+  },
   {
     label: '开户银行名称',
     prop: 'name',
