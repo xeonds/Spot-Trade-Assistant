@@ -1,12 +1,13 @@
 <template>
   <el-scrollbar id="scroll-container">
-    <HeadLine id="view-header" @select="(index) => append_tab(index)" />
+    <HeadLine id="view-header" @select="(item) => appendTab(item)" />
     <div id="sub-nav">
       <el-tag
         closable
         v-for="item in nav_list"
         :key="item.index"
-        @close="handleClose(tag)"
+        :class="item.route == $route.path ? 'is-active' : ''"
+        @close="handleClose(item)"
         @click="() => $router.push(item.route)"
         >{{ item.name }}</el-tag
       >
@@ -38,10 +39,11 @@ const nav_list = ref([
   {
     index: '0',
     name: '首页',
-    route: '/main/'
+    route: '/main/memberManage'
   }
 ])
-const append_tab = (item: any) => {
+const appendTab = (item: any) => {
+  console.log(item)
   nav_list.value.push(item)
 }
 const handleClose = (tag: any) => {
@@ -72,6 +74,18 @@ const handleClose = (tag: any) => {
       border: none;
       margin-right: 0.5rem;
       cursor: pointer;
+      border-radius: 0;
+      .el-tag__close {
+        display: none;
+      }
+      &:hover {
+        .el-tag__close {
+          display: block;
+        }
+      }
+      &.is-active {
+        border-bottom: 2px solid var(--el-color-primary);
+      }
     }
   }
 

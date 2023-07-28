@@ -342,13 +342,17 @@ const getModels = () => {
 
 const handleSelect = (index: string) => {
   activeIndex.value = index
-  let res = navs.value.filter((item) => {
-    if (item.children) {
-      return item.children.filter((child) => child.index == index)[0]
-    } else {
-      return item.index == index
+  let res: any = navs.value.filter((item) => {
+    if (item.index == index) return true
+    else {
+      if (item.children)
+        return item.children.filter((ii) => ii.index == index).length > 0
+      else return false
     }
   })[0]
+  if (res.children != null) {
+    res = res.children.filter((item: any) => item.index == index)[0]
+  }
   emits('select', res)
 }
 
