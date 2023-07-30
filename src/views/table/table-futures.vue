@@ -218,13 +218,4 @@ const form2_filter = computed(() => {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
-
-.inline-search {
-  margin-left: 0.5rem;
-  padding-left: 0.5rem;
-  border-left: 1px solid var(--el-color-secondary);
-  * {
-    margin: auto auto;
-  }
-}
 </style>

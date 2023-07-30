@@ -66,7 +66,7 @@
       >
         <el-input
           v-model="add_form[item.prop]"
-          input-style="color:#000;border-color:#2f5496"
+          input-style="color:#000;border-color:var(--el-color-primary)"
           v-if="item.type == 'string' || item.type == 'number'"
         />
         <el-radio-group

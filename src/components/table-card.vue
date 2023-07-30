@@ -22,7 +22,6 @@ let props = defineProps(['data'])
 </script>
 
 <style lang="less" scoped>
-@import '../assets/style/theme.less';
 .table-header {
   margin-bottom: 10px;
 }
@@ -30,6 +29,6 @@ let props = defineProps(['data'])
   text-align: right;
   font-size: 1.5rem;
   font-weight: bolder;
-  color: @theme-color-primary;
+  color: var(--el-color-primary);
 }
 </style>

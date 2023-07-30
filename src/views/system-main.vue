@@ -1,6 +1,10 @@
 <template>
   <el-scrollbar id="scroll-container">
-    <HeadLine id="view-header" @select="(item) => appendTab(item)" />
+    <HeadLine
+      id="view-header"
+      @select="(item) => appendTab(item)"
+      @setting="isSetting = true"
+    />
     <div id="sub-nav">
       <el-tag
         closable
@@ -22,6 +26,26 @@
         <span>{{ getDate() }} &copy;百连V1.0</span>
       </div>
     </div>
+    <el-drawer v-model="isSetting" title="界面风格设置" direction="rtl">
+      <el-form>
+        <el-form-item label="颜色选择">
+          <span
+            ><el-button
+              v-for="item in preColors"
+              :key="item"
+              :color="item"
+              @click="
+                () => {
+                  color = item
+                  handleSettingChange()
+                }
+              "
+              size="small"
+            ></el-button
+          ></span>
+        </el-form-item>
+      </el-form>
+    </el-drawer>
   </el-scrollbar>
 </template>
 
@@ -35,6 +59,16 @@ const getDate = () => {
   let day = date.getDate()
   return `${year}年${month}月${day}日`
 }
+const isSetting = ref(false)
+const color = ref('#66ccff')
+const preColors = ref([
+  '#2f5496',
+  '#ff8c00',
+  '#ffd700',
+  '#00ced1',
+  '#1e90ff',
+  '#666666'
+])
 const nav_list = ref([
   {
     index: '0',
@@ -50,6 +84,22 @@ const appendTab = (item: any) => {
 }
 const handleClose = (tag: any) => {
   nav_list.value.splice(nav_list.value.indexOf(tag), 1)
+}
+const handleSettingChange = () => {
+  isSetting.value = false
+  document.documentElement.style.setProperty('--el-color-primary', color.value)
+  document.documentElement.style.setProperty(
+    '--el-color-secondary',
+    color.value + '33'
+  )
+  document.documentElement.style.setProperty(
+    '--el-color-primary-light-9',
+    color.value + '26'
+  )
+  document.documentElement.style.setProperty(
+    '--el-color-primary-light-5',
+    color.value + '80'
+  )
 }
 </script>
 

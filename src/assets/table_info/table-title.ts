@@ -546,7 +546,15 @@ export const ModelInfo = [
   {
     label: '贸易类型',
     prop: 'name',
-    fold: false
+    fold: false,
+    filters: [
+      { text: '内贸', value: '内贸' },
+      { text: '进口', value: '进口' }
+    ],
+    filter_method: (value, row, column) => {
+      const property = column['prop']
+      return row[property] === value
+    }
   },
   {
     label: '订单模式',
@@ -556,7 +564,15 @@ export const ModelInfo = [
   {
     label: '交收方式',
     prop: 'name',
-    fold: false
+    fold: false,
+    filters: [
+      { text: '现货', value: '现货' },
+      { text: '远期', value: '远期' }
+    ],
+    filter_method: (value, row, column) => {
+      const property = column['prop']
+      return row[property] === value
+    }
   },
   {
     label: '购销方向',

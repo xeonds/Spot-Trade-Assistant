@@ -4,11 +4,22 @@
     id="table-model"
     :col="table_col.ModelInfo"
     :table_data="data"
+    :command="['刷新', '添加']"
+    :cnotain_extend="true"
     :contain_top="true"
+    @handle="handleCommand"
     :enable_select="false"
     :name="`合同模板-${name}`"
     :height="64"
   >
+    <template #command>
+      <el-input
+        class="inline-search"
+        placeholder="输入关键字，用空格隔开"
+        clearable
+      />
+      <div></div>
+    </template>
     <template #table-extend-end>
       <el-table-column label="操作" width="240" align="center">
         <template #default="scope">
@@ -70,6 +81,34 @@
       </span>
     </template>
   </el-dialog>
+  <el-dialog v-model="isAddModelShow" title="添加模板">
+    <el-form label-width="100">
+      <el-form-item label="贸易类型">
+        <el-input v-model="form_data.place" clearable style="width: 300px" />
+      </el-form-item>
+      <el-form-item label="订单模式">
+        <el-input v-model="form_data.place" clearable style="width: 300px" />
+      </el-form-item>
+      <el-form-item label="">
+        <el-input v-model="form_data.place" clearable style="width: 300px" />
+      </el-form-item>
+      <el-form-item label="贸易类型">
+        <el-input v-model="form_data.place" clearable style="width: 300px" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="isShow = false" class="cancel" plain>取消</el-button>
+        <el-button
+          type="primary"
+          @click="genearteTemplate"
+          class="comfirm"
+          plain
+          >导出</el-button
+        >
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script>
@@ -84,6 +123,7 @@ export default {
     return {
       name: '',
       isShow: false,
+      isAddModelShow: false,
       data: [],
       label_data: {
         no: '编号',
@@ -165,6 +205,16 @@ export default {
     addClause() {
       this.form_data.clauses.push('')
     },
+    handleCommand(index) {
+      switch (index) {
+        case 0:
+          this.getTemplate()
+          break
+        case 1:
+          this.isAddModelShow = true
+          break
+      }
+    },
     removeClause(index) {
       this.form_data.clauses.splice(index, 1)
     },
@@ -180,6 +230,7 @@ export default {
       for (let item in res) {
         this.data.push(res[item])
       }
+      console.log(this.data)
     },
     showGenerateTemplate(id) {
       this.isShow = true

@@ -144,7 +144,6 @@ const form1_filter = computed(() => {
 </script>
 
 <style lang="less">
-@import '../../assets/style/theme.less';
 .model {
   .model-box {
     margin-inline: 1rem !important;
@@ -164,7 +163,7 @@ const form1_filter = computed(() => {
 .inline-search {
   margin-left: 0.5rem;
   padding-left: 0.5rem;
-  border-left: 1px solid @theme-color-secondary;
+  border-left: 1px solid var(--el-color-secondary);
   * {
     margin: auto auto;
   }

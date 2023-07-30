@@ -3,9 +3,31 @@
     <el-row class="row1">
       <div class="logo">百连贸易系统</div>
       <div class="row1-right">
-        <el-button link type="primary" class="menu-link-item" @click="user_info"
-          >欢迎，{{ username }}【{{ role }}】</el-button
-        >
+        <el-popover placement="bottom" trigger="hover">
+          <template #reference>
+            <el-button link type="primary" class="menu-link-item"
+              >欢迎，{{ username }}【{{ role }}】</el-button
+            >
+          </template>
+          <el-row>
+            <el-button
+              type="primary"
+              link
+              class="pop-menu-button"
+              @click="user_info"
+              >个人信息</el-button
+            >
+          </el-row>
+          <el-row>
+            <el-button
+              type="primary"
+              link
+              class="pop-menu-button"
+              @click="$emit('setting')"
+              >界面设置</el-button
+            >
+          </el-row>
+        </el-popover>
         <el-button link type="primary" class="menu-link-item" @click="logout"
           >登出</el-button
         >
@@ -67,7 +89,7 @@ const models = ref([
     route: '/main/model/2'
   }
 ])
-const emits = defineEmits(['select'])
+const emits = defineEmits(['select', 'setting'])
 const navs = ref([
   {
     index: '1',
@@ -361,28 +383,25 @@ if (user) {
 </script>
 
 <style lang="less">
-@import '../assets/style/theme.less';
-
 .el-sub-menu__title {
-  background-color: @theme-color-primary;
+  background-color: var(--el-color-primary);
   color: #fff !important;
   border-bottom: none !important;
   border-radius: 0.4rem;
 
   &:hover {
-    background-color: @theme-color-primary !important;
+    background-color: var(--el-color-primary) !important;
     border: #fff 2px solid !important;
   }
 
   &.is-active {
-    color: @theme-color-primary !important;
+    color: var(--el-color-primary) !important;
     background-color: #fff;
   }
 }
 </style>
 
 <style lang="less" scoped>
-@import '../assets/style/theme.less';
 @font-face {
   font-family: MAIN;
   src: url('../assets/font/Songti.ttc');
@@ -393,7 +412,7 @@ if (user) {
 .main {
   height: 4rem;
   color: #fff;
-  background: @theme-color-primary;
+  background: var(--el-color-primary);
   box-sizing: border-box;
   font-size: 1.2rem;
   font-weight: 600;
@@ -427,7 +446,7 @@ if (user) {
 }
 
 .el-menu {
-  background-color: @theme-color-primary;
+  background-color: var(--el-color-primary);
   color: #fff !important;
   border-bottom: none !important;
   border-radius: 0.4rem;
@@ -435,41 +454,41 @@ if (user) {
     margin-inline: 0.2rem;
   }
   .el-menu-item {
-    background-color: @theme-color-primary;
+    background-color: var(--el-color-primary);
     color: #fff;
     border-radius: 0.4rem;
     border-bottom: 0px;
 
     &:hover {
-      background-color: @theme-color-primary;
+      background-color: var(--el-color-primary);
       color: #fff;
       border: #fff 2px solid;
     }
 
     &.is-active {
       background-color: #fff;
-      color: @theme-color-primary;
+      color: var(--el-color-primary);
     }
   }
 }
 
 .el-submenu-item {
-  color: @theme-color-primary !important;
+  color: var(--el-color-primary) !important;
   background-color: #fff !important;
 
   &:hover {
-    border: @theme-color-primary 2px solid !important;
+    border: var(--el-color-primary) 2px solid !important;
     background-color: none !important;
   }
 
   &.is-active {
-    background-color: @theme-color-primary !important;
+    background-color: var(--el-color-primary) !important;
     color: #fff !important;
   }
 }
 
 .menu-link-item {
-  color: #fff;
+  color: #fff !important;
   border-bottom: 1px solid #fff;
   border-radius: 0;
   margin-inline: 1rem;
@@ -479,5 +498,6 @@ if (user) {
 
 .pop-menu-button {
   width: 100%;
+  height: 2rem;
 }
 </style>

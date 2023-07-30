@@ -120,11 +120,8 @@
             :prop="col[index].prop"
             :label="item.label"
             align="center"
-            :filters="[
-              { text: '条件1', value: '1' },
-              { text: '条件2', value: '2' }
-            ]"
-            :filter-method="() => {}"
+            :filters="col[index].filters"
+            :filter-method="col[index].filter_method"
           >
           </AFTableColumn>
         </template>
@@ -253,7 +250,6 @@ const change_status = (id: string) => {
 </style>
 
 <style lang="less" scoped>
-@import '../assets/style/theme.less';
 @font-face {
   font-family: NAME;
   src: url('../assets/font/方正苏新诗柳楷简体.ttf');
@@ -266,7 +262,7 @@ const change_status = (id: string) => {
     .title {
       font-size: 1.4rem;
       font-family: NAME, sans-serif;
-      color: @theme-color-primary;
+      color: var(--el-color-primary);
     }
     .card-nav {
       display: flex;
