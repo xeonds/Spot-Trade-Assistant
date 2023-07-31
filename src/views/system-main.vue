@@ -52,6 +52,9 @@
 <script setup lang="ts">
 // import bottomMarqueen from '../components/bottom-marqueen.vue'
 import HeadLine from '../components/head-line.vue'
+import { useRoute, useRouter } from 'vue-router'
+const route = useRoute()
+const router = useRouter()
 const getDate = () => {
   let date = new Date()
   let year = date.getFullYear()
@@ -60,12 +63,12 @@ const getDate = () => {
   return `${year}年${month}月${day}日`
 }
 const isSetting = ref(false)
-const color = ref('#66ccff')
+const color = ref('#114514')
 const preColors = ref([
   '#2f5496',
   '#ff8c00',
   '#ffd700',
-  '#00ced1',
+  '#114514',
   '#1e90ff',
   '#666666'
 ])
@@ -83,10 +86,19 @@ const appendTab = (item: any) => {
   nav_list.value.push(item)
 }
 const handleClose = (tag: any) => {
+  // 禁止关闭唯一一个标签
+  if (nav_list.value.length == 1) {
+    return
+  }
   nav_list.value.splice(nav_list.value.indexOf(tag), 1)
+  // 关闭当前标签页后跳转到最后一个标签
+  if (tag.route == route.path) {
+    router.push(nav_list.value[nav_list.value.length - 1].route)
+  }
 }
 const handleSettingChange = () => {
   isSetting.value = false
+  localStorage.setItem('theme_color', color.value)
   document.documentElement.style.setProperty('--el-color-primary', color.value)
   document.documentElement.style.setProperty(
     '--el-color-secondary',
@@ -101,6 +113,13 @@ const handleSettingChange = () => {
     color.value + '80'
   )
 }
+onMounted(() => {
+  if (localStorage.getItem('theme_color')) {
+    console.log(localStorage.getItem('theme_color'))
+    color.value = localStorage.getItem('theme_color') as string
+    handleSettingChange()
+  }
+})
 </script>
 
 <style lang="less">
