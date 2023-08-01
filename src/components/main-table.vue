@@ -101,8 +101,6 @@
               !col[index].fold
             "
             label="状态"
-            width="80"
-            :resizable="false"
           >
             <template #default="scope">
               <el-switch
@@ -138,16 +136,7 @@
             <slot name="table-extend-end2" v-bind:row="scope"></slot>
           </template>
         </AFTableColumn>
-
-        <AFTableColumn
-          :resizable="false"
-          :label="props.contain_extend2"
-          v-if="props.contain_extend2"
-        >
-          <template #default="scope">
-            <slot name="table-extend-end3" v-bind:row="scope"></slot>
-          </template>
-        </AFTableColumn>
+        <slot name="table-extend-end3" v-bind:row="scope"></slot>
       </el-table>
     </div>
   </el-card>
@@ -250,13 +239,6 @@ const change_status = (id: string) => {
 </style>
 
 <style lang="less" scoped>
-@font-face {
-  font-family: NAME;
-  src: url('../assets/font/方正苏新诗柳楷简体.ttf');
-  font-weight: normal;
-  font-style: normal;
-}
-
 .main {
   .card-header {
     .title {

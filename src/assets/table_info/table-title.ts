@@ -40,6 +40,7 @@ export const ZhangTao1 = [
     fold: false
   }
 ]
+
 export const ZhangTao2 = [
   {
     label: '往来单位代码',
@@ -111,6 +112,7 @@ export const Bank = [
     fold: false
   }
 ]
+
 export const Bank2 = [
   //TODO
   {
@@ -197,7 +199,6 @@ export const Partment = [
     fold: false
   }
 ]
-
 //表3
 
 export const Variety = [
@@ -254,7 +255,6 @@ export const Grade = [
     prop: 'code',
     fold: false
   },
-
   {
     label: '含量',
     prop: 'content',
@@ -322,6 +322,7 @@ export const Currency = [
     fold: false
   }
 ]
+
 export const Orders = [
   {
     label: '订单模式',
@@ -334,6 +335,7 @@ export const Orders = [
     fold: false
   }
 ]
+
 export const Type = [
   {
     label: '类别',
@@ -341,8 +343,8 @@ export const Type = [
     fold: false
   }
 ]
-
 //表5
+
 export const Sta = [
   {
     label: '账套简称',
@@ -380,6 +382,7 @@ export const Sta = [
     fold: false
   }
 ]
+
 export const Svar = [
   {
     label: '品种',
@@ -397,6 +400,7 @@ export const Svar = [
     fold: false
   }
 ]
+
 export const Item = [
   {
     label: '项目名称',
@@ -414,6 +418,7 @@ export const Item = [
     fold: false
   }
 ]
+
 export const Stof = [
   {
     label: '仓储起始日',
@@ -529,7 +534,6 @@ export const MenusInfo = [
     prop: 'menuName',
     fold: false
   },
-
   {
     label: '备注',
     prop: 'remark',
@@ -811,22 +815,22 @@ export const StatisticsInfo = [
 
 export const TradeInfo = [
   {
-    label: '购销日期',
+    label: '交易日期',
     prop: 'date',
     fold: false
   },
   {
-    label: '本公司账套',
+    label: '账套',
     prop: 'ledger',
     fold: false
   },
   {
-    label: '本公司部门',
+    label: '业务部门',
     prop: 'ourDept',
     fold: false
   },
   {
-    label: '贸易商公司',
+    label: '贸易商',
     prop: 'company',
     fold: false
   },
@@ -889,105 +893,90 @@ export const TradeInfo = [
     label: '交货方式',
     prop: 'deliver',
     fold: false
+  },
+  {
+    label: '批次号',
+    prop: 'seqID',
+    fold: false
+  },
+  {
+    label: '订单号',
+    prop: 'orderID',
+    fold: false
   }
 ]
 
 export const PositionInfo = [
+  {
+    label: '查看库存明细',
+    fold: true
+  },
   { prop: 'date', label: '采购日期', fold: false },
-
   {
     prop: 'ledger',
     label: '账套',
     fold: false
   },
-
   {
     prop: 'ourdept',
-
     label: '业务部门',
     fold: false
   },
-
   {
     prop: 'company',
-
     label: '贸易商',
     fold: false
   },
-
   {
     prop: 'variety',
-
     label: '品种',
     fold: false
   },
-
   {
     prop: 'grade',
-
     label: '规格',
     fold: false
   },
-
   {
     prop: 'trademark',
-
     label: '品牌',
     fold: false
   },
-
   {
     prop: 'oi',
-
     label: '持仓量',
     fold: false
   },
-
   {
     prop: 'meter',
-
-    label: '数量单位',
+    label: '单位',
     fold: false
   },
-
   {
-    prop: 'costPrice',
-
-    label: '成本价',
-    fold: false
-  },
-
-  {
-    prop: 'sprice',
-
-    label: '币种结算价',
-    fold: false
-  },
-
-  { prop: 'currency', label: '币种', fold: false },
-
-  {
-    prop: 'type',
-
+    prop: 'tradeType',
     label: '贸易类型',
     fold: false
   },
-
   {
-    prop: 'order',
-
+    prop: 'orderMode',
     label: '订单模式',
     fold: false
   },
-
+  {
+    prop: 'costPrice',
+    label: '成本价',
+    fold: false
+  },
   {
     prop: 'deliver',
-
     label: '交货方式',
     fold: false
   },
-
-  { prop: 'fpl', label: '现货浮动盈亏', fold: false }
+  {
+    prop: 'turnID',
+    label: '批次号',
+    fold: false
+  }
 ]
 
 export const Tcost = [
@@ -996,13 +985,11 @@ export const Tcost = [
     label: '进出口结算价',
     fold: false
   },
-
   {
     prop: 'positionCur',
     label: '币种',
     fold: false
   },
-
   {
     prop: 'exrate',
     label: '参考汇率',
@@ -1013,7 +1000,6 @@ export const Tcost = [
     label: '参考成本',
     fold: false
   },
-
   {
     prop: 'fpl',
     label: '浮盈',
@@ -1291,7 +1277,6 @@ export const Caigoujilu = [
     label: '品种',
     fold: false
   },
-
   {
     prop: 'fpl',
     label: '品牌',
@@ -1395,7 +1380,6 @@ export const Caigoufukuan = [
     label: '对方银行名称',
     fold: false
   },
-
   {
     prop: 'fpl',
     label: '对方银行账号',
@@ -1464,7 +1448,6 @@ export const Xiaoshoujilu = [
     label: '规格',
     fold: false
   },
-
   {
     prop: 'fpl',
     label: '品牌',
@@ -1495,7 +1478,6 @@ export const Xiaoshoujilu = [
     label: '实收金额',
     fold: false
   },
-
   {
     prop: 'fpl',
     label: '币种',
@@ -1569,7 +1551,6 @@ export const Gouxiaoyukuan = [
     label: '规格',
     fold: false
   },
-
   {
     prop: 'fpl',
     label: '品牌',
@@ -1600,7 +1581,6 @@ export const Gouxiaoyukuan = [
     label: '最终价',
     fold: false
   },
-
   {
     prop: 'fpl',
     label: '成交金额',
@@ -1669,7 +1649,6 @@ export const Yukuanduizhang = [
     label: '实结金额',
     fold: false
   },
-
   {
     prop: 'fpl',
     label: '币种',
@@ -1723,7 +1702,6 @@ export const Yukuanfukuan = [
     label: '款项',
     fold: false
   },
-
   {
     prop: 'fpl',
     label: '款项类别',
@@ -1792,7 +1770,6 @@ export const Shoukuanjilu = [
     label: '贸易商',
     fold: false
   },
-
   {
     prop: 'fpl',
     label: '贸易商开户银行',
@@ -1871,7 +1848,6 @@ export const Maoyijilu = [
     label: '品种',
     fold: false
   },
-
   {
     prop: 'fpl',
     label: '规格',

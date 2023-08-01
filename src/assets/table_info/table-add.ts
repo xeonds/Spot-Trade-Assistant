@@ -573,92 +573,102 @@ export const MenusInfo = [
 
 export const Gouxiaojilu = [
   {
-    prop: 'fpl',
+    prop: 'fpl1',
     label: '交易日期',
-    type: 'string'
+    type: 'date'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl2',
     label: '合同生成状态',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl3',
     label: '账套',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl4',
     label: '业务部门',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl5',
     label: '贸易商',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl6',
     label: '购/销',
-    type: 'string'
+    type: 'select',
+    options: [
+      {
+        label: '购',
+        value: '购'
+      },
+      {
+        label: '销',
+        value: '销'
+      }
+    ]
   },
   {
-    prop: 'fpl',
+    prop: 'fpl7',
     label: '品种',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl8',
     label: '规格',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl9',
     label: '品牌',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl10',
     label: '订单数量',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl11',
     label: '数量单位',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl12',
     label: '订单价格',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl13',
     label: '订单币种',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl14',
     label: '成交金额',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl15',
     label: '贸易类型',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl16',
     label: '订单模式',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl17',
     label: '交货方式',
     type: 'string'
   },
   {
-    prop: 'fpl',
+    prop: 'fpl18',
     label: '订单号',
     type: 'string'
   }

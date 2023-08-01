@@ -54,16 +54,22 @@
     </template>
   </el-dialog>
   <!-- 新增 -->
-  <el-dialog v-model="dialogFormVisible" title="采购">
+  <el-dialog v-model="dialogFormVisible" title="采购" style="width: 80%">
     <el-form :model="add_form" style="display: flex; flex-wrap: wrap">
       <el-form-item
         :label="item.label"
-        :label-width="150"
+        :label-width="120"
         v-for="item in <any>table_add.Gouxiaojilu"
         :key="item.label"
-        style="width: 20vw; color: #000"
+        style="width: 24rem; color: #000"
         :prop="item.prop"
       >
+        <el-date-picker
+          v-model="add_form[item.prop]"
+          type="date"
+          placeholder="选择日期"
+          v-if="item.type == 'date'"
+        />
         <el-input
           v-model="add_form[item.prop]"
           input-style="color:#000;border-color:var(--el-color-primary)"
@@ -111,16 +117,10 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button
-          @click="dialogFormVisible = false"
-          class="cancel"
-          style="width: 6vw"
-        >
+        <el-button @click="dialogFormVisible = false" type="primary" plain>
           取消
         </el-button>
-        <el-button @click="modify" class="comfirm" style="width: 6vw">
-          确定
-        </el-button>
+        <el-button @click="modify" type="primary">确定</el-button>
       </span>
     </template>
   </el-dialog>
@@ -174,56 +174,53 @@
   <div v-if="route.params.id === '1'">
     <Modify_table
       :data="data"
-      :command="['采购', '发送完成交易确认']"
-      name="贸易记录"
+      :command="['刷新', '采购', '发送成交确认']"
+      name="购销订单"
       id="trade1"
       :col="table_col.TradeInfo"
+      :height="30"
+      :selectable="true"
       @handle="handle"
       @menu="menu"
       @select="select"
-      :selectable="true"
     >
       <template #top>
-        <TableFind :search_item="search_items.TradeInfo"></TableFind>
+        <TableFind />
       </template>
     </Modify_table>
-    <el-row>
-      <el-col :span="12">
-        <Modify_table
-          :data="data1"
-          :command="['销售', '现货结算价', '导出']"
-          name="现货持仓"
-          id="trade2"
-          :col="table_col.PositionInfo"
-          @handle="handle1"
-          @select="select"
-          :selectable="true"
-          @menu="menu"
-          extend="操作"
-        >
-          <template #top>
-            <TableFind :search_item="search_items.TradeInfo"></TableFind>
-          </template>
-          <template #extend2="props">
-            <el-button style="height: 1.2vh" @click="test(props)"
-              >查库存</el-button
-            >
-          </template>
-        </Modify_table>
-      </el-col>
-
-      <el-col :span="12">
-        <Modify_table
-          :data="data2"
-          :command="['汇率']"
-          name="进出口成本参考"
-          id="trade3"
-          :col="table_col.Tcost"
-          @handle="handle2"
-          @menu="menu"
-        ></Modify_table>
-      </el-col>
-    </el-row>
+    <Modify_table
+      :data="data1"
+      :command="['刷新', '销售', '现货结算价', '汇率', '导出']"
+      name="现货持仓"
+      id="trade2"
+      :col="table_col.PositionInfo"
+      :hasfold="true"
+      :selectable="true"
+      :height="30"
+      @handle="handle1"
+      @select="select"
+      @menu="menu"
+      extend="操作"
+    >
+      <template #top>
+        <TableFind />
+      </template>
+      <template #extend3="row">
+        <AFTableColumn label="订单浮盈" header-align="center">
+          <AFTableColumn label="成本价"></AFTableColumn>
+          <AFTableColumn label="结算价"></AFTableColumn>
+          <AFTableColumn abel="浮盈"></AFTableColumn>
+          <AFTableColumn label="币种"></AFTableColumn>
+        </AFTableColumn>
+        <AFTableColumn label="进出口参考浮盈" header-align="center">
+          <AFTableColumn label="参考汇率"></AFTableColumn>
+          <AFTableColumn label="进出口成本"></AFTableColumn>
+          <AFTableColumn label="结算价"></AFTableColumn>
+          <AFTableColumn label="浮盈"></AFTableColumn>
+          <AFTableColumn label="币种"></AFTableColumn>
+        </AFTableColumn>
+      </template>
+    </Modify_table>
   </div>
   <div v-if="route.params.id === '2'">
     <Modify_table
@@ -400,6 +397,7 @@
 </template>
 
 <script lang="ts" setup>
+import AFTableColumn from '../../components/AFTableColumn.vue'
 import Modify_table from '../../components/modify-table2.vue'
 import TableFind from '../../components/table-find.vue'
 import * as table_col from '../../assets/table_info/table-title'
@@ -643,9 +641,11 @@ const handle = (a: number) => {
   if (route.params.id == '1') {
     switch (a) {
       case 0:
-        add()
         break
       case 1:
+        add()
+        break
+      case 2:
         send()
         console.log(select_list)
         break
@@ -655,17 +655,17 @@ const handle = (a: number) => {
 const handle1 = (a: number) => {
   if (route.params.id == '1') {
     switch (a) {
-      case 0:
+      case 1:
         ElMessage({
           message: '销售',
           type: 'success'
         })
         console.log(select_list1)
         break
-      case 1:
+      case 2:
         calculate()
         break
-      case 2:
+      case 4:
         xianhuoexport()
         break
     }

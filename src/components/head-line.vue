@@ -402,13 +402,6 @@ if (user) {
 </style>
 
 <style lang="less" scoped>
-@font-face {
-  font-family: MAIN;
-  src: url('../assets/font/Songti.ttc');
-  font-weight: normal;
-  font-style: normal;
-}
-
 .main {
   height: 4rem;
   color: #fff;

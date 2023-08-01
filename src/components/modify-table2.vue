@@ -7,6 +7,7 @@
     :contain_top="true"
     :contain_command="true"
     :command="props.command"
+    :height="props.height"
     :name="props.name"
     :hasfold="false"
     :enable_select="false"
@@ -39,8 +40,6 @@
 
 <script lang="ts" setup>
 import Table from './main-table.vue'
-import { reactive } from 'vue'
-
 const emits = defineEmits(['menu', 'handle', 'select'])
 
 /**
@@ -56,6 +55,7 @@ const props = defineProps([
   'col',
   'name',
   'data',
+  'height',
   'command',
   'extend',
   'extend2',

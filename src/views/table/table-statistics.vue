@@ -161,30 +161,3 @@ const form1_filter = computed(() => {
   })
 })
 </script>
-
-<style lang="less">
-.model {
-  .model-box {
-    margin-inline: 1rem !important;
-    margin-top: 1rem !important;
-  }
-}
-
-.table-find {
-  margin-bottom: 20px;
-}
-
-.table-op-group {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.inline-search {
-  margin-left: 0.5rem;
-  padding-left: 0.5rem;
-  border-left: 1px solid var(--el-color-secondary);
-  * {
-    margin: auto auto;
-  }
-}
-</style>
