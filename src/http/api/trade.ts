@@ -174,7 +174,7 @@ interface Tcost {
 }
 
 export const get_Tcost = (form: Tcost) => {
-  return serviceAxios({
+  return serviceAxios({ 
     method: 'GET',
     url: '/trade/importcost/page',
     params: form

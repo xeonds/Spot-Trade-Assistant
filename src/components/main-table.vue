@@ -255,7 +255,6 @@ const change_status = (id: string) => {
 }
 
 .main {
-  border: 1px solid #000;
   box-shadow: none;
 
   .card-header {
