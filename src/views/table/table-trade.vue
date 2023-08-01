@@ -641,6 +641,7 @@ const handle = (a: number) => {
   if (route.params.id == '1') {
     switch (a) {
       case 0:
+        handleFresh()
         break
       case 1:
         add()
@@ -655,6 +656,9 @@ const handle = (a: number) => {
 const handle1 = (a: number) => {
   if (route.params.id == '1') {
     switch (a) {
+      case 0:
+        handleFresh()
+        break
       case 1:
         ElMessage({
           message: '销售',
