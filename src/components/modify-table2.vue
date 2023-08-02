@@ -29,6 +29,9 @@
     <template #top>
       <slot name="top"></slot>
     </template>
+    <template #command>
+      <slot name="command"></slot>
+    </template>
     <template #table-extend-end2="Slotprops">
       <slot name="extend2" v-bind:row="Slotprops.row"></slot>
     </template>

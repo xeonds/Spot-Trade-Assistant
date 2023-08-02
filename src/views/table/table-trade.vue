@@ -225,8 +225,8 @@
   <div v-if="route.params.id === '2'">
     <Modify_table
       :data="data"
-      :command="['生成合同']"
-      name="购销记录"
+      :command="['刷新', '生成合同']"
+      name="购销订单"
       id="trade1"
       :col="table_col.Gouxiaojilu"
       @handle="handle"
@@ -234,12 +234,12 @@
       :selectable="true"
     >
       <template #top>
-        <TableFind :search_item="search_items.TradeInfo"></TableFind>
+        <TableFind></TableFind>
       </template>
     </Modify_table>
     <Modify_table
       :data="data"
-      :command="['印花税付款', '合同归档']"
+      :command="['刷新', '印花税付款', '合同归档']"
       name="购销合同"
       id="trade2"
       :col="table_col.Gouxiaohetong"
@@ -248,29 +248,54 @@
       :selectable="true"
     >
       <template #top>
-        <TableFind :search_item="search_items.TradeInfo"></TableFind>
+        <TableFind></TableFind>
+      </template>
+      <template #extend3>
+        <el-table-column label="合同扫描件" :width="120" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >上传</el-button
+            >
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >查看</el-button
+            >
+          </template>
+        </el-table-column>
       </template>
     </Modify_table>
     <Modify_table
       :data="data"
-      name="购销记录"
+      :command="['刷新']"
+      name="印花税付款申请"
       id="trade3"
       :col="table_col.Yinhuashui"
       @handle="handle2"
       @menu="menu"
     >
       <template #top>
-        <TableFind :search_item="search_items.TradeInfo"></TableFind>
+        <TableFind></TableFind>
+      </template>
+      <template #extend3>
+        <el-table-column label="申请单扫描件" :width="120" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >上传</el-button
+            >
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >查看</el-button
+            >
+          </template>
+        </el-table-column>
       </template>
     </Modify_table>
   </div>
   <div v-if="route.params.id === '3'">
     <Modify_table
       :data="data"
-      :command="['付款申请']"
-      name="采购记录"
+      :command="['刷新', '付款申请']"
+      name="采购订单"
       id="trade1"
-      :col="table_col.Gouxiaojilu"
+      :col="table_col.Caigoudingdan"
       @handle="handle"
       @menu="menu"
     >
@@ -292,13 +317,22 @@
           ]"
         ></TableFind>
       </template>
+      <template #extend3>
+        <el-table-column label="扫描件" :width="100" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >查看</el-button
+            >
+          </template>
+        </el-table-column>
+      </template>
     </Modify_table>
     <Modify_table
       :data="data"
-      :command="[]"
-      name="购销合同"
+      :command="['刷新']"
+      name="采购付款申请记录"
       id="trade2"
-      :col="table_col.Gouxiaohetong"
+      :col="table_col.Caigoufukuanshenqingjilu"
       @handle="handle"
       @menu="menu"
     >
@@ -315,82 +349,222 @@
           ]"
         ></TableFind>
       </template>
+      <template #extend3>
+        <el-table-column label="申请单扫描件" :width="120" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >上传</el-button
+            >
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >查看</el-button
+            >
+          </template>
+        </el-table-column>
+      </template>
     </Modify_table>
   </div>
   <div v-if="route.params.id === '4'">
     <Modify_table
       :data="data"
-      :command="['']"
-      name="购销记录"
+      :command="['刷新']"
+      name="销售订单"
       id="trade1"
-      :col="table_col.Gouxiaojilu"
+      :col="table_col.Xiaoshoudingdan"
       @handle="handle"
       @menu="menu"
     >
       <template #top>
-        <TableFind
-          :search_item="[
-            '交易日期',
-            '收款状态',
-            '账套',
-            '业务部门',
-            '贸易商',
-            '贸易商',
-            '贸易商部门',
-            '合同号',
-            '订单号'
-          ]"
-        ></TableFind>
+        <TableFind></TableFind>
+      </template>
+      <template #extend3>
+        <el-table-column label="合同扫描件" :width="100" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >查看</el-button
+            >
+          </template>
+        </el-table-column>
       </template>
     </Modify_table>
     <Modify_table
       :data="data"
-      :command="['打印收款确认单']"
-      name="购销合同"
+      :command="['刷新', '打印收款确认单']"
+      name="收款记录"
       id="trade2"
-      :col="table_col.Gouxiaohetong"
+      :col="table_col.Shoukuanjilu"
       @handle="handle"
       @menu="menu"
     >
       <template #top>
-        <TableFind
-          :search_item="[
-            '匹配状态',
-            '账套',
-            '业务部门',
-            '贸易商',
-            '收款确认单号',
-            '回单号'
-          ]"
-        ></TableFind>
+        <TableFind></TableFind>
+        <el-button type="primary" plain>匹配</el-button>
+      </template>
+      <template #extend3>
+        <el-table-column label="回单扫描件" :width="100" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >查看</el-button
+            >
+          </template>
+        </el-table-column>
+        <el-table-column label="确认单扫描件" :width="120" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >上传</el-button
+            >
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >查看</el-button
+            >
+          </template>
+        </el-table-column>
       </template>
     </Modify_table>
   </div>
   <div v-if="route.params.id === '5'">
     <Modify_table
       :data="data"
-      :command="['余额对账']"
-      name="贸易记录"
+      :command="['刷新', '余款对账']"
+      name="购销订单"
       id="trade3"
-      :col="table_col.Maoyijilu"
+      :col="table_col.Gouxiaodingdan"
       @handle="handle"
       @menu="menu"
     >
       <template #top>
-        <TableFind
-          :search_item="[
-            '交易日期',
-            '余款对账状态',
-            '账套',
-            '业务部门',
-            '贸易商',
-            '贸易商部门',
-            '品种',
-            '规格',
-            '币种',
-            '订单号'
-          ]"
-        ></TableFind>
+        <TableFind></TableFind>
+      </template>
+    </Modify_table>
+    <Modify_table
+      :data="data"
+      :command="['刷新', '打印对账单']"
+      name="余款对账记录"
+      id="trade4"
+      :col="table_col.Yukuanduizhang"
+      @handle="handle"
+      @menu="menu"
+    >
+      <template #top>
+        <TableFind></TableFind>
+      </template>
+      <template #extend3>
+        <el-table-column label="对账单扫描件" :width="120" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >上传</el-button
+            >
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >查看</el-button
+            >
+          </template>
+        </el-table-column>
+      </template>
+    </Modify_table>
+  </div>
+  <div v-if="route.params.id === '6'">
+    <Modify_table
+      :data="data"
+      :command="['刷新', '余款付款申请', '余款收款匹配']"
+      name="余款对账记录"
+      id="trade3"
+      :col="table_col.Yukuanduizhang"
+      @handle="handle"
+      @menu="menu"
+    >
+      <template #top>
+        <TableFind></TableFind>
+      </template>
+      <template #extend3>
+        <el-table-column label="对账单扫描件" :width="120" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >查看</el-button
+            >
+          </template>
+        </el-table-column>
+      </template>
+    </Modify_table>
+    <Modify_table
+      :data="data"
+      :command="['刷新', '打印付款申请单']"
+      name="余款付款申请记录"
+      id="trade4"
+      :col="table_col.Yukuanfukuan"
+      @handle="handle"
+      @menu="menu"
+    >
+      <template #top>
+        <TableFind></TableFind>
+      </template>
+      <template #extend3>
+        <el-table-column label="申请单扫描件" :width="120" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >上传</el-button
+            >
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >查看</el-button
+            >
+          </template>
+        </el-table-column>
+      </template>
+    </Modify_table>
+    <Modify_table
+      :data="data"
+      :command="['刷新', '打印收款申请单']"
+      name="收款记录"
+      id="trade4"
+      :col="table_col.Shoukuanjilu"
+      @handle="handle"
+      @menu="menu"
+    >
+      <template #top>
+        <TableFind></TableFind>
+      </template>
+      <template #extend3>
+        <el-table-column label="回单扫描件" :width="100" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >查看</el-button
+            >
+          </template>
+        </el-table-column>
+        <el-table-column label="确认单扫描件" :width="120" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >上传</el-button
+            >
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >查看</el-button
+            >
+          </template>
+        </el-table-column>
+      </template>
+    </Modify_table>
+  </div>
+  <div v-if="route.params.id === '7'">
+    <Modify_table
+      :data="data"
+      :command="['刷新', '发票确认']"
+      name="购销订单"
+      id="trade3"
+      :col="table_col.Gouxiaodingdan"
+      @handle="handle"
+      @menu="menu"
+    >
+      <template #top>
+        <TableFind></TableFind>
+      </template>
+      <template #extend3>
+        <el-table-column label="扫描件" :width="120" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >上传</el-button
+            >
+            <el-button type="primary" link @click="console.log(scope.row)"
+              >查看</el-button
+            >
+          </template>
+        </el-table-column>
       </template>
     </Modify_table>
   </div>
@@ -404,13 +578,8 @@ import * as table_col from '../../assets/table_info/table-title'
 import { useRoute } from 'vue-router'
 import * as table_add from '../../assets/table_info/table-add'
 import { ElMessage } from 'element-plus'
-import * as search_items from '../../assets/table_info/search_item'
 
 const route = useRoute()
-
-const test = (a: any) => {
-  console.log(a)
-}
 
 //右键修改逻辑
 let visible = ref(false)
