@@ -133,7 +133,7 @@ onMounted(() => {
   }
 
   #sub-nav {
-    height: 2rem;
+    height: 2rem !important;
     padding-inline: 1rem;
     background-color: var(--el-color-secondary);
     display: flex;
@@ -173,7 +173,7 @@ onMounted(() => {
     flex-flow: row;
     justify-content: space-between;
     align-items: center;
-    height: 2rem;
+    height: 2rem !important;
     padding-inline: 1rem;
     color: var(--el-color-primary);
     #marqueen {

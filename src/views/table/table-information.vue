@@ -1,7 +1,6 @@
 <template>
   <div v-if="route.params.id === '1'">
     <modifyTable
-      class="table-pane"
       id="information1"
       name="本公司账套"
       :get_data="infoapi.getZhangTao"
@@ -20,7 +19,6 @@
       :enable_select="true"
     ></modifyTable>
     <modifyTable
-      class="table-pane"
       id="information2"
       name="本公司开户银行"
       :get_data="infoapi.getBank"
@@ -37,7 +35,6 @@
       :rules="table_rules.Bankrules"
     ></modifyTable>
     <modifyTable
-      class="table-pane"
       id="information3"
       name="本公司业务部门"
       :get_data="infoapi.getPartment"
@@ -57,7 +54,6 @@
   </div>
   <div v-if="route.params.id === '2'">
     <modifyTable
-      class="table-pane"
       id="information1"
       name="往来单位资料"
       :get_data="infoapi.getZhangTao2"
@@ -77,7 +73,6 @@
       :rules="table_rules.ZhangTao2rules"
     ></modifyTable>
     <modifyTable
-      class="table-pane"
       id="information2"
       name="往来单位银行"
       :get_data="infoapi.getBank"
@@ -94,7 +89,6 @@
       :rules="table_rules.Bankrules"
     ></modifyTable>
     <modifyTable
-      class="table-pane"
       id="information3"
       name="往来单位部门"
       :get_data="infoapi.getPartment"
@@ -114,7 +108,6 @@
   </div>
   <div v-if="route.params.id === '3'">
     <modifyTable
-      class="table-pane"
       id="information1"
       name="商品品种"
       :get_data="infoapi.getVariety"
@@ -135,7 +128,6 @@
     >
     </modifyTable>
     <modifyTable
-      class="table-pane"
       id="information2"
       name="商品规格"
       :get_data="infoapi.getGrade"
@@ -154,7 +146,6 @@
       :rules="table_rules.Graderules"
     ></modifyTable>
     <modifyTable
-      class="table-pane"
       id="information3"
       name="商品商标"
       :get_data="infoapi.getTrademark"
@@ -177,7 +168,6 @@
   <el-row v-if="route.params.id === '4'">
     <el-col :span="6">
       <modifyTable
-        class="vertical-table-pane"
         id="information1"
         name="币种"
         :get_data="infoapi.getCurrency"
@@ -196,7 +186,6 @@
     </el-col>
     <el-col :span="6">
       <modifyTable
-        class="vertical-table-pane"
         id="information2"
         name="订单模式"
         :get_data="infoapi.getOrders"
@@ -216,7 +205,6 @@
     </el-col>
     <el-col :span="6">
       <modifyTable
-        class="vertical-table-pane"
         id="information3"
         name="海关款项类别"
         :get_data="infoapi.getType"
@@ -235,7 +223,6 @@
     </el-col>
     <el-col :span="6">
       <modifyTable
-        class="vertical-table-pane"
         id="information4"
         name="仓储款项类别"
         :get_data="infoapi.getType"
@@ -255,7 +242,6 @@
   </el-row>
   <div v-if="route.params.id === '5'">
     <modifyTable
-      class="table-pane"
       id="information1"
       name="仓储协议"
       :get_data="infoapi.getSta"
@@ -271,7 +257,6 @@
       :rules="table_rules.Starules"
     ></modifyTable>
     <modifyTable
-      class="table-pane"
       id="information2"
       name="签约品种"
       :get_data="infoapi.getSvar"
@@ -289,7 +274,6 @@
     <el-row>
       <el-col :span="12">
         <modifyTable
-          class="table-pane"
           id="information3"
           name="收费项目"
           :get_data="infoapi.getItem"
@@ -308,7 +292,6 @@
       </el-col>
       <el-col :span="12">
         <modifyTable
-          class="table-pane"
           id="information4"
           name="仓储费"
           :get_data="infoapi.getStof"
