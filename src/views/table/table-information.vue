@@ -1,169 +1,205 @@
 <template>
   <div v-if="route.params.id === '1'">
-    <modifyTable
-      id="information1"
-      name="本公司账套"
-      :get_data="infoapi.getZhangTao"
-      :add_data="infoapi.addZhangTao1"
-      :delete_data="infoapi.deletaZhangTao"
-      :modify_data="infoapi.refreshZhangTao"
-      :export="infoapi.Partmentexcel"
-      :command="['刷新', '新建', '导出']"
-      :search="ZhangTaoSearchCondition"
-      @fresh="handle_fresh"
-      ref="zhangtao"
-      @click_row="handle_click"
-      :col="table_col.ZhangTao1"
-      :features="table_add.ZhangTao1"
-      :rules="table_rules.Zhangtao1rules"
-      :enable_select="true"
-    ></modifyTable>
-    <modifyTable
-      id="information2"
-      name="本公司开户银行"
-      :get_data="infoapi.getBank"
-      :add_data="infoapi.addBank"
-      :delete_data="infoapi.deletaBank"
-      :modify_data="infoapi.refreshBank"
-      :command="['刷新', '新建']"
-      :search="bankSearchCondition"
-      @fresh="handle_fresh"
-      ref="bank"
-      :col="table_col.Bank"
-      :features="table_add.Bank"
-      change_base="company"
-      :rules="table_rules.Bankrules"
-    ></modifyTable>
-    <modifyTable
-      id="information3"
-      name="本公司业务部门"
-      :get_data="infoapi.getPartment"
-      :add_data="infoapi.addPartment"
-      :delete_data="infoapi.deletaPartment"
-      :modify_data="infoapi.refreshPartment"
-      :search="PartmentSearchCondition"
-      @fresh="handle_fresh"
-      ref="partment"
-      :command="['刷新', '新建']"
-      :col="table_col.Partment"
-      :features="table_add.Partment"
-      change_base="company"
-      :rules="table_rules.Partmentrules"
-    >
-    </modifyTable>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          id="information1"
+          name="本公司账套"
+          :get_data="infoapi.getZhangTao"
+          :add_data="infoapi.addZhangTao1"
+          :delete_data="infoapi.deletaZhangTao"
+          :modify_data="infoapi.refreshZhangTao"
+          :export="infoapi.Partmentexcel"
+          :command="['刷新', '新建', '导出']"
+          :search="ZhangTaoSearchCondition"
+          @fresh="handle_fresh"
+          ref="zhangtao"
+          @click_row="handle_click"
+          :col="table_col.ZhangTao1"
+          :features="table_add.ZhangTao1"
+          :rules="table_rules.Zhangtao1rules"
+          :enable_select="true"
+        ></modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          id="information2"
+          name="本公司开户银行"
+          :get_data="infoapi.getBank"
+          :add_data="infoapi.addBank"
+          :delete_data="infoapi.deletaBank"
+          :modify_data="infoapi.refreshBank"
+          :command="['刷新', '新建']"
+          :search="bankSearchCondition"
+          @fresh="handle_fresh"
+          ref="bank"
+          :col="table_col.Bank"
+          :features="table_add.Bank"
+          change_base="company"
+          :rules="table_rules.Bankrules"
+        ></modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          id="information3"
+          name="本公司业务部门"
+          :get_data="infoapi.getPartment"
+          :add_data="infoapi.addPartment"
+          :delete_data="infoapi.deletaPartment"
+          :modify_data="infoapi.refreshPartment"
+          :search="PartmentSearchCondition"
+          @fresh="handle_fresh"
+          ref="partment"
+          :command="['刷新', '新建']"
+          :col="table_col.Partment"
+          :features="table_add.Partment"
+          change_base="company"
+          :rules="table_rules.Partmentrules"
+        >
+        </modifyTable>
+      </el-col>
+    </el-row>
   </div>
   <div v-if="route.params.id === '2'">
-    <modifyTable
-      id="information1"
-      name="往来单位资料"
-      :get_data="infoapi.getZhangTao2"
-      :add_data="infoapi.addZhangTao2"
-      :delete_data="infoapi.deletaZhangTao"
-      :modify_data="infoapi.refreshZhangTao"
-      :export="infoapi.Partmentexcel"
-      :command="['刷新', '新建', '导出']"
-      :search="ZhangTaoSearchCondition2"
-      @fresh="handle_fresh"
-      ref="zhangtao2"
-      @click_row="handle_click"
-      :col="table_col.ZhangTao2"
-      :features="table_add.ZhangTao2"
-      :enable_select="true"
-      @cancel_select="cancel_select"
-      :rules="table_rules.ZhangTao2rules"
-    ></modifyTable>
-    <modifyTable
-      id="information2"
-      name="往来单位银行"
-      :get_data="infoapi.getBank"
-      :add_data="infoapi.addBank"
-      :delete_data="infoapi.deletaBank"
-      :modify_data="infoapi.refreshBank"
-      :command="['刷新', '新建']"
-      :search="bankSearchCondition2"
-      @fresh="handle_fresh"
-      ref="bank2"
-      :col="table_col.Bank2"
-      :features="table_add.Bank"
-      change_base="company"
-      :rules="table_rules.Bankrules"
-    ></modifyTable>
-    <modifyTable
-      id="information3"
-      name="往来单位部门"
-      :get_data="infoapi.getPartment"
-      :add_data="infoapi.addPartment"
-      :delete_data="infoapi.deletaPartment"
-      :modify_data="infoapi.refreshPartment"
-      :search="PartmentSearchCondition2"
-      @fresh="handle_fresh"
-      ref="partment2"
-      :command="['刷新', '新建']"
-      :col="table_col.Partment"
-      :features="table_add.Partment"
-      change_base="company"
-      :rules="table_rules.Partmentrules"
-    >
-    </modifyTable>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          id="information1"
+          name="往来单位资料"
+          :get_data="infoapi.getZhangTao2"
+          :add_data="infoapi.addZhangTao2"
+          :delete_data="infoapi.deletaZhangTao"
+          :modify_data="infoapi.refreshZhangTao"
+          :export="infoapi.Partmentexcel"
+          :command="['刷新', '新建', '导出']"
+          :search="ZhangTaoSearchCondition2"
+          @fresh="handle_fresh"
+          ref="zhangtao2"
+          @click_row="handle_click"
+          :col="table_col.ZhangTao2"
+          :features="table_add.ZhangTao2"
+          :enable_select="true"
+          @cancel_select="cancel_select"
+          :rules="table_rules.ZhangTao2rules"
+        ></modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          id="information2"
+          name="往来单位银行"
+          :get_data="infoapi.getBank"
+          :add_data="infoapi.addBank"
+          :delete_data="infoapi.deletaBank"
+          :modify_data="infoapi.refreshBank"
+          :command="['刷新', '新建']"
+          :search="bankSearchCondition2"
+          @fresh="handle_fresh"
+          ref="bank2"
+          :col="table_col.Bank2"
+          :features="table_add.Bank"
+          change_base="company"
+          :rules="table_rules.Bankrules"
+        ></modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          id="information3"
+          name="往来单位部门"
+          :get_data="infoapi.getPartment"
+          :add_data="infoapi.addPartment"
+          :delete_data="infoapi.deletaPartment"
+          :modify_data="infoapi.refreshPartment"
+          :search="PartmentSearchCondition2"
+          @fresh="handle_fresh"
+          ref="partment2"
+          :command="['刷新', '新建']"
+          :col="table_col.Partment"
+          :features="table_add.Partment"
+          change_base="company"
+          :rules="table_rules.Partmentrules"
+        >
+        </modifyTable>
+      </el-col>
+    </el-row>
   </div>
   <div v-if="route.params.id === '3'">
-    <modifyTable
-      id="information1"
-      name="商品品种"
-      :get_data="infoapi.getVariety"
-      :add_data="infoapi.addVariety"
-      :delete_data="infoapi.deletaVariety"
-      :modify_data="infoapi.refreshVariety"
-      :command="['刷新', '新建', '导出']"
-      :search="VarietySearchCondition"
-      @fresh="handle_fresh"
-      @click_row="handle_click"
-      ref="Variety"
-      :col="table_col.Variety"
-      :features="table_add.Variety"
-      :enable_select="true"
-      @cancel_select="cancel_select"
-      :option_get="{ variety: varietyOptionsGet }"
-      :rules="table_rules.Varietyrules"
-    >
-    </modifyTable>
-    <modifyTable
-      id="information2"
-      name="商品规格"
-      :get_data="infoapi.getGrade"
-      :add_data="infoapi.addGrade"
-      :delete_data="infoapi.deletaGrade"
-      :modify_data="infoapi.refreshGrade"
-      :command="['刷新', '新建']"
-      :search="GradeSearchCondition"
-      @fresh="handle_fresh"
-      ref="Grade"
-      :col="table_col.Grade"
-      :features="table_add.Grade"
-      change_base="variety"
-      :option_get="{ variety: varietyOptionsGet }"
-      :enAddBeforeSelect="true"
-      :rules="table_rules.Graderules"
-    ></modifyTable>
-    <modifyTable
-      id="information3"
-      name="商品商标"
-      :get_data="infoapi.getTrademark"
-      :add_data="infoapi.addTrademark"
-      :delete_data="infoapi.deletaTrademark"
-      :modify_data="infoapi.refreshTrademark"
-      :command="['刷新', '新建']"
-      :search="TrademarkSearchCondition"
-      @fresh="handle_fresh"
-      ref="Trademark"
-      :col="table_col.Trademark"
-      :features="table_add.Trademark"
-      change_base="variety"
-      :option_get="{ variety: varietyOptionsGet }"
-      :enAddBeforeSelect="true"
-      :rules="table_rules.Trademarkrules"
-    >
-    </modifyTable>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          id="information1"
+          name="商品品种"
+          :get_data="infoapi.getVariety"
+          :add_data="infoapi.addVariety"
+          :delete_data="infoapi.deletaVariety"
+          :modify_data="infoapi.refreshVariety"
+          :command="['刷新', '新建', '导出']"
+          :search="VarietySearchCondition"
+          @fresh="handle_fresh"
+          @click_row="handle_click"
+          ref="Variety"
+          :col="table_col.Variety"
+          :features="table_add.Variety"
+          :enable_select="true"
+          @cancel_select="cancel_select"
+          :option_get="{ variety: varietyOptionsGet }"
+          :rules="table_rules.Varietyrules"
+        >
+        </modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          id="information2"
+          name="商品规格"
+          :get_data="infoapi.getGrade"
+          :add_data="infoapi.addGrade"
+          :delete_data="infoapi.deletaGrade"
+          :modify_data="infoapi.refreshGrade"
+          :command="['刷新', '新建']"
+          :search="GradeSearchCondition"
+          @fresh="handle_fresh"
+          ref="Grade"
+          :col="table_col.Grade"
+          :features="table_add.Grade"
+          change_base="variety"
+          :option_get="{ variety: varietyOptionsGet }"
+          :enAddBeforeSelect="true"
+          :rules="table_rules.Graderules"
+        ></modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          id="information3"
+          name="商品商标"
+          :get_data="infoapi.getTrademark"
+          :add_data="infoapi.addTrademark"
+          :delete_data="infoapi.deletaTrademark"
+          :modify_data="infoapi.refreshTrademark"
+          :command="['刷新', '新建']"
+          :search="TrademarkSearchCondition"
+          @fresh="handle_fresh"
+          ref="Trademark"
+          :col="table_col.Trademark"
+          :features="table_add.Trademark"
+          change_base="variety"
+          :option_get="{ variety: varietyOptionsGet }"
+          :enAddBeforeSelect="true"
+          :rules="table_rules.Trademarkrules"
+        >
+        </modifyTable>
+      </el-col>
+    </el-row>
   </div>
   <el-row v-if="route.params.id === '4'">
     <el-col :span="6">
@@ -241,36 +277,44 @@
     </el-col>
   </el-row>
   <div v-if="route.params.id === '5'">
-    <modifyTable
-      id="information1"
-      name="仓储协议"
-      :get_data="infoapi.getSta"
-      :add_data="infoapi.addSta"
-      :delete_data="infoapi.deletaSta"
-      :modify_data="infoapi.refreshSta"
-      :command="['刷新', '新建', '导出']"
-      :search="StaSearchCondition"
-      @fresh="handle_fresh"
-      ref="Sta"
-      :col="table_col.Sta"
-      :features="table_add.Sta"
-      :rules="table_rules.Starules"
-    ></modifyTable>
-    <modifyTable
-      id="information2"
-      name="签约品种"
-      :get_data="infoapi.getSvar"
-      :add_data="infoapi.addSvar"
-      :delete_data="infoapi.deletaSvar"
-      :modify_data="infoapi.refreshSvar"
-      :command="['刷新', '新建']"
-      :search="SvarSearchCondition"
-      @fresh="handle_fresh"
-      ref="Svar"
-      :col="table_col.Svar"
-      :features="table_add.Svar"
-      :rules="table_rules.Svarrules"
-    ></modifyTable>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          id="information1"
+          name="仓储协议"
+          :get_data="infoapi.getSta"
+          :add_data="infoapi.addSta"
+          :delete_data="infoapi.deletaSta"
+          :modify_data="infoapi.refreshSta"
+          :command="['刷新', '新建', '导出']"
+          :search="StaSearchCondition"
+          @fresh="handle_fresh"
+          ref="Sta"
+          :col="table_col.Sta"
+          :features="table_add.Sta"
+          :rules="table_rules.Starules"
+        ></modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          id="information2"
+          name="签约品种"
+          :get_data="infoapi.getSvar"
+          :add_data="infoapi.addSvar"
+          :delete_data="infoapi.deletaSvar"
+          :modify_data="infoapi.refreshSvar"
+          :command="['刷新', '新建']"
+          :search="SvarSearchCondition"
+          @fresh="handle_fresh"
+          ref="Svar"
+          :col="table_col.Svar"
+          :features="table_add.Svar"
+          :rules="table_rules.Svarrules"
+        ></modifyTable>
+      </el-col>
+    </el-row>
     <el-row>
       <el-col :span="12">
         <modifyTable

@@ -1,40 +1,44 @@
 <template>
-  <Table
-    id="table-model"
-    :col="table_col.ModelInfo"
-    :table_data="data"
-    :command="['刷新', '添加']"
-    :cnotain_extend="true"
-    :contain_top="true"
-    @handle="handleCommand"
-    :enable_select="false"
-    :name="`合同模板-${name}`"
-    :height="64"
-  >
-    <template #command>
-      <el-input
-        class="inline-search"
-        placeholder="输入关键字，用空格隔开"
-        clearable
-      />
-      <div></div>
-    </template>
-    <template #table-extend-end>
-      <el-table-column label="操作" width="240" align="center">
-        <template #default="scope">
-          <div class="table-op-group">
-            <el-button
-              type="primary"
-              link
-              @click="showGenerateTemplate(scope.row.id)"
-              >编辑条款</el-button
-            >
-            <el-button type="primary" link @click="preview">预览</el-button>
-          </div>
+  <el-row>
+    <el-col :span="24">
+      <Table
+        id="table-model"
+        :col="table_col.ModelInfo"
+        :table_data="data"
+        :command="['刷新', '添加']"
+        :cnotain_extend="true"
+        :contain_top="true"
+        @handle="handleCommand"
+        :enable_select="false"
+        :name="`合同模板-${name}`"
+        :height="64"
+      >
+        <template #command>
+          <el-input
+            class="inline-search"
+            placeholder="输入关键字，用空格隔开"
+            clearable
+          />
+          <div></div>
         </template>
-      </el-table-column>
-    </template>
-  </Table>
+        <template #table-extend-end>
+          <el-table-column label="操作" width="240" align="center">
+            <template #default="scope">
+              <div class="table-op-group">
+                <el-button
+                  type="primary"
+                  link
+                  @click="showGenerateTemplate(scope.row.id)"
+                  >编辑条款</el-button
+                >
+                <el-button type="primary" link @click="preview">预览</el-button>
+              </div>
+            </template>
+          </el-table-column>
+        </template>
+      </Table>
+    </el-col>
+  </el-row>
   <el-dialog
     v-model="isShow"
     :title="form_data['name'].split('.xlsx')[0] + ' 基础信息'"
