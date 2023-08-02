@@ -1,6 +1,5 @@
 <template>
   <Table
-    class="model-box"
     id="table-spy-1"
     :col="table_col.StatisticsInfo"
     :table_data="form1_filter"
@@ -23,7 +22,6 @@
     </template>
   </Table>
   <Table
-    class="model-box"
     id="table-spy-2"
     :col="table_col.StatisticsInfo"
     :table_data="form1_filter"

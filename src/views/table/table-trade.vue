@@ -173,14 +173,15 @@
   </el-dialog>
   <div v-if="route.params.id === '1'">
     <Modify_table
-      :data="data"
+      :data="data['1-1']"
       :command="['刷新', '采购', '发送成交确认']"
       name="购销订单"
       id="trade1"
       :col="table_col.TradeInfo"
       :height="30"
       :selectable="true"
-      @handle="handle"
+      :load="handleFresh('1-1')"
+      @handle="(a:number)=>handle('1-1', a)"
       @menu="menu"
       @select="select"
     >
@@ -189,7 +190,7 @@
       </template>
     </Modify_table>
     <Modify_table
-      :data="data1"
+      :data="data['1-2']"
       :command="['刷新', '销售', '现货结算价', '汇率', '导出']"
       name="现货持仓"
       id="trade2"
@@ -197,7 +198,8 @@
       :hasfold="true"
       :selectable="true"
       :height="30"
-      @handle="handle1"
+      :load="handleFresh('1-2')"
+      @handle="handle"
       @select="select"
       @menu="menu"
       extend="操作"
@@ -224,7 +226,7 @@
   </div>
   <div v-if="route.params.id === '2'">
     <Modify_table
-      :data="data"
+      :data="data['2-1']"
       :command="['刷新', '生成合同']"
       name="购销订单"
       id="trade1"
@@ -238,7 +240,7 @@
       </template>
     </Modify_table>
     <Modify_table
-      :data="data"
+      :data="data['2-2']"
       :command="['刷新', '印花税付款', '合同归档']"
       name="购销合同"
       id="trade2"
@@ -264,7 +266,7 @@
       </template>
     </Modify_table>
     <Modify_table
-      :data="data"
+      :data="data['2-3']"
       :command="['刷新']"
       name="印花税付款申请"
       id="trade3"
@@ -291,7 +293,7 @@
   </div>
   <div v-if="route.params.id === '3'">
     <Modify_table
-      :data="data"
+      :data="data['3-1']"
       :command="['刷新', '付款申请']"
       name="采购订单"
       id="trade1"
@@ -328,7 +330,7 @@
       </template>
     </Modify_table>
     <Modify_table
-      :data="data"
+      :data="data['3-2']"
       :command="['刷新']"
       name="采购付款申请记录"
       id="trade2"
@@ -365,7 +367,7 @@
   </div>
   <div v-if="route.params.id === '4'">
     <Modify_table
-      :data="data"
+      :data="data['4-1']"
       :command="['刷新']"
       name="销售订单"
       id="trade1"
@@ -387,7 +389,7 @@
       </template>
     </Modify_table>
     <Modify_table
-      :data="data"
+      :data="data['4-2']"
       :command="['刷新', '打印收款确认单']"
       name="收款记录"
       id="trade2"
@@ -422,7 +424,7 @@
   </div>
   <div v-if="route.params.id === '5'">
     <Modify_table
-      :data="data"
+      :data="data['5-1']"
       :command="['刷新', '余款对账']"
       name="购销订单"
       id="trade3"
@@ -435,7 +437,7 @@
       </template>
     </Modify_table>
     <Modify_table
-      :data="data"
+      :data="data['5-2']"
       :command="['刷新', '打印对账单']"
       name="余款对账记录"
       id="trade4"
@@ -462,7 +464,7 @@
   </div>
   <div v-if="route.params.id === '6'">
     <Modify_table
-      :data="data"
+      :data="data['6-1']"
       :command="['刷新', '余款付款申请', '余款收款匹配']"
       name="余款对账记录"
       id="trade3"
@@ -484,7 +486,7 @@
       </template>
     </Modify_table>
     <Modify_table
-      :data="data"
+      :data="data['6-2']"
       :command="['刷新', '打印付款申请单']"
       name="余款付款申请记录"
       id="trade4"
@@ -509,7 +511,7 @@
       </template>
     </Modify_table>
     <Modify_table
-      :data="data"
+      :data="data['6-3']"
       :command="['刷新', '打印收款申请单']"
       name="收款记录"
       id="trade4"
@@ -543,7 +545,7 @@
   </div>
   <div v-if="route.params.id === '7'">
     <Modify_table
-      :data="data"
+      :data="data['7-1']"
       :command="['刷新', '发票确认']"
       name="购销订单"
       id="trade3"
@@ -571,34 +573,99 @@
 </template>
 
 <script lang="ts" setup>
-import AFTableColumn from '../../components/AFTableColumn.vue'
-import Modify_table from '../../components/modify-table2.vue'
-import TableFind from '../../components/table-find.vue'
-import * as table_col from '../../assets/table_info/table-title'
-import { useRoute } from 'vue-router'
-import * as table_add from '../../assets/table_info/table-add'
+import AFTableColumn from '@/components/AFTableColumn.vue'
+import Modify_table from '@/components/modify-table2.vue'
+import TableFind from '@/components/table-find.vue'
+import * as table_col from '@/assets/table_info/table-title'
+import * as table_add from '@/assets/table_info/table-add'
+import * as tradeAPI from '@/http/api/trade'
 import { ElMessage } from 'element-plus'
+import { useRoute } from 'vue-router'
 
-const route = useRoute()
-
-//右键修改逻辑
+let data: any = reactive({
+  '1-1': [],
+  '1-2': [],
+  '2-1': [],
+  '2-2': [],
+  '2-3': [],
+  '3-1': [],
+  '3-2': [],
+  '4-1': [],
+  '4-2': [],
+  '5-1': [],
+  '5-2': [],
+  '6-1': [],
+  '6-2': [],
+  '7-1': []
+})
 let visible = ref(false)
 let left = ref()
 let top = ref()
 let mfrow = ref()
 let mfproperty = ref()
+let update_show = ref(false)
+let updateform = reactive({
+  value: ''
+})
+let select_list: any = ref([])
+let select_list1: any = ref([])
+let singleoptions: any = reactive([])
+let multioptions: any = reactive([])
+let dialogFormVisible = ref(false)
+let add_form: any = reactive({})
+let dialogFormVisible1 = ref(false)
+let Huilv = reactive({
+  refvalue: '',
+  finalvalue: ''
+})
+let dialogFormVisible2 = ref(false)
+
+const route = useRoute()
+const handle = (id: string, a: number) => {
+  switch (id) {
+    case '1-1':
+      switch (a) {
+        case 0:
+          handleFresh('1-1')
+          break
+        case 1:
+          add()
+          break
+        case 2:
+          send()
+          console.log(select_list)
+          break
+      }
+      break
+    case '1-2':
+      switch (a) {
+        case 0:
+          handleFresh('1-2')
+          break
+      }
+  }
+}
+const handleFresh = (id: string) => {
+  switch (id) {
+    case '1-1':
+      tradeAPI.get_Trade().then((res) => {
+        res.data.forEach((item: any) => {
+          data['1-1'].push(item)
+        })
+      })
+      break
+    case '1-2':
+      tradeAPI.get_Position().then((res) => {
+        res.data.forEach((item: any) => {
+          data['1-2'].push(item)
+        })
+      })
+      break
+  }
+}
 const closeMenu = () => {
   visible.value = false
 }
-
-watch(visible, (value) => {
-  if (value) {
-    document.body.addEventListener('click', closeMenu)
-  } else {
-    document.body.removeEventListener('click', closeMenu)
-  }
-})
-
 const menu = (name: any, row: any, col: any, event: any) => {
   mfrow.value = row
   mfproperty.value = col.property
@@ -606,19 +673,12 @@ const menu = (name: any, row: any, col: any, event: any) => {
   top.value = event.pageY
   visible.value = true
 }
-let update_show = ref(false)
-let updateform = reactive({
-  value: ''
-})
 const handleUpdate = () => {
   updateform.value = ''
   update_show.value = true
 }
 const update = () => {
   ElMessage('更新' + updateform.value)
-}
-const handleFresh = () => {
-  ElMessage('刷新')
 }
 let delete_show = ref(false)
 const handleDelete = () => {
@@ -627,116 +687,7 @@ const handleDelete = () => {
 const deletebyid = () => {
   ElMessage('删除' + mfrow)
 }
-let data = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  }
-])
-
-let data1 = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  }
-])
-
-let data2 = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  }
-])
-
 //新增功能
-let singleoptions: any = reactive([])
-let multioptions: any = reactive([])
-let dialogFormVisible = ref(false)
-let add_form: any = reactive({})
 const add = () => {
   // init add form
   for (let key in add_form) {
@@ -747,7 +698,6 @@ const add = () => {
   }
   dialogFormVisible.value = true
 }
-
 const modify = () => {
   ElMessage({
     message: '采购',
@@ -763,11 +713,9 @@ const send = () => {
   })
 }
 //现货结算
-let dialogFormVisible1 = ref(false)
 const calculate = () => {
   dialogFormVisible1.value = true
 }
-
 const modify1 = () => {
   ElMessage({
     message: '结算',
@@ -781,13 +729,7 @@ const xianhuoexport = () => {
     type: 'success'
   })
 }
-
 //汇率
-let Huilv = reactive({
-  refvalue: '',
-  finalvalue: ''
-})
-let dialogFormVisible2 = ref(false)
 const calfpl = () => {
   dialogFormVisible2.value = true
 }
@@ -797,30 +739,10 @@ const modify2 = () => {
     type: 'success'
   })
 }
-
 // 选取功能
-let select_list: any = ref([])
-let select_list1: any = ref([])
 const select = (val: any, id: string) => {
   if (id == 'trade') select_list.value = val
   if (id == 'trade1') select_list1.value = val
-}
-
-const handle = (a: number) => {
-  if (route.params.id == '1') {
-    switch (a) {
-      case 0:
-        handleFresh()
-        break
-      case 1:
-        add()
-        break
-      case 2:
-        send()
-        console.log(select_list)
-        break
-    }
-  }
 }
 const handle1 = (a: number) => {
   if (route.params.id == '1') {
@@ -853,6 +775,14 @@ const handle2 = (a: number) => {
     }
   }
 }
+
+watch(visible, (value) => {
+  if (value) {
+    document.body.addEventListener('click', closeMenu)
+  } else {
+    document.body.removeEventListener('click', closeMenu)
+  }
+})
 </script>
 
 <style lang="less" scoped>

@@ -52,9 +52,9 @@ const $consts = {
   fontSize: 14,
   // 计算字体比率
   fontRate: {
-    CHAR_RATE: 0.8, // 汉字比率
-    NUM_RATE: 0.6, // 数字
-    OTHER_RATE: 0.6 // 除汉字和数字以外的字符的比率
+    CHAR_RATE: 1.1, // 汉字比率
+    NUM_RATE: 0.65, // 数字
+    OTHER_RATE: 0.8 // 除汉字和数字以外的字符的比率
   }
 }
 const { proxy } = getCurrentInstance() as any
@@ -90,8 +90,9 @@ const minWidth = computed(() => {
     Math.max(
       minLength.value,
       attrs.label.length * (fontRate.value as any).CHAR_RATE
-    ) * fontSize.value
-
+    ) *
+      fontSize.value +
+    50
   return attrs.width || Math.max(maxOne, getComputedWidth.value)
 })
 

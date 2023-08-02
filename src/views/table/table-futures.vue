@@ -1,6 +1,5 @@
 <template>
   <Table
-    class="model-box"
     id="table-future-1"
     :col="table_col.FutureInfo"
     :table_data="form1_filter"
@@ -23,7 +22,6 @@
     </template>
   </Table>
   <Table
-    class="model-box"
     id="table-future-2"
     :col="table_col.FutureInfo2"
     :table_data="form2_filter"

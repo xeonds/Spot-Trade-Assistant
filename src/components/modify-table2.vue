@@ -1,6 +1,5 @@
 <template>
   <Table
-    class="model-box"
     id="table-model"
     :col="props.col"
     :table_data="props.data"
@@ -12,16 +11,9 @@
     :hasfold="false"
     :enable_select="false"
     @menu="menu"
-    @handle="
-        (index:any) => {
-          emits('handle', index);
-        }
-      "
-    @select="
-      (val, id) => {
-        emits('select', val, id)
-      }
-    "
+    @handle="(index:any) => emits('handle', index)"
+    @select="(val, id) => emits('select', val, id)"
+    @load="props.load"
     :contain_extend="props.extend"
     :contain_extend2="props.extend2"
     :selectable="props.selectable"
@@ -58,6 +50,7 @@ const props = defineProps([
   'col',
   'name',
   'data',
+  'load',
   'height',
   'command',
   'extend',

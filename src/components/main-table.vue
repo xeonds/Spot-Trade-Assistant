@@ -24,11 +24,7 @@
     </template>
     <div class="table-area">
       <el-table
-        v-el-table-infinite-scroll="
-          () => {
-            emits('load')
-          }
-        "
+        v-el-table-infinite-scroll="() => emits('load')"
         border
         :header-row-class-name="props.id"
         :highlight-current-row="props.enable_select"

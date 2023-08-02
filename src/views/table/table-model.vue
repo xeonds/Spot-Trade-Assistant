@@ -1,6 +1,5 @@
 <template>
   <Table
-    class="model-box"
     id="table-model"
     :col="table_col.ModelInfo"
     :table_data="data"

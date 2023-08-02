@@ -1,6 +1,5 @@
 <template>
   <Table
-    class="model-box"
     id="table-future-1"
     :col="table_col.StatisticsInfo"
     :table_data="form1_filter"
