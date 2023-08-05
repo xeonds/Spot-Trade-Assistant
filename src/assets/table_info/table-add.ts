@@ -571,106 +571,114 @@ export const MenusInfo = [
   }
 ]
 
+/**
+ * TradePurchaseDto
+ */
 export const Gouxiaojilu = [
   {
-    prop: 'fpl1',
+    label: '实收付金额',
+    type: 'number',
+    prop: 'actAmount'
+  },
+  {
+    label: '成交金额',
+    type: 'number',
+    prop: 'amount'
+  },
+  {
+    label: '税后价格',
+    type: 'number',
+    prop: 'atPrice'
+  },
+  {
+    label: '关联公司部门表',
+    type: 'number',
+    prop: 'companyDeptId'
+  },
+  {
+    label: '贸易商公司',
+    type: 'number',
+    prop: 'companyId'
+  },
+  {
+    label: '关联币种表',
+    type: 'number',
+    prop: 'currencyId'
+  },
+  {
+    prop: 'date',
     label: '交易日期',
     type: 'date'
   },
   {
-    prop: 'fpl2',
-    label: '合同生成状态',
-    type: 'string'
+    label: '交收方式',
+    type: 'number',
+    prop: 'deliver'
   },
   {
-    prop: 'fpl3',
-    label: '账套',
-    type: 'string'
+    label: '关联规格表',
+    type: 'number',
+    prop: 'gradeId'
   },
   {
-    prop: 'fpl4',
-    label: '业务部门',
-    type: 'string'
+    label: '关联公司表',
+    type: 'number',
+    prop: 'ledgerId'
   },
   {
-    prop: 'fpl5',
-    label: '贸易商',
-    type: 'string'
+    label: '关联订单模式',
+    type: 'number',
+    prop: 'orderId'
   },
   {
-    prop: 'fpl6',
+    label: '关联本公司部门表',
+    type: 'number',
+    prop: 'ourDeptId'
+  },
+  {
+    label: '贸易类型',
+    prop: 'pattern',
+    type: 'number'
+  },
+  {
+    prop: 'ps',
     label: '购/销',
     type: 'select',
     options: [
       {
         label: '购',
-        value: '购'
+        value: 0
       },
       {
         label: '销',
-        value: '销'
+        value: 1
       }
     ]
   },
   {
-    prop: 'fpl7',
-    label: '品种',
-    type: 'string'
+    label: '数量',
+    type: 'number',
+    prop: 'realqty'
   },
   {
-    prop: 'fpl8',
-    label: '规格',
-    type: 'string'
+    label: '关联商标表',
+    type: 'number',
+    prop: 'trademarkId'
   },
   {
-    prop: 'fpl9',
-    label: '品牌',
-    type: 'string'
+    label: '重量单位',
+    prop: 'unit',
+    type: 'number'
   },
   {
-    prop: 'fpl10',
-    label: '订单数量',
-    type: 'string'
+    label: '关联品种表',
+    prop: 'varietyId',
+    type: 'number'
   },
   {
-    prop: 'fpl11',
-    label: '数量单位',
-    type: 'string'
-  },
-  {
-    prop: 'fpl12',
-    label: '订单价格',
-    type: 'string'
-  },
-  {
-    prop: 'fpl13',
-    label: '订单币种',
-    type: 'string'
-  },
-  {
-    prop: 'fpl14',
-    label: '成交金额',
-    type: 'string'
-  },
-  {
-    prop: 'fpl15',
-    label: '贸易类型',
-    type: 'string'
-  },
-  {
-    prop: 'fpl16',
-    label: '订单模式',
-    type: 'string'
-  },
-  {
-    prop: 'fpl17',
-    label: '交货方式',
-    type: 'string'
-  },
-  {
-    prop: 'fpl18',
-    label: '订单号',
-    type: 'string'
+    label: '增值税率',
+    prop: 'vat',
+    type: 'number'
   }
 ]
 

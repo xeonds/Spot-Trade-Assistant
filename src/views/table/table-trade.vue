@@ -6,7 +6,7 @@
     class="contextmenu"
   >
     <li @click="handleDelete()">删除</li>
-    <li @click="handleFresh()">刷新</li>
+    <li @click="handleRefresh()">刷新</li>
     <li @click="handleUpdate()">编辑</li>
   </ul>
   <el-dialog v-model="delete_show" title="删除确认" width="30%" align-center>
@@ -54,78 +54,15 @@
     </template>
   </el-dialog>
   <!-- 新增 -->
-  <el-dialog v-model="dialogFormVisible" title="采购" style="width: 80%">
-    <el-form :model="add_form" style="display: flex; flex-wrap: wrap">
-      <el-form-item
-        :label="item.label"
-        :label-width="120"
-        v-for="item in <any>table_add.Gouxiaojilu"
-        :key="item.label"
-        style="width: 24rem; color: #000"
-        :prop="item.prop"
-      >
-        <el-date-picker
-          v-model="add_form[item.prop]"
-          type="date"
-          placeholder="选择日期"
-          v-if="item.type == 'date'"
-        />
-        <el-input
-          v-model="add_form[item.prop]"
-          input-style="color:#000;border-color:var(--el-color-primary)"
-          v-if="item.type == 'string' || item.type == 'number'"
-        />
-        <el-radio-group
-          v-model="add_form[item.prop]"
-          v-if="item.type == 'select'"
-        >
-          <el-radio
-            v-for="option in item.options"
-            :key="option.label"
-            :label="option.value"
-            >{{ option.label }}</el-radio
-          >
-        </el-radio-group>
-        <el-select
-          v-model="add_form[item.prop]"
-          multiple
-          placeholder="选择"
-          style="width: 240px"
-          v-if="item.type == 'multiselect'"
-        >
-          <el-option
-            v-for="option in multioptions[item.prop]"
-            :key="option.value"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
-        <el-select
-          v-model="add_form[item.prop]"
-          placeholder="选择"
-          style="width: 240px"
-          v-if="item.type == 'singleselect'"
-        >
-          <el-option
-            v-for="option in singleoptions[item.prop]"
-            :key="option.value"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false" type="primary" plain>
-          取消
-        </el-button>
-        <el-button @click="modify" type="primary">确定</el-button>
-      </span>
-    </template>
-  </el-dialog>
+  <form-dialog
+    v-model="dialogFormVisible.purchase"
+    :title="'采购'"
+    :col="table_add.Gouxiaojilu"
+    @close="dialogFormVisible.purchase = false"
+    @submit="(data) => purchase(data)"
+  />
   <!-- 现货结算价 -->
-  <el-dialog v-model="dialogFormVisible1" title="现货结算价">
+  <el-dialog v-model="dialogFormVisible.form1" title="现货结算价">
     <template #footer>
       <span class="dialog-footer">
         <el-button
@@ -141,7 +78,7 @@
       </span>
     </template>
   </el-dialog>
-  <el-dialog v-model="dialogFormVisible2" title="汇率">
+  <el-dialog v-model="dialogFormVisible.form2" title="汇率">
     <el-form
       :label-position="top"
       label-width="100px"
@@ -182,7 +119,7 @@
           :col="table_col.TradeInfo"
           :height="30"
           :selectable="true"
-          :load="handleFresh('1-1')"
+          :load="handleRefresh('1-1')"
           @handle="(a:number)=>handle('1-1', a)"
           @menu="menu"
           @select="select"
@@ -204,7 +141,7 @@
           :hasfold="true"
           :selectable="true"
           :height="30"
-          :load="handleFresh('1-2')"
+          :load="handleRefresh('1-2')"
           @handle="handle"
           @select="select"
           @menu="menu"
@@ -636,6 +573,7 @@
 import AFTableColumn from '@/components/AFTableColumn.vue'
 import Modify_table from '@/components/modify-table2.vue'
 import TableFind from '@/components/table-find.vue'
+import formDialog from '../../components/form-dialog.vue'
 import * as table_col from '@/assets/table_info/table-title'
 import * as table_add from '@/assets/table_info/table-add'
 import * as tradeAPI from '@/http/api/trade'
@@ -670,15 +608,17 @@ let updateform = reactive({
 let select_list: any = ref([])
 let select_list1: any = ref([])
 let singleoptions: any = reactive([])
-let multioptions: any = reactive([])
-let dialogFormVisible = ref(false)
+let dialogFormVisible = ref({
+  purchase: false,
+  form1: false,
+  form2: false
+})
 let add_form: any = reactive({})
-let dialogFormVisible1 = ref(false)
 let Huilv = reactive({
   refvalue: '',
   finalvalue: ''
 })
-let dialogFormVisible2 = ref(false)
+let delete_show = ref(false)
 
 const route = useRoute()
 const handle = (id: string, a: number) => {
@@ -686,10 +626,11 @@ const handle = (id: string, a: number) => {
     case '1-1':
       switch (a) {
         case 0:
-          handleFresh('1-1')
+          handleRefresh('1-1')
           break
         case 1:
-          add()
+          dialogFormVisible.value.purchase = true
+          console.log(dialogFormVisible.value.purchase)
           break
         case 2:
           send()
@@ -700,27 +641,26 @@ const handle = (id: string, a: number) => {
     case '1-2':
       switch (a) {
         case 0:
-          handleFresh('1-2')
+          handleRefresh('1-2')
           break
       }
   }
 }
-const handleFresh = (id: string) => {
+const handleRefresh = async (id: string) => {
+  let res = []
   switch (id) {
     case '1-1':
-      tradeAPI.get_Trade().then((res) => {
-        res.data.forEach((item: any) => {
-          data['1-1'].push(item)
-        })
-      })
+      res = await tradeAPI.get_Trade()
       break
     case '1-2':
-      tradeAPI.get_Position().then((res) => {
-        res.data.forEach((item: any) => {
-          data['1-2'].push(item)
-        })
-      })
+      res = await tradeAPI.get_Position()
       break
+  }
+  if (res.data.length != 0) {
+    data[id].splice(0, data[id].length)
+    res.data.forEach((item: any) => {
+      data[id].push(item)
+    })
   }
 }
 const closeMenu = () => {
@@ -740,30 +680,19 @@ const handleUpdate = () => {
 const update = () => {
   ElMessage('更新' + updateform.value)
 }
-let delete_show = ref(false)
 const handleDelete = () => {
   delete_show.value = true
 }
 const deletebyid = () => {
   ElMessage('删除' + mfrow)
 }
-//新增功能
-const add = () => {
-  // init add form
-  for (let key in add_form) {
-    delete add_form[key]
-  }
-  for (let item = 0; item < table_add.Gouxiaojilu.length; item++) {
-    add_form[table_add.Gouxiaojilu[item].prop] = ''
-  }
-  dialogFormVisible.value = true
-}
-const modify = () => {
-  ElMessage({
-    message: '采购',
-    type: 'success'
-  })
-  dialogFormVisible.value = false
+const purchase = (data: any) => {
+  tradeAPI.purchase_Trade(data).then(() =>
+    ElMessage({
+      message: '采购成功',
+      type: 'success'
+    })
+  )
 }
 //发送交易确认
 const send = () => {
@@ -803,37 +732,6 @@ const modify2 = () => {
 const select = (val: any, id: string) => {
   if (id == 'trade') select_list.value = val
   if (id == 'trade1') select_list1.value = val
-}
-const handle1 = (a: number) => {
-  if (route.params.id == '1') {
-    switch (a) {
-      case 0:
-        handleFresh()
-        break
-      case 1:
-        ElMessage({
-          message: '销售',
-          type: 'success'
-        })
-        console.log(select_list1)
-        break
-      case 2:
-        calculate()
-        break
-      case 4:
-        xianhuoexport()
-        break
-    }
-  }
-}
-const handle2 = (a: number) => {
-  if (route.params.id == '1') {
-    switch (a) {
-      case 0:
-        calfpl()
-        break
-    }
-  }
 }
 
 watch(visible, (value) => {

@@ -75,6 +75,14 @@ export const get_Trade = (form: Trade) => {
   })
 }
 
+export const purchase_Trade = (form: Trade) => {
+  return serviceAxios({
+    method: 'POST',
+    url: '/trade/purchase',
+    data: form
+  })
+}
+
 interface Position {
   /**
    * 关联币种表 id

@@ -52,6 +52,7 @@ declare module '@vue/runtime-core' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElText: typeof import('element-plus/es')['ElText']
+    FormDialog: typeof import('./src/components/form-dialog.vue')['default']
     HeadLine: typeof import('./src/components/head-line.vue')['default']
     MainTable: typeof import('./src/components/main-table.vue')['default']
     ModifyTable: typeof import('./src/components/modify-table.vue')['default']
