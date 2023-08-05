@@ -1,6 +1,6 @@
 <template>
   <!-- 使用透传将v-model绑定到dialog元素上，从而控制组件显示 -->
-  <el-dialog :title="props.title" style="width: 80%">
+  <el-dialog :title="props.title">
     <el-form :model="data" style="display: flex; flex-wrap: wrap">
       <el-form-item
         :label="item.label"
@@ -35,7 +35,7 @@
           multiple
           placeholder="选择"
           style="width: 240px"
-          v-if="item.type == 'multiselect'"
+          v-if="item.type == 'multi-select'"
         >
           <el-option
             v-for="option in item.options"
@@ -48,7 +48,7 @@
           v-model="data[item.prop]"
           placeholder="选择"
           style="width: 240px"
-          v-if="item.type == 'singleselect'"
+          v-if="item.type == 'single-select'"
         >
           <el-option
             v-for="option in item.options"
