@@ -104,7 +104,10 @@
           @select="select"
         >
           <template #top>
-            <tableFind />
+            <tableFind
+              :form-data="data['1-1']"
+              @submit="(res) => console.log(res)"
+            />
           </template>
         </modifyTable>
       </el-col>
@@ -582,7 +585,6 @@ let data: any = reactive({
   '6-2': [],
   '7-1': []
 })
-let update_show = ref(false)
 let updateform = reactive({
   value: ''
 })
@@ -600,7 +602,7 @@ let Huilv = reactive({
   refvalue: '',
   finalvalue: ''
 })
-let delete_show = ref(false)
+// dialog form items
 let Gouxiaojilu = [
   {
     label: '实收付金额',
@@ -619,8 +621,12 @@ let Gouxiaojilu = [
   },
   {
     label: '关联公司部门表',
-    type: 'number',
-    prop: 'companyDeptId'
+    type: 'single-select',
+    prop: 'companyDeptId',
+    options: [
+      { value: 111, label: '111' },
+      { value: 222, label: '222' }
+    ]
   },
   {
     label: '贸易商公司',
@@ -633,8 +639,12 @@ let Gouxiaojilu = [
   },
   {
     label: '关联币种表',
-    type: 'number',
-    prop: 'currencyId'
+    type: 'single-select',
+    prop: 'currencyId',
+    options: [
+      { value: 111, label: '111' },
+      { value: 222, label: '222' }
+    ]
   },
   {
     prop: 'date',
@@ -648,13 +658,21 @@ let Gouxiaojilu = [
   },
   {
     label: '关联规格表',
-    type: 'number',
-    prop: 'gradeId'
+    type: 'single-select',
+    prop: 'gradeId',
+    options: [
+      { value: 111, label: '111' },
+      { value: 222, label: '222' }
+    ]
   },
   {
     label: '关联公司表',
-    type: 'number',
-    prop: 'ledgerId'
+    type: 'single-select',
+    prop: 'ledgerId',
+    options: [
+      { value: 111, label: '111' },
+      { value: 222, label: '222' }
+    ]
   },
   {
     label: '关联订单模式',
@@ -663,8 +681,12 @@ let Gouxiaojilu = [
   },
   {
     label: '关联本公司部门表',
-    type: 'number',
-    prop: 'ourDeptId'
+    type: 'single-select',
+    prop: 'ourDeptId',
+    options: [
+      { value: 111, label: '111' },
+      { value: 222, label: '222' }
+    ]
   },
   {
     label: '贸易类型',
@@ -676,14 +698,8 @@ let Gouxiaojilu = [
     label: '购/销',
     type: 'select',
     options: [
-      {
-        label: '购',
-        value: 0
-      },
-      {
-        label: '销',
-        value: 1
-      }
+      { label: '购', value: 0 },
+      { label: '销', value: 1 }
     ]
   },
   {
@@ -713,6 +729,7 @@ let Gouxiaojilu = [
   }
 ]
 
+// router
 const route = useRoute()
 // menu vars & handlers
 const menuList = ref([
@@ -748,33 +765,7 @@ const menu = (_a, _b, _c, event: any) => {
     isVisible.value.clickMenu = false
   })
 }
-const handleUpdate = () => {
-  isVisible.value.dialogUpdate = false
-  ElMessage('更新' + updateform.value)
-}
-const deletebyid = () => {
-  isVisible.value.dialogDelete = false
-  ElMessage('删除' + select_list.value)
-}
-
-// ********************
-// main logic functions
-// ********************
-const purchase = (data: any) => {
-  tradeAPI.purchase_Trade(data).then(() =>
-    ElMessage({
-      message: '采购成功',
-      type: 'success'
-    })
-  )
-}
-const send = () => {
-  ElMessage({
-    message: '发送交易确认',
-    type: 'success'
-  })
-}
-// handler for menu options
+// handlers for table commands
 const handle = (id: string, a: number) => {
   switch (id) {
     case '1-1':
@@ -818,55 +809,34 @@ const handleRefresh = async (id: string) => {
     })
   }
 }
-// 选取功能
+
+// ********************
+// main logic functions
+// ********************
+const purchase = (data: any) => {
+  tradeAPI.purchase_Trade(data).then(() =>
+    ElMessage({
+      message: '采购成功',
+      type: 'success'
+    })
+  )
+}
+const send = () => {
+  ElMessage({
+    message: '发送交易确认',
+    type: 'success'
+  })
+}
+const handleUpdate = () => {
+  isVisible.value.dialogUpdate = false
+  ElMessage('更新' + updateform.value)
+}
+const deletebyid = () => {
+  isVisible.value.dialogDelete = false
+  ElMessage('删除' + select_list.value)
+}
 const select = (val: any, id: string) => {
   if (id == 'trade') select_list.value = val
   if (id == 'trade1') select_list1.value = val
 }
 </script>
-
-<style lang="less" scoped>
-.contextmenu {
-  position: absolute;
-  z-index: 3000;
-  padding: 5px 0;
-  margin: 0;
-  font-size: 12px;
-  color: #333;
-  background: #fff;
-  border-radius: 4px;
-  box-shadow: 2px 2px 3px 0 rgb(0 0 0 / 30%);
-  list-style-type: none;
-  font-weight: 400;
-}
-
-.contextmenu li {
-  padding: 7px 16px;
-  margin: 0;
-  cursor: pointer;
-}
-
-.table-area {
-  margin: 0 auto;
-  margin-top: 3vh;
-  width: 99vw;
-}
-
-.double-table {
-  display: flex;
-  margin: 0 auto;
-  width: 99vw;
-
-  .left {
-    width: 76%;
-  }
-
-  .space {
-    width: 2%;
-  }
-
-  .right {
-    width: 22%;
-  }
-}
-</style>

@@ -17,18 +17,14 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const props = defineProps({
-  form_data: {
-    type: Object,
-    default: () => ({})
-  }
-})
+const props = defineProps(['data'])
 const emits = defineEmits(['submit'])
 let query_string = ref('')
 
 const submit = () => {
   let res: any = []
-  props.form_data.filter((item: any) => {
+  console.log(props.data)
+  props.data.filter((item: any) => {
     if (query_string.value) {
       let query_list = query_string.value.split(' ')
       query_list.forEach((query: string) => {
@@ -38,7 +34,7 @@ const submit = () => {
         }
       })
     } else {
-      res = props.form_data
+      res = props.data
     }
   })
   console.log('query success')
