@@ -1,33 +1,40 @@
 <template>
   <el-container>
     <el-card class="login">
-      <el-text class="login-text">用户登录</el-text>
-      <el-form
-        :model="formEl"
-        ref="form"
-        label-width="80px"
-        :inline="false"
-        :rules="rules"
-      >
-        <el-form-item label="用户名" prop="username">
-          <el-input
-            v-model="formEl.username"
-            placeholder="请输入用户名"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input
-            v-model="formEl.password"
-            type="password"
-            placeholder="请输入密码"
-          ></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit(form)" :loading="isloading"
-            >登录</el-button
-          >
-        </el-form-item>
-      </el-form>
+      <template #header>
+        <el-text class="login-text">用户登录</el-text>
+      </template>
+      <div class="content">
+        <el-form
+          :model="formEl"
+          ref="form"
+          label-width="80px"
+          :inline="false"
+          :rules="rules"
+        >
+          <el-form-item label="用户名" prop="username">
+            <el-input
+              v-model="formEl.username"
+              placeholder="请输入用户名"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input
+              v-model="formEl.password"
+              type="password"
+              placeholder="请输入密码"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button
+              type="primary"
+              @click="onSubmit(form)"
+              :loading="isloading"
+              >登录</el-button
+            >
+          </el-form-item>
+        </el-form>
+      </div>
     </el-card>
   </el-container>
 </template>
@@ -97,28 +104,23 @@ if (loginStatusJudge()) {
   width: 100vw;
   height: 80vh;
   flex-flow: row;
+  .content {
+    .login {
+      display: flex;
+      justify-content: space-around;
+      width: 24rem;
+      flex-flow: column;
 
-  .login {
-    display: flex;
-    justify-content: space-around;
-    width: 24rem;
-    flex-flow: column;
+      .login-text {
+        margin: 0.5rem;
+        font-size: 1.5rem;
+        text-align: center;
+      }
 
-    .login-text {
-      margin: 0.5rem;
-      font-size: 1.5rem;
-      text-align: center;
-    }
-
-    .el-form {
-      margin-top: 1rem;
+      .el-form {
+        margin-top: 1rem;
+      }
     }
   }
-}
-</style>
-
-<style>
-.el-card__body {
-  padding: 20px;
 }
 </style>

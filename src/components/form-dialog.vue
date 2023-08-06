@@ -44,6 +44,12 @@
             :value="option.value"
           />
         </el-select>
+        <el-cascader
+          v-model="data[item.prop]"
+          :options="item.options"
+          placeholder="选择"
+          v-if="item.type == 'single-select-cascader'"
+        />
         <el-select
           v-model="data[item.prop]"
           placeholder="选择"
@@ -74,7 +80,7 @@
 
 <script lang="ts" setup>
 let props = defineProps(['visible', 'title', 'col'])
-let emit = defineEmits(['submit', 'close'])
+let emit = defineEmits(['submit', 'close', 'click'])
 let data = reactive(<any>[])
 let col = reactive(<any>props.col)
 </script>

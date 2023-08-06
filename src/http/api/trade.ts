@@ -188,3 +188,17 @@ export const get_Tcost = (form: Tcost) => {
     params: form
   })
 }
+
+export const getCompanyList = () => {
+  return serviceAxios({
+    method: 'GET',
+    url: `/company/options/1`
+  })
+}
+
+export const getCompanyDept = (id: number) => {
+  return serviceAxios({
+    method: 'GET',
+    url: `/companydept/options/1/${id}`
+  })
+}

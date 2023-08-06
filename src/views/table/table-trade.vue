@@ -45,13 +45,13 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button
-          @click="isVisible1 = false"
+          @click="isVisible.form1 = false"
           class="cancel"
           style="width: 6vw"
         >
           取消
         </el-button>
-        <el-button @click="modify1" class="comfirm" style="width: 6vw">
+        <el-button @click="console.log" class="comfirm" style="width: 6vw">
           确定
         </el-button>
       </span>
@@ -75,13 +75,13 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button
-          @click="isVisible2 = false"
+          @click="isVisible.form2 = false"
           class="cancel"
           style="width: 6vw"
         >
           取消
         </el-button>
-        <el-button @click="modify2" class="comfirm" style="width: 6vw">
+        <el-button @click="console.log" class="comfirm" style="width: 6vw">
           确定
         </el-button>
       </span>
@@ -95,13 +95,14 @@
           :command="['刷新', '采购', '发送成交确认']"
           name="购销订单"
           id="trade1"
-          :col="table_col.TradeInfo"
+          :col="tableCol.TradeInfo"
           :height="30"
           :selectable="true"
           :load="handleRefresh('1-1')"
           @handle="(a:number)=>handle('1-1', a)"
           @menu="menu"
           @select="select"
+          v-laoding="true"
         >
           <template #top>
             <tableFind
@@ -119,7 +120,7 @@
           :command="['刷新', '销售', '现货结算价', '汇率', '导出']"
           name="现货持仓"
           id="trade2"
-          :col="table_col.PositionInfo"
+          :col="tableCol.PositionInfo"
           :hasfold="true"
           :selectable="true"
           :height="30"
@@ -159,7 +160,7 @@
           :command="['刷新', '生成合同']"
           name="购销订单"
           id="trade1"
-          :col="table_col.Gouxiaojilu"
+          :col="tableCol.Gouxiaojilu"
           @handle="handle"
           @menu="menu"
           :selectable="true"
@@ -177,7 +178,7 @@
           :command="['刷新', '印花税付款', '合同归档']"
           name="购销合同"
           id="trade2"
-          :col="table_col.Gouxiaohetong"
+          :col="tableCol.Gouxiaohetong"
           @handle="handle1"
           @menu="menu"
           :selectable="true"
@@ -207,7 +208,7 @@
           :command="['刷新']"
           name="印花税付款申请"
           id="trade3"
-          :col="table_col.Yinhuashui"
+          :col="tableCol.Yinhuashui"
           @handle="handle2"
           @menu="menu"
         >
@@ -238,7 +239,7 @@
           :command="['刷新', '付款申请']"
           name="采购订单"
           id="trade1"
-          :col="table_col.Caigoudingdan"
+          :col="tableCol.Caigoudingdan"
           @handle="handle"
           @menu="menu"
         >
@@ -279,7 +280,7 @@
           :command="['刷新']"
           name="采购付款申请记录"
           id="trade2"
-          :col="table_col.Caigoufukuanshenqingjilu"
+          :col="tableCol.Caigoufukuanshenqingjilu"
           @handle="handle"
           @menu="menu"
         >
@@ -320,7 +321,7 @@
           :command="['刷新']"
           name="销售订单"
           id="trade1"
-          :col="table_col.Xiaoshoudingdan"
+          :col="tableCol.Xiaoshoudingdan"
           @handle="handle"
           @menu="menu"
         >
@@ -346,7 +347,7 @@
           :command="['刷新', '打印收款确认单']"
           name="收款记录"
           id="trade2"
-          :col="table_col.Shoukuanjilu"
+          :col="tableCol.Shoukuanjilu"
           @handle="handle"
           @menu="menu"
         >
@@ -385,7 +386,7 @@
           :command="['刷新', '余款对账']"
           name="购销订单"
           id="trade3"
-          :col="table_col.Gouxiaodingdan"
+          :col="tableCol.Gouxiaodingdan"
           @handle="handle"
           @menu="menu"
         >
@@ -402,7 +403,7 @@
           :command="['刷新', '打印对账单']"
           name="余款对账记录"
           id="trade4"
-          :col="table_col.Yukuanduizhang"
+          :col="tableCol.Yukuanduizhang"
           @handle="handle"
           @menu="menu"
         >
@@ -433,7 +434,7 @@
           :command="['刷新', '余款付款申请', '余款收款匹配']"
           name="余款对账记录"
           id="trade3"
-          :col="table_col.Yukuanduizhang"
+          :col="tableCol.Yukuanduizhang"
           @handle="handle"
           @menu="menu"
         >
@@ -459,7 +460,7 @@
           :command="['刷新', '打印付款申请单']"
           name="余款付款申请记录"
           id="trade4"
-          :col="table_col.Yukuanfukuan"
+          :col="tableCol.Yukuanfukuan"
           @handle="handle"
           @menu="menu"
         >
@@ -488,7 +489,7 @@
           :command="['刷新', '打印收款申请单']"
           name="收款记录"
           id="trade4"
-          :col="table_col.Shoukuanjilu"
+          :col="tableCol.Shoukuanjilu"
           @handle="handle"
           @menu="menu"
         >
@@ -526,7 +527,7 @@
           :command="['刷新', '发票确认']"
           name="购销订单"
           id="trade3"
-          :col="table_col.Gouxiaodingdan"
+          :col="tableCol.Gouxiaodingdan"
           @handle="handle"
           @menu="menu"
         >
@@ -560,7 +561,7 @@ import modifyTable from '@/components/modify-table2.vue'
 import tableFind from '@/components/table-find.vue'
 import formDialog from '../../components/form-dialog.vue'
 import formPopmenu from '../../components/form-popmenu.vue'
-import * as table_col from '@/assets/table_info/table-title'
+import * as tableCol from '@/assets/table_info/table-title'
 import * as tradeAPI from '@/http/api/trade'
 import { ElMessage } from 'element-plus'
 import { useRoute } from 'vue-router'
@@ -605,68 +606,12 @@ let Huilv = reactive({
 // dialog form items
 let Gouxiaojilu = [
   {
-    label: '实收付金额',
-    type: 'number',
-    prop: 'actAmount'
-  },
-  {
-    label: '成交金额',
-    type: 'number',
-    prop: 'amount'
-  },
-  {
-    label: '税后价格',
-    type: 'number',
-    prop: 'atPrice'
-  },
-  {
-    label: '关联公司部门表',
-    type: 'single-select',
-    prop: 'companyDeptId',
-    options: [
-      { value: 111, label: '111' },
-      { value: 222, label: '222' }
-    ]
-  },
-  {
-    label: '贸易商公司',
-    type: 'single-select',
-    prop: 'companyId',
-    options: [
-      { value: 111, label: '111' },
-      { value: 222, label: '222' }
-    ]
-  },
-  {
-    label: '关联币种表',
-    type: 'single-select',
-    prop: 'currencyId',
-    options: [
-      { value: 111, label: '111' },
-      { value: 222, label: '222' }
-    ]
-  },
-  {
     prop: 'date',
     label: '交易日期',
     type: 'date'
   },
   {
-    label: '交收方式',
-    type: 'number',
-    prop: 'deliver'
-  },
-  {
-    label: '关联规格表',
-    type: 'single-select',
-    prop: 'gradeId',
-    options: [
-      { value: 111, label: '111' },
-      { value: 222, label: '222' }
-    ]
-  },
-  {
-    label: '关联公司表',
+    label: '账套',
     type: 'single-select',
     prop: 'ledgerId',
     options: [
@@ -675,13 +620,8 @@ let Gouxiaojilu = [
     ]
   },
   {
-    label: '关联订单模式',
-    type: 'number',
-    prop: 'orderId'
-  },
-  {
-    label: '关联本公司部门表',
-    type: 'single-select',
+    label: '业务部门',
+    type: 'single-select-cascader',
     prop: 'ourDeptId',
     options: [
       { value: 111, label: '111' },
@@ -689,9 +629,22 @@ let Gouxiaojilu = [
     ]
   },
   {
-    label: '贸易类型',
-    prop: 'pattern',
-    type: 'number'
+    label: '贸易商',
+    type: 'single-select',
+    prop: 'companyId',
+    options: [
+      { value: 111, label: '111' },
+      { value: 222, label: '222' }
+    ]
+  },
+  {
+    label: '贸易商部门',
+    type: 'single-select',
+    prop: 'companyDeptId',
+    options: [
+      { value: 111, label: '111' },
+      { value: 222, label: '222' }
+    ]
   },
   {
     prop: 'ps',
@@ -703,14 +656,32 @@ let Gouxiaojilu = [
     ]
   },
   {
+    label: '品种',
+    prop: 'varietyId',
+    type: 'number'
+  },
+  {
+    label: '规格',
+    type: 'single-select',
+    prop: 'gradeId',
+    options: [
+      { value: 111, label: '111' },
+      { value: 222, label: '222' }
+    ]
+  },
+  {
+    label: '品牌',
+    type: 'single-select',
+    prop: 'trademarkId',
+    options: [
+      { value: 111, label: '111' },
+      { value: 222, label: '222' }
+    ]
+  },
+  {
     label: '数量',
     type: 'number',
     prop: 'realqty'
-  },
-  {
-    label: '关联商标表',
-    type: 'number',
-    prop: 'trademarkId'
   },
   {
     label: '重量单位',
@@ -718,9 +689,44 @@ let Gouxiaojilu = [
     type: 'number'
   },
   {
-    label: '关联品种表',
-    prop: 'varietyId',
+    label: '成交金额',
+    type: 'number',
+    prop: 'amount',
+    hidden: true
+  },
+  {
+    label: '订单价格',
+    type: 'number',
+    prop: 'atPrice'
+  },
+  {
+    label: '实收付金额',
+    type: 'number',
+    prop: 'actAmount'
+  },
+  {
+    label: '订单币种',
+    type: 'single-select',
+    prop: 'currencyId',
+    options: [
+      { value: 111, label: '111' },
+      { value: 222, label: '222' }
+    ]
+  },
+  {
+    label: '贸易类型',
+    prop: 'pattern',
     type: 'number'
+  },
+  {
+    label: '订单模式',
+    type: 'number',
+    prop: 'orderId'
+  },
+  {
+    label: '交货方式',
+    type: 'number',
+    prop: 'deliver'
   },
   {
     label: '增值税率',
@@ -728,7 +734,6 @@ let Gouxiaojilu = [
     type: 'number'
   }
 ]
-
 // router
 const route = useRoute()
 // menu vars & handlers
@@ -808,6 +813,10 @@ const handleRefresh = async (id: string) => {
       data[id].push(item)
     })
   }
+  ElMessage({
+    message: '数据获取成功',
+    type: 'success'
+  })
 }
 
 // ********************
@@ -839,4 +848,36 @@ const select = (val: any, id: string) => {
   if (id == 'trade') select_list.value = val
   if (id == 'trade1') select_list1.value = val
 }
+// ***************
+// startup actions
+// ***************
+const init = async () => {
+  const companyId = await tradeAPI.getCompanyList()
+  let companyDept: any = {}
+  Gouxiaojilu.map((item) => {
+    if (item.prop == 'ledgerId') {
+      item.options = companyId.map((item: any) => {
+        return { value: item.id, label: item.shortname }
+      })
+    }
+  })
+  companyId.array.forEach(async (item: any) => {
+    const res = await tradeAPI.getCompanyDept(item.id)
+    companyDept.push({
+      id: item.id,
+      data: res.map((r: any) => {
+        return { value: r.id, label: r.shortname }
+      })
+    }) //company -> companyDept
+  })
+  Gouxiaojilu.map((item) => {
+    if (item.prop == 'companyDeptId') {
+      item.options = companyDept.map((item: any) => {
+        return { value: item.id, label: item.shortname, children: item.data }
+      })
+    }
+  })
+  console.log('init success')
+}
+init()
 </script>
