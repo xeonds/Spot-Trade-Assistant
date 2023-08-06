@@ -275,22 +275,41 @@ export const TradeInfo = [
 ]
 
 export const PositionInfo = [
+  { prop: 'id', fold: false, hidden: true },
   { label: '查看库存明细', fold: true },
   { prop: 'date', label: '采购日期', fold: false },
   { prop: 'ledger', label: '账套', fold: false },
   { prop: 'ourdept', label: '业务部门', fold: false },
   { prop: 'company', label: '贸易商', fold: false },
-  { prop: 'companyDept', label: '贸易商部门', fold: false },
-  { prop: 'varietyId', label: '品种', fold: false },
+  { prop: 'variety', label: '品种', fold: false },
   { prop: 'grade', label: '规格', fold: false },
   { prop: 'trademark', label: '品牌', fold: false },
-  { prop: 'orderId', label: '持仓量', fold: false },
-  { prop: 'meter', label: '单位', fold: false },
+  { prop: 'oi', label: '持仓量', fold: false },
+  { prop: 'unit', label: '单位', fold: false },
   { prop: 'pattern', label: '贸易类型', fold: false },
   { prop: 'orderId', label: '订单模式', fold: false },
-  { prop: 'costPrice', label: '成本价', fold: false },
+  { prop: 'cprice', label: '成本价', fold: false, hidden: true },
   { prop: 'deliver', label: '交货方式', fold: false },
-  { prop: 'turnID', label: '批次号', fold: false }
+  { prop: 'batchNo', label: '批次号', fold: false },
+  {
+    label: '订单浮盈',
+    children: [
+      { label: '成本价', prop: 'cprice', fold: false },
+      { label: '结算价', prop: 'sprice', fold: false },
+      { prop: 'fpl', label: '浮盈', fold: false },
+      { prop: 'fpl', label: '币种', fold: false }
+    ]
+  },
+  {
+    label: '进出口参考浮盈',
+    children: [
+      { label: '参考汇率', prop: 'exrate', fold: false },
+      { label: '进出口成本', prop: 'lcprice', fold: false },
+      { label: '结算价', prop: 'lsprice', fold: false },
+      { label: '浮盈', prop: 'fpl', fold: false },
+      { label: '币种', prop: 'positionCur', fold: false }
+    ]
+  }
 ]
 
 export const Tcost = [

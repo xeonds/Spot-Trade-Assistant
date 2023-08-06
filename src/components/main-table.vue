@@ -110,7 +110,11 @@
           </AFTableColumn>
           <!-- 普通显示 -->
           <AFTableColumn
-            v-else-if="!col[index].fold"
+            v-else-if="
+              !col[index].fold &&
+              col[index].hidden != true &&
+              !col[index].children
+            "
             :prop="col[index].prop"
             :label="item.label"
             align="center"
@@ -118,6 +122,25 @@
             :filter-method="col[index].filter_method"
           >
           </AFTableColumn>
+          <el-table-column
+            v-else-if="
+              !col[index].fold &&
+              col[index].hidden != true &&
+              col[index].children
+            "
+            :label="item.label"
+            align="center"
+          >
+            <AFTableColumn
+              v-for="item2 in col[index].children"
+              :key="`col_${item2.label}`"
+              :prop="item2.prop"
+              :label="item2.label"
+              align="center"
+              :filters="item2.filters"
+              :filter-method="item2.filter_method"
+            />
+          </el-table-column>
         </template>
         <slot name="table-extend-end"></slot>
         <!-- 状态表 -->
@@ -132,7 +155,6 @@
             <slot name="table-extend-end2" v-bind:row="scope"></slot>
           </template>
         </AFTableColumn>
-        <slot name="table-extend-end3" v-bind:row="scope"></slot>
       </el-table>
     </div>
   </el-card>

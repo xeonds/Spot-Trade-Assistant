@@ -40,53 +40,36 @@
     @close="isVisible.purchase = false"
     @submit="(data) => purchase(data)"
   />
+  <!-- 销售确认 -->
+  <form-dialog
+    width="80%"
+    v-model="isVisible.sale"
+    title="销售确认"
+    :col="Xiaoshouqueren"
+    @close="isVisible.sale = false"
+    @submit="saleConfirm()"
+  />
   <!-- 现货结算价 -->
-  <el-dialog v-model="isVisible.form1" title="现货结算价">
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button
-          @click="isVisible.form1 = false"
-          class="cancel"
-          style="width: 6vw"
-        >
-          取消
-        </el-button>
-        <el-button @click="console.log" class="comfirm" style="width: 6vw">
-          确定
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
-  <el-dialog v-model="isVisible.form2" title="汇率">
-    <el-form
-      label-position="top"
-      label-width="100px"
-      :model="Huilv"
-      style="max-width: 460px"
-    >
-      <el-form-item label="汇率参考值">
-        <el-input v-model="Huilv.refvalue" />
-      </el-form-item>
-      <el-form-item label="本币结算价">
-        <el-input v-model="Huilv.finalvalue" />
-      </el-form-item>
-    </el-form>
-
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button
-          @click="isVisible.form2 = false"
-          class="cancel"
-          style="width: 6vw"
-        >
-          取消
-        </el-button>
-        <el-button @click="console.log" class="comfirm" style="width: 6vw">
-          确定
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
+  <form-dialog
+    width="80%"
+    v-model="isVisible.form1"
+    title="现货结算价"
+    :col="[{ label: '现货结算价', prop: 'value', type: 'string' }]"
+    @close="isVisible.form1 = false"
+    @submit="console.log"
+  />
+  <!-- 汇率 -->
+  <form-dialog
+    width="80%"
+    v-model="isVisible.form2"
+    title="汇率"
+    :col="[
+      { label: '汇率参考值', prop: 'refvalue', type: 'string' },
+      { label: '本币结算价', prop: 'finalvalue', type: 'string' }
+    ]"
+    @close="isVisible.form2 = false"
+    @submit="console.log"
+  />
   <div v-if="route.params.id === '1'">
     <el-row>
       <el-col :span="24">
@@ -105,10 +88,7 @@
           v-loading="isLoading['1-1']"
         >
           <template #top>
-            <tableFind
-              :form-data="data['1-1']"
-              @submit="(res) => console.log(res)"
-            />
+            <tableFind :form-data="data['1-1']" @submit="console.log" />
           </template>
         </modifyTable>
       </el-col>
@@ -125,10 +105,9 @@
           :selectable="true"
           :height="30"
           :load="handleRefresh('1-2')"
-          @handle="handle"
+          @handle="(a: number) => handle('1-2', a)"
           @select="handleSelect"
           @menu="menu"
-          extend="操作"
           v-loading="isLoading['1-2']"
         >
           <template #top>
@@ -136,7 +115,7 @@
           </template>
           <template #extend3="row">
             <AFTableColumn label="订单浮盈" header-align="center">
-              <AFTableColumn label="成本价"></AFTableColumn>
+              <AFTableColumn label="成本价" :prop="row.cprice"></AFTableColumn>
               <AFTableColumn label="结算价"></AFTableColumn>
               <AFTableColumn abel="浮盈"></AFTableColumn>
               <AFTableColumn label="币种"></AFTableColumn>
@@ -147,6 +126,13 @@
               <AFTableColumn label="结算价"></AFTableColumn>
               <AFTableColumn label="浮盈"></AFTableColumn>
               <AFTableColumn label="币种"></AFTableColumn>
+            </AFTableColumn>
+            <AFTableColumn :width="100" label="操作" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
             </AFTableColumn>
           </template>
         </modifyTable>
@@ -180,7 +166,7 @@
           name="购销合同"
           id="trade2"
           :col="tableCol.Gouxiaohetong"
-          @handle="handle1"
+          @handle="(a:number)=>handle('2-2', a)"
           @menu="menu"
           :selectable="true"
         >
@@ -210,7 +196,7 @@
           name="印花税付款申请"
           id="trade3"
           :col="tableCol.Yinhuashui"
-          @handle="handle2"
+          @handle="(a:number)=>handle('2-3', a)"
           @menu="menu"
         >
           <template #top>
@@ -562,8 +548,9 @@ import modifyTable from '@/components/modify-table2.vue'
 import tableFind from '@/components/table-find.vue'
 import formDialog from '../../components/form-dialog.vue'
 import formPopmenu from '../../components/form-popmenu.vue'
-import * as tableCol from '@/assets/table_info/table-title'
-import * as tradeAPI from '@/http/api/trade'
+import * as tableCol from '../../assets/table_info/table-title'
+import * as tradeAPI from '../../http/api/trade'
+import { Gouxiaojilu, Xiaoshouqueren } from '../../assets/table_info/table-add'
 import { ElMessage } from 'element-plus'
 import { useRoute } from 'vue-router'
 
@@ -595,6 +582,7 @@ let isVisible = ref({
   dialogUpdate: false,
   dialogDelete: false,
   purchase: false,
+  sale: false,
   form1: false,
   form2: false
 })
@@ -606,150 +594,6 @@ let selectData: any = reactive({
   id: '',
   rows: []
 })
-let Huilv = reactive({
-  refvalue: '',
-  finalvalue: ''
-})
-// dialog form items
-let Gouxiaojilu = [
-  {
-    prop: 'date',
-    label: '交易日期',
-    type: 'date'
-  },
-  {
-    label: '账套',
-    type: 'single-select',
-    prop: 'ledgerId',
-    options: [
-      { value: 111, label: '111' },
-      { value: 222, label: '222' }
-    ]
-  },
-  {
-    label: '业务部门',
-    type: 'single-select-cascader',
-    prop: 'ourDeptId',
-    options: [
-      { value: 111, label: '111' },
-      { value: 222, label: '222' }
-    ]
-  },
-  {
-    label: '贸易商',
-    type: 'single-select',
-    prop: 'companyId',
-    options: [
-      { value: 111, label: '111' },
-      { value: 222, label: '222' }
-    ]
-  },
-  {
-    label: '贸易商部门',
-    type: 'single-select-cascader',
-    prop: 'companyDeptId',
-    options: [
-      { value: 111, label: '111' },
-      { value: 222, label: '222' }
-    ]
-  },
-  {
-    prop: 'ps',
-    label: '购/销',
-    type: 'select',
-    options: [
-      { label: '购', value: 0 },
-      { label: '销', value: 1 }
-    ]
-  },
-  {
-    label: '品种',
-    prop: 'varietyId',
-    type: 'single-select'
-  },
-  {
-    label: '规格',
-    type: 'single-select-cascader',
-    prop: 'gradeId',
-    options: [
-      { value: 111, label: '111' },
-      { value: 222, label: '222' }
-    ]
-  },
-  {
-    label: '品牌',
-    type: 'single-select-cascader',
-    prop: 'trademarkId',
-    options: [
-      { value: 111, label: '111' },
-      { value: 222, label: '222' }
-    ]
-  },
-  {
-    label: '数量',
-    type: 'number',
-    prop: 'realqty'
-  },
-  {
-    label: '重量单位',
-    prop: 'unit',
-    type: 'string'
-  },
-  {
-    label: '成交金额',
-    type: 'number',
-    prop: 'amount',
-    hidden: true
-  },
-  {
-    label: '订单价格',
-    type: 'number',
-    prop: 'atPrice'
-  },
-  {
-    label: '实收付金额',
-    type: 'number',
-    prop: 'actAmount'
-  },
-  {
-    label: '订单币种',
-    type: 'single-select',
-    prop: 'currencyId',
-    options: [
-      { value: 111, label: '111' },
-      { value: 222, label: '222' }
-    ]
-  },
-  {
-    label: '贸易类型',
-    prop: 'pattern',
-    type: 'select',
-    options: [
-      { label: '类型1', value: 0 },
-      { label: '类型2', value: 1 }
-    ]
-  },
-  {
-    label: '订单模式',
-    type: 'single-select',
-    prop: 'orderId'
-  },
-  {
-    label: '交货方式',
-    type: 'select',
-    prop: 'deliver',
-    options: [
-      { label: '类型1', value: 0 },
-      { label: '类型2', value: 1 }
-    ]
-  },
-  {
-    label: '增值税率',
-    prop: 'vat',
-    type: 'number'
-  }
-]
-// router
 const route = useRoute()
 // menu vars & handlers
 const menuList = ref([
@@ -776,7 +620,7 @@ const handleCtxMenu = (menuLabel: string) => {
     type: 'info'
   })
 }
-const menu = (_a, _b, _c, event: any) => {
+const menu = (_a: any, _b: any, _c: any, event: any) => {
   event.preventDefault()
   position.value.x = event.clientX
   position.value.y = event.clientY
@@ -791,34 +635,89 @@ const handle = (id: string, a: number) => {
     case '1-1':
       switch (a) {
         case 0:
+          isLoading[id] = true
           handleRefresh('1-1')
           break
         case 1:
           isVisible.value.purchase = true
           break
-
         case 2:
-          send()
-          break
+          if (selectData.rows.length > 0)
+            ElMessage({
+              message: '已发送成交确认',
+              type: 'success'
+            })
+          else
+            ElMessage({
+              message: '请选择要确认的行',
+              type: 'warning'
+            })
       }
       break
     case '1-2':
       switch (a) {
         case 0:
+          isLoading[id] = true
           handleRefresh('1-2')
+          break
+        case 1:
+          if (selectData.rows.length == 0) {
+            ElMessage({
+              message: '请选择要确认的行',
+              type: 'warning'
+            })
+            return
+          } else if (selectData.rows.length > 1) {
+            let res = true
+            for (let i = 0; i < selectData.rows.length - 1; i++) {
+              if (
+                selectData.rows[i].ledgerId !=
+                  selectData.rows[i + 1].ledgerId ||
+                selectData.rows[i].ourDeptId !=
+                  selectData.rows[i + 1].ourDeptId ||
+                selectData.rows[i].varietyId != selectData.rows[i + 1].varietyId
+              ) {
+                res = false
+                break
+              }
+            }
+            isVisible.value.sale = res
+          } else if (selectData.rows.length == 1) {
+            isVisible.value.sale = true
+          }
+          break
+        case 2:
+          isVisible.value.form1 = true
+          break
+        case 3:
+          isVisible.value.form2 = true
+          break
+        case 4:
+          ElMessage({
+            message: '导出成功',
+            type: 'success'
+          })
           break
       }
   }
 }
 // refresh handlers for tables
 const handleRefresh = async (id: string) => {
-  let res = []
+  let res: any = []
+  let part1: any, part2: any
   switch (id) {
     case '1-1':
-      res = await tradeAPI.getTrade()
+      res = await tradeAPI.getTrade(res)
       break
     case '1-2':
-      res = await tradeAPI.getPosition()
+      part1 = await tradeAPI.getPosition(res)
+      part2 = await tradeAPI.exportReferer(res)
+      res = {
+        data: part1.data.map((item: any, index: number) => {
+          return Object.assign(item, part2.data[index])
+        })
+      }
+      console.log(res)
       break
   }
   if (res.data.length != 0) {
@@ -833,7 +732,6 @@ const handleRefresh = async (id: string) => {
 const handleSelect = (val: any, id: string) => {
   selectData.id = id
   selectData.rows = val
-  console.log(selectData.id, selectData.rows)
 }
 
 // ********************
@@ -848,11 +746,17 @@ const purchase = (data: any) => {
     })
   )
 }
-const send = () => {
-  ElMessage({
-    message: '发送交易确认',
-    type: 'success'
-  })
+const saleConfirm = () => {
+  let request: tradeAPI.SaleConfirm = {
+    positionDtos: [],
+    tradePurchaseDto: selectData.rows[0]
+  }
+  tradeAPI.saleConfirm(request).then(() =>
+    ElMessage({
+      message: '销售确认成功',
+      type: 'success'
+    })
+  )
 }
 const handleUpdate = () => {
   isVisible.value.dialogUpdate = false
@@ -867,17 +771,17 @@ const deletebyid = () => {
 // ***************
 const init = async () => {
   // initiate form options
-  const companyId = await tradeAPI.getCompanyList(1)
+  const companyId: any = await tradeAPI.getCompanyList(1)
   let companyDept: any = []
-  const ledgerId = await tradeAPI.getCompanyList(2)
+  const ledgerId: any = await tradeAPI.getCompanyList(2)
   let ledgerDept: any = []
-  const varietyId = await tradeAPI.getVariety()
+  const varietyId: any = await tradeAPI.getVariety()
   let gradeId: any = []
-  const currencyId = await tradeAPI.getCurrency()
+  const currencyId: any = await tradeAPI.getCurrency()
   let trademarkId: any = []
-  const orderId = await tradeAPI.getOrder()
+  const orderId: any = await tradeAPI.getOrder()
   companyId.forEach(async (item: any) => {
-    const res = await tradeAPI.getCompanyDept(1, item.id)
+    const res: any = await tradeAPI.getCompanyDept(1, item.id)
     companyDept.push({
       label: item.shortname,
       options: res.map((r: any) => {
@@ -886,7 +790,7 @@ const init = async () => {
     })
   })
   ledgerId.forEach(async (item: any) => {
-    const res = await tradeAPI.getCompanyDept(2, item.id)
+    const res: any = await tradeAPI.getCompanyDept(2, item.id)
     ledgerDept.push({
       label: item.shortname,
       options: res.map((r: any) => {
@@ -895,7 +799,7 @@ const init = async () => {
     })
   })
   varietyId.forEach(async (item: any) => {
-    const res = await tradeAPI.getGrade(item.id)
+    const res: any = await tradeAPI.getGrade(item.id)
     gradeId.push({
       label: item.name,
       options: res.map((r: any) => {
@@ -904,7 +808,7 @@ const init = async () => {
     })
   })
   currencyId.forEach(async (item: any) => {
-    const res = await tradeAPI.getTrademark(item.id)
+    const res: any = await tradeAPI.getTrademark(item.id)
     trademarkId.push({
       label: item.name,
       options: res.map((r: any) => {
