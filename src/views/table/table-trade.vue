@@ -101,8 +101,8 @@
           :load="handleRefresh('1-1')"
           @handle="(a:number)=>handle('1-1', a)"
           @menu="menu"
-          @select="select"
-          v-laoding="true"
+          @select="handleSelect"
+          v-loading="isLoading['1-1']"
         >
           <template #top>
             <tableFind
@@ -126,9 +126,10 @@
           :height="30"
           :load="handleRefresh('1-2')"
           @handle="handle"
-          @select="select"
+          @select="handleSelect"
           @menu="menu"
           extend="操作"
+          v-loading="isLoading['1-2']"
         >
           <template #top>
             <tableFind />
@@ -589,8 +590,6 @@ let data: any = reactive({
 let updateform = reactive({
   value: ''
 })
-let select_list: any = ref([])
-let select_list1: any = ref([])
 let isVisible = ref({
   clickMenu: false,
   dialogUpdate: false,
@@ -598,6 +597,14 @@ let isVisible = ref({
   purchase: false,
   form1: false,
   form2: false
+})
+let isLoading: any = reactive({
+  '1-1': true,
+  '1-2': true
+})
+let selectData: any = reactive({
+  id: '',
+  rows: []
 })
 let Huilv = reactive({
   refvalue: '',
@@ -639,7 +646,7 @@ let Gouxiaojilu = [
   },
   {
     label: '贸易商部门',
-    type: 'single-select',
+    type: 'single-select-cascader',
     prop: 'companyDeptId',
     options: [
       { value: 111, label: '111' },
@@ -658,11 +665,11 @@ let Gouxiaojilu = [
   {
     label: '品种',
     prop: 'varietyId',
-    type: 'number'
+    type: 'single-select'
   },
   {
     label: '规格',
-    type: 'single-select',
+    type: 'single-select-cascader',
     prop: 'gradeId',
     options: [
       { value: 111, label: '111' },
@@ -671,7 +678,7 @@ let Gouxiaojilu = [
   },
   {
     label: '品牌',
-    type: 'single-select',
+    type: 'single-select-cascader',
     prop: 'trademarkId',
     options: [
       { value: 111, label: '111' },
@@ -686,7 +693,7 @@ let Gouxiaojilu = [
   {
     label: '重量单位',
     prop: 'unit',
-    type: 'number'
+    type: 'string'
   },
   {
     label: '成交金额',
@@ -716,17 +723,25 @@ let Gouxiaojilu = [
   {
     label: '贸易类型',
     prop: 'pattern',
-    type: 'number'
+    type: 'select',
+    options: [
+      { label: '类型1', value: 0 },
+      { label: '类型2', value: 1 }
+    ]
   },
   {
     label: '订单模式',
-    type: 'number',
+    type: 'single-select',
     prop: 'orderId'
   },
   {
     label: '交货方式',
-    type: 'number',
-    prop: 'deliver'
+    type: 'select',
+    prop: 'deliver',
+    options: [
+      { label: '类型1', value: 0 },
+      { label: '类型2', value: 1 }
+    ]
   },
   {
     label: '增值税率',
@@ -784,7 +799,6 @@ const handle = (id: string, a: number) => {
 
         case 2:
           send()
-          console.log(select_list)
           break
       }
       break
@@ -801,10 +815,10 @@ const handleRefresh = async (id: string) => {
   let res = []
   switch (id) {
     case '1-1':
-      res = await tradeAPI.get_Trade()
+      res = await tradeAPI.getTrade()
       break
     case '1-2':
-      res = await tradeAPI.get_Position()
+      res = await tradeAPI.getPosition()
       break
   }
   if (res.data.length != 0) {
@@ -813,17 +827,21 @@ const handleRefresh = async (id: string) => {
       data[id].push(item)
     })
   }
-  ElMessage({
-    message: '数据获取成功',
-    type: 'success'
-  })
+  isLoading[id] = false
+}
+// handler for table row selects
+const handleSelect = (val: any, id: string) => {
+  selectData.id = id
+  selectData.rows = val
+  console.log(selectData.id, selectData.rows)
 }
 
 // ********************
 // main logic functions
 // ********************
 const purchase = (data: any) => {
-  tradeAPI.purchase_Trade(data).then(() =>
+  console.log(data)
+  tradeAPI.purchaseTrade(data).then(() =>
     ElMessage({
       message: '采购成功',
       type: 'success'
@@ -842,38 +860,86 @@ const handleUpdate = () => {
 }
 const deletebyid = () => {
   isVisible.value.dialogDelete = false
-  ElMessage('删除' + select_list.value)
-}
-const select = (val: any, id: string) => {
-  if (id == 'trade') select_list.value = val
-  if (id == 'trade1') select_list1.value = val
+  ElMessage('删除' + selectData.value)
 }
 // ***************
 // startup actions
 // ***************
 const init = async () => {
-  const companyId = await tradeAPI.getCompanyList()
-  let companyDept: any = {}
-  Gouxiaojilu.map((item) => {
-    if (item.prop == 'ledgerId') {
-      item.options = companyId.map((item: any) => {
-        return { value: item.id, label: item.shortname }
-      })
-    }
-  })
-  companyId.array.forEach(async (item: any) => {
-    const res = await tradeAPI.getCompanyDept(item.id)
+  // initiate form options
+  const companyId = await tradeAPI.getCompanyList(1)
+  let companyDept: any = []
+  const ledgerId = await tradeAPI.getCompanyList(2)
+  let ledgerDept: any = []
+  const varietyId = await tradeAPI.getVariety()
+  let gradeId: any = []
+  const currencyId = await tradeAPI.getCurrency()
+  let trademarkId: any = []
+  const orderId = await tradeAPI.getOrder()
+  companyId.forEach(async (item: any) => {
+    const res = await tradeAPI.getCompanyDept(1, item.id)
     companyDept.push({
-      id: item.id,
-      data: res.map((r: any) => {
+      label: item.shortname,
+      options: res.map((r: any) => {
+        return { value: r.id, label: r.name }
+      })
+    })
+  })
+  ledgerId.forEach(async (item: any) => {
+    const res = await tradeAPI.getCompanyDept(2, item.id)
+    ledgerDept.push({
+      label: item.shortname,
+      options: res.map((r: any) => {
         return { value: r.id, label: r.shortname }
       })
-    }) //company -> companyDept
+    })
+  })
+  varietyId.forEach(async (item: any) => {
+    const res = await tradeAPI.getGrade(item.id)
+    gradeId.push({
+      label: item.name,
+      options: res.map((r: any) => {
+        return { value: r.id, label: r.name }
+      })
+    })
+  })
+  currencyId.forEach(async (item: any) => {
+    const res = await tradeAPI.getTrademark(item.id)
+    trademarkId.push({
+      label: item.name,
+      options: res.map((r: any) => {
+        return { value: r.id, label: r.name }
+      })
+    })
   })
   Gouxiaojilu.map((item) => {
-    if (item.prop == 'companyDeptId') {
-      item.options = companyDept.map((item: any) => {
-        return { value: item.id, label: item.shortname, children: item.data }
+    if (item.prop == 'ledgerId') {
+      item.options = companyId.map((i: any) => {
+        return { value: i.id, label: i.shortname }
+      })
+    } else if (item.prop == 'ourDeptId') {
+      item.options = companyDept
+    } else if (item.prop == 'companyId') {
+      item.options = ledgerId.map((i: any) => {
+        return { value: i.id, label: i.shortname }
+      })
+    } else if (item.prop == 'companyDeptId') {
+      item.options = ledgerDept
+    } else if (item.prop == 'varietyId') {
+      item.options = varietyId.map((i: any) => {
+        return { value: i.id, label: i.name }
+      })
+    } else if (item.prop == 'gradeId') {
+      item.options = gradeId
+    } else if (item.prop == 'currencyId') {
+      item.options = currencyId.map((i: any) => {
+        return { value: i.id, label: i.name }
+      })
+    } else if (item.prop == 'trademarkId') {
+      item.options = trademarkId
+    } else if (item.prop == 'orderId') {
+      item.options = orderId.map((i: any) => {
+        return { value: i.id, label: i.mode }
       })
     }
   })

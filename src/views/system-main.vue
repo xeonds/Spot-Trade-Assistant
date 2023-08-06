@@ -115,7 +115,6 @@ const handleSettingChange = () => {
 }
 onMounted(() => {
   if (localStorage.getItem('theme_color')) {
-    console.log(localStorage.getItem('theme_color'))
     color.value = localStorage.getItem('theme_color') as string
     handleSettingChange()
   }
@@ -147,11 +146,14 @@ onMounted(() => {
       cursor: pointer;
       border-radius: 0;
       .el-tag__close {
-        display: none;
+        color: #00000000;
       }
       &:hover {
         .el-tag__close {
-          display: block;
+          color: var(--el-color-primary);
+          &:hover {
+            color: #fff;
+          }
         }
       }
       &.is-active {

@@ -9,6 +9,7 @@
         :key="item.label"
         style="width: 24rem"
         :prop="item.prop"
+        @click="() => emit('click', item)"
       >
         <el-date-picker
           v-model="data[item.prop]"
@@ -44,12 +45,24 @@
             :value="option.value"
           />
         </el-select>
-        <el-cascader
+        <el-select
           v-model="data[item.prop]"
-          :options="item.options"
           placeholder="选择"
           v-if="item.type == 'single-select-cascader'"
-        />
+        >
+          <el-option-group
+            v-for="group in item.options"
+            :key="group.label"
+            :label="group.label"
+          >
+            <el-option
+              v-for="item in group.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option
+          ></el-option-group>
+        </el-select>
         <el-select
           v-model="data[item.prop]"
           placeholder="选择"
@@ -82,7 +95,7 @@
 let props = defineProps(['visible', 'title', 'col'])
 let emit = defineEmits(['submit', 'close', 'click'])
 let data = reactive(<any>[])
-let col = reactive(<any>props.col)
+let col = ref(<any>props.col)
 </script>
 
 <style lang="less" scoped>
