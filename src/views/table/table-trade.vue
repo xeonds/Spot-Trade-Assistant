@@ -468,104 +468,13 @@ const deletebyid = () => {
 }
 let data = ref([])
 let form: any = {
-  /**
-   * 关联贸易商部门表 company.type=供应商、客户、贸易商 id
-   */
-  companyDeptId: 0,
-  /**
-   * 贸易商公司 id
-   */
-  companyId: 0,
-  /**
-   * 交收方式deliver，枚举1(1现货spot、2远期forward)
-   */
-  deliver: 0,
-  /**
-   * 关联规格表 id, 可取品种、重量单位、增值税率值
-   */
-  gradeId: 0,
-  /**
-   * 关联公司表 type="本公司账套" id
-   */
-  ledgerId: 0,
-  /**
-   * 排序方式 asc/desc
-   */
-  order: 0,
-  /**
-   * 关联订单模式表 id (1一般、2保证金、3长单、4盘多库存)
-   */
-  orderId: 0,
-  /**
-   * 订单号
-   */
-  orderNo: 0,
-  /**
-   * 关联本公司部门表 id
-   */
-  ourDeptId: 0,
-  /**
-   * 页号
-   */
-  pageNumber: 0,
-  /**
-   * 页面大小
-   */
-  pageSize: 0
 }
 table_get.get_Trade(form).then((res) => {
   data.value = res.data
 })
 
 let form1: any = {
-  /**
-   * 贸易商
-   */
-  company: 0,
-  /**
-   * 贸易商部门
-   */
-  companyDept: 0,
-  /**
-   * 交收方式deliver，枚举1(1现货spot、2远期forward)
-   */
-  deliver: 0,
-  /**
-   * 关联规格表 id，可取品种、重量单位、增值税率值
-   */
-  grade: 0,
-  /**
-   * 关联公司表 type="本公司账套" id
-   */
-  ledger: 0,
-  /**
-   * 关联订单模式表 id (1一般、2保证金、3长单、4盘多库存)
-   */
-  orderId: 0,
-  /**
-   * 关联本公司部门表 id
-   */
-  ourdept: 0,
-  /**
-   * 页号
-   */
-  pageNumber: 0,
-  /**
-   * 页面大小
-   */
-  pageSize: 0,
-  /**
-   * 贸易类型，枚举1(1内贸、2外贸、3进口、4出口)
-   */
-  pattern: 0,
-  /**
-   * 关联商标表 id
-   */
-  trademark: 0,
-  /**
-   * 关联品种表 id
-   */
-  varietyId: 0
+
 }
 
 let data1 = reactive([])
@@ -574,40 +483,13 @@ table_get.get_Position(form1).then((res) => {
   console.log(res.data)
 })
 
-let data2 = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  }
-])
+let data2 = reactive([])
+let form2:any = {
+}
+
+table_get.get_Tcost(form2).then((res) => {
+  console.log(res)
+})
 
 //新增功能
 let singleoptions: any = reactive([])
@@ -748,10 +630,10 @@ const handle2 = (a: number) => {
 }
 
 .table-area {
+  padding: 10px;
   margin: 0 auto;
   margin-top: 3vh;
   width: 99vw;
-  padding: 10px 10px;
   border: 1px solid #000;
 }
 
