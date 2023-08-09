@@ -1,6 +1,6 @@
 <template>
-  <div class="main">
-    <el-row class="rows">
+  <div>
+    <el-row class="rows" :gutter="20">
       <el-col :span="24">
         <modifyTable
           id="user1"
@@ -10,6 +10,7 @@
           :delete_data="userapi.UserDelete"
           :modify_data="userapi.UserRefresh"
           :command="['刷新', '新建']"
+          :height="'36'"
           :search="UserCondition"
           @fresh="handle_fresh"
           ref="user"
@@ -30,6 +31,7 @@
           :get_data="userapi.RoleGet"
           :add_data="userapi.RoleAdd"
           :delete_data="userapi.RoleDelete"
+          :height="'28'"
           :modify_data="userapi.RoleRefresh"
           :command="['刷新', '新建']"
           :search="RoleCondition"
@@ -51,6 +53,7 @@
           :add_data="userapi.MenusAdd"
           :delete_data="userapi.MenusDelete"
           :modify_data="userapi.MenusRefresh"
+          :height="'28'"
           :command="['刷新']"
           :search="MenusCondition"
           @fresh="handle_fresh"
@@ -91,7 +94,7 @@ const roleOptionsGet = async () => {
   res.data.forEach((element: RoleList) => {
     temp.push({
       label: element.name,
-      value: element.id
+      value: element.name == 'sex' ? ['男', '女'][element.id] : element.id
     })
   })
   return temp
@@ -131,10 +134,9 @@ const handle_fresh = (name: string) => {
 </script>
 
 <style lang="less" scoped>
-.main {
-  .rows {
-    padding-inline: 1rem;
-    margin-top: 20px;
-  }
+.rows {
+  margin-inline: 0.5rem !important;
+  margin-top: 1rem;
+  max-width: 100%;
 }
 </style>

@@ -24,7 +24,7 @@ export default createRouter({
           component: () => import('../views/table/table-information.vue')
         },
         {
-          path: 'model',
+          path: 'model/:id',
           component: () => import('../views/table/table-model.vue')
         },
         {
