@@ -467,15 +467,12 @@ const deletebyid = () => {
   ElMessage('删除' + mfrow)
 }
 let data = ref([])
-let form: any = {
-}
+let form: any = {}
 table_get.get_Trade(form).then((res) => {
   data.value = res.data
 })
 
-let form1: any = {
-
-}
+let form1: any = {}
 
 let data1 = reactive([])
 
@@ -484,8 +481,7 @@ table_get.get_Position(form1).then((res) => {
 })
 
 let data2 = reactive([])
-let form2:any = {
-}
+let form2: any = {}
 
 table_get.get_Tcost(form2).then((res) => {
   console.log(res)
