@@ -248,6 +248,8 @@ const change_status = (id: string) => {
 }
 
 .main {
+  box-shadow: none;
+
   .card-header {
     .title {
       font-size: 1.4rem;

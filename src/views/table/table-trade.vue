@@ -412,6 +412,7 @@ import { useRoute } from 'vue-router'
 import * as table_add from '../../assets/table_info/table-add'
 import { ElMessage } from 'element-plus'
 import * as search_items from '../../assets/table_info/search_item'
+import * as table_get from '../../http/api/trade'
 
 const route = useRoute()
 
@@ -465,110 +466,26 @@ const handleDelete = () => {
 const deletebyid = () => {
   ElMessage('删除' + mfrow)
 }
-let data = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  }
-])
+let data = ref([])
+let form: any = {}
+table_get.get_Trade(form).then((res) => {
+  data.value = res.data
+})
 
-let data1 = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  }
-])
+let form1: any = {}
 
-let data2 = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  }
-])
+let data1 = reactive([])
+
+table_get.get_Position(form1).then((res) => {
+  console.log(res.data)
+})
+
+let data2 = reactive([])
+let form2: any = {}
+
+table_get.get_Tcost(form2).then((res) => {
+  console.log(res)
+})
 
 //新增功能
 let singleoptions: any = reactive([])
@@ -709,9 +626,11 @@ const handle2 = (a: number) => {
 }
 
 .table-area {
+  padding: 10px;
   margin: 0 auto;
   margin-top: 3vh;
   width: 99vw;
+  border: 1px solid #000;
 }
 
 .double-table {

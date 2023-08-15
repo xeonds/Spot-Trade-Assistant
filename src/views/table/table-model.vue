@@ -2,7 +2,7 @@
   <div class="table-rows">
     <el-row>
       <el-col :span="24">
-        <Table
+        <Table_1
           class="model-box"
           id="table-model"
           :col="table_col.ModelInfo"
@@ -29,7 +29,7 @@
               </template>
             </el-table-column>
           </template>
-        </Table>
+        </Table_1>
       </el-col>
     </el-row>
     <el-dialog
@@ -134,6 +134,7 @@ import * as table_col from '../../assets/table_info/table-title'
 import * as table_add from '../../assets/table_info/table-add'
 import serviceAxios from '../../http'
 import download from '../../utils/download'
+import { ElMessage } from 'element-plus'
 
 export default {
   data() {
@@ -208,7 +209,7 @@ export default {
     this.getName()
   },
   components: {
-    Table
+    Table_1: Table
   },
   watch: {
     $route(to, _from) {
