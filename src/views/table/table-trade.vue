@@ -642,12 +642,12 @@ const handle = (id: string, a: number) => {
           isVisible.value.purchase = true
           break
         case 2:
-          if (selectData.rows.length > 0)
+          if (selectData.rows.length > 0) {
             ElMessage({
               message: '已发送成交确认',
               type: 'success'
             })
-          else
+          } else
             ElMessage({
               message: '请选择要确认的行',
               type: 'warning'
