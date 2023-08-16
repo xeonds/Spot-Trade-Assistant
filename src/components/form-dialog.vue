@@ -11,6 +11,7 @@
         :prop="item.prop"
         @click="() => emit('click', item)"
       >
+        <el-text v-if="item.type == 'label'" />
         <el-date-picker
           v-model="data[item.prop]"
           type="date"

@@ -295,19 +295,19 @@ export const PositionInfo = [
     label: '订单浮盈',
     children: [
       { label: '成本价', prop: 'cprice', fold: false },
-      { label: '结算价', prop: 'sprice', fold: false },
-      { prop: 'fpl', label: '浮盈', fold: false },
-      { prop: 'fpl', label: '币种', fold: false }
+      { label: '结算价', prop: 'cprice', fold: false },
+      { prop: 'cprice', label: '浮盈', fold: false },
+      { prop: 'cprice', label: '币种', fold: false }
     ]
   },
   {
     label: '进出口参考浮盈',
     children: [
-      { label: '参考汇率', prop: 'exrate', fold: false },
-      { label: '进出口成本', prop: 'lcprice', fold: false },
-      { label: '结算价', prop: 'lsprice', fold: false },
-      { label: '浮盈', prop: 'fpl', fold: false },
-      { label: '币种', prop: 'positionCur', fold: false }
+      { label: '参考汇率', prop: 'cprice', fold: false },
+      { label: '进出口成本', prop: 'cprice', fold: false },
+      { label: '结算价', prop: 'cprice', fold: false },
+      { label: '浮盈', prop: 'cprice', fold: false },
+      { label: '币种', prop: 'cprice', fold: false }
     ]
   }
 ]

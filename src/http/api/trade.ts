@@ -1,6 +1,77 @@
 import serviceAxios from '..'
 
-export const getTrade = (form: any) => {
+export interface getTradeForm {
+  /**
+   * 关联贸易商部门表 company.type=供应商、客户、贸易商 id
+   */
+  companyDeptId?: string
+  /**
+   * 贸易商公司 id
+   */
+  companyId?: string
+  /**
+   * 购销日期，输入值
+   */
+  date?: string
+  /**
+   * 交收方式deliver，枚举1(1现货spot、2远期forward)
+   */
+  deliver?: string
+  /**
+   * 关联规格表 id, 可取品种、重量单位、增值税率值
+   */
+  gradeId?: string
+  /**
+   * 关联公司表 type="本公司账套" id
+   */
+  ledgerId?: string
+  /**
+   * 排序方式 asc/desc
+   */
+  order?: string
+  /**
+   * 关联订单模式表 id (1一般、2保证金、3长单、4盘多库存)
+   */
+  orderId?: string
+  /**
+   * 订单号
+   */
+  orderNo?: string
+  /**
+   * 关联本公司部门表 id
+   */
+  ourDeptId?: string
+  /**
+   * 页号
+   */
+  pageNumber?: string
+  /**
+   * 页面大小
+   */
+  pageSize?: string
+  /**
+   * 贸易类型，枚举1(1内贸、2外贸、3进口、4出口)
+   */
+  pattern?: string
+  /**
+   * 购销，(1采购purchase、2销售sales)
+   */
+  ps?: string
+  /**
+   * 排序字段
+   */
+  sort?: string
+  /**
+   * 关联品牌表 id
+   */
+  trademarkId?: string
+  /**
+   * 关联品种表 id
+   */
+  varietyId?: string
+}
+
+export const getTrade = (form: getTradeForm) => {
   return serviceAxios({
     method: 'GET',
     url: '/trade/trade/page',
@@ -8,8 +79,96 @@ export const getTrade = (form: any) => {
   })
 }
 
-export const purchaseTrade = (form: any) => {
-  return serviceAxios.post('trade/purchase', form)
+/**
+ * TradePurchaseDto
+ */
+export interface purchaseTradeForm {
+  /**
+   * 实收付金额，输入值总和，actual amount
+   */
+  actAmount?: number
+  /**
+   * 成交金额。amt=at_price*real_qty，价税合计应相等
+   */
+  amount?: number
+  /**
+   * 税后价格，after tax price
+   */
+  atPrice?: number
+  /**
+   * 关联公司部门表 company.type=供应商、客户、贸易商 id
+   */
+  companyDeptId?: number
+  /**
+   * 贸易商公司 id
+   */
+  companyId?: number
+  /**
+   * 关联币种表 id
+   */
+  currencyId?: number
+  /**
+   * 购销日期，输入值
+   */
+  date?: string
+  /**
+   * 交收方式deliver，枚举1(1现货spot、2远期forward)
+   */
+  deliver?: number
+  /**
+   * 关联规格表 id, 可取品种、重量单位、增值税率值
+   */
+  gradeId?: number
+  /**
+   * 关联公司表 type="本公司账套" id
+   */
+  ledgerId?: number
+  /**
+   * 关联订单模式id
+   */
+  orderId?: number
+  /**
+   * 关联本公司部门表 id
+   */
+  ourDeptId?: number
+  /**
+   * 贸易类型
+   */
+  pattern?: number
+  /**
+   * 购销，(1采购purchase、2销售sales)
+   */
+  ps?: number
+  /**
+   * 数量，入库表实数总和（计算值）。初值=合同订单数量（输入值）
+   */
+  realqty?: number
+  /**
+   * 关联商标表 id
+   */
+  trademarkId?: number
+  /**
+   * 重量单位
+   */
+  unit?: number
+  /**
+   * 关联品种表 id
+   */
+  varietyId?: number
+  /**
+   * 增值税率
+   */
+  vat?: number
+}
+
+export const purchaseTrade = (form: purchaseTradeForm) => {
+  // API 调用异常，发送数据莫名其妙不带请求体，发送拷贝则正常
+  const data = { ...form }
+  return serviceAxios({
+    method: 'POST',
+    url: '/trade/purchase',
+    data: data
+  })
 }
 
 interface Position {
@@ -272,6 +431,7 @@ export interface TradePurchaseDto {
 }
 
 export const saleConfirm = (form: SaleConfirm) => {
+  console.log(form)
   return serviceAxios({
     method: 'POST',
     url: `/trade/sale`,

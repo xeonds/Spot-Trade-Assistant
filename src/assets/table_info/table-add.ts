@@ -603,7 +603,11 @@ export const Gouxiaojilu = [
   {
     prop: 'ps',
     label: '购/销',
-    type: 'select'
+    type: 'select',
+    options: [
+      { label: '类型1', value: 0 },
+      { label: '类型2', value: 1 }
+    ]
   },
   {
     label: '品种',
@@ -628,7 +632,11 @@ export const Gouxiaojilu = [
   {
     label: '重量单位',
     prop: 'unit',
-    type: 'string'
+    type: 'select',
+    options: [
+      { label: '类型1', value: 0 },
+      { label: '类型2', value: 1 }
+    ]
   },
   {
     label: '成交金额',
@@ -681,7 +689,13 @@ export const Gouxiaojilu = [
   }
 ]
 
-export const Xiaoshouqueren = []
+export const Xiaoshouqueren = [
+  {
+    label: '是否确认销售？',
+    prop: '销售确认',
+    type: 'label'
+  }
+]
 
 export const ModelInfo = [
   {

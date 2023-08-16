@@ -114,25 +114,23 @@
             <tableFind />
           </template>
           <template #extend3="row">
-            <AFTableColumn label="订单浮盈" header-align="center">
-              <AFTableColumn label="成本价" :prop="row.cprice"></AFTableColumn>
+            <!-- <AFTableColumn label="订单浮盈" header-align="center">
+              <AFTableColumn label="成本价" prop="cprice"></AFTableColumn>
               <AFTableColumn label="结算价"></AFTableColumn>
               <AFTableColumn abel="浮盈"></AFTableColumn>
               <AFTableColumn label="币种"></AFTableColumn>
             </AFTableColumn>
             <AFTableColumn label="进出口参考浮盈" header-align="center">
-              <AFTableColumn label="参考汇率"></AFTableColumn>
+              <AFTableColumn label="参考汇率" prop="order"></AFTableColumn>
               <AFTableColumn label="进出口成本"></AFTableColumn>
               <AFTableColumn label="结算价"></AFTableColumn>
               <AFTableColumn label="浮盈"></AFTableColumn>
               <AFTableColumn label="币种"></AFTableColumn>
-            </AFTableColumn>
+            </AFTableColumn> -->
             <AFTableColumn :width="100" label="操作" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
+              <el-button type="primary" link @click="console.log(row)"
+                >查看</el-button
+              >
             </AFTableColumn>
           </template>
         </modifyTable>
@@ -642,16 +640,19 @@ const handle = (id: string, a: number) => {
           isVisible.value.purchase = true
           break
         case 2:
+          // TODO: 不知道这玩意是干啥的
           if (selectData.rows.length > 0) {
+            console.log(selectData.rows)
             ElMessage({
               message: '已发送成交确认',
               type: 'success'
             })
-          } else
+          } else {
             ElMessage({
               message: '请选择要确认的行',
               type: 'warning'
             })
+          }
       }
       break
     case '1-2':
@@ -668,7 +669,6 @@ const handle = (id: string, a: number) => {
             })
             return
           } else if (selectData.rows.length > 1) {
-            let res = true
             for (let i = 0; i < selectData.rows.length - 1; i++) {
               if (
                 selectData.rows[i].ledgerId !=
@@ -677,11 +677,13 @@ const handle = (id: string, a: number) => {
                   selectData.rows[i + 1].ourDeptId ||
                 selectData.rows[i].varietyId != selectData.rows[i + 1].varietyId
               ) {
-                res = false
-                break
+                return ElMessage({
+                  message: '请选择同一品种同一部门同一客户的行',
+                  type: 'warning'
+                })
               }
             }
-            isVisible.value.sale = res
+            isVisible.value.sale = true
           } else if (selectData.rows.length == 1) {
             isVisible.value.sale = true
           }
@@ -737,26 +739,44 @@ const handleSelect = (val: any, id: string) => {
 // ********************
 // main logic functions
 // ********************
-const purchase = (data: any) => {
-  console.log(data)
-  tradeAPI.purchaseTrade(data).then(() =>
-    ElMessage({
-      message: '采购成功',
-      type: 'success'
+const purchase = (data: tradeAPI.purchaseTradeForm) => {
+  tradeAPI
+    .purchaseTrade(data)
+    .then(() => {
+      ElMessage({
+        message: '采购成功',
+        type: 'success'
+      })
     })
-  )
+    .catch(() => {
+      ElMessage({
+        message: '采购失败',
+        type: 'error'
+      })
+    })
+    .finally(() => (isVisible.value.purchase = false))
 }
 const saleConfirm = () => {
   let request: tradeAPI.SaleConfirm = {
     positionDtos: [],
     tradePurchaseDto: selectData.rows[0]
   }
-  tradeAPI.saleConfirm(request).then(() =>
-    ElMessage({
-      message: '销售确认成功',
-      type: 'success'
-    })
-  )
+  const reqCopy = JSON.parse(JSON.stringify(request))
+  tradeAPI
+    .saleConfirm(reqCopy)
+    .then(() =>
+      ElMessage({
+        message: '销售确认成功',
+        type: 'success'
+      })
+    )
+    .catch(() =>
+      ElMessage({
+        message: '销售确认失败',
+        type: 'error'
+      })
+    )
+    .finally(() => (isVisible.value.sale = false))
 }
 const handleUpdate = () => {
   isVisible.value.dialogUpdate = false
