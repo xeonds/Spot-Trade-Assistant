@@ -8,12 +8,15 @@
         <el-row class="card-nav">
           <div class="operation">
             <el-button
+              type="primary"
+              plain
               class="op-button"
               v-for="(item, index) in command"
               :key="index"
               @click.stop="emits('handle', index)"
               >{{ item }}</el-button
             >
+            <slot name="command"></slot>
           </div>
           <div class="title">{{ props.name }}</div>
         </el-row>
@@ -21,11 +24,7 @@
     </template>
     <div class="table-area">
       <el-table
-        v-el-table-infinite-scroll="
-          () => {
-            emits('load')
-          }
-        "
+        v-el-table-infinite-scroll="() => emits('load')"
         border
         :header-row-class-name="props.id"
         :highlight-current-row="props.enable_select"
@@ -40,9 +39,11 @@
         @row-click="(row: any, col: any) => emits('click_row', row, col)"
         @selection-change="handleSelectionChange"
         ref="main"
-        :row-style="{ height: '3vh' }"
         :header-cell-style="{
-          'background-color': '#f7f6f4',
+          color: '#000'
+        }"
+        :cell-style="{
+          padding: '2px',
           color: '#000'
         }"
       >
@@ -96,8 +97,6 @@
               !col[index].fold
             "
             label="状态"
-            width="80"
-            :resizable="false"
           >
             <template #default="scope">
               <el-switch
@@ -111,13 +110,37 @@
           </AFTableColumn>
           <!-- 普通显示 -->
           <AFTableColumn
-            :resizable="false"
-            v-else-if="!col[index].fold"
+            v-else-if="
+              !col[index].fold &&
+              col[index].hidden != true &&
+              !col[index].children
+            "
             :prop="col[index].prop"
             :label="item.label"
             align="center"
+            :filters="col[index].filters"
+            :filter-method="col[index].filter_method"
           >
           </AFTableColumn>
+          <el-table-column
+            v-else-if="
+              !col[index].fold &&
+              col[index].hidden != true &&
+              col[index].children
+            "
+            :label="item.label"
+            align="center"
+          >
+            <AFTableColumn
+              v-for="item2 in col[index].children"
+              :key="`col_${item2.label}`"
+              :prop="item2.prop"
+              :label="item2.label"
+              align="center"
+              :filters="item2.filters"
+              :filter-method="item2.filter_method"
+            />
+          </el-table-column>
         </template>
         <slot name="table-extend-end"></slot>
         <!-- 状态表 -->
@@ -130,16 +153,6 @@
         >
           <template #default="scope">
             <slot name="table-extend-end2" v-bind:row="scope"></slot>
-          </template>
-        </AFTableColumn>
-
-        <AFTableColumn
-          :resizable="false"
-          :label="props.contain_extend2"
-          v-if="props.contain_extend2"
-        >
-          <template #default="scope">
-            <slot name="table-extend-end3" v-bind:row="scope"></slot>
           </template>
         </AFTableColumn>
       </el-table>
@@ -233,20 +246,17 @@ const change_status = (id: string) => {
 </script>
 
 <style lang="less">
+.el-card__header {
+  background-color: #f7f6f4;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
 .el-card__body {
   padding: 0px;
 }
 </style>
 
 <style lang="less" scoped>
-@import '../assets/style/theme.less';
-@font-face {
-  font-family: NAME;
-  src: url('../assets/font/方正苏新诗柳楷简体.ttf');
-  font-weight: normal;
-  font-style: normal;
-}
-
 .main {
   box-shadow: none;
 
@@ -254,12 +264,21 @@ const change_status = (id: string) => {
     .title {
       font-size: 1.4rem;
       font-family: NAME, sans-serif;
-      color: @theme-color-primary;
+      color: var(--el-color-primary);
     }
     .card-nav {
       display: flex;
       flex-flow: row nowrap;
       justify-content: space-between;
+      .operation {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+        .op-button {
+          margin-right: 0.5rem;
+        }
+      }
     }
   }
 }

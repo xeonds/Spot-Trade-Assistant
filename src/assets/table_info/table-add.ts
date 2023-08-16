@@ -571,96 +571,129 @@ export const MenusInfo = [
   }
 ]
 
+/**
+ * TradePurchaseDto
+ */
 export const Gouxiaojilu = [
   {
-    prop: 'fpl',
+    prop: 'date',
     label: '交易日期',
-    type: 'string'
+    type: 'date'
   },
   {
-    prop: 'fpl',
-    label: '合同生成状态',
-    type: 'string'
-  },
-  {
-    prop: 'fpl',
     label: '账套',
-    type: 'string'
+    type: 'single-select',
+    prop: 'ledgerId'
   },
   {
-    prop: 'fpl',
     label: '业务部门',
-    type: 'string'
+    type: 'single-select-cascader',
+    prop: 'ourDeptId'
   },
   {
-    prop: 'fpl',
     label: '贸易商',
-    type: 'string'
+    type: 'single-select',
+    prop: 'companyId'
   },
   {
-    prop: 'fpl',
+    label: '贸易商部门',
+    type: 'single-select-cascader',
+    prop: 'companyDeptId'
+  },
+  {
+    prop: 'ps',
     label: '购/销',
-    type: 'string'
+    type: 'select',
+    options: [
+      { label: '类型1', value: 0 },
+      { label: '类型2', value: 1 }
+    ]
   },
   {
-    prop: 'fpl',
     label: '品种',
-    type: 'string'
+    prop: 'varietyId',
+    type: 'single-select'
   },
   {
-    prop: 'fpl',
     label: '规格',
-    type: 'string'
+    type: 'single-select-cascader',
+    prop: 'gradeId'
   },
   {
-    prop: 'fpl',
     label: '品牌',
-    type: 'string'
+    type: 'single-select-cascader',
+    prop: 'trademarkId'
   },
   {
-    prop: 'fpl',
-    label: '订单数量',
-    type: 'string'
+    label: '数量',
+    type: 'number',
+    prop: 'realqty'
   },
   {
-    prop: 'fpl',
-    label: '数量单位',
-    type: 'string'
+    label: '重量单位',
+    prop: 'unit',
+    type: 'select',
+    options: [
+      { label: '类型1', value: 0 },
+      { label: '类型2', value: 1 }
+    ]
   },
   {
-    prop: 'fpl',
-    label: '订单价格',
-    type: 'string'
-  },
-  {
-    prop: 'fpl',
-    label: '订单币种',
-    type: 'string'
-  },
-  {
-    prop: 'fpl',
     label: '成交金额',
-    type: 'string'
+    type: 'number',
+    prop: 'amount',
+    hidden: true
   },
   {
-    prop: 'fpl',
+    label: '订单价格',
+    type: 'number',
+    prop: 'atPrice'
+  },
+  {
+    label: '实收付金额',
+    type: 'number',
+    prop: 'actAmount'
+  },
+  {
+    label: '订单币种',
+    type: 'single-select',
+    prop: 'currencyId'
+  },
+  {
     label: '贸易类型',
-    type: 'string'
+    prop: 'pattern',
+    type: 'select',
+    options: [
+      { label: '类型1', value: 0 },
+      { label: '类型2', value: 1 }
+    ]
   },
   {
-    prop: 'fpl',
     label: '订单模式',
-    type: 'string'
+    type: 'single-select',
+    prop: 'orderId'
   },
   {
-    prop: 'fpl',
     label: '交货方式',
-    type: 'string'
+    type: 'select',
+    prop: 'deliver',
+    options: [
+      { label: '类型1', value: 0 },
+      { label: '类型2', value: 1 }
+    ]
   },
   {
-    prop: 'fpl',
-    label: '订单号',
-    type: 'string'
+    label: '增值税率',
+    prop: 'vat',
+    type: 'number'
+  }
+]
+
+export const Xiaoshouqueren = [
+  {
+    label: '是否确认销售？',
+    prop: '销售确认',
+    type: 'label'
   }
 ]
 
@@ -701,3 +734,6 @@ export const ModelInfo = [
     type: 'string'
   }
 ]
+
+export const FutureInfo = []
+export const FutureInfo2 = []

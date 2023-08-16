@@ -86,13 +86,6 @@ if (user) {
 </script>
 
 <style scoped lang="less">
-@font-face {
-  font-family: MAIN;
-  src: url('../assets/font/Songti.ttc');
-  font-weight: normal;
-  font-style: normal;
-}
-
 #profile {
   width: 100vw;
   height: 100vh;

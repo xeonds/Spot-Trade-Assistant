@@ -1,653 +1,873 @@
 <template>
+  <formPopmenu
+    :menu-list="menuList"
+    :position="position"
+    v-show="isVisible.clickMenu"
+    @menu="handleCtxMenu"
+  />
   <!-- 右键弹出框 -->
-  <ul
-    v-show="visible"
-    :style="{ left: left + 'px', top: top + 'px' }"
-    class="contextmenu"
+  <el-dialog
+    v-model="isVisible.dialogDelete"
+    title="删除确认"
+    width="30%"
+    align-center
   >
-    <li @click="handleDelete()">删除</li>
-    <li @click="handleFresh()">刷新</li>
-    <li @click="handleUpdate()">编辑</li>
-  </ul>
-  <el-dialog v-model="delete_show" title="删除确认" width="30%" align-center>
     <span>是否确定要删除本条记录</span>
     <template #footer>
       <span class="dialog-footer">
-        <el-button
-          @click="delete_show = false"
-          class="cancel"
-          style="width: 6vw"
-        >
+        <el-button type="primary" plain @click="isVisible.dialogDelete = false">
           取消
         </el-button>
-        <el-button @click="deletebyid" class="comfirm" style="width: 6vw">
-          确定
-        </el-button>
+        <el-button type="primary" @click="deletebyid"> 确定 </el-button>
       </span>
     </template>
   </el-dialog>
   <!-- 修改框 -->
-  <el-dialog v-model="update_show" title="修改" width="30%" align-center>
-    <el-form
-      :label-position="top"
-      label-width="100px"
-      :model="updateform"
-      style="max-width: 460px"
-    >
-      <el-form-item label="修改值">
-        <el-input v-model="updateform.value" />
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button
-          @click="update_show = false"
-          class="cancel"
-          style="width: 6vw"
-        >
-          取消
-        </el-button>
-        <el-button @click="update" class="comfirm" style="width: 6vw"
-          >确定</el-button
-        >
-      </span>
-    </template>
-  </el-dialog>
-
+  <form-dialog
+    width="40%"
+    v-model="isVisible.dialogUpdate"
+    title="修改"
+    align-center
+    :col="[{ label: '修改值', prop: 'value', type: 'string' }]"
+    @submit="handleUpdate"
+  />
   <!-- 新增 -->
-  <el-dialog v-model="dialogFormVisible" title="采购">
-    <el-form :model="add_form" style="display: flex; flex-wrap: wrap">
-      <el-form-item
-        :label="item.label"
-        :label-width="150"
-        v-for="item in <any>table_add.Gouxiaojilu"
-        :key="item.label"
-        style="width: 20vw; color: #000"
-        :prop="item.prop"
-      >
-        <el-input
-          v-model="add_form[item.prop]"
-          input-style="color:#000;border-color:#2f5496"
-          v-if="item.type == 'string' || item.type == 'number'"
-        />
-        <el-radio-group
-          v-model="add_form[item.prop]"
-          v-if="item.type == 'select'"
-        >
-          <el-radio
-            v-for="option in item.options"
-            :key="option.label"
-            :label="option.value"
-            >{{ option.label }}</el-radio
-          >
-        </el-radio-group>
-        <el-select
-          v-model="add_form[item.prop]"
-          multiple
-          placeholder="选择"
-          style="width: 240px"
-          v-if="item.type == 'multiselect'"
-        >
-          <el-option
-            v-for="option in multioptions[item.prop]"
-            :key="option.value"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
-        <el-select
-          v-model="add_form[item.prop]"
-          placeholder="选择"
-          style="width: 240px"
-          v-if="item.type == 'singleselect'"
-        >
-          <el-option
-            v-for="option in singleoptions[item.prop]"
-            :key="option.value"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button
-          @click="dialogFormVisible = false"
-          class="cancel"
-          style="width: 6vw"
-        >
-          取消
-        </el-button>
-        <el-button @click="modify" class="comfirm" style="width: 6vw">
-          确定
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
-
+  <form-dialog
+    width="80%"
+    v-model="isVisible.purchase"
+    :title="'采购'"
+    :col="Gouxiaojilu"
+    @close="isVisible.purchase = false"
+    @submit="(data) => purchase(data)"
+  />
+  <!-- 销售确认 -->
+  <form-dialog
+    width="80%"
+    v-model="isVisible.sale"
+    title="销售确认"
+    :col="Xiaoshouqueren"
+    @close="isVisible.sale = false"
+    @submit="saleConfirm()"
+  />
   <!-- 现货结算价 -->
-  <el-dialog v-model="dialogFormVisible1" title="现货结算价">
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button
-          @click="dialogFormVisible1 = false"
-          class="cancel"
-          style="width: 6vw"
-        >
-          取消
-        </el-button>
-        <el-button @click="modify1" class="comfirm" style="width: 6vw">
-          确定
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
-
-  <el-dialog v-model="dialogFormVisible2" title="汇率">
-    <el-form
-      :label-position="top"
-      label-width="100px"
-      :model="Huilv"
-      style="max-width: 460px"
-    >
-      <el-form-item label="汇率参考值">
-        <el-input v-model="Huilv.refvalue" />
-      </el-form-item>
-      <el-form-item label="本币结算价">
-        <el-input v-model="Huilv.finalvalue" />
-      </el-form-item>
-    </el-form>
-
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button
-          @click="dialogFormVisible2 = false"
-          class="cancel"
-          style="width: 6vw"
-        >
-          取消
-        </el-button>
-        <el-button @click="modify2" class="comfirm" style="width: 6vw">
-          确定
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
-
+  <form-dialog
+    width="80%"
+    v-model="isVisible.form1"
+    title="现货结算价"
+    :col="[{ label: '现货结算价', prop: 'value', type: 'string' }]"
+    @close="isVisible.form1 = false"
+    @submit="console.log"
+  />
+  <!-- 汇率 -->
+  <form-dialog
+    width="80%"
+    v-model="isVisible.form2"
+    title="汇率"
+    :col="[
+      { label: '汇率参考值', prop: 'refvalue', type: 'string' },
+      { label: '本币结算价', prop: 'finalvalue', type: 'string' }
+    ]"
+    @close="isVisible.form2 = false"
+    @submit="console.log"
+  />
   <div v-if="route.params.id === '1'">
-    <div class="table-area">
-      <TableFind :search_item="search_items.TradeInfo"></TableFind>
-      <Modify_table
-        :data="data"
-        :command="['采购', '发送完成交易确认']"
-        name="贸易记录"
-        id="trade1"
-        :col="table_col.TradeInfo"
-        @handle="handle"
-        @menu="menu"
-        @select="select"
-        :selectable="true"
-      >
-      </Modify_table>
-    </div>
-    <div class="table-area">
-      <TableFind :search_item="search_items.TradeInfo"></TableFind>
-      <div class="double-table">
-        <div class="left">
-          <Modify_table
-            :data="data1"
-            :command="['销售', '现货结算价', '导出']"
-            name="现货持仓"
-            id="trade2"
-            :col="table_col.PositionInfo"
-            @handle="handle1"
-            @select="select"
-            :selectable="true"
-            @menu="menu"
-            extend="操作"
-          >
-            <template #extend2="props">
-              <el-button style="height: 1.2vh" @click="test(props)"
-                >查库存</el-button
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['1-1']"
+          :command="['刷新', '采购', '发送成交确认']"
+          name="购销订单"
+          id="trade1"
+          :col="tableCol.TradeInfo"
+          :height="30"
+          :selectable="true"
+          :load="handleRefresh('1-1')"
+          @handle="(a:number)=>handle('1-1', a)"
+          @menu="menu"
+          @select="handleSelect"
+          v-loading="isLoading['1-1']"
+        >
+          <template #top>
+            <tableFind :form-data="data['1-1']" @submit="console.log" />
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['1-2']"
+          :command="['刷新', '销售', '现货结算价', '汇率', '导出']"
+          name="现货持仓"
+          id="trade2"
+          :col="tableCol.PositionInfo"
+          :hasfold="true"
+          :selectable="true"
+          :height="30"
+          :load="handleRefresh('1-2')"
+          @handle="(a: number) => handle('1-2', a)"
+          @select="handleSelect"
+          @menu="menu"
+          v-loading="isLoading['1-2']"
+        >
+          <template #top>
+            <tableFind />
+          </template>
+          <template #extend3="row">
+            <!-- <AFTableColumn label="订单浮盈" header-align="center">
+              <AFTableColumn label="成本价" prop="cprice"></AFTableColumn>
+              <AFTableColumn label="结算价"></AFTableColumn>
+              <AFTableColumn abel="浮盈"></AFTableColumn>
+              <AFTableColumn label="币种"></AFTableColumn>
+            </AFTableColumn>
+            <AFTableColumn label="进出口参考浮盈" header-align="center">
+              <AFTableColumn label="参考汇率" prop="order"></AFTableColumn>
+              <AFTableColumn label="进出口成本"></AFTableColumn>
+              <AFTableColumn label="结算价"></AFTableColumn>
+              <AFTableColumn label="浮盈"></AFTableColumn>
+              <AFTableColumn label="币种"></AFTableColumn>
+            </AFTableColumn> -->
+            <AFTableColumn :width="100" label="操作" fixed="right">
+              <el-button type="primary" link @click="console.log(row)"
+                >查看</el-button
               >
-            </template>
-          </Modify_table>
-        </div>
-
-        <div class="space"></div>
-        <div class="right">
-          <Modify_table
-            :data="data2"
-            :command="['汇率']"
-            name="进出口成本参考"
-            id="trade3"
-            :col="table_col.Tcost"
-            @handle="handle2"
-            @menu="menu"
-          ></Modify_table>
-        </div>
-      </div>
-    </div>
+            </AFTableColumn>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
   </div>
   <div v-if="route.params.id === '2'">
-    <div class="table-area">
-      <TableFind :search_item="search_items.TradeInfo"></TableFind>
-      <Modify_table
-        :data="data"
-        :command="['生成合同']"
-        name="购销记录"
-        id="trade1"
-        :col="table_col.Gouxiaojilu"
-        @handle="handle"
-        @menu="menu"
-        :selectable="true"
-      >
-      </Modify_table>
-    </div>
-    <div class="table-area">
-      <TableFind :search_item="search_items.TradeInfo"></TableFind>
-      <Modify_table
-        :data="data"
-        :command="['印花税付款', '合同归档']"
-        name="购销合同"
-        id="trade2"
-        :col="table_col.Gouxiaohetong"
-        @handle="handle1"
-        @menu="menu"
-        :selectable="true"
-      >
-      </Modify_table>
-    </div>
-    <div class="table-area">
-      <TableFind :search_item="search_items.TradeInfo"></TableFind>
-      <Modify_table
-        :data="data"
-        name="购销记录"
-        id="trade3"
-        :col="table_col.Yinhuashui"
-        @handle="handle2"
-        @menu="menu"
-      >
-      </Modify_table>
-    </div>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['2-1']"
+          :command="['刷新', '生成合同']"
+          name="购销订单"
+          id="trade1"
+          :col="tableCol.Gouxiaojilu"
+          @handle="handle"
+          @menu="menu"
+          :selectable="true"
+        >
+          <template #top>
+            <tableFind></tableFind>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['2-2']"
+          :command="['刷新', '印花税付款', '合同归档']"
+          name="购销合同"
+          id="trade2"
+          :col="tableCol.Gouxiaohetong"
+          @handle="(a:number)=>handle('2-2', a)"
+          @menu="menu"
+          :selectable="true"
+        >
+          <template #top>
+            <tableFind></tableFind>
+          </template>
+          <template #extend3>
+            <el-table-column label="合同扫描件" :width="120" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >上传</el-button
+                >
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
+            </el-table-column>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['2-3']"
+          :command="['刷新']"
+          name="印花税付款申请"
+          id="trade3"
+          :col="tableCol.Yinhuashui"
+          @handle="(a:number)=>handle('2-3', a)"
+          @menu="menu"
+        >
+          <template #top>
+            <tableFind></tableFind>
+          </template>
+          <template #extend3>
+            <el-table-column label="申请单扫描件" :width="120" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >上传</el-button
+                >
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
+            </el-table-column>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
   </div>
   <div v-if="route.params.id === '3'">
-    <div class="table-area">
-      <TableFind
-        :search_item="[
-          '交易日期',
-          '付款申请状态',
-          '合同签订状态',
-          '账套',
-          '业务部门',
-          '贸易商',
-          '贸易商部门',
-          '贸易类型',
-          '订单模式',
-          '交货方式',
-          '合同号',
-          '订单号'
-        ]"
-      ></TableFind>
-      <Modify_table
-        :data="data"
-        :command="['付款申请']"
-        name="采购记录"
-        id="trade1"
-        :col="table_col.Gouxiaojilu"
-        @handle="handle"
-        @menu="menu"
-      >
-      </Modify_table>
-    </div>
-    <div class="table-area">
-      <TableFind
-        :search_item="[
-          '付款申请日期',
-          '付款状态',
-          '账套',
-          '业务部门',
-          '付款状态',
-          '贸易商',
-          '付款申请单号'
-        ]"
-      ></TableFind>
-      <Modify_table
-        :data="data"
-        :command="[]"
-        name="购销合同"
-        id="trade2"
-        :col="table_col.Gouxiaohetong"
-        @handle="handle"
-        @menu="menu"
-      >
-      </Modify_table>
-    </div>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['3-1']"
+          :command="['刷新', '付款申请']"
+          name="采购订单"
+          id="trade1"
+          :col="tableCol.Caigoudingdan"
+          @handle="handle"
+          @menu="menu"
+        >
+          <template #top>
+            <tableFind
+              :search_item="[
+                '交易日期',
+                '付款申请状态',
+                '合同签订状态',
+                '账套',
+                '业务部门',
+                '贸易商',
+                '贸易商部门',
+                '贸易类型',
+                '订单模式',
+                '交货方式',
+                '合同号',
+                '订单号'
+              ]"
+            ></tableFind>
+          </template>
+          <template #extend3>
+            <el-table-column label="扫描件" :width="100" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
+            </el-table-column>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['3-2']"
+          :command="['刷新']"
+          name="采购付款申请记录"
+          id="trade2"
+          :col="tableCol.Caigoufukuanshenqingjilu"
+          @handle="handle"
+          @menu="menu"
+        >
+          <template #top>
+            <tableFind
+              :search_item="[
+                '付款申请日期',
+                '付款状态',
+                '账套',
+                '业务部门',
+                '付款状态',
+                '贸易商',
+                '付款申请单号'
+              ]"
+            ></tableFind>
+          </template>
+          <template #extend3>
+            <el-table-column label="申请单扫描件" :width="120" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >上传</el-button
+                >
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
+            </el-table-column>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
   </div>
   <div v-if="route.params.id === '4'">
-    <div class="table-area">
-      <TableFind
-        :search_item="[
-          '交易日期',
-          '收款状态',
-          '账套',
-          '业务部门',
-          '贸易商',
-          '贸易商',
-          '贸易商部门',
-          '合同号',
-          '订单号'
-        ]"
-      ></TableFind>
-      <Modify_table
-        :data="data"
-        :command="['']"
-        name="购销记录"
-        id="trade1"
-        :col="table_col.Gouxiaojilu"
-        @handle="handle"
-        @menu="menu"
-      >
-      </Modify_table>
-    </div>
-    <div class="table-area">
-      <TableFind
-        :search_item="[
-          '匹配状态',
-          '账套',
-          '业务部门',
-          '贸易商',
-          '收款确认单号',
-          '回单号'
-        ]"
-      ></TableFind>
-      <Modify_table
-        :data="data"
-        :command="['打印收款确认单']"
-        name="购销合同"
-        id="trade2"
-        :col="table_col.Gouxiaohetong"
-        @handle="handle"
-        @menu="menu"
-      >
-      </Modify_table>
-    </div>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['4-1']"
+          :command="['刷新']"
+          name="销售订单"
+          id="trade1"
+          :col="tableCol.Xiaoshoudingdan"
+          @handle="handle"
+          @menu="menu"
+        >
+          <template #top>
+            <tableFind></tableFind>
+          </template>
+          <template #extend3>
+            <el-table-column label="合同扫描件" :width="100" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
+            </el-table-column>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['4-2']"
+          :command="['刷新', '打印收款确认单']"
+          name="收款记录"
+          id="trade2"
+          :col="tableCol.Shoukuanjilu"
+          @handle="handle"
+          @menu="menu"
+        >
+          <template #top>
+            <tableFind></tableFind>
+            <el-button type="primary" plain>匹配</el-button>
+          </template>
+          <template #extend3>
+            <el-table-column label="回单扫描件" :width="100" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
+            </el-table-column>
+            <el-table-column label="确认单扫描件" :width="120" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >上传</el-button
+                >
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
+            </el-table-column>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
   </div>
   <div v-if="route.params.id === '5'">
-    <div class="table-area">
-      <TableFind
-        :search_item="[
-          '交易日期',
-          '余款对账状态',
-          '账套',
-          '业务部门',
-          '贸易商',
-          '贸易商部门',
-          '品种',
-          '规格',
-          '币种',
-          '订单号'
-        ]"
-      ></TableFind>
-      <Modify_table
-        :data="data"
-        :command="['余额对账']"
-        name="贸易记录"
-        id="trade3"
-        :col="table_col.Maoyijilu"
-        @handle="handle"
-        @menu="menu"
-      >
-      </Modify_table>
-    </div>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['5-1']"
+          :command="['刷新', '余款对账']"
+          name="购销订单"
+          id="trade3"
+          :col="tableCol.Gouxiaodingdan"
+          @handle="handle"
+          @menu="menu"
+        >
+          <template #top>
+            <tableFind></tableFind>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['5-2']"
+          :command="['刷新', '打印对账单']"
+          name="余款对账记录"
+          id="trade4"
+          :col="tableCol.Yukuanduizhang"
+          @handle="handle"
+          @menu="menu"
+        >
+          <template #top>
+            <tableFind></tableFind>
+          </template>
+          <template #extend3>
+            <el-table-column label="对账单扫描件" :width="120" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >上传</el-button
+                >
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
+            </el-table-column>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+  </div>
+  <div v-if="route.params.id === '6'">
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['6-1']"
+          :command="['刷新', '余款付款申请', '余款收款匹配']"
+          name="余款对账记录"
+          id="trade3"
+          :col="tableCol.Yukuanduizhang"
+          @handle="handle"
+          @menu="menu"
+        >
+          <template #top>
+            <tableFind></tableFind>
+          </template>
+          <template #extend3>
+            <el-table-column label="对账单扫描件" :width="120" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
+            </el-table-column>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['6-2']"
+          :command="['刷新', '打印付款申请单']"
+          name="余款付款申请记录"
+          id="trade4"
+          :col="tableCol.Yukuanfukuan"
+          @handle="handle"
+          @menu="menu"
+        >
+          <template #top>
+            <tableFind></tableFind>
+          </template>
+          <template #extend3>
+            <el-table-column label="申请单扫描件" :width="120" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >上传</el-button
+                >
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
+            </el-table-column>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['6-3']"
+          :command="['刷新', '打印收款申请单']"
+          name="收款记录"
+          id="trade4"
+          :col="tableCol.Shoukuanjilu"
+          @handle="handle"
+          @menu="menu"
+        >
+          <template #top>
+            <tableFind></tableFind>
+          </template>
+          <template #extend3>
+            <el-table-column label="回单扫描件" :width="100" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
+            </el-table-column>
+            <el-table-column label="确认单扫描件" :width="120" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >上传</el-button
+                >
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
+            </el-table-column>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+  </div>
+  <div v-if="route.params.id === '7'">
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['7-1']"
+          :command="['刷新', '发票确认']"
+          name="购销订单"
+          id="trade3"
+          :col="tableCol.Gouxiaodingdan"
+          @handle="handle"
+          @menu="menu"
+        >
+          <template #top>
+            <tableFind></tableFind>
+          </template>
+          <template #extend3>
+            <el-table-column label="扫描件" :width="120" fixed="right">
+              <template #default="scope">
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >上传</el-button
+                >
+                <el-button type="primary" link @click="console.log(scope.row)"
+                  >查看</el-button
+                >
+              </template>
+            </el-table-column>
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script lang="ts" setup>
-import Modify_table from '../../components/modify-table2.vue'
-import TableFind from '../../components/table-find.vue'
-import * as table_col from '../../assets/table_info/table-title'
-import { useRoute } from 'vue-router'
-import * as table_add from '../../assets/table_info/table-add'
+// **********
+// components
+// **********
+import AFTableColumn from '@/components/AFTableColumn.vue'
+import modifyTable from '@/components/modify-table2.vue'
+import tableFind from '@/components/table-find.vue'
+import formDialog from '../../components/form-dialog.vue'
+import formPopmenu from '../../components/form-popmenu.vue'
+import * as tableCol from '../../assets/table_info/table-title'
+import * as tradeAPI from '../../http/api/trade'
+import { Gouxiaojilu, Xiaoshouqueren } from '../../assets/table_info/table-add'
 import { ElMessage } from 'element-plus'
-import * as search_items from '../../assets/table_info/search_item'
-import * as table_get from '../../http/api/trade'
+import { useRoute } from 'vue-router'
 
-const route = useRoute()
-
-const test = (a: any) => {
-  console.log(a)
-}
-
-//右键修改逻辑
-let visible = ref(false)
-let left = ref()
-let top = ref()
-let mfrow = ref()
-let mfproperty = ref()
-const closeMenu = () => {
-  visible.value = false
-}
-
-watch(visible, (value) => {
-  if (value) {
-    document.body.addEventListener('click', closeMenu)
-  } else {
-    document.body.removeEventListener('click', closeMenu)
-  }
+// *********
+// variables
+// *********
+// table data
+let data: any = reactive({
+  '1-1': [],
+  '1-2': [],
+  '2-1': [],
+  '2-2': [],
+  '2-3': [],
+  '3-1': [],
+  '3-2': [],
+  '4-1': [],
+  '4-2': [],
+  '5-1': [],
+  '5-2': [],
+  '6-1': [],
+  '6-2': [],
+  '7-1': []
 })
-
-const menu = (name: any, row: any, col: any, event: any) => {
-  mfrow.value = row
-  mfproperty.value = col.property
-  left.value = event.pageX
-  top.value = event.pageY
-  visible.value = true
-}
-let update_show = ref(false)
 let updateform = reactive({
   value: ''
 })
-const handleUpdate = () => {
-  updateform.value = ''
-  update_show.value = true
+let isVisible = ref({
+  clickMenu: false,
+  dialogUpdate: false,
+  dialogDelete: false,
+  purchase: false,
+  sale: false,
+  form1: false,
+  form2: false
+})
+let isLoading: any = reactive({
+  '1-1': true,
+  '1-2': true
+})
+let selectData: any = reactive({
+  id: '',
+  rows: []
+})
+const route = useRoute()
+// menu vars & handlers
+const menuList = ref([
+  { prop: 'refresh', label: '刷新' },
+  { prop: 'update', label: '修改' },
+  { prop: 'delete', label: '删除' }
+])
+const position = ref({ x: 0, y: 0 })
+const handleCtxMenu = (menuLabel: string) => {
+  switch (menuLabel) {
+    case 'refresh':
+      handleRefresh('1-1')
+      break
+    case 'update':
+      isVisible.value.dialogUpdate = true
+      break
+    case 'delete':
+      isVisible.value.dialogDelete = true
+      break
+  }
+  isVisible.value.clickMenu = false
+  ElMessage({
+    message: '开发中：点击了' + menuLabel,
+    type: 'info'
+  })
 }
-const update = () => {
+const menu = (_a: any, _b: any, _c: any, event: any) => {
+  event.preventDefault()
+  position.value.x = event.clientX
+  position.value.y = event.clientY
+  isVisible.value.clickMenu = true
+  document.addEventListener('click', () => {
+    isVisible.value.clickMenu = false
+  })
+}
+// handlers for table commands
+const handle = (id: string, a: number) => {
+  switch (id) {
+    case '1-1':
+      switch (a) {
+        case 0:
+          isLoading[id] = true
+          handleRefresh('1-1')
+          break
+        case 1:
+          isVisible.value.purchase = true
+          break
+        case 2:
+          // TODO: 不知道这玩意是干啥的
+          if (selectData.rows.length > 0) {
+            console.log(selectData.rows)
+            ElMessage({
+              message: '已发送成交确认',
+              type: 'success'
+            })
+          } else {
+            ElMessage({
+              message: '请选择要确认的行',
+              type: 'warning'
+            })
+          }
+      }
+      break
+    case '1-2':
+      switch (a) {
+        case 0:
+          isLoading[id] = true
+          handleRefresh('1-2')
+          break
+        case 1:
+          if (selectData.rows.length == 0) {
+            ElMessage({
+              message: '请选择要确认的行',
+              type: 'warning'
+            })
+            return
+          } else if (selectData.rows.length > 1) {
+            for (let i = 0; i < selectData.rows.length - 1; i++) {
+              if (
+                selectData.rows[i].ledgerId !=
+                  selectData.rows[i + 1].ledgerId ||
+                selectData.rows[i].ourDeptId !=
+                  selectData.rows[i + 1].ourDeptId ||
+                selectData.rows[i].varietyId != selectData.rows[i + 1].varietyId
+              ) {
+                return ElMessage({
+                  message: '请选择同一品种同一部门同一客户的行',
+                  type: 'warning'
+                })
+              }
+            }
+            isVisible.value.sale = true
+          } else if (selectData.rows.length == 1) {
+            isVisible.value.sale = true
+          }
+          break
+        case 2:
+          isVisible.value.form1 = true
+          break
+        case 3:
+          isVisible.value.form2 = true
+          break
+        case 4:
+          ElMessage({
+            message: '导出成功',
+            type: 'success'
+          })
+          break
+      }
+  }
+}
+// refresh handlers for tables
+const handleRefresh = async (id: string) => {
+  let res: any = []
+  let part1: any, part2: any
+  switch (id) {
+    case '1-1':
+      res = await tradeAPI.getTrade(res)
+      break
+    case '1-2':
+      part1 = await tradeAPI.getPosition(res)
+      part2 = await tradeAPI.exportReferer(res)
+      res = {
+        data: part1.data.map((item: any, index: number) => {
+          return Object.assign(item, part2.data[index])
+        })
+      }
+      console.log(res)
+      break
+  }
+  if (res.data.length != 0) {
+    data[id].splice(0, data[id].length)
+    res.data.forEach((item: any) => {
+      data[id].push(item)
+    })
+  }
+  isLoading[id] = false
+}
+// handler for table row selects
+const handleSelect = (val: any, id: string) => {
+  selectData.id = id
+  selectData.rows = val
+}
+
+// ********************
+// main logic functions
+// ********************
+const purchase = (data: tradeAPI.purchaseTradeForm) => {
+  tradeAPI
+    .purchaseTrade(data)
+    .then(() => {
+      ElMessage({
+        message: '采购成功',
+        type: 'success'
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        message: '采购失败',
+        type: 'error'
+      })
+    })
+    .finally(() => (isVisible.value.purchase = false))
+}
+const saleConfirm = () => {
+  let request: tradeAPI.SaleConfirm = {
+    positionDtos: [],
+    tradePurchaseDto: selectData.rows[0]
+  }
+  const reqCopy = JSON.parse(JSON.stringify(request))
+  tradeAPI
+    .saleConfirm(reqCopy)
+    .then(() =>
+      ElMessage({
+        message: '销售确认成功',
+        type: 'success'
+      })
+    )
+    .catch(() =>
+      ElMessage({
+        message: '销售确认失败',
+        type: 'error'
+      })
+    )
+    .finally(() => (isVisible.value.sale = false))
+}
+const handleUpdate = () => {
+  isVisible.value.dialogUpdate = false
   ElMessage('更新' + updateform.value)
 }
-const handleFresh = () => {
-  ElMessage('刷新')
-}
-let delete_show = ref(false)
-const handleDelete = () => {
-  delete_show.value = true
-}
 const deletebyid = () => {
-  ElMessage('删除' + mfrow)
+  isVisible.value.dialogDelete = false
+  ElMessage('删除' + selectData.value)
 }
-let data = ref([])
-let form: any = {}
-table_get.get_Trade(form).then((res) => {
-  data.value = res.data
-})
-
-let form1: any = {}
-
-let data1 = reactive([])
-
-table_get.get_Position(form1).then((res) => {
-  console.log(res.data)
-})
-
-let data2 = reactive([])
-let form2: any = {}
-
-table_get.get_Tcost(form2).then((res) => {
-  console.log(res)
-})
-
-//新增功能
-let singleoptions: any = reactive([])
-let multioptions: any = reactive([])
-let dialogFormVisible = ref(false)
-let add_form: any = reactive({})
-const add = () => {
-  // init add form
-  for (let key in add_form) {
-    delete add_form[key]
-  }
-  for (let item = 0; item < table_add.Gouxiaojilu.length; item++) {
-    add_form[table_add.Gouxiaojilu[item].prop] = ''
-  }
-  dialogFormVisible.value = true
-}
-
-const modify = () => {
-  ElMessage({
-    message: '采购',
-    type: 'success'
+// ***************
+// startup actions
+// ***************
+const init = async () => {
+  // initiate form options
+  const companyId: any = await tradeAPI.getCompanyList(1)
+  let companyDept: any = []
+  const ledgerId: any = await tradeAPI.getCompanyList(2)
+  let ledgerDept: any = []
+  const varietyId: any = await tradeAPI.getVariety()
+  let gradeId: any = []
+  const currencyId: any = await tradeAPI.getCurrency()
+  let trademarkId: any = []
+  const orderId: any = await tradeAPI.getOrder()
+  companyId.forEach(async (item: any) => {
+    const res: any = await tradeAPI.getCompanyDept(1, item.id)
+    companyDept.push({
+      label: item.shortname,
+      options: res.map((r: any) => {
+        return { value: r.id, label: r.name }
+      })
+    })
   })
-  dialogFormVisible.value = false
-}
-//发送交易确认
-const send = () => {
-  ElMessage({
-    message: '发送交易确认',
-    type: 'success'
+  ledgerId.forEach(async (item: any) => {
+    const res: any = await tradeAPI.getCompanyDept(2, item.id)
+    ledgerDept.push({
+      label: item.shortname,
+      options: res.map((r: any) => {
+        return { value: r.id, label: r.shortname }
+      })
+    })
   })
-}
-//现货结算
-let dialogFormVisible1 = ref(false)
-const calculate = () => {
-  dialogFormVisible1.value = true
-}
-
-const modify1 = () => {
-  ElMessage({
-    message: '结算',
-    type: 'success'
+  varietyId.forEach(async (item: any) => {
+    const res: any = await tradeAPI.getGrade(item.id)
+    gradeId.push({
+      label: item.name,
+      options: res.map((r: any) => {
+        return { value: r.id, label: r.name }
+      })
+    })
   })
-}
-//现货持仓导出
-const xianhuoexport = () => {
-  ElMessage({
-    message: '导出现货持仓表格',
-    type: 'success'
+  currencyId.forEach(async (item: any) => {
+    const res: any = await tradeAPI.getTrademark(item.id)
+    trademarkId.push({
+      label: item.name,
+      options: res.map((r: any) => {
+        return { value: r.id, label: r.name }
+      })
+    })
   })
-}
-
-//汇率
-let Huilv = reactive({
-  refvalue: '',
-  finalvalue: ''
-})
-let dialogFormVisible2 = ref(false)
-const calfpl = () => {
-  dialogFormVisible2.value = true
-}
-const modify2 = () => {
-  ElMessage({
-    message: '计算fpl',
-    type: 'success'
-  })
-}
-
-// 选取功能
-let select_list: any = ref([])
-let select_list1: any = ref([])
-const select = (val: any, id: string) => {
-  if (id == 'trade') select_list.value = val
-  if (id == 'trade1') select_list1.value = val
-}
-
-const handle = (a: number) => {
-  if (route.params.id == '1') {
-    switch (a) {
-      case 0:
-        add()
-        break
-      case 1:
-        send()
-        console.log(select_list)
-        break
+  Gouxiaojilu.map((item) => {
+    if (item.prop == 'ledgerId') {
+      item.options = companyId.map((i: any) => {
+        return { value: i.id, label: i.shortname }
+      })
+    } else if (item.prop == 'ourDeptId') {
+      item.options = companyDept
+    } else if (item.prop == 'companyId') {
+      item.options = ledgerId.map((i: any) => {
+        return { value: i.id, label: i.shortname }
+      })
+    } else if (item.prop == 'companyDeptId') {
+      item.options = ledgerDept
+    } else if (item.prop == 'varietyId') {
+      item.options = varietyId.map((i: any) => {
+        return { value: i.id, label: i.name }
+      })
+    } else if (item.prop == 'gradeId') {
+      item.options = gradeId
+    } else if (item.prop == 'currencyId') {
+      item.options = currencyId.map((i: any) => {
+        return { value: i.id, label: i.name }
+      })
+    } else if (item.prop == 'trademarkId') {
+      item.options = trademarkId
+    } else if (item.prop == 'orderId') {
+      item.options = orderId.map((i: any) => {
+        return { value: i.id, label: i.mode }
+      })
     }
-  }
+  })
+  console.log('init success')
 }
-const handle1 = (a: number) => {
-  if (route.params.id == '1') {
-    switch (a) {
-      case 0:
-        ElMessage({
-          message: '销售',
-          type: 'success'
-        })
-        console.log(select_list1)
-        break
-      case 1:
-        calculate()
-        break
-      case 2:
-        xianhuoexport()
-        break
-    }
-  }
-}
-const handle2 = (a: number) => {
-  if (route.params.id == '1') {
-    switch (a) {
-      case 0:
-        calfpl()
-        break
-    }
-  }
-}
+init()
 </script>
-
-<style lang="less" scoped>
-.contextmenu {
-  position: absolute;
-  z-index: 3000;
-  padding: 5px 0;
-  margin: 0;
-  font-size: 12px;
-  color: #333;
-  background: #fff;
-  border-radius: 4px;
-  box-shadow: 2px 2px 3px 0 rgb(0 0 0 / 30%);
-  list-style-type: none;
-  font-weight: 400;
-}
-
-.contextmenu li {
-  padding: 7px 16px;
-  margin: 0;
-  cursor: pointer;
-}
-
-.table-area {
-  padding: 10px;
-  margin: 0 auto;
-  margin-top: 3vh;
-  width: 99vw;
-  border: 1px solid #000;
-}
-
-.double-table {
-  display: flex;
-  margin: 0 auto;
-  width: 99vw;
-
-  .left {
-    width: 76%;
-  }
-
-  .space {
-    width: 2%;
-  }
-
-  .right {
-    width: 22%;
-  }
-}
-</style>

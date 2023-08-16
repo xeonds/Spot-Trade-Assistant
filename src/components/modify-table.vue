@@ -43,7 +43,7 @@
           <el-input
             v-model="add_form[item.prop]"
             v-if="item.type == 'string' || item.type == 'number'"
-            input-style="color:#000;border-color:'#2f5496'"
+            input-style="color:#000;border-color:'var(--el-color-primary)'"
           />
           <el-radio-group
             v-model="add_form[item.prop]"
@@ -111,7 +111,7 @@
         >
           <el-input
             v-model="add_form[item.prop]"
-            input-style="color:#000;border-color:#2f5496"
+            input-style="color:#000;border-color:var(--el-color-primary)"
             v-if="item.type == 'string' || item.type == 'number'"
           />
           <el-radio-group
@@ -567,9 +567,9 @@ l {
   cursor: pointer;
   padding: 0.5vh 0.8vw;
   margin-right: 1vw;
-  color: #2f5496;
+  color: var(--el-color-primary);
   background-color: #fff;
-  border: 1.5px solid #2f5496;
+  border: 1.5px solid var(--el-color-primary);
   border-radius: 5px;
   &:hover {
     background-color: #cddcf5;
@@ -580,8 +580,8 @@ l {
   cursor: pointer;
   padding: 0.5vh 0.8vw;
   color: #fff;
-  background-color: #2f5496;
-  border: 1.5px solid #2f5496;
+  background-color: var(--el-color-primary);
+  border: 1.5px solid var(--el-color-primary);
   border-radius: 5px;
   &:hover {
     background-color: #007eba;
