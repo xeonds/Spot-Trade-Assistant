@@ -28,7 +28,8 @@ module.exports = {
     '**/style/*.css',
     '**/main-table.vue',
     '**/modify-table.vue',
-    '**/head-line.vue'
+    '**/head-line.vue',
+    '**/system-main.vue'
   ],
   rules: {
     'no-descending-specificity': null, // 禁止在具有较高优先级的选择器后出现被其覆盖的较低优先级的选择器

@@ -359,5 +359,3 @@ const handle3 = (a: number) => {
   console.log(a)
 }
 </script>
-
-<style lang="less" scoped></style>

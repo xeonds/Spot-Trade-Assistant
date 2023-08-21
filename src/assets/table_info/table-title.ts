@@ -276,7 +276,6 @@ export const TradeInfo = [
 
 export const PositionInfo = [
   { prop: 'id', fold: false, hidden: true },
-  { label: '查看库存明细', fold: true },
   { prop: 'date', label: '采购日期', fold: false },
   { prop: 'ledger', label: '账套', fold: false },
   { prop: 'ourdept', label: '业务部门', fold: false },
