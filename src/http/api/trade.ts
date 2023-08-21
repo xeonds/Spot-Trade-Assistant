@@ -175,104 +175,73 @@ interface Position {
   /**
    * 关联币种表 id
    */
-  currency: string
+  currency?: string
   /**
    * 采购日期
    */
-  date: string
+  date?: string
   /**
    * 交收方式deliver，枚举1(1现货spot、2远期forward)
    */
-  deliver: string
+  deliver?: string
   /**
    * 关联规格表 id，可取品种、重量单位、增值税率值
    */
-  grade: string
+  grade?: string
   /**
    * 关联公司表 type="本公司账套" id
    */
-  ledger: string
+  ledger?: string
   /**
    * 排序方式 asc/desc
    */
-  order: string
+  order?: string
   /**
    * 关联订单模式表 id (1一般、2保证金、3长单、4盘多库存)
    */
-  orderId: string
+  orderId?: string
   /**
    * 关联本公司部门表 id
    */
-  ourdept: string
+  ourdept?: string
   /**
    * 页号
    */
-  pageNumber: string
+  pageNumber?: string
   /**
    * 页面大小
    */
-  pageSize: string
+  pageSize?: string
   /**
    * 购销，(1采购purchase、2销售sales)
    */
-  ps: string
+  ps?: string
   /**
    * 排序字段
    */
-  sort: string
+  sort?: string
   /**
    * 关联贸易表 id，(贸易表（购）/持仓表：一对多，因外贸转进口)
    */
-  trade: string
+  trade?: string
   /**
    * 关联商标表 id
    */
-  trademark: string
+  trademark?: string
   /**
    * 贸易类型，枚举1(1内贸、2外贸、3进口、4出口)
    */
-  type: string
+  type?: string
   /**
    * 关联品种表 id
    */
-  varietyId: string
+  varietyId?: string
 }
 
 export const getPosition = (form: Position) => {
   return serviceAxios({
     method: 'GET',
     url: '/trade/position/page',
-    params: form
-  })
-}
-
-interface Tcost {
-  /**
-   * 排序方式 asc/desc
-   */
-  order: string
-  /**
-   * 页号
-   */
-  pageNumber: string
-  /**
-   * 页面大小
-   */
-  pageSize: string
-  /**
-   * 关联持仓表 cur=外币 id (持仓表/进口成本参考价表)
-   */
-  positionCur: string
-  /**
-   * 排序字段
-   */
-  sort: string
-}
-
-export const get_Tcost = (form: Tcost) => {
-  return serviceAxios({
-    method: 'GET',
-    url: '/trade/importcost/page',
     params: form
   })
 }
@@ -330,8 +299,8 @@ export const getOrder = () => {
  * TradeSaleDto
  */
 export interface SaleConfirm {
-  positionDtos?: PositionDto[]
-  tradePurchaseDto?: TradePurchaseDto
+  positionDtos: PositionDto[]
+  tradePurchaseDto: TradePurchaseDto
 }
 
 /**
@@ -431,7 +400,6 @@ export interface TradePurchaseDto {
 }
 
 export const saleConfirm = (form: SaleConfirm) => {
-  console.log(form)
   return serviceAxios({
     method: 'POST',
     url: `/trade/sale`,
@@ -466,6 +434,73 @@ export const exportReferer = (form: ExportReferer) => {
   return serviceAxios({
     method: 'GET',
     url: `/trade/importcost/page`,
+    params: form
+  })
+}
+
+export const get_sprice = () => {
+  return serviceAxios({
+    method: 'GET',
+    url: '/trade/sprice'
+  })
+}
+
+export interface SPRICE {
+  /**
+   * id
+   */
+  id?: number
+  /**
+   * 进出口结算价
+   */
+  settleprice?: number
+  /**
+   * 订单币种结算价 currency settle price
+   */
+  sprice?: number
+}
+
+export const put_sprice = (form: SPRICE[]) => {
+  return serviceAxios({
+    method: 'PUT',
+    url: '/trade/sprice',
+    data: form
+  })
+}
+export interface IMPORT {
+  /**
+   * 汇率参考值，输入值
+   */
+  exrate?: number
+  /**
+   * id
+   */
+  id?: number
+}
+
+export const put_import = (form: IMPORT[]) => {
+  return serviceAxios({
+    method: 'PUT',
+    url: '/trade/import',
+    data: form
+  })
+}
+
+export const get_import = () => {
+  return serviceAxios({
+    method: 'GET',
+    url: '/trade/import'
+  })
+}
+
+export interface Check {
+  positionId?: number
+}
+
+export const get_check = (form: Check) => {
+  return serviceAxios({
+    method: 'GET',
+    url: '/trade/check',
     params: form
   })
 }

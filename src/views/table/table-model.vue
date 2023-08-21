@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <el-col :span="24">
-      <Table
+      <MainTable
         id="table-model"
         :col="table_col.ModelInfo"
         :table_data="data"
@@ -36,7 +36,7 @@
             </template>
           </el-table-column>
         </template>
-      </Table>
+      </MainTable>
     </el-col>
   </el-row>
   <el-dialog
@@ -54,7 +54,7 @@
           :key="index"
           style="width: 100%"
         >
-          <div style="width: 100%; padding-bottom: 1rem">
+          <div style="padding-bottom: 1rem; width: 100%">
             <div style="display: flex; flex-flow: row">
               <el-input
                 v-model="form_data.clauses[index]"
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import Table from '../../components/main-table.vue'
+import MainTable from '../../components/main-table.vue'
 import * as table_col from '../../assets/table_info/table-title'
 import * as table_add from '../../assets/table_info/table-add'
 import serviceAxios from '../../http'
@@ -196,7 +196,7 @@ export default {
     this.getName()
   },
   components: {
-    Table_1: Table
+    MainTable
   },
   watch: {
     $route(to, _from) {

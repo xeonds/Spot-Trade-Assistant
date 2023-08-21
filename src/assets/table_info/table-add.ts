@@ -601,15 +601,6 @@ export const Gouxiaojilu = [
     prop: 'companyDeptId'
   },
   {
-    prop: 'ps',
-    label: '购/销',
-    type: 'select',
-    options: [
-      { label: '类型1', value: 0 },
-      { label: '类型2', value: 1 }
-    ]
-  },
-  {
     label: '品种',
     prop: 'varietyId',
     type: 'single-select'
@@ -691,9 +682,107 @@ export const Gouxiaojilu = [
 
 export const Xiaoshouqueren = [
   {
-    label: '是否确认销售？',
-    prop: '销售确认',
-    type: 'label'
+    prop: 'date',
+    label: '交易日期',
+    type: 'date'
+  },
+  {
+    label: '账套',
+    type: 'single-select',
+    prop: 'ledgerId'
+  },
+  {
+    label: '业务部门',
+    type: 'single-select-cascader',
+    prop: 'ourDeptId'
+  },
+  {
+    label: '贸易商',
+    type: 'single-select',
+    prop: 'companyId'
+  },
+  {
+    label: '贸易商部门',
+    type: 'single-select-cascader',
+    prop: 'companyDeptId'
+  },
+  {
+    label: '品种',
+    prop: 'varietyId',
+    type: 'single-select'
+  },
+  {
+    label: '规格',
+    type: 'single-select-cascader',
+    prop: 'gradeId'
+  },
+  {
+    label: '品牌',
+    type: 'single-select-cascader',
+    prop: 'trademarkId'
+  },
+  {
+    label: '数量',
+    type: 'number',
+    prop: 'realqty'
+  },
+  {
+    label: '重量单位',
+    prop: 'unit',
+    type: 'select',
+    options: [
+      { label: '类型1', value: 0 },
+      { label: '类型2', value: 1 }
+    ]
+  },
+  {
+    label: '成交金额',
+    type: 'number',
+    prop: 'amount',
+    hidden: true
+  },
+  {
+    label: '订单价格',
+    type: 'number',
+    prop: 'atPrice'
+  },
+  {
+    label: '交货方式',
+    type: 'select',
+    prop: 'deliver',
+    options: [
+      { label: '类型1', value: 0 },
+      { label: '类型2', value: 1 }
+    ]
+  },
+  {
+    label: '贸易类型',
+    prop: 'pattern',
+    type: 'select',
+    options: [
+      { label: '类型1', value: 0 },
+      { label: '类型2', value: 1 }
+    ]
+  },
+  {
+    label: '实收付金额',
+    type: 'number',
+    prop: 'actAmount'
+  },
+  {
+    label: '订单币种',
+    type: 'single-select',
+    prop: 'currencyId'
+  },
+  {
+    label: '订单模式',
+    type: 'single-select',
+    prop: 'orderId'
+  },
+  {
+    label: '增值税率',
+    prop: 'vat',
+    type: 'number'
   }
 ]
 

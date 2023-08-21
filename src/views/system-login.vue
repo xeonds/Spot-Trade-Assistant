@@ -104,6 +104,7 @@ if (loginStatusJudge()) {
   width: 100vw;
   height: 80vh;
   flex-flow: row;
+
   .content {
     .login {
       display: flex;

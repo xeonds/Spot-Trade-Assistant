@@ -16,11 +16,11 @@
       <div
         style="
           display: flex;
-          flex-flow: row;
-          align-items: center;
           justify-content: space-between;
+          align-items: center;
           margin-bottom: 0.5rem;
           width: 100%;
+          flex-flow: row;
         "
       >
         <div>
