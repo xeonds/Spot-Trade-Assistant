@@ -263,6 +263,8 @@ const change_status = (id: string) => {
 
 <style lang="less" scoped>
 .main {
+  box-shadow: none;
+
   .card-header {
     .title {
       font-size: 1.4rem;
