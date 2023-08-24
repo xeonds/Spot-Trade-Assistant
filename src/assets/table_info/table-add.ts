@@ -583,36 +583,39 @@ export const Gouxiaojilu = [
   {
     label: '账套',
     type: 'single-select',
-    prop: 'ledgerId'
+    prop: 'ledgerId',
+    flag: 'GJ-1'
   },
   {
     label: '业务部门',
-    type: 'single-select-cascader',
+    type: 'single-select',
     prop: 'ourDeptId'
   },
   {
     label: '贸易商',
     type: 'single-select',
-    prop: 'companyId'
+    prop: 'companyId',
+    flag: 'GJ-2'
   },
   {
     label: '贸易商部门',
-    type: 'single-select-cascader',
+    type: 'single-select',
     prop: 'companyDeptId'
   },
   {
     label: '品种',
     prop: 'varietyId',
-    type: 'single-select'
+    type: 'single-select',
+    flag: 'GJ-3'
   },
   {
     label: '规格',
-    type: 'single-select-cascader',
+    type: 'single-select',
     prop: 'gradeId'
   },
   {
     label: '品牌',
-    type: 'single-select-cascader',
+    type: 'single-select',
     prop: 'trademarkId'
   },
   {
@@ -689,36 +692,39 @@ export const Xiaoshouqueren = [
   {
     label: '账套',
     type: 'single-select',
-    prop: 'ledgerId'
+    prop: 'ledgerId',
+    flag: 'XS-1'
   },
   {
     label: '业务部门',
-    type: 'single-select-cascader',
+    type: 'single-select',
     prop: 'ourDeptId'
   },
   {
     label: '贸易商',
     type: 'single-select',
-    prop: 'companyId'
+    prop: 'companyId',
+    flag: 'XS-2'
   },
   {
     label: '贸易商部门',
-    type: 'single-select-cascader',
+    type: 'single-select',
     prop: 'companyDeptId'
   },
   {
     label: '品种',
     prop: 'varietyId',
-    type: 'single-select'
+    type: 'single-select',
+    flag: 'XS-3'
   },
   {
     label: '规格',
-    type: 'single-select-cascader',
+    type: 'single-select',
     prop: 'gradeId'
   },
   {
     label: '品牌',
-    type: 'single-select-cascader',
+    type: 'single-select',
     prop: 'trademarkId'
   },
   {

@@ -36,18 +36,28 @@
     width="80%"
     v-model="isVisible.purchase"
     :title="'采购'"
-    :col="Gouxiaojilu"
+    :col="Gouxiaojilu_local"
     @close="isVisible.purchase = false"
     @submit="(data) => purchase(data)"
+    @write="
+      (flag, val) => {
+        handle_load(flag, val)
+      }
+    "
   />
   <!-- 销售确认 -->
   <form-dialog
     width="80%"
     v-model="isVisible.sale"
     title="销售确认"
-    :col="Xiaoshouqueren"
+    :col="Xiaoshouqueren_local"
     @close="isVisible.sale = false"
     @submit="(data) => saleConfirm(data)"
+    @write="
+      (flag, val) => {
+        handle_load(flag, val)
+      }
+    "
   />
   <!-- 现货结算价 -->
   <el-dialog
@@ -125,7 +135,7 @@
           :col="tableCol.TradeInfo"
           :height="30"
           :selectable="true"
-          @load="handleRefresh('1-1')"
+          @load="handlepageload('1-1')"
           @handle="(a:number)=>handle('1-1', a)"
           @menu="menu"
           @select="handleSelect"
@@ -148,11 +158,11 @@
           :hasfold="true"
           :selectable="true"
           :height="30"
-          @load="handleRefresh('1-2')"
+          @load="handlepageload('1-2')"
           @handle="(a: number) => handle('1-2', a)"
           @select="handleSelect"
           @menu="menu"
-          @expand-change="(row) => get_detail(row)"
+          @expand-change="(row:any) => get_detail(row)"
           v-loading="isLoading['1-2']"
         >
           <template #top>
@@ -183,6 +193,26 @@ import { useRoute } from 'vue-router'
 // *********
 // variables
 // *********
+// pagenumber
+let pagenumber: any = reactive({
+  '1-1': 0,
+  '1-2': 0,
+  '1-2-1': 0,
+  '1-2-2': 0,
+  '2-1': 0,
+  '2-2': 0,
+  '2-3': 0,
+  '3-1': 0,
+  '3-2': 0,
+  '4-1': 0,
+  '4-2': 0,
+  '5-1': 0,
+  '5-2': 0,
+  '6-1': 0,
+  '6-2': 0,
+  '7-1': 0
+})
+
 // table data
 let data: any = reactive({
   '1-1': [],
@@ -369,28 +399,53 @@ const handle = (id: string, a: number) => {
   }
 }
 // refresh handlers for tables
-const handleRefresh = async (id: string) => {
+// page
+
+const handlepageload = async (id: string) => {
   let res: any = []
   switch (id) {
     case '1-1':
+      pagenumber['1-1'] = pagenumber['1-1'] + 1
       res = await tradeAPI.getTrade({
         ps: '1',
-        pageNumber: '1',
-        pageSize: '10'
+        pageNumber: pagenumber['1-1'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
       })
       break
     case '1-2':
-      res = await tradeAPI.getPosition({ pageNumber: '1', pageSize: '10' })
+      pagenumber['1-2'] = pagenumber['1-2'] + 1
+      res = await tradeAPI.getPosition({
+        pageNumber: pagenumber['1-2'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
       break
   }
   if (res.data.length != 0) {
-    data[id].splice(0, data[id].length)
     res.data.forEach((item: any) => {
       data[id].push(item)
     })
   }
   isLoading[id] = false
 }
+
+const handleRefresh = (id: string) => {
+  let res: any = []
+  switch (id) {
+    case '1-1':
+      pagenumber['1-1'] = 0
+      break
+    case '1-2':
+      pagenumber['1-2'] = 0
+      break
+  }
+  data[id].length = 0
+  handlepageload(id)
+}
+
 // handler for table row selects
 const handleSelect = (val: any, id: string) => {
   selectData.id = id
@@ -522,6 +577,9 @@ const get_detail = (row) => {
 // ***************
 // startup actions
 // ***************
+let Gouxiaojilu_local = reactive(Gouxiaojilu)
+let Xiaoshouqueren_local = reactive(Xiaoshouqueren)
+
 const init = async () => {
   // initiate form options
   if (route.params.id === '1') {
@@ -534,107 +592,173 @@ const init = async () => {
     const currencyId: any = await tradeAPI.getCurrency()
     let trademarkId: any = []
     const orderId: any = await tradeAPI.getOrder()
-    companyId.forEach(async (item: any) => {
-      const res: any = await tradeAPI.getCompanyDept(1, item.id)
-      companyDept.push({
-        label: item.shortname,
-        options: res.map((r: any) => {
-          return { value: r.id, label: r.name }
-        })
-      })
-    })
-    ledgerId.forEach(async (item: any) => {
-      const res: any = await tradeAPI.getCompanyDept(2, item.id)
-      ledgerDept.push({
-        label: item.shortname,
-        options: res.map((r: any) => {
-          return { value: r.id, label: r.shortname }
-        })
-      })
-    })
-    varietyId.forEach(async (item: any) => {
-      const res: any = await tradeAPI.getGrade(item.id)
-      gradeId.push({
-        label: item.name,
-        options: res.map((r: any) => {
-          return { value: r.id, label: r.name }
-        })
-      })
-    })
-    currencyId.forEach(async (item: any) => {
-      const res: any = await tradeAPI.getTrademark(item.id)
-      trademarkId.push({
-        label: item.name,
-        options: res.map((r: any) => {
-          return { value: r.id, label: r.name }
-        })
-      })
-    })
-    Gouxiaojilu.map((item) => {
-      if (item.prop == 'ledgerId') {
-        item.options = companyId.map((i: any) => {
+
+    for (let j = 0; j < Gouxiaojilu_local.length; j++) {
+      if (Gouxiaojilu_local[j].prop == 'ledgerId') {
+        Gouxiaojilu_local[j].options = companyId.map((i: any) => {
           return { value: i.id, label: i.shortname }
         })
-      } else if (item.prop == 'ourDeptId') {
-        item.options = companyDept
-      } else if (item.prop == 'companyId') {
-        item.options = ledgerId.map((i: any) => {
+      } else if (Gouxiaojilu_local[j].prop == 'ourDeptId') {
+        Gouxiaojilu_local[j].options = companyDept
+      } else if (Gouxiaojilu_local[j].prop == 'companyId') {
+        Gouxiaojilu_local[j].options = ledgerId.map((i: any) => {
           return { value: i.id, label: i.shortname }
         })
-      } else if (item.prop == 'companyDeptId') {
-        item.options = ledgerDept
-      } else if (item.prop == 'varietyId') {
-        item.options = varietyId.map((i: any) => {
+      } else if (Gouxiaojilu_local[j].prop == 'companyDeptId') {
+        Gouxiaojilu_local[j].options = ledgerDept
+      } else if (Gouxiaojilu_local[j].prop == 'varietyId') {
+        Gouxiaojilu_local[j].options = varietyId.map((i: any) => {
           return { value: i.id, label: i.name }
         })
-      } else if (item.prop == 'gradeId') {
-        item.options = gradeId
-      } else if (item.prop == 'currencyId') {
-        item.options = currencyId.map((i: any) => {
+      } else if (Gouxiaojilu_local[j].prop == 'gradeId') {
+        Gouxiaojilu_local[j].options = gradeId
+      } else if (Gouxiaojilu_local[j].prop == 'currencyId') {
+        Gouxiaojilu_local[j].options = currencyId.map((i: any) => {
           return { value: i.id, label: i.name }
         })
-      } else if (item.prop == 'trademarkId') {
-        item.options = trademarkId
-      } else if (item.prop == 'orderId') {
-        item.options = orderId.map((i: any) => {
+      } else if (Gouxiaojilu_local[j].prop == 'trademarkId') {
+        Gouxiaojilu_local[j].options = trademarkId
+      } else if (Gouxiaojilu_local[j].prop == 'orderId') {
+        Gouxiaojilu_local[j].options = orderId.map((i: any) => {
           return { value: i.id, label: i.mode }
         })
       }
-    })
-    Xiaoshouqueren.map((item) => {
-      if (item.prop == 'ledgerId') {
-        item.options = companyId.map((i: any) => {
+    }
+
+    for (let j = 0; j < Xiaoshouqueren_local.length; j++) {
+      if (Xiaoshouqueren_local[j].prop == 'ledgerId') {
+        Xiaoshouqueren_local[j].options = companyId.map((i: any) => {
           return { value: i.id, label: i.shortname }
         })
-      } else if (item.prop == 'ourDeptId') {
-        item.options = companyDept
-      } else if (item.prop == 'companyId') {
-        item.options = ledgerId.map((i: any) => {
+      } else if (Xiaoshouqueren_local[j].prop == 'ourDeptId') {
+        Xiaoshouqueren_local[j].options = companyDept
+      } else if (Xiaoshouqueren_local[j].prop == 'companyId') {
+        Xiaoshouqueren_local[j].options = ledgerId.map((i: any) => {
           return { value: i.id, label: i.shortname }
         })
-      } else if (item.prop == 'companyDeptId') {
-        item.options = ledgerDept
-      } else if (item.prop == 'varietyId') {
-        item.options = varietyId.map((i: any) => {
+      } else if (Xiaoshouqueren_local[j].prop == 'companyDeptId') {
+        Xiaoshouqueren_local[j].options = ledgerDept
+      } else if (Xiaoshouqueren_local[j].prop == 'varietyId') {
+        Xiaoshouqueren_local[j].options = varietyId.map((i: any) => {
           return { value: i.id, label: i.name }
         })
-      } else if (item.prop == 'gradeId') {
-        item.options = gradeId
-      } else if (item.prop == 'currencyId') {
-        item.options = currencyId.map((i: any) => {
+      } else if (Xiaoshouqueren_local[j].prop == 'gradeId') {
+        Xiaoshouqueren_local[j].options = gradeId
+      } else if (Xiaoshouqueren_local[j].prop == 'currencyId') {
+        Xiaoshouqueren_local[j].options = currencyId.map((i: any) => {
           return { value: i.id, label: i.name }
         })
-      } else if (item.prop == 'trademarkId') {
-        item.options = trademarkId
-      } else if (item.prop == 'orderId') {
-        item.options = orderId.map((i: any) => {
+      } else if (Xiaoshouqueren_local[j].prop == 'trademarkId') {
+        Xiaoshouqueren_local[j].options = trademarkId
+      } else if (Xiaoshouqueren_local[j].prop == 'orderId') {
+        Xiaoshouqueren_local[j].options = orderId.map((i: any) => {
           return { value: i.id, label: i.mode }
         })
       }
-    })
+    }
   }
 
   console.log('init success')
+}
+
+const handle_load = (flag: string, val: any) => {
+  switch (flag) {
+    case 'GJ-1':
+      tradeAPI.getCompanyDept(1, val).then((res: any) => {
+        for (let j = 0; j < Gouxiaojilu_local.length; j++) {
+          if (Gouxiaojilu_local[j].prop == 'ourDeptId') {
+            Gouxiaojilu_local[j].options = res.map((r: any) => {
+              return { value: r.id, label: r.name }
+            })
+          }
+        }
+      })
+
+      break
+    case 'GJ-2':
+      tradeAPI.getCompanyDept(2, val).then((res: any) => {
+        for (let j = 0; j < Gouxiaojilu_local.length; j++) {
+          if (Gouxiaojilu_local[j].prop == 'companyDeptId') {
+            Gouxiaojilu_local[j].options = res.map((r: any) => {
+              return { value: r.id, label: r.name }
+            })
+          }
+        }
+      })
+
+      break
+    case 'GJ-3':
+      tradeAPI
+        .getTrademark(val)
+        .then((res: any) => {
+          for (let j = 0; j < Gouxiaojilu_local.length; j++) {
+            if (Gouxiaojilu_local[j].prop == 'trademarkId') {
+              Gouxiaojilu_local[j].options = res.map((r: any) => {
+                return { value: r.id, label: r.name }
+              })
+            }
+          }
+          return tradeAPI.getGrade(val)
+        })
+        .then((res: any) => {
+          for (let j = 0; j < Gouxiaojilu_local.length; j++) {
+            if (Gouxiaojilu_local[j].prop == 'gradeId') {
+              Gouxiaojilu_local[j].options = res.map((r: any) => {
+                return { value: r.id, label: r.name }
+              })
+            }
+          }
+        })
+
+      break
+    case 'XS-1':
+      tradeAPI.getCompanyDept(1, val).then((res: any) => {
+        for (let j = 0; j < Xiaoshouqueren_local.length; j++) {
+          if (Xiaoshouqueren_local[j].prop == 'ourDeptId') {
+            Xiaoshouqueren_local[j].options = res.map((r: any) => {
+              return { value: r.id, label: r.name }
+            })
+          }
+        }
+      })
+
+      break
+    case 'XS-2':
+      tradeAPI.getCompanyDept(2, val).then((res: any) => {
+        for (let j = 0; j < Xiaoshouqueren_local.length; j++) {
+          if (Xiaoshouqueren_local[j].prop == 'companyDeptId') {
+            Xiaoshouqueren_local[j].options = res.map((r: any) => {
+              return { value: r.id, label: r.name }
+            })
+          }
+        }
+      })
+
+      break
+    case 'XS-3':
+      tradeAPI
+        .getTrademark(val)
+        .then((res: any) => {
+          for (let j = 0; j < Xiaoshouqueren_local.length; j++) {
+            if (Xiaoshouqueren_local[j].prop == 'trademarkId') {
+              Xiaoshouqueren_local[j].options = res.map((r: any) => {
+                return { value: r.id, label: r.name }
+              })
+            }
+          }
+          return tradeAPI.getGrade(val)
+        })
+        .then((res: any) => {
+          for (let j = 0; j < Xiaoshouqueren_local.length; j++) {
+            if (Xiaoshouqueren_local[j].prop == 'gradeId') {
+              Xiaoshouqueren_local[j].options = res.map((r: any) => {
+                return { value: r.id, label: r.name }
+              })
+            }
+          }
+        })
+      break
+  }
 }
 init()
 </script>

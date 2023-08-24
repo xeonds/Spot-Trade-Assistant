@@ -68,6 +68,7 @@
           v-model="data[item.prop]"
           placeholder="选择"
           style="width: 240px"
+          @change="(val:any) => handlechange(item.flag, val)"
           v-if="item.type == 'single-select'"
         >
           <el-option
@@ -94,8 +95,13 @@
 
 <script lang="ts" setup>
 let props = defineProps(['visible', 'title', 'col'])
-let emit = defineEmits(['submit', 'close', 'click'])
+let emit = defineEmits(['submit', 'close', 'click', 'write'])
 let data = reactive(<any>{})
+const handlechange = (flag: string, val: any) => {
+  if (flag) {
+    emit('write', flag, val)
+  }
+}
 </script>
 
 <style lang="less" scoped>
