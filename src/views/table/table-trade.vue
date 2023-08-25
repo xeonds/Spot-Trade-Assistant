@@ -31,7 +31,7 @@
     :col="[{ label: '修改值', prop: 'value', type: 'string' }]"
     @submit="handleUpdate"
   />
-  <!-- 新增 -->
+  <!-- 新增购买 -->
   <form-dialog
     width="80%"
     v-model="isVisible.purchase"
@@ -124,6 +124,26 @@
     </template>
   </el-dialog>
 
+  <!-- 生成合同 -->
+  <form-dialog
+    width="80%"
+    v-model="isVisible.generate"
+    title="生成合同"
+    :col="Shengchenghetong"
+    @close="isVisible.generate = false"
+    @submit="(data) => generateContract(data)"
+  />
+
+  <!-- 印花税付款申请 -->
+  <form-dialog
+    width="80%"
+    v-model="isVisible.request"
+    title="印花税付款申请"
+    :col="Yinhuashui"
+    @close="isVisible.request = false"
+    @submit="(data) => ruquestYinhua(data)"
+  />
+
   <div v-if="route.params.id === '1'">
     <el-row>
       <el-col :span="24">
@@ -168,7 +188,74 @@
           <template #top>
             <tableFind />
           </template>
-          <template #fold_content> 暂时缺少接口 </template>
+          <template #fold_content> 接口返回为空 </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+  </div>
+
+  <div v-if="route.params.id === '2'">
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['2-1']"
+          :command="['刷新', '生成合同']"
+          name="购销订单"
+          id="trade1"
+          :col="tableCol.TradeInfo2"
+          :height="16"
+          :selectable="true"
+          @load="handlepageload('2-1')"
+          @handle="(a:number)=>handle('2-1', a)"
+          @menu="menu"
+          @select="handleSelect"
+          v-loading="isLoading['2-1']"
+        >
+          <template #top>
+            <tableFind :form-data="data['1-1']" @submit="console.log" />
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['2-2']"
+          :command="['刷新', '印花税付款申请', '合同归档']"
+          name="购销合同"
+          id="trade2"
+          :col="tableCol.Gouxiaohetong"
+          :height="16"
+          :selectable="true"
+          @load="handlepageload('2-2')"
+          @handle="(a: number) => handle('2-2', a)"
+          @menu="menu"
+          @select="handleSelect"
+          v-loading="isLoading['2-2']"
+        >
+          <template #top>
+            <tableFind />
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <modifyTable
+          :data="data['2-3']"
+          :command="['刷新']"
+          name="印花税付款申请"
+          id="trade3"
+          :col="tableCol.Yinhuashui"
+          :height="16"
+          @load="handlepageload('2-3')"
+          @handle="(a: number) => handle('2-3', a)"
+          @menu="menu"
+          v-loading="isLoading['2-3']"
+        >
+          <template #top>
+            <tableFind />
+          </template>
         </modifyTable>
       </el-col>
     </el-row>
@@ -179,14 +266,18 @@
 // **********
 // components
 // **********
-import AFTableColumn from '@/components/AFTableColumn.vue'
 import modifyTable from '@/components/modify-table2.vue'
 import tableFind from '@/components/table-find.vue'
 import formDialog from '../../components/form-dialog.vue'
 import formPopmenu from '../../components/form-popmenu.vue'
 import * as tableCol from '../../assets/table_info/table-title'
 import * as tradeAPI from '../../http/api/trade'
-import { Gouxiaojilu, Xiaoshouqueren } from '../../assets/table_info/table-add'
+import {
+  Gouxiaojilu,
+  Xiaoshouqueren,
+  Shengchenghetong,
+  Yinhuashui
+} from '../../assets/table_info/table-add'
 import { ElMessage } from 'element-plus'
 import { useRoute } from 'vue-router'
 
@@ -246,14 +337,19 @@ let isVisible = ref({
   purchase: false,
   sale: false,
   form1: false,
-  form2: false
+  form2: false,
+  generate: false,
+  request: false
 })
 //临时变量
 let temp_data = {}
 // 加载
 let isLoading: any = reactive({
   '1-1': true,
-  '1-2': true
+  '1-2': true,
+  '2-1': true,
+  '2-2': true,
+  '2-3': true
 })
 // 选择数据
 let selectData: any = reactive({
@@ -336,13 +432,13 @@ const handle = (id: string, a: number) => {
             })
             return
           } else if (selectData.rows.length > 1) {
+            console.log(selectData)
+
             for (let i = 0; i < selectData.rows.length - 1; i++) {
               if (
-                selectData.rows[i].ledgerId !=
-                  selectData.rows[i + 1].ledgerId ||
-                selectData.rows[i].ourDeptId !=
-                  selectData.rows[i + 1].ourDeptId ||
-                selectData.rows[i].varietyId != selectData.rows[i + 1].varietyId
+                selectData.rows[i].ledger != selectData.rows[i + 1].ledger ||
+                selectData.rows[i].ourdept != selectData.rows[i + 1].ourdept ||
+                selectData.rows[i].variety != selectData.rows[i + 1].variety
               ) {
                 return ElMessage({
                   message: '请选择同一品种同一部门同一客户的行',
@@ -396,6 +492,84 @@ const handle = (id: string, a: number) => {
           })
           break
       }
+      break
+    case '2-1':
+      switch (a) {
+        case 0:
+          isLoading[id] = true
+          handleRefresh('2-1')
+          break
+        case 1:
+          if (selectData.rows.length == 0) {
+            ElMessage({
+              message: '请选择要确认的行',
+              type: 'warning'
+            })
+            return
+          } else if (selectData.rows.length > 1) {
+            console.log(selectData)
+
+            for (let i = 0; i < selectData.rows.length - 1; i++) {
+              if (
+                selectData.rows[i].ledger != selectData.rows[i + 1].ledger ||
+                selectData.rows[i].ourDept != selectData.rows[i + 1].ourDept ||
+                selectData.rows[i].variety != selectData.rows[i + 1].variety ||
+                selectData.rows[i].company != selectData.rows[i + 1].company
+              ) {
+                return ElMessage({
+                  message: '请选择品种、部门、贸易商、品种相同的行',
+                  type: 'warning'
+                })
+              }
+            }
+            isVisible.value.generate = true
+          } else if (selectData.rows.length == 1) {
+            isVisible.value.generate = true
+          }
+          break
+      }
+      break
+    case '2-2':
+      switch (a) {
+        case 0:
+          isLoading[id] = true
+          handleRefresh('2-2')
+          break
+        case 1:
+          if (selectData.rows.length == 0) {
+            ElMessage({
+              message: '请选择要确认的行',
+              type: 'warning'
+            })
+            return
+          } else if (selectData.rows.length > 1) {
+            console.log(selectData)
+
+            for (let i = 0; i < selectData.rows.length - 1; i++) {
+              if (
+                selectData.rows[i].currency != selectData.rows[i + 1].currency
+              ) {
+                return ElMessage({
+                  message: '请选择币种相同的行',
+                  type: 'warning'
+                })
+              }
+            }
+            isVisible.value.request = true
+          } else if (selectData.rows.length == 1) {
+            isVisible.value.request = true
+          }
+          break
+        case 2:
+          tradeAPI.putContract().then(() => {
+            ElMessage({
+              message: '操作成功',
+              type: 'success'
+            })
+          })
+          break
+      }
+      break
   }
 }
 // refresh handlers for tables
@@ -407,7 +581,6 @@ const handlepageload = async (id: string) => {
     case '1-1':
       pagenumber['1-1'] = pagenumber['1-1'] + 1
       res = await tradeAPI.getTrade({
-        ps: '1',
         pageNumber: pagenumber['1-1'],
         pageSize: '10',
         sort: 'date',
@@ -418,6 +591,33 @@ const handlepageload = async (id: string) => {
       pagenumber['1-2'] = pagenumber['1-2'] + 1
       res = await tradeAPI.getPosition({
         pageNumber: pagenumber['1-2'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '2-1':
+      pagenumber['2-1'] = pagenumber['2-1'] + 1
+      res = await tradeAPI.getTrade2({
+        pageNumber: pagenumber['2-1'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '2-2':
+      pagenumber['2-2'] = pagenumber['2-2'] + 1
+      res = await tradeAPI.getContract({
+        pageNumber: pagenumber['2-2'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '2-3':
+      pagenumber['2-3'] = pagenumber['2-3'] + 1
+      res = await tradeAPI.getRequest({
+        pageNumber: pagenumber['2-3'],
         pageSize: '10',
         sort: 'date',
         order: 'desc'
@@ -440,6 +640,15 @@ const handleRefresh = (id: string) => {
       break
     case '1-2':
       pagenumber['1-2'] = 0
+      break
+    case '2-1':
+      pagenumber['2-1'] = 0
+      break
+    case '2-2':
+      pagenumber['2-2'] = 0
+      break
+    case '2-3':
+      pagenumber['2-3'] = 0
       break
   }
   data[id].length = 0
@@ -574,6 +783,31 @@ const get_detail = (row) => {
   })
 }
 
+const ruquestYinhua = (data: any) => {
+  let ids = []
+  console.log(selectData)
+  for (let i = 0; i < selectData.rows.length; i++) {
+    ids.push(selectData.rows[i].id)
+  }
+  data.consList = ids
+  tradeAPI.postRequestDto(data).then(() => {
+    ElMessage({ message: '生成成功', type: 'success' })
+  })
+  isVisible.value.generate = false
+}
+
+const generateContract = (data: any) => {
+  let ids = []
+  for (let i = 0; i < selectData.rows.length; i++) {
+    ids.push(selectData.rows[i].id)
+  }
+  data.tradeIds = ids
+  tradeAPI.postContract(data).then(() => {
+    ElMessage({ message: '生成成功', type: 'success' })
+  })
+  isVisible.value.generate = false
+}
+
 // ***************
 // startup actions
 // ***************
@@ -656,6 +890,15 @@ const init = async () => {
         })
       }
     }
+  } else if (route.params.id === '2') {
+    tradeAPI.getBankinfo().then((res: any) => {
+      for (let j = 0; j < Yinhuashui.length; j++)
+        if (Yinhuashui[j].prop == 'bank') {
+          Yinhuashui[j].options = res.map((r: any) => {
+            return { value: r.id, label: r.name }
+          })
+        }
+    })
   }
 
   console.log('init success')

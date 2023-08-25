@@ -628,8 +628,8 @@ export const Gouxiaojilu = [
     prop: 'unit',
     type: 'select',
     options: [
-      { label: '类型1', value: 0 },
-      { label: '类型2', value: 1 }
+      { label: '单位1', value: 1 },
+      { label: '单位2', value: 2 }
     ]
   },
   {
@@ -672,8 +672,8 @@ export const Gouxiaojilu = [
     type: 'select',
     prop: 'deliver',
     options: [
-      { label: '类型1', value: 0 },
-      { label: '类型2', value: 1 }
+      { label: '现货', value: 1 },
+      { label: '远期', value: 2 }
     ]
   },
   {
@@ -737,8 +737,8 @@ export const Xiaoshouqueren = [
     prop: 'unit',
     type: 'select',
     options: [
-      { label: '类型1', value: 0 },
-      { label: '类型2', value: 1 }
+      { label: '单位1', value: 1 },
+      { label: '单位2', value: 2 }
     ]
   },
   {
@@ -757,8 +757,8 @@ export const Xiaoshouqueren = [
     type: 'select',
     prop: 'deliver',
     options: [
-      { label: '类型1', value: 0 },
-      { label: '类型2', value: 1 }
+      { label: '现货', value: 1 },
+      { label: '远期', value: 2 }
     ]
   },
   {
@@ -766,8 +766,8 @@ export const Xiaoshouqueren = [
     prop: 'pattern',
     type: 'select',
     options: [
-      { label: '类型1', value: 0 },
-      { label: '类型2', value: 1 }
+      { label: '类型1', value: 1 },
+      { label: '类型2', value: 2 }
     ]
   },
   {
@@ -830,5 +830,57 @@ export const ModelInfo = [
   }
 ]
 
-export const FutureInfo = []
-export const FutureInfo2 = []
+export const Shengchenghetong = [
+  {
+    prop: 'date',
+    label: '交易日期',
+    type: 'date'
+  },
+  {
+    label: '实付印花税额',
+    prop: 'actsd',
+    type: 'number'
+  },
+  {
+    label: '备注',
+    prop: 'note',
+    type: 'string'
+  }
+]
+export const Yinhuashui = [
+  {
+    prop: 'date',
+    label: '交易日期',
+    type: 'date'
+  },
+  {
+    label: '对方公司银行',
+    type: 'single-select',
+    prop: 'bank'
+  },
+  {
+    label: '款项',
+    prop: 'money',
+    type: 'number'
+  },
+  {
+    label: '款项类型',
+    prop: 'type',
+    type: 'string'
+  },
+  {
+    label: '申请金额',
+    prop: 'amount',
+    type: 'number'
+  },
+  {
+    label: '税务机关',
+    prop: 'taxAuthority',
+    type: 'string'
+  },
+  {
+    label: '备注',
+    prop: 'note',
+    type: 'string'
+  }
+]
