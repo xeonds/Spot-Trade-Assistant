@@ -407,8 +407,8 @@ const handle = (id: string, a: number) => {
           // TODO: 不知道这玩意是干啥的
           if (selectData.rows.length > 0) {
             ElMessage({
-              message: '已发送成交确认',
-              type: 'success'
+              message: '开发中',
+              type: 'info'
             })
           } else {
             ElMessage({

@@ -14,6 +14,7 @@
         <el-text v-if="item.type == 'label'" />
         <el-date-picker
           v-model="data[item.prop]"
+          value-format="YYYY-MM-DD"
           type="date"
           placeholder="选择日期"
           v-if="item.type == 'date'"
