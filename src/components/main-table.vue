@@ -38,6 +38,7 @@
           "
         @row-click="(row: any, col: any) => emits('click_row', row, col)"
         @selection-change="handleSelectionChange"
+        @expand-change="(row:any) => emits('expand-change', row)"
         ref="main"
         :header-cell-style="{
           color: '#000'
@@ -52,6 +53,8 @@
         <!-- 折叠显示列 -->
         <AFTableColumn type="expand" v-if="props.hasfold" :resizable="false">
           <template #default="props">
+            <!-- 折叠插槽 -->
+            <slot name="fold_content"></slot>
             <!-- 遍历col数组 -->
             <template v-for="(item, index) in col" :key="item.prop">
               <!-- 找到需要折叠的列 -->
@@ -172,7 +175,8 @@ let emits = defineEmits([
   'click_row',
   'load',
   'cancel_select',
-  'select'
+  'select',
+  'expand-change'
 ])
 
 const cancel_select = () => {
@@ -207,9 +211,10 @@ interface COL {
   son_labels: any
 }
 
+/* eslint-disable */
+// eslint-disable-next-line vue/no-setup-props-destructure
 let table_data = reactive(<any>props.table_data)
 let col: COL[] = reactive(<any>props.col)
-
 let command = reactive(<any>props.command)
 
 //列拖拽
@@ -258,6 +263,8 @@ const change_status = (id: string) => {
 
 <style lang="less" scoped>
 .main {
+  box-shadow: none;
+
   .card-header {
     .title {
       font-size: 1.4rem;

@@ -41,5 +41,3 @@ const submit = () => {
   emits('submit', res)
 }
 </script>
-
-<style lang="less" scoped></style>

@@ -31,45 +31,119 @@
     :col="[{ label: '修改值', prop: 'value', type: 'string' }]"
     @submit="handleUpdate"
   />
-  <!-- 新增 -->
+  <!-- 新增购买 -->
   <form-dialog
     width="80%"
     v-model="isVisible.purchase"
     :title="'采购'"
-    :col="Gouxiaojilu"
+    :col="Gouxiaojilu_local"
     @close="isVisible.purchase = false"
     @submit="(data) => purchase(data)"
+    @write="
+      (flag, val) => {
+        handle_load(flag, val)
+      }
+    "
   />
   <!-- 销售确认 -->
   <form-dialog
     width="80%"
     v-model="isVisible.sale"
     title="销售确认"
-    :col="Xiaoshouqueren"
+    :col="Xiaoshouqueren_local"
     @close="isVisible.sale = false"
-    @submit="saleConfirm()"
+    @submit="(data) => saleConfirm(data)"
+    @write="
+      (flag, val) => {
+        handle_load(flag, val)
+      }
+    "
   />
   <!-- 现货结算价 -->
-  <form-dialog
+  <el-dialog
     width="80%"
     v-model="isVisible.form1"
     title="现货结算价"
-    :col="[{ label: '现货结算价', prop: 'value', type: 'string' }]"
-    @close="isVisible.form1 = false"
-    @submit="console.log"
-  />
+    align-center
+  >
+    <el-table :data="data['1-2-1']" style="width: 100%" max-height="500">
+      <el-table-column prop="ledger" label="账套" width="180" />
+      <el-table-column prop="ourdept" label="部门" width="180" />
+      <el-table-column prop="variety" label="品种" width="180" />
+      <el-table-column prop="grade" label="规格" width="180" />
+      <el-table-column align="right">
+        <template #default="scope">
+          <el-input
+            v-model="tempform1[scope.$index]"
+            placeholder="订单结算价"
+            style="margin-right: 1vw; width: 7vw"
+          />
+          <el-input
+            v-model="tempform2[scope.$index]"
+            placeholder="进出口结算算价"
+            style="margin-right: 1vw; width: 7vw"
+          />
+          <el-button size="small" @click="calculate1(scope.$index, scope.row)"
+            >确定</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button type="primary" plain @click="isVisible.form1 = false">
+          取消
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
+
   <!-- 汇率 -->
+  <el-dialog width="80%" v-model="isVisible.form2" title="汇率" align-center>
+    <el-table :data="data['1-2-2']" style="width: 100%" max-height="500">
+      <el-table-column prop="type" label="币种" width="180" />
+      <el-table-column align="right">
+        <template #default="scope">
+          <el-input
+            v-model="tempform1[scope.$index]"
+            placeholder="汇率参考值"
+            style="margin-right: 1vw; width: 7vw"
+          />
+          <el-button size="small" @click="calculate2(scope.$index, scope.row)"
+            >确定</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button type="primary" plain @click="isVisible.form1 = false">
+          取消
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
+
+  <!-- 生成合同 -->
   <form-dialog
     width="80%"
-    v-model="isVisible.form2"
-    title="汇率"
-    :col="[
-      { label: '汇率参考值', prop: 'refvalue', type: 'string' },
-      { label: '本币结算价', prop: 'finalvalue', type: 'string' }
-    ]"
-    @close="isVisible.form2 = false"
-    @submit="console.log"
+    v-model="isVisible.generate"
+    title="生成合同"
+    :col="Shengchenghetong"
+    @close="isVisible.generate = false"
+    @submit="(data) => generateContract(data)"
   />
+
+  <!-- 印花税付款申请 -->
+  <form-dialog
+    width="80%"
+    v-model="isVisible.request"
+    title="印花税付款申请"
+    :col="Yinhuashui"
+    @close="isVisible.request = false"
+    @submit="(data) => ruquestYinhua(data)"
+  />
+
   <div v-if="route.params.id === '1'">
     <el-row>
       <el-col :span="24">
@@ -81,7 +155,7 @@
           :col="tableCol.TradeInfo"
           :height="30"
           :selectable="true"
-          :load="handleRefresh('1-1')"
+          @load="handlepageload('1-1')"
           @handle="(a:number)=>handle('1-1', a)"
           @menu="menu"
           @select="handleSelect"
@@ -104,39 +178,22 @@
           :hasfold="true"
           :selectable="true"
           :height="30"
-          :load="handleRefresh('1-2')"
+          @load="handlepageload('1-2')"
           @handle="(a: number) => handle('1-2', a)"
           @select="handleSelect"
           @menu="menu"
+          @expand-change="(row:any) => get_detail(row)"
           v-loading="isLoading['1-2']"
         >
           <template #top>
             <tableFind />
           </template>
-          <template #extend3="row">
-            <!-- <AFTableColumn label="订单浮盈" header-align="center">
-              <AFTableColumn label="成本价" prop="cprice"></AFTableColumn>
-              <AFTableColumn label="结算价"></AFTableColumn>
-              <AFTableColumn abel="浮盈"></AFTableColumn>
-              <AFTableColumn label="币种"></AFTableColumn>
-            </AFTableColumn>
-            <AFTableColumn label="进出口参考浮盈" header-align="center">
-              <AFTableColumn label="参考汇率" prop="order"></AFTableColumn>
-              <AFTableColumn label="进出口成本"></AFTableColumn>
-              <AFTableColumn label="结算价"></AFTableColumn>
-              <AFTableColumn label="浮盈"></AFTableColumn>
-              <AFTableColumn label="币种"></AFTableColumn>
-            </AFTableColumn> -->
-            <AFTableColumn :width="100" label="操作" fixed="right">
-              <el-button type="primary" link @click="console.log(row)"
-                >查看</el-button
-              >
-            </AFTableColumn>
-          </template>
+          <template #fold_content> 接口返回为空 </template>
         </modifyTable>
       </el-col>
     </el-row>
   </div>
+
   <div v-if="route.params.id === '2'">
     <el-row>
       <el-col :span="24">
@@ -145,13 +202,17 @@
           :command="['刷新', '生成合同']"
           name="购销订单"
           id="trade1"
-          :col="tableCol.Gouxiaojilu"
-          @handle="handle"
-          @menu="menu"
+          :col="tableCol.TradeInfo2"
+          :height="16"
           :selectable="true"
+          @load="handlepageload('2-1')"
+          @handle="(a:number)=>handle('2-1', a)"
+          @menu="menu"
+          @select="handleSelect"
+          v-loading="isLoading['2-1']"
         >
           <template #top>
-            <tableFind></tableFind>
+            <tableFind :form-data="data['1-1']" @submit="console.log" />
           </template>
         </modifyTable>
       </el-col>
@@ -160,28 +221,20 @@
       <el-col :span="24">
         <modifyTable
           :data="data['2-2']"
-          :command="['刷新', '印花税付款', '合同归档']"
+          :command="['刷新', '印花税付款申请', '合同归档']"
           name="购销合同"
           id="trade2"
           :col="tableCol.Gouxiaohetong"
-          @handle="(a:number)=>handle('2-2', a)"
-          @menu="menu"
+          :height="16"
           :selectable="true"
+          @load="handlepageload('2-2')"
+          @handle="(a: number) => handle('2-2', a)"
+          @menu="menu"
+          @select="handleSelect"
+          v-loading="isLoading['2-2']"
         >
           <template #top>
-            <tableFind></tableFind>
-          </template>
-          <template #extend3>
-            <el-table-column label="合同扫描件" :width="120" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >上传</el-button
-                >
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
-            </el-table-column>
+            <tableFind />
           </template>
         </modifyTable>
       </el-col>
@@ -194,342 +247,14 @@
           name="印花税付款申请"
           id="trade3"
           :col="tableCol.Yinhuashui"
-          @handle="(a:number)=>handle('2-3', a)"
+          :height="16"
+          @load="handlepageload('2-3')"
+          @handle="(a: number) => handle('2-3', a)"
           @menu="menu"
+          v-loading="isLoading['2-3']"
         >
           <template #top>
-            <tableFind></tableFind>
-          </template>
-          <template #extend3>
-            <el-table-column label="申请单扫描件" :width="120" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >上传</el-button
-                >
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
-            </el-table-column>
-          </template>
-        </modifyTable>
-      </el-col>
-    </el-row>
-  </div>
-  <div v-if="route.params.id === '3'">
-    <el-row>
-      <el-col :span="24">
-        <modifyTable
-          :data="data['3-1']"
-          :command="['刷新', '付款申请']"
-          name="采购订单"
-          id="trade1"
-          :col="tableCol.Caigoudingdan"
-          @handle="handle"
-          @menu="menu"
-        >
-          <template #top>
-            <tableFind
-              :search_item="[
-                '交易日期',
-                '付款申请状态',
-                '合同签订状态',
-                '账套',
-                '业务部门',
-                '贸易商',
-                '贸易商部门',
-                '贸易类型',
-                '订单模式',
-                '交货方式',
-                '合同号',
-                '订单号'
-              ]"
-            ></tableFind>
-          </template>
-          <template #extend3>
-            <el-table-column label="扫描件" :width="100" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
-            </el-table-column>
-          </template>
-        </modifyTable>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24">
-        <modifyTable
-          :data="data['3-2']"
-          :command="['刷新']"
-          name="采购付款申请记录"
-          id="trade2"
-          :col="tableCol.Caigoufukuanshenqingjilu"
-          @handle="handle"
-          @menu="menu"
-        >
-          <template #top>
-            <tableFind
-              :search_item="[
-                '付款申请日期',
-                '付款状态',
-                '账套',
-                '业务部门',
-                '付款状态',
-                '贸易商',
-                '付款申请单号'
-              ]"
-            ></tableFind>
-          </template>
-          <template #extend3>
-            <el-table-column label="申请单扫描件" :width="120" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >上传</el-button
-                >
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
-            </el-table-column>
-          </template>
-        </modifyTable>
-      </el-col>
-    </el-row>
-  </div>
-  <div v-if="route.params.id === '4'">
-    <el-row>
-      <el-col :span="24">
-        <modifyTable
-          :data="data['4-1']"
-          :command="['刷新']"
-          name="销售订单"
-          id="trade1"
-          :col="tableCol.Xiaoshoudingdan"
-          @handle="handle"
-          @menu="menu"
-        >
-          <template #top>
-            <tableFind></tableFind>
-          </template>
-          <template #extend3>
-            <el-table-column label="合同扫描件" :width="100" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
-            </el-table-column>
-          </template>
-        </modifyTable>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24">
-        <modifyTable
-          :data="data['4-2']"
-          :command="['刷新', '打印收款确认单']"
-          name="收款记录"
-          id="trade2"
-          :col="tableCol.Shoukuanjilu"
-          @handle="handle"
-          @menu="menu"
-        >
-          <template #top>
-            <tableFind></tableFind>
-            <el-button type="primary" plain>匹配</el-button>
-          </template>
-          <template #extend3>
-            <el-table-column label="回单扫描件" :width="100" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
-            </el-table-column>
-            <el-table-column label="确认单扫描件" :width="120" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >上传</el-button
-                >
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
-            </el-table-column>
-          </template>
-        </modifyTable>
-      </el-col>
-    </el-row>
-  </div>
-  <div v-if="route.params.id === '5'">
-    <el-row>
-      <el-col :span="24">
-        <modifyTable
-          :data="data['5-1']"
-          :command="['刷新', '余款对账']"
-          name="购销订单"
-          id="trade3"
-          :col="tableCol.Gouxiaodingdan"
-          @handle="handle"
-          @menu="menu"
-        >
-          <template #top>
-            <tableFind></tableFind>
-          </template>
-        </modifyTable>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24">
-        <modifyTable
-          :data="data['5-2']"
-          :command="['刷新', '打印对账单']"
-          name="余款对账记录"
-          id="trade4"
-          :col="tableCol.Yukuanduizhang"
-          @handle="handle"
-          @menu="menu"
-        >
-          <template #top>
-            <tableFind></tableFind>
-          </template>
-          <template #extend3>
-            <el-table-column label="对账单扫描件" :width="120" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >上传</el-button
-                >
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
-            </el-table-column>
-          </template>
-        </modifyTable>
-      </el-col>
-    </el-row>
-  </div>
-  <div v-if="route.params.id === '6'">
-    <el-row>
-      <el-col :span="24">
-        <modifyTable
-          :data="data['6-1']"
-          :command="['刷新', '余款付款申请', '余款收款匹配']"
-          name="余款对账记录"
-          id="trade3"
-          :col="tableCol.Yukuanduizhang"
-          @handle="handle"
-          @menu="menu"
-        >
-          <template #top>
-            <tableFind></tableFind>
-          </template>
-          <template #extend3>
-            <el-table-column label="对账单扫描件" :width="120" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
-            </el-table-column>
-          </template>
-        </modifyTable>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24">
-        <modifyTable
-          :data="data['6-2']"
-          :command="['刷新', '打印付款申请单']"
-          name="余款付款申请记录"
-          id="trade4"
-          :col="tableCol.Yukuanfukuan"
-          @handle="handle"
-          @menu="menu"
-        >
-          <template #top>
-            <tableFind></tableFind>
-          </template>
-          <template #extend3>
-            <el-table-column label="申请单扫描件" :width="120" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >上传</el-button
-                >
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
-            </el-table-column>
-          </template>
-        </modifyTable>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24">
-        <modifyTable
-          :data="data['6-3']"
-          :command="['刷新', '打印收款申请单']"
-          name="收款记录"
-          id="trade4"
-          :col="tableCol.Shoukuanjilu"
-          @handle="handle"
-          @menu="menu"
-        >
-          <template #top>
-            <tableFind></tableFind>
-          </template>
-          <template #extend3>
-            <el-table-column label="回单扫描件" :width="100" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
-            </el-table-column>
-            <el-table-column label="确认单扫描件" :width="120" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >上传</el-button
-                >
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
-            </el-table-column>
-          </template>
-        </modifyTable>
-      </el-col>
-    </el-row>
-  </div>
-  <div v-if="route.params.id === '7'">
-    <el-row>
-      <el-col :span="24">
-        <modifyTable
-          :data="data['7-1']"
-          :command="['刷新', '发票确认']"
-          name="购销订单"
-          id="trade3"
-          :col="tableCol.Gouxiaodingdan"
-          @handle="handle"
-          @menu="menu"
-        >
-          <template #top>
-            <tableFind></tableFind>
-          </template>
-          <template #extend3>
-            <el-table-column label="扫描件" :width="120" fixed="right">
-              <template #default="scope">
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >上传</el-button
-                >
-                <el-button type="primary" link @click="console.log(scope.row)"
-                  >查看</el-button
-                >
-              </template>
-            </el-table-column>
+            <tableFind />
           </template>
         </modifyTable>
       </el-col>
@@ -541,24 +266,50 @@
 // **********
 // components
 // **********
-import AFTableColumn from '@/components/AFTableColumn.vue'
 import modifyTable from '@/components/modify-table2.vue'
 import tableFind from '@/components/table-find.vue'
 import formDialog from '../../components/form-dialog.vue'
 import formPopmenu from '../../components/form-popmenu.vue'
 import * as tableCol from '../../assets/table_info/table-title'
 import * as tradeAPI from '../../http/api/trade'
-import { Gouxiaojilu, Xiaoshouqueren } from '../../assets/table_info/table-add'
+import {
+  Gouxiaojilu,
+  Xiaoshouqueren,
+  Shengchenghetong,
+  Yinhuashui
+} from '../../assets/table_info/table-add'
 import { ElMessage } from 'element-plus'
 import { useRoute } from 'vue-router'
 
 // *********
 // variables
 // *********
+// pagenumber
+let pagenumber: any = reactive({
+  '1-1': 0,
+  '1-2': 0,
+  '1-2-1': 0,
+  '1-2-2': 0,
+  '2-1': 0,
+  '2-2': 0,
+  '2-3': 0,
+  '3-1': 0,
+  '3-2': 0,
+  '4-1': 0,
+  '4-2': 0,
+  '5-1': 0,
+  '5-2': 0,
+  '6-1': 0,
+  '6-2': 0,
+  '7-1': 0
+})
+
 // table data
 let data: any = reactive({
   '1-1': [],
   '1-2': [],
+  '1-2-1': [],
+  '1-2-2': [],
   '2-1': [],
   '2-2': [],
   '2-3': [],
@@ -572,9 +323,13 @@ let data: any = reactive({
   '6-2': [],
   '7-1': []
 })
+// 更新变量
 let updateform = reactive({
   value: ''
 })
+let tempform1: string[] = reactive([])
+let tempform2: string[] = reactive([])
+// 显示控制
 let isVisible = ref({
   clickMenu: false,
   dialogUpdate: false,
@@ -582,12 +337,21 @@ let isVisible = ref({
   purchase: false,
   sale: false,
   form1: false,
-  form2: false
+  form2: false,
+  generate: false,
+  request: false
 })
+//临时变量
+let temp_data = {}
+// 加载
 let isLoading: any = reactive({
   '1-1': true,
-  '1-2': true
+  '1-2': true,
+  '2-1': true,
+  '2-2': true,
+  '2-3': true
 })
+// 选择数据
 let selectData: any = reactive({
   id: '',
   rows: []
@@ -642,7 +406,6 @@ const handle = (id: string, a: number) => {
         case 2:
           // TODO: 不知道这玩意是干啥的
           if (selectData.rows.length > 0) {
-            console.log(selectData.rows)
             ElMessage({
               message: '已发送成交确认',
               type: 'success'
@@ -669,13 +432,13 @@ const handle = (id: string, a: number) => {
             })
             return
           } else if (selectData.rows.length > 1) {
+            console.log(selectData)
+
             for (let i = 0; i < selectData.rows.length - 1; i++) {
               if (
-                selectData.rows[i].ledgerId !=
-                  selectData.rows[i + 1].ledgerId ||
-                selectData.rows[i].ourDeptId !=
-                  selectData.rows[i + 1].ourDeptId ||
-                selectData.rows[i].varietyId != selectData.rows[i + 1].varietyId
+                selectData.rows[i].ledger != selectData.rows[i + 1].ledger ||
+                selectData.rows[i].ourdept != selectData.rows[i + 1].ourdept ||
+                selectData.rows[i].variety != selectData.rows[i + 1].variety
               ) {
                 return ElMessage({
                   message: '请选择同一品种同一部门同一客户的行',
@@ -689,47 +452,209 @@ const handle = (id: string, a: number) => {
           }
           break
         case 2:
-          isVisible.value.form1 = true
+          tradeAPI.get_sprice().then((res: any) => {
+            console.log(res)
+            data['1-2-1'].length = 0
+            tempform1.length = 0
+            tempform2.length = 0
+            for (let i = 0; i < res.length; i++) {
+              data['1-2-1'].push({
+                ledger: res[i].positionVo.ledger,
+                ourdept: res[i].positionVo.ourdept,
+                variety: res[i].positionVo.variety,
+                grade: res[i].positionVo.grade,
+                total: res[i]
+              })
+              tempform1.push('')
+              tempform2.push('')
+            }
+            console.log(data)
+            isVisible.value.form1 = true
+          })
+
           break
         case 3:
-          isVisible.value.form2 = true
+          tradeAPI.get_import().then((res: any) => {
+            console.log(res)
+            data['1-2-2'].length = 0
+            tempform1.length = 0
+            for (let key in res) {
+              data['1-2-2'].push({ type: key, total: res[key] })
+              tempform1.push('')
+            }
+            isVisible.value.form2 = true
+          })
           break
         case 4:
           ElMessage({
-            message: '导出成功',
+            message: '暂时缺少接口',
             type: 'success'
           })
           break
       }
+      break
+    case '2-1':
+      switch (a) {
+        case 0:
+          isLoading[id] = true
+          handleRefresh('2-1')
+          break
+        case 1:
+          if (selectData.rows.length == 0) {
+            ElMessage({
+              message: '请选择要确认的行',
+              type: 'warning'
+            })
+            return
+          } else if (selectData.rows.length > 1) {
+            console.log(selectData)
+
+            for (let i = 0; i < selectData.rows.length - 1; i++) {
+              if (
+                selectData.rows[i].ledger != selectData.rows[i + 1].ledger ||
+                selectData.rows[i].ourDept != selectData.rows[i + 1].ourDept ||
+                selectData.rows[i].variety != selectData.rows[i + 1].variety ||
+                selectData.rows[i].company != selectData.rows[i + 1].company
+              ) {
+                return ElMessage({
+                  message: '请选择品种、部门、贸易商、品种相同的行',
+                  type: 'warning'
+                })
+              }
+            }
+            isVisible.value.generate = true
+          } else if (selectData.rows.length == 1) {
+            isVisible.value.generate = true
+          }
+          break
+      }
+      break
+    case '2-2':
+      switch (a) {
+        case 0:
+          isLoading[id] = true
+          handleRefresh('2-2')
+          break
+        case 1:
+          if (selectData.rows.length == 0) {
+            ElMessage({
+              message: '请选择要确认的行',
+              type: 'warning'
+            })
+            return
+          } else if (selectData.rows.length > 1) {
+            console.log(selectData)
+
+            for (let i = 0; i < selectData.rows.length - 1; i++) {
+              if (
+                selectData.rows[i].currency != selectData.rows[i + 1].currency
+              ) {
+                return ElMessage({
+                  message: '请选择币种相同的行',
+                  type: 'warning'
+                })
+              }
+            }
+            isVisible.value.request = true
+          } else if (selectData.rows.length == 1) {
+            isVisible.value.request = true
+          }
+          break
+        case 2:
+          tradeAPI.putContract().then(() => {
+            ElMessage({
+              message: '操作成功',
+              type: 'success'
+            })
+          })
+          break
+      }
+      break
   }
 }
 // refresh handlers for tables
-const handleRefresh = async (id: string) => {
+// page
+
+const handlepageload = async (id: string) => {
   let res: any = []
-  let part1: any, part2: any
   switch (id) {
     case '1-1':
-      res = await tradeAPI.getTrade(res)
+      pagenumber['1-1'] = pagenumber['1-1'] + 1
+      res = await tradeAPI.getTrade({
+        pageNumber: pagenumber['1-1'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
       break
     case '1-2':
-      part1 = await tradeAPI.getPosition(res)
-      part2 = await tradeAPI.exportReferer(res)
-      res = {
-        data: part1.data.map((item: any, index: number) => {
-          return Object.assign(item, part2.data[index])
-        })
-      }
-      console.log(res)
+      pagenumber['1-2'] = pagenumber['1-2'] + 1
+      res = await tradeAPI.getPosition({
+        pageNumber: pagenumber['1-2'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '2-1':
+      pagenumber['2-1'] = pagenumber['2-1'] + 1
+      res = await tradeAPI.getTrade2({
+        pageNumber: pagenumber['2-1'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '2-2':
+      pagenumber['2-2'] = pagenumber['2-2'] + 1
+      res = await tradeAPI.getContract({
+        pageNumber: pagenumber['2-2'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '2-3':
+      pagenumber['2-3'] = pagenumber['2-3'] + 1
+      res = await tradeAPI.getRequest({
+        pageNumber: pagenumber['2-3'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
       break
   }
   if (res.data.length != 0) {
-    data[id].splice(0, data[id].length)
     res.data.forEach((item: any) => {
       data[id].push(item)
     })
   }
   isLoading[id] = false
 }
+
+const handleRefresh = (id: string) => {
+  let res: any = []
+  switch (id) {
+    case '1-1':
+      pagenumber['1-1'] = 0
+      break
+    case '1-2':
+      pagenumber['1-2'] = 0
+      break
+    case '2-1':
+      pagenumber['2-1'] = 0
+      break
+    case '2-2':
+      pagenumber['2-2'] = 0
+      break
+    case '2-3':
+      pagenumber['2-3'] = 0
+      break
+  }
+  data[id].length = 0
+  handlepageload(id)
+}
+
 // handler for table row selects
 const handleSelect = (val: any, id: string) => {
   selectData.id = id
@@ -740,6 +665,7 @@ const handleSelect = (val: any, id: string) => {
 // main logic functions
 // ********************
 const purchase = (data: tradeAPI.purchaseTradeForm) => {
+  data['ps'] = 1
   tradeAPI
     .purchaseTrade(data)
     .then(() => {
@@ -756,14 +682,20 @@ const purchase = (data: tradeAPI.purchaseTradeForm) => {
     })
     .finally(() => (isVisible.value.purchase = false))
 }
-const saleConfirm = () => {
+const saleConfirm = (data: any) => {
   let request: tradeAPI.SaleConfirm = {
     positionDtos: [],
-    tradePurchaseDto: selectData.rows[0]
+    tradePurchaseDto: JSON.parse(JSON.stringify(data))
   }
-  const reqCopy = JSON.parse(JSON.stringify(request))
+  for (let i = 0; i < selectData.rows.length; i++) {
+    request.positionDtos.push({
+      id: selectData.rows[i].id,
+      oi: selectData.rows[i].oi
+    })
+  }
+  request.tradePurchaseDto['ps'] = 2
   tradeAPI
-    .saleConfirm(reqCopy)
+    .saleConfirm(request)
     .then(() =>
       ElMessage({
         message: '销售确认成功',
@@ -786,88 +718,290 @@ const deletebyid = () => {
   isVisible.value.dialogDelete = false
   ElMessage('删除' + selectData.value)
 }
+
+const calculate1 = (index: any, row: any) => {
+  console.log(row)
+  if (tempform1[index] && tempform2[index]) {
+    let Ids = row.total.groupIds
+    Ids = Ids.split(',')
+    console.log(Ids)
+    for (let i = 0; i < Ids.length; i++) {
+      tradeAPI
+        .put_sprice([
+          {
+            id: parseInt(Ids[i]),
+            settleprice: parseFloat(tempform1[index]),
+            sprice: parseFloat(tempform2[index])
+          }
+        ])
+        .then(
+          () => {
+            ElMessage({ message: '更新成功' + Ids[i], type: 'success' })
+            tempform1[index] = ''
+            tempform2[index] = ''
+          },
+          () => {
+            ElMessage('更新失败' + Ids[i])
+          }
+        )
+    }
+  } else {
+    ElMessage('请输入参考价')
+  }
+}
+
+const calculate2 = (index: any, row: any) => {
+  if (tempform1[index]) {
+    let Ids = row.total
+    Ids = Ids.split(',')
+    for (let i = 0; i < Ids.length; i++) {
+      tradeAPI
+        .put_import([
+          {
+            id: parseInt(Ids[i]),
+            exrate: parseFloat(tempform1[index])
+          }
+        ])
+        .then(
+          (res: any) => {
+            tempform1[index] = ''
+            ElMessage({ message: '更新成功' + Ids[i], type: 'success' })
+          },
+          () => {
+            ElMessage('更新失败' + Ids[i])
+          }
+        )
+    }
+  } else {
+    ElMessage('请输入参考汇率')
+  }
+}
+
+const get_detail = (row) => {
+  tradeAPI.get_check({ positionId: row.id }).then((res) => {
+    console.log(res)
+  })
+}
+
+const ruquestYinhua = (data: any) => {
+  let ids = []
+  console.log(selectData)
+  for (let i = 0; i < selectData.rows.length; i++) {
+    ids.push(selectData.rows[i].id)
+  }
+  data.consList = ids
+  tradeAPI.postRequestDto(data).then(() => {
+    ElMessage({ message: '生成成功', type: 'success' })
+  })
+  isVisible.value.generate = false
+}
+
+const generateContract = (data: any) => {
+  let ids = []
+  for (let i = 0; i < selectData.rows.length; i++) {
+    ids.push(selectData.rows[i].id)
+  }
+  data.tradeIds = ids
+  tradeAPI.postContract(data).then(() => {
+    ElMessage({ message: '生成成功', type: 'success' })
+  })
+  isVisible.value.generate = false
+}
+
 // ***************
 // startup actions
 // ***************
+let Gouxiaojilu_local = reactive(Gouxiaojilu)
+let Xiaoshouqueren_local = reactive(Xiaoshouqueren)
+
 const init = async () => {
   // initiate form options
-  const companyId: any = await tradeAPI.getCompanyList(1)
-  let companyDept: any = []
-  const ledgerId: any = await tradeAPI.getCompanyList(2)
-  let ledgerDept: any = []
-  const varietyId: any = await tradeAPI.getVariety()
-  let gradeId: any = []
-  const currencyId: any = await tradeAPI.getCurrency()
-  let trademarkId: any = []
-  const orderId: any = await tradeAPI.getOrder()
-  companyId.forEach(async (item: any) => {
-    const res: any = await tradeAPI.getCompanyDept(1, item.id)
-    companyDept.push({
-      label: item.shortname,
-      options: res.map((r: any) => {
-        return { value: r.id, label: r.name }
-      })
-    })
-  })
-  ledgerId.forEach(async (item: any) => {
-    const res: any = await tradeAPI.getCompanyDept(2, item.id)
-    ledgerDept.push({
-      label: item.shortname,
-      options: res.map((r: any) => {
-        return { value: r.id, label: r.shortname }
-      })
-    })
-  })
-  varietyId.forEach(async (item: any) => {
-    const res: any = await tradeAPI.getGrade(item.id)
-    gradeId.push({
-      label: item.name,
-      options: res.map((r: any) => {
-        return { value: r.id, label: r.name }
-      })
-    })
-  })
-  currencyId.forEach(async (item: any) => {
-    const res: any = await tradeAPI.getTrademark(item.id)
-    trademarkId.push({
-      label: item.name,
-      options: res.map((r: any) => {
-        return { value: r.id, label: r.name }
-      })
-    })
-  })
-  Gouxiaojilu.map((item) => {
-    if (item.prop == 'ledgerId') {
-      item.options = companyId.map((i: any) => {
-        return { value: i.id, label: i.shortname }
-      })
-    } else if (item.prop == 'ourDeptId') {
-      item.options = companyDept
-    } else if (item.prop == 'companyId') {
-      item.options = ledgerId.map((i: any) => {
-        return { value: i.id, label: i.shortname }
-      })
-    } else if (item.prop == 'companyDeptId') {
-      item.options = ledgerDept
-    } else if (item.prop == 'varietyId') {
-      item.options = varietyId.map((i: any) => {
-        return { value: i.id, label: i.name }
-      })
-    } else if (item.prop == 'gradeId') {
-      item.options = gradeId
-    } else if (item.prop == 'currencyId') {
-      item.options = currencyId.map((i: any) => {
-        return { value: i.id, label: i.name }
-      })
-    } else if (item.prop == 'trademarkId') {
-      item.options = trademarkId
-    } else if (item.prop == 'orderId') {
-      item.options = orderId.map((i: any) => {
-        return { value: i.id, label: i.mode }
-      })
+  if (route.params.id === '1') {
+    const companyId: any = await tradeAPI.getCompanyList(1)
+    let companyDept: any = []
+    const ledgerId: any = await tradeAPI.getCompanyList(2)
+    let ledgerDept: any = []
+    const varietyId: any = await tradeAPI.getVariety()
+    let gradeId: any = []
+    const currencyId: any = await tradeAPI.getCurrency()
+    let trademarkId: any = []
+    const orderId: any = await tradeAPI.getOrder()
+
+    for (let j = 0; j < Gouxiaojilu_local.length; j++) {
+      if (Gouxiaojilu_local[j].prop == 'ledgerId') {
+        Gouxiaojilu_local[j].options = companyId.map((i: any) => {
+          return { value: i.id, label: i.shortname }
+        })
+      } else if (Gouxiaojilu_local[j].prop == 'ourDeptId') {
+        Gouxiaojilu_local[j].options = companyDept
+      } else if (Gouxiaojilu_local[j].prop == 'companyId') {
+        Gouxiaojilu_local[j].options = ledgerId.map((i: any) => {
+          return { value: i.id, label: i.shortname }
+        })
+      } else if (Gouxiaojilu_local[j].prop == 'companyDeptId') {
+        Gouxiaojilu_local[j].options = ledgerDept
+      } else if (Gouxiaojilu_local[j].prop == 'varietyId') {
+        Gouxiaojilu_local[j].options = varietyId.map((i: any) => {
+          return { value: i.id, label: i.name }
+        })
+      } else if (Gouxiaojilu_local[j].prop == 'gradeId') {
+        Gouxiaojilu_local[j].options = gradeId
+      } else if (Gouxiaojilu_local[j].prop == 'currencyId') {
+        Gouxiaojilu_local[j].options = currencyId.map((i: any) => {
+          return { value: i.id, label: i.name }
+        })
+      } else if (Gouxiaojilu_local[j].prop == 'trademarkId') {
+        Gouxiaojilu_local[j].options = trademarkId
+      } else if (Gouxiaojilu_local[j].prop == 'orderId') {
+        Gouxiaojilu_local[j].options = orderId.map((i: any) => {
+          return { value: i.id, label: i.mode }
+        })
+      }
     }
-  })
+
+    for (let j = 0; j < Xiaoshouqueren_local.length; j++) {
+      if (Xiaoshouqueren_local[j].prop == 'ledgerId') {
+        Xiaoshouqueren_local[j].options = companyId.map((i: any) => {
+          return { value: i.id, label: i.shortname }
+        })
+      } else if (Xiaoshouqueren_local[j].prop == 'ourDeptId') {
+        Xiaoshouqueren_local[j].options = companyDept
+      } else if (Xiaoshouqueren_local[j].prop == 'companyId') {
+        Xiaoshouqueren_local[j].options = ledgerId.map((i: any) => {
+          return { value: i.id, label: i.shortname }
+        })
+      } else if (Xiaoshouqueren_local[j].prop == 'companyDeptId') {
+        Xiaoshouqueren_local[j].options = ledgerDept
+      } else if (Xiaoshouqueren_local[j].prop == 'varietyId') {
+        Xiaoshouqueren_local[j].options = varietyId.map((i: any) => {
+          return { value: i.id, label: i.name }
+        })
+      } else if (Xiaoshouqueren_local[j].prop == 'gradeId') {
+        Xiaoshouqueren_local[j].options = gradeId
+      } else if (Xiaoshouqueren_local[j].prop == 'currencyId') {
+        Xiaoshouqueren_local[j].options = currencyId.map((i: any) => {
+          return { value: i.id, label: i.name }
+        })
+      } else if (Xiaoshouqueren_local[j].prop == 'trademarkId') {
+        Xiaoshouqueren_local[j].options = trademarkId
+      } else if (Xiaoshouqueren_local[j].prop == 'orderId') {
+        Xiaoshouqueren_local[j].options = orderId.map((i: any) => {
+          return { value: i.id, label: i.mode }
+        })
+      }
+    }
+  } else if (route.params.id === '2') {
+    tradeAPI.getBankinfo().then((res: any) => {
+      for (let j = 0; j < Yinhuashui.length; j++)
+        if (Yinhuashui[j].prop == 'bank') {
+          Yinhuashui[j].options = res.map((r: any) => {
+            return { value: r.id, label: r.name }
+          })
+        }
+    })
+  }
+
   console.log('init success')
+}
+
+const handle_load = (flag: string, val: any) => {
+  switch (flag) {
+    case 'GJ-1':
+      tradeAPI.getCompanyDept(1, val).then((res: any) => {
+        for (let j = 0; j < Gouxiaojilu_local.length; j++) {
+          if (Gouxiaojilu_local[j].prop == 'ourDeptId') {
+            Gouxiaojilu_local[j].options = res.map((r: any) => {
+              return { value: r.id, label: r.name }
+            })
+          }
+        }
+      })
+
+      break
+    case 'GJ-2':
+      tradeAPI.getCompanyDept(2, val).then((res: any) => {
+        for (let j = 0; j < Gouxiaojilu_local.length; j++) {
+          if (Gouxiaojilu_local[j].prop == 'companyDeptId') {
+            Gouxiaojilu_local[j].options = res.map((r: any) => {
+              return { value: r.id, label: r.name }
+            })
+          }
+        }
+      })
+
+      break
+    case 'GJ-3':
+      tradeAPI
+        .getTrademark(val)
+        .then((res: any) => {
+          for (let j = 0; j < Gouxiaojilu_local.length; j++) {
+            if (Gouxiaojilu_local[j].prop == 'trademarkId') {
+              Gouxiaojilu_local[j].options = res.map((r: any) => {
+                return { value: r.id, label: r.name }
+              })
+            }
+          }
+          return tradeAPI.getGrade(val)
+        })
+        .then((res: any) => {
+          for (let j = 0; j < Gouxiaojilu_local.length; j++) {
+            if (Gouxiaojilu_local[j].prop == 'gradeId') {
+              Gouxiaojilu_local[j].options = res.map((r: any) => {
+                return { value: r.id, label: r.name }
+              })
+            }
+          }
+        })
+
+      break
+    case 'XS-1':
+      tradeAPI.getCompanyDept(1, val).then((res: any) => {
+        for (let j = 0; j < Xiaoshouqueren_local.length; j++) {
+          if (Xiaoshouqueren_local[j].prop == 'ourDeptId') {
+            Xiaoshouqueren_local[j].options = res.map((r: any) => {
+              return { value: r.id, label: r.name }
+            })
+          }
+        }
+      })
+
+      break
+    case 'XS-2':
+      tradeAPI.getCompanyDept(2, val).then((res: any) => {
+        for (let j = 0; j < Xiaoshouqueren_local.length; j++) {
+          if (Xiaoshouqueren_local[j].prop == 'companyDeptId') {
+            Xiaoshouqueren_local[j].options = res.map((r: any) => {
+              return { value: r.id, label: r.name }
+            })
+          }
+        }
+      })
+
+      break
+    case 'XS-3':
+      tradeAPI
+        .getTrademark(val)
+        .then((res: any) => {
+          for (let j = 0; j < Xiaoshouqueren_local.length; j++) {
+            if (Xiaoshouqueren_local[j].prop == 'trademarkId') {
+              Xiaoshouqueren_local[j].options = res.map((r: any) => {
+                return { value: r.id, label: r.name }
+              })
+            }
+          }
+          return tradeAPI.getGrade(val)
+        })
+        .then((res: any) => {
+          for (let j = 0; j < Xiaoshouqueren_local.length; j++) {
+            if (Xiaoshouqueren_local[j].prop == 'gradeId') {
+              Xiaoshouqueren_local[j].options = res.map((r: any) => {
+                return { value: r.id, label: r.name }
+              })
+            }
+          }
+        })
+      break
+  }
 }
 init()
 </script>

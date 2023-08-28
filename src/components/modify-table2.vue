@@ -13,7 +13,12 @@
     @menu="menu"
     @handle="(index:any) => emits('handle', index)"
     @select="(val, id) => emits('select', val, id)"
-    @load="props.load"
+    @load="emits('load')"
+    @expand-change="
+      (row) => {
+        emits('expand-change', row)
+      }
+    "
     :contain_extend="props.extend"
     :contain_extend2="props.extend2"
     :selectable="props.selectable"
@@ -30,12 +35,15 @@
     <template #table-extend-end3="Slotprops">
       <slot name="extend3" v-bind:row="Slotprops.row"></slot>
     </template>
+    <template #fold_content>
+      <slot name="fold_content"></slot>
+    </template>
   </Table>
 </template>
 
 <script lang="ts" setup>
 import Table from './main-table.vue'
-const emits = defineEmits(['menu', 'handle', 'select'])
+const emits = defineEmits(['menu', 'handle', 'select', 'load', 'expand-change'])
 
 /**
  * @id 表格id
@@ -50,7 +58,6 @@ const props = defineProps([
   'col',
   'name',
   'data',
-  'load',
   'height',
   'command',
   'extend',
