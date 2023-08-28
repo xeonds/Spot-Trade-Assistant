@@ -884,3 +884,72 @@ export const Yinhuashui = [
     type: 'string'
   }
 ]
+
+export const Baozhikaicang = [
+  {
+    label: '买/卖', prop: 'bs', type: 'select',
+    options: [
+      { label: '买', value: 1 },
+      { label: '卖', value: 2 },
+    ]
+  },
+  { label: '期货合约', prop: 'contract', type: 'string' },
+  {
+    label: '币种', prop: 'currency', type: 'select',
+    options: [
+      { label: '人民币', value: 1 },
+      { label: '美元', value: 2 },
+    ]
+  },
+  { label: '成交日期', prop: 'date', type: 'date' },
+  { label: '期货平仓盈亏', prop: 'fprofit', type: 'number' },
+  { label: '期货公司简称', prop: 'futures', type: 'number' },
+  { label: '规格', prop: 'grade', type: 'number' },
+  { label: '成交手数', prop: 'hands', type: 'number' },
+  {
+    label: '保值类型', prop: 'hedgetype', type: 'select',
+    options: [
+      { label: '建仓', value: 1 },
+      { label: '移仓', value: 2 },
+    ]
+  },
+  { label: '本公司账套简称', prop: 'ledger', type: 'number' },
+  { label: '备注', prop: 'note', type: 'string' },
+  {
+    label: '开平仓', prop: 'oc', type: 'select',
+    options: [
+      { label: '开仓', value: 1 },
+      { label: '平仓', value: 2 },
+    ]
+  },
+  { label: '本公司部门名称', prop: 'ourdept', type: 'number' },
+  { label: '每手数量', prop: 'perhands', type: 'number' },
+  { label: '品种', prop: 'variety', type: 'number' },
+  { label: '加权价', prop: 'weighting', type: 'number' },
+]
+
+export const Baozhipingcang = [
+  { type: 'date', label: '成交日期', prop: 'f1' },
+  { type: 'string', label: '保值类型', prop: 'f2' },
+  { type: 'string', label: '账套', prop: 'f3' },
+  { type: 'string', label: '业务部门', prop: 'f4' },
+  { type: 'string', label: '期贷公司', prop: 'f5' },
+  { type: 'string', label: '期贷合约', prop: 'f6' },
+  { type: 'string', label: '开/平仓', prop: 'f7' },
+  { type: 'string', label: '买/卖', prop: 'f8' },
+  { type: 'string', label: '品种', prop: 'f9' },
+  { type: 'string', label: '规格', prop: 'f10' },
+  { type: 'string', label: '手数', prop: 'f11' },
+  { type: 'string', label: '每手数量', prop: 'f12' },
+  { type: 'string', label: '单位', prop: 'f13' },
+  { type: 'string', label: '加权价', prop: 'f14' },
+  { type: 'string', label: '平仓盈亏', prop: 'f15' },
+  { type: 'string', label: '币种', prop: 'f16' },
+  { type: 'string', label: '头寸号', prop: 'f17' },
+  // { type: 'string', label: '交易单号', prop: 'f18'},
+  { type: 'string', label: '备注', prop: 'f19' }
+]
+
+export const Qihuojiesuanjia = [
+
+]

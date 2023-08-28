@@ -178,7 +178,7 @@ export const ModelInfo = [
       { text: '内贸', value: '内贸' },
       { text: '进口', value: '进口' }
     ],
-    filter_method: (value, row, column) => {
+    filter_method: (value: any, row: any, column: any) => {
       const property = column['prop']
       return row[property] === value
     }
@@ -192,7 +192,7 @@ export const ModelInfo = [
       { text: '现货', value: '现货' },
       { text: '远期', value: '远期' }
     ],
-    filter_method: (value, row, column) => {
+    filter_method: (value: any, row: any, column: any) => {
       const property = column['prop']
       return row[property] === value
     }
