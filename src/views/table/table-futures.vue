@@ -1,11 +1,20 @@
 <template>
-  <form-dialog width="80%" v-model="isShow.table1.menu1" title="保值开仓" :col="table_add.Baozhikaicang"
+  <form-dialog width="80%" title="保值开仓"
+    v-model="isShow.table1.menu1"
+    :col="table_add.Baozhikaicang"
+    @click="handleClick"
     @submit="(data: any) => postAPIWrapper(data, futureAPI.addBaozhikaicang, '添加记录成功', '添加失败')"
     @cancel="isShow.table1.menu1 = false" />
-  <form-dialog width="80%" v-model="isShow.table2.menu1" title="保值平仓" :col="table_add.Baozhipingcang"
+  <form-dialog width="80%"
+    v-model="isShow.table2.menu1"
+    title="保值平仓"
+    :col="table_add.Baozhipingcang"
     @submit="(data: any) => console.log(data)"
     @cancel="isShow.table2.menu1 = false" />
-  <form-dialog v-model="isShow.table2.menu2" title="期货结算价" :col="table_add.Qihuojiesuanjia"
+  <form-dialog
+    v-model="isShow.table2.menu2"
+    title="期货结算价"
+    :col="table_add.Qihuojiesuanjia"
     @submit="(data: any) => console.log(data)"
     @cancel="isShow.table2.menu2 = false" />
   <el-row>
@@ -39,7 +48,7 @@ import * as table_col from '@/assets/table_info/table-title'
 import * as table_add from '@/assets/table_info/table-add'
 import formDialog from '@/components/form-dialog.vue';
 import * as futureAPI from '@/http/api/future'
-import * as infoAPI from '@/http/api/infomation'
+import * as tradeAPI from '@/http/api/trade'
 import { ElMessage } from 'element-plus';
 
 let formInline = reactive({
@@ -136,6 +145,9 @@ const handle2 = (a: number) => {
       break
   }
 }
+const handleClick = (data: any) => {
+  console.log(data)
+}
 const form1_filter = computed(() => {
   return data.form1.filter((item) => {
     return item.f1.indexOf(formInline.table1) > -1
@@ -160,4 +172,14 @@ const postAPIWrapper = (data: any, handler: any, success: string, error: string)
   })
 }
 
+onMounted(() => {
+  tradeAPI.getCurrency().then((res)=>{
+    table_add.Baozhikaicang.map((item: any) => {
+      if(item.label=='currency'){
+        item.options = res
+      }
+    })
+  }).catch((err)=>ElMessage.error(err))
+  console.log(table_add.Baozhikaicang)
+})
 </script>

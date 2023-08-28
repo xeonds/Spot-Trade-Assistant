@@ -894,13 +894,7 @@ export const Baozhikaicang = [
     ]
   },
   { label: '期货合约', prop: 'contract', type: 'string' },
-  {
-    label: '币种', prop: 'currency', type: 'select',
-    options: [
-      { label: '人民币', value: 1 },
-      { label: '美元', value: 2 },
-    ]
-  },
+  { label: '币种', prop: 'currency', type: 'single-select' },
   { label: '成交日期', prop: 'date', type: 'date' },
   { label: '期货平仓盈亏', prop: 'fprofit', type: 'number' },
   { label: '期货公司简称', prop: 'futures', type: 'number' },
