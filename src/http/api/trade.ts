@@ -680,6 +680,10 @@ export interface Request {
    * 税务机关
    */
   taxAuthority?: string
+  /**
+  * 查询类型(1合同印花税，2采购付款）
+  */
+  queryType?: string;
 }
 
 export const getRequest = (form: Request) => {

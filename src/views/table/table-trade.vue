@@ -620,7 +620,8 @@ const handlepageload = async (id: string) => {
         pageNumber: pagenumber['2-3'],
         pageSize: '10',
         sort: 'date',
-        order: 'desc'
+        order: 'desc',
+        queryType: "1",
       })
       break
   }
