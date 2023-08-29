@@ -1,3 +1,4 @@
+import { dataType } from 'element-plus/es/components/table-v2/src/common'
 import serviceAxios from '..'
 
 export interface getTradeForm {
@@ -641,6 +642,10 @@ export const getContract = (form: CONTRACT) => {
 
 export interface Request {
   /**
+   * 贸易商id
+   */
+  company?: string
+  /**
    * 付款申请日期
    */
   date?: string
@@ -668,6 +673,10 @@ export interface Request {
    * 页面大小
    */
   pageSize?: string
+  /**
+   * 查询类型(1合同印花税，2采购付款）
+   */
+  queryType?: string
   /**
    * 付款申请单号
    */
@@ -766,10 +775,11 @@ export const postRequestDto = (form: RequestDto) => {
   })
 }
 
-export const putContract = () => {
+export const putContract = (id_array: number[]) => {
   return serviceAxios({
     method: 'PUT',
-    url: '/contract/contract/filing'
+    url: '/contract/contract/filing',
+    data: id_array
   })
 }
 
@@ -777,5 +787,204 @@ export const getBankinfo = () => {
   return serviceAxios({
     method: 'GET',
     url: '/bankinfo/all'
+  })
+}
+
+export const getMoneytype = (id: number) => {
+  return serviceAxios({
+    method: 'GET',
+    url: '/moneytype/type',
+    params: { id }
+  })
+}
+
+export interface CAIGOU {
+  /**
+   * 关联贸易商部门表 company.type=供应商、客户、贸易商 id
+   */
+  companyDeptId?: string
+  /**
+   * 贸易商公司 id
+   */
+  companyId?: string
+  /**
+   * 购销日期，输入值
+   */
+  date?: string
+  /**
+   * 交收方式deliver，枚举1(1现货spot、2远期forward)
+   */
+  deliver?: string
+  /**
+   * 关联规格表 id, 可取品种、重量单位、增值税率值
+   */
+  gradeId?: string
+  /**
+   * 关联公司表 type="本公司账套" id
+   */
+  ledgerId?: string
+  /**
+   * 排序方式 asc/desc
+   */
+  order?: string
+  /**
+   * 关联订单模式表 id (1一般、2保证金、3长单、4盘多库存)
+   */
+  orderId?: string
+  /**
+   * 订单号
+   */
+  orderNo?: string
+  /**
+   * 关联本公司部门表 id
+   */
+  ourDeptId?: string
+  /**
+   * 页号
+   */
+  pageNumber?: string
+  /**
+   * 页面大小
+   */
+  pageSize?: string
+  /**
+   * 贸易类型，枚举1(1内贸、2外贸、3进口、4出口)
+   */
+  pattern?: string
+  /**
+   * 购销，(1采购purchase、2销售sales)
+   */
+  ps?: string
+  /**
+   * 排序字段
+   */
+  sort?: string
+  /**
+   * 关联品牌表 id
+   */
+  trademarkId?: string
+  /**
+   * 关联品种表 id
+   */
+  varietyId?: string
+}
+
+export const getCaigouliebiao = (form: CAIGOU) => {
+  return serviceAxios({
+    method: 'GET',
+    url: '/purchase/trade',
+    params: form
+  })
+}
+
+export interface FUKUANSQ {
+  /**
+   * 贸易商id
+   */
+  company?: string
+  /**
+   * 付款申请日期
+   */
+  date?: string
+  /**
+   * 付款状态
+   */
+  finished?: string
+  /**
+   * 本公司账套简称id
+   */
+  ledger?: string
+  /**
+   * 排序方式 asc/desc
+   */
+  order?: string
+  /**
+   * 公司部门id
+   */
+  ourDept?: string
+  /**
+   * 页号
+   */
+  pageNumber?: string
+  /**
+   * 页面大小
+   */
+  pageSize?: string
+  /**
+   * 查询类型(1合同印花税，2采购付款）
+   */
+  queryType?: string
+  /**
+   * 付款申请单号
+   */
+  requestNo?: string
+  /**
+   * 排序字段
+   */
+  sort?: string
+  /**
+   * 税务机关
+   */
+  taxAuthority?: string
+}
+
+export const getFukuan = (form: FUKUANSQ) => {
+  return serviceAxios({
+    method: 'GET',
+    url: '/purchase/request',
+    params: form
+  })
+}
+
+/**
+ * TradeRequestDto
+ */
+export interface CAIGOUFUKUAN {
+  /**
+   * 申请金额
+   */
+  amount?: number
+  /**
+   * 对方公司银行id
+   */
+  bank?: number
+  /**
+   * 申请日期
+   */
+  date?: string
+  /**
+   * 款项
+   */
+  money?: number
+  /**
+   * 备注
+   */
+  note?: string
+  /**
+   * 已付金额
+   */
+  paid?: number
+  /**
+   * 关联的贸易记录id集合
+   */
+  tradeIds?: number[]
+  /**
+   * 款项类型
+   */
+  type?: number
+}
+
+export const postCaigoufukuan = (form: CAIGOUFUKUAN) => {
+  return serviceAxios({
+    method: 'POST',
+    url: '/purchase/request',
+    data: form
+  })
+}
+export const postHetongsaomiao = (id: number, file: any) => {
+  return serviceAxios({
+    method: 'POST',
+    url: `/purchase/image/${id}`,
+    data: file
   })
 }

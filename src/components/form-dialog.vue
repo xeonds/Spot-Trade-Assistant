@@ -1,7 +1,12 @@
 <template>
   <!-- 使用透传将v-model绑定到dialog元素上，从而控制组件显示 -->
   <el-dialog :title="props.title">
-    <el-form :model="data" style="display: flex; flex-wrap: wrap">
+    <el-form
+      :model="data"
+      style="display: flex; flex-wrap: wrap"
+      :rules="props.rules"
+      ref="ruleFormRef"
+    >
       <el-form-item
         :label="item.label"
         :label-width="160"
@@ -68,7 +73,7 @@
           v-model="data[item.prop]"
           placeholder="选择"
           style="width: 240px"
-          @change="(val:any) => handlechange(item.flag, val)"
+          @change="(val:any) => handlechange(item.flag, val,item.bind)"
           v-if="item.type == 'single-select'"
         >
           <el-option
@@ -85,7 +90,7 @@
         <el-button @click="emit('close')" type="primary" plain>
           取消
         </el-button>
-        <el-button @click="() => emit('submit', data)" type="primary"
+        <el-button @click="() => submitForm(ruleFormRef)" type="primary"
           >确定</el-button
         >
       </span>
@@ -94,14 +99,47 @@
 </template>
 
 <script lang="ts" setup>
-let props = defineProps(['visible', 'title', 'col'])
+let ruleFormRef = ref()
+let props = defineProps(['visible', 'title', 'col', 'rules'])
+//rules  表单校验规则
 let emit = defineEmits(['submit', 'close', 'click', 'write'])
+//write 用于标志选项变换 用于加载
 let data = reactive(<any>{})
-const handlechange = (flag: string, val: any) => {
+
+/**
+ * 选项变化
+ */
+const handlechange = (flag: string, val: any, bind: any) => {
   if (flag) {
+    for (let i = 0; i < bind.length; i++) {
+      data[bind[i]] = ''
+    }
     emit('write', flag, val)
   }
 }
+/**
+ * 表单清空
+ */
+const clear = () => {
+  for (var key in data) {
+    data[key] = ''
+  }
+}
+
+const submitForm = async (formEl: any) => {
+  if (!formEl) return
+  await formEl.validate((valid: any, fields: any) => {
+    if (valid) {
+      emit('submit', data)
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
+
+defineExpose({
+  clear
+})
 </script>
 
 <style lang="less" scoped>

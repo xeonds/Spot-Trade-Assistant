@@ -368,26 +368,28 @@ export const Yinhuashui = [
 ]
 
 export const Caigoujilu = [
-  { prop: 'fpl', label: '交易日期', fold: false },
-  { prop: 'fpl', label: '申请状态', fold: false },
-  { prop: 'fpl', label: '签订状态', fold: false },
-  { prop: 'fpl', label: '账套', fold: false },
-  { prop: 'fpl', label: '业务部门', fold: false },
-  { prop: 'fpl', label: '贸易商', fold: false },
-  { prop: 'fpl', label: '贸易商部门', fold: false },
-  { prop: 'fpl', label: '品种', fold: false },
-  { prop: 'fpl', label: '品牌', fold: false },
-  { prop: 'fpl', label: '数量', fold: false },
-  { prop: 'fpl', label: '数量单位', fold: false },
-  { prop: 'fpl', label: '价格', fold: false },
-  { prop: 'fpl', label: '币种', fold: false },
-  { prop: 'fpl', label: '成交金额', fold: false },
-  { prop: 'fpl', label: '实付金额', fold: false },
-  { prop: 'fpl', label: '贸易类型', fold: false },
-  { prop: 'fpl', label: '订单模式', fold: false },
-  { prop: 'fpl', label: '交货方式', fold: false },
-  { prop: 'fpl', label: '交货方式', fold: false },
-  { prop: 'fpl', label: '合同号', fold: false }
+  { prop: 'id', fold: false, hidden: true },
+  { prop: 'date', label: '交易日期', fold: false },
+  { prop: 'reqState', label: '申请状态', fold: false },
+  { prop: 'specialState', label: '签订状态', fold: false },
+  { prop: 'ledger', label: '账套', fold: false },
+  { prop: 'ourDept', label: '业务部门', fold: false },
+  { prop: 'company', label: '贸易商', fold: false },
+  { prop: 'companyDept', label: '贸易商部门', fold: false },
+  { prop: 'variety', label: '品种', fold: false },
+  { prop: 'grade', label: '规格', fold: false },
+  { prop: 'trademark', label: '品牌', fold: false },
+  { prop: 'real', label: '数量', fold: false },
+  { prop: 'unit', label: '数量单位', fold: false },
+  { prop: 'atPrice', label: '价格', fold: false },
+  { prop: 'currency', label: '币种', fold: false },
+  { prop: 'amount', label: '成交金额', fold: false },
+  { prop: 'actAmount', label: '实付金额', fold: false },
+  { prop: 'pattern', label: '贸易类型', fold: false },
+  { prop: 'order', label: '订单模式', fold: false },
+  { prop: 'deliver', label: '交货方式', fold: false },
+  { prop: 'orderNo', label: '订单号', fold: false },
+  { prop: 'contractno', label: '合同号', fold: false }
 ]
 
 export const Caigoudingdan = [
@@ -415,19 +417,21 @@ export const Caigoudingdan = [
 ]
 
 export const Caigoufukuanshenqingjilu = [
-  { prop: 'fpl', label: '申请日期', fold: false },
-  { prop: 'fpl', label: '付款状态', fold: false },
-  { prop: 'fpl', label: '账套', fold: false },
-  { prop: 'fpl', label: '业务部门', fold: false },
-  { prop: 'fpl', label: '贸易商', fold: false },
-  { prop: 'fpl', label: '款项', fold: false },
-  { prop: 'fpl', label: '款项类别', fold: false },
-  { prop: 'fpl', label: '对方银行名称', fold: false },
-  { prop: 'fpl', label: '对方银行账号', fold: false },
-  { prop: 'fpl', label: '申请金额', fold: false },
-  { prop: 'fpl', label: '币种', fold: false },
-  { prop: 'fpl', label: '付款申请单号', fold: false },
-  { prop: 'fpl', label: '备注', fold: false }
+  { prop: 'id', fold: false, hidden: true },
+  { prop: 'scan', fold: false, hidden: true },
+  { prop: 'date', label: '申请日期', fold: false },
+  { prop: 'finished', label: '付款状态', fold: false },
+  { prop: 'ledger', label: '账套', fold: false },
+  { prop: 'ourDept', label: '业务部门', fold: false },
+  { prop: 'company', label: '贸易商', fold: false },
+  { prop: 'money', label: '款项', fold: false },
+  { prop: 'type', label: '款项类别', fold: false },
+  { prop: 'bankName', label: '对方银行名称', fold: false },
+  { prop: 'account', label: '对方银行账号', fold: false },
+  { prop: 'amount', label: '申请金额', fold: false },
+  { prop: 'currency', label: '币种', fold: false },
+  { prop: 'requestNo', label: '付款申请单号', fold: false },
+  { prop: 'note', label: '备注', fold: false }
 ]
 
 export const Gouxiaodingdan = [
