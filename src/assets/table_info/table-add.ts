@@ -897,8 +897,8 @@ export const Baozhikaicang = [
   { label: '币种', prop: 'currency', type: 'single-select' },
   { label: '成交日期', prop: 'date', type: 'date' },
   { label: '期货平仓盈亏', prop: 'fprofit', type: 'number' },
-  { label: '期货公司简称', prop: 'futures', type: 'number' },
-  { label: '规格', prop: 'grade', type: 'number' },
+  { label: '期货公司简称', prop: 'futures', type: 'single-select' },
+  { label: '规格', prop: 'grade', type: 'single-select' },
   { label: '成交手数', prop: 'hands', type: 'number' },
   {
     label: '保值类型', prop: 'hedgetype', type: 'select',
@@ -907,7 +907,7 @@ export const Baozhikaicang = [
       { label: '移仓', value: 2 },
     ]
   },
-  { label: '本公司账套简称', prop: 'ledger', type: 'number' },
+  { label: '本公司账套简称', prop: 'ledger', type: 'single-select' },
   { label: '备注', prop: 'note', type: 'string' },
   {
     label: '开平仓', prop: 'oc', type: 'select',
@@ -916,9 +916,9 @@ export const Baozhikaicang = [
       { label: '平仓', value: 2 },
     ]
   },
-  { label: '本公司部门名称', prop: 'ourdept', type: 'number' },
+  { label: '本公司部门名称', prop: 'ourdept', type: 'single-select' },
   { label: '每手数量', prop: 'perhands', type: 'number' },
-  { label: '品种', prop: 'variety', type: 'number' },
+  { label: '品种', prop: 'variety', type: 'single-select' },
   { label: '加权价', prop: 'weighting', type: 'number' },
 ]
 
