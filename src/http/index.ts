@@ -5,7 +5,7 @@ import download from '../utils/download'
 // 创建axios实例
 const serviceAxios = axios.create({
   baseURL: serverConfig.baseURL,
-  timeout: 10000
+  timeout: 20000
 })
 
 // 请求拦截
