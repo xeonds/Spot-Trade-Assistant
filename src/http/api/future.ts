@@ -1,83 +1,6 @@
 import serviceAxios from '..'
 
-export interface getTradeForm {
-  /**
-   * 关联贸易商部门表 company.type=供应商、客户、贸易商 id
-   */
-  companyDeptId?: string
-  /**
-   * 贸易商公司 id
-   */
-  companyId?: string
-  /**
-   * 购销日期，输入值
-   */
-  date?: string
-  /**
-   * 交收方式deliver，枚举1(1现货spot、2远期forward)
-   */
-  deliver?: string
-  /**
-   * 关联规格表 id, 可取品种、重量单位、增值税率值
-   */
-  gradeId?: string
-  /**
-   * 关联公司表 type="本公司账套" id
-   */
-  ledgerId?: string
-  /**
-   * 排序方式 asc/desc
-   */
-  order?: string
-  /**
-   * 关联订单模式表 id (1一般、2保证金、3长单、4盘多库存)
-   */
-  orderId?: string
-  /**
-   * 订单号
-   */
-  orderNo?: string
-  /**
-   * 关联本公司部门表 id
-   */
-  ourDeptId?: string
-  /**
-   * 页号
-   */
-  pageNumber?: string
-  /**
-   * 页面大小
-   */
-  pageSize?: string
-  /**
-   * 贸易类型，枚举1(1内贸、2外贸、3进口、4出口)
-   */
-  pattern?: string
-  /**
-   * 购销，(1采购purchase、2销售sales)
-   */
-  ps?: string
-  /**
-   * 排序字段
-   */
-  sort?: string
-  /**
-   * 关联品牌表 id
-   */
-  trademarkId?: string
-  /**
-   * 关联品种表 id
-   */
-  varietyId?: string
-}
 
-export const getTrade = (form: getTradeForm) => {
-  return serviceAxios({
-    method: 'GET',
-    url: '/trade/trade/page',
-    params: form
-  })
-}
 
 /**
  * TradePurchaseDto
@@ -781,5 +704,83 @@ export const getBankinfo = () => {
   return serviceAxios({
     method: 'GET',
     url: '/bankinfo/all'
+  })
+}
+
+/**
+ * TransactionDto
+ */
+export interface Baozhikaicang {
+    /**
+     * 买/卖
+     */
+    bs?: number;
+    /**
+     * 期货合约
+     */
+    contract?: string;
+    /**
+     * 币种
+     */
+    currency?: number;
+    /**
+     * 成交日期
+     */
+    date?: string;
+    /**
+     * 期货平仓盈亏
+     */
+    fprofit?: number;
+    /**
+     * 期货公司简称
+     */
+    futures?: number;
+    /**
+     * 规格name（统计）
+     */
+    grade?: number;
+    /**
+     * 成交手数
+     */
+    hands?: number;
+    /**
+     * 保值类型（1建仓、2移仓）
+     */
+    hedgetype?: number;
+    /**
+     * 本公司账套简称shortname(统计)
+     */
+    ledger?: number;
+    /**
+     * 备注
+     */
+    note?: string;
+    /**
+     * 开仓open/平仓close
+     */
+    oc?: number;
+    /**
+     * 本公司部门名称name（统计）
+     */
+    ourdept?: number;
+    /**
+     * 每手数量
+     */
+    perhands?: number;
+    /**
+     * 品种name（统计）
+     */
+    variety?: number;
+    /**
+     * 加权价
+     */
+    weighting?: number;
+}
+
+export const addBaozhikaicang = (data: Baozhikaicang) => {
+  return serviceAxios({
+    method: 'POST',
+    url: '/transaction/transaction',
+    data
   })
 }

@@ -132,30 +132,35 @@ onMounted(() => {
   }
 
   #sub-nav {
-    height: 2rem !important;
-    padding-inline: 1rem;
-    background-color: var(--el-color-secondary);
     display: flex;
-    flex-flow: row nowrap;
     justify-content: start;
     align-items: center;
+    height: 2rem !important;
+    background-color: var(--el-color-secondary);
+    padding-inline: 1rem;
+    flex-flow: row nowrap;
+
     .el-tag {
+      margin-right: 0.5rem;
       background-color: transparent;
       border: none;
-      margin-right: 0.5rem;
-      cursor: pointer;
       border-radius: 0;
+      cursor: pointer;
+
       .el-tag__close {
-        color: #00000000;
+        color: #0000;
       }
+
       &:hover {
         .el-tag__close {
           color: var(--el-color-primary);
+
           &:hover {
             color: #fff;
           }
         }
       }
+
       &.is-active {
         border-bottom: 2px solid var(--el-color-primary);
       }
@@ -164,40 +169,47 @@ onMounted(() => {
 
   #view-content {
     min-height: calc(100vh - 8.5rem);
+
     .el-card {
       margin: 0.25rem;
     }
   }
 
   #view-footer {
-    background-color: var(--el-color-secondary);
     display: flex;
-    flex-flow: row;
     justify-content: space-between;
     align-items: center;
     height: 2rem !important;
-    padding-inline: 1rem;
     color: var(--el-color-primary);
+    background-color: var(--el-color-secondary);
+    flex-flow: row;
+    padding-inline: 1rem;
+
     #marqueen {
       overflow: hidden;
     }
+
     #footer {
       align-self: center;
     }
   }
 }
+
 .el-card__body {
-  padding: 0px;
+  padding: 0;
 }
+
 .rows {
   margin-top: 0.5rem;
 }
+
 .inline-search {
-  margin-left: 0.5rem;
   padding-left: 0.5rem;
+  margin-left: 0.5rem;
   border-left: 1px solid var(--el-color-secondary);
+
   * {
-    margin: auto auto;
+    margin: auto;
   }
 }
 </style>

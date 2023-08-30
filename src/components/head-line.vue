@@ -329,19 +329,6 @@ const user_info = () => {
   router.push('/user')
 }
 
-// const getModels = () => {
-//   serviceAxios({
-//     url: '/template/category',
-//     method: 'GET'
-//   })
-//     .then((res: any) => {
-//       models.value = res
-//     })
-//     .catch((err) => {
-//       console.log(err)
-//     })
-// }
-
 const handleSelect = (index: string) => {
   activeIndex.value = index
   let res: any = navs.value.filter((item) => {

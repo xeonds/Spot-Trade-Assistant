@@ -255,6 +255,9 @@ watch(visible, (value) => {
 })
 
 let data: any[] = reactive([])
+
+/* eslint-disable */
+// eslint-disable-next-line vue/no-setup-props-destructure
 let col: any[] = reactive(props.col)
 
 let current_page = 0

@@ -26,13 +26,14 @@ const emit = defineEmits(['menu'])
 
 <style scoped>
 .menu {
-  display: flex;
-  flex-flow: column;
   position: fixed;
   z-index: 999;
+  display: flex;
   width: 6rem;
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgb(0 0 0 / 20%);
+  flex-flow: column;
+
   .menu-item {
     width: 100%;
   }
