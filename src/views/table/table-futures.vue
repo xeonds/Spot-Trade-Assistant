@@ -10,9 +10,9 @@
     @submit="(data: any) => console.log(data)" @cancel="isShow.table2.menu2 = false" />
   <el-row>
     <el-col :span="24">
-      <Table id="table-future-1" :col="table_col.FutureInfo" :table_data="form1_filter" :contain_top="true"
+      <Table id="table-future-1" :col="table_col.FutureInfo" :table_data="data.form1" :contain_top="true"
         :contain_command="true" :command="commands.command" :name="'保值成交记录'" @handle="handle" :hasfold="false"
-        :enable_select="false" :height="33">
+        :enable_select="false" :height="33" @load="handleDataLoad('form1')">
         <template #command>
           <el-input class="inline-search" v-model="formInline.table1" placeholder="输入关键字，用空格隔开" clearable />
         </template>
@@ -21,9 +21,9 @@
   </el-row>
   <el-row>
     <el-col :span="24">
-      <Table id="table-future-2" :col="table_col.FutureInfo2" :table_data="form2_filter" :contain_top="true"
+      <Table id="table-future-2" :col="table_col.FutureInfo2" :table_data="data.form2" :contain_top="true"
         :contain_command="true" :command="commands.command2" :name="'保值头寸'" @handle="handle2" :hasfold="false"
-        :enable_select="false" :height="33">
+        :enable_select="false" :height="33" @load="handleDataLoad('form2')">
         <template #command>
           <el-input class="inline-search" v-model="formInline.table2" placeholder="输入关键字，用空格隔开" clearable />
         </template>
@@ -42,7 +42,6 @@ import * as futureAPI from '@/http/api/future'
 import * as tradeAPI from '@/http/api/trade'
 
 let Baozhikaicang = reactive(table_add.Baozhikaicang)
-
 let formInline = reactive({
   table1: '',
   table2: '',
@@ -57,53 +56,9 @@ let isShow = reactive({
     menu2: false
   }
 })
-let data = reactive({
-  form1: [
-    {
-      f1: '2023-06-22',
-      f2: '建仓',
-      f3: '华一',
-      f4: '一部',
-      f5: '海通',
-      f6: 'Ru2305',
-      f7: '开',
-      f8: '卖',
-      f9: '橡胶',
-      f10: '全乳胶',
-      f11: '151',
-      f12: '',
-      f13: '吨',
-      f14: '12150',
-      f15: '',
-      f16: '人民币',
-      f17: '',
-      f18: '',
-      f19: ''
-    }
-  ],
-  form2: [
-    {
-      f1: '2023-06-22',
-      f2: '建仓',
-      f3: '华一',
-      f4: '一部',
-      f5: '海通',
-      f6: 'Ru2305',
-      f7: '开',
-      f8: '卖',
-      f9: '橡胶',
-      f10: '全乳胶',
-      f11: '151',
-      f12: '',
-      f13: '吨',
-      f14: '12150',
-      f15: '',
-      f16: '人民币',
-      f17: '',
-      f18: '',
-      f19: ''
-    }
-  ],
+let data: any = reactive({
+  form1: [],
+  form2: [],
   input: {
     input1: '',
     input2: ''
@@ -124,29 +79,18 @@ const handle = (a: number) => {
 const handle2 = (a: number) => {
   switch (a) {
     case 0:
-      isShow.table2.menu1 = true
+      // isShow.table2.menu1 = true
+      ElMessage.info('开发中')
       break
     case 1:
-      isShow.table2.menu2 = true
+      // isShow.table2.menu2 = true
+      ElMessage.info('开发中')
       break
     case 2:
-      ElMessage({
-        message: '开发中',
-        type: 'info'
-      })
+      ElMessage.info('开发中')
       break
   }
 }
-const form1_filter = computed(() => {
-  return data.form1.filter((item) => {
-    return item.f1.indexOf(formInline.table1) > -1
-  })
-})
-const form2_filter = computed(() => {
-  return data.form2.filter((item) => {
-    return item.f1.indexOf(formInline.table2) > -1
-  })
-})
 const postAPIWrapper = (data: any, handler: any, success: string, error: string) => {
   handler(data).then(() => {
     ElMessage({
@@ -178,6 +122,18 @@ const addOptions = (list: any, key: any, value: any) => {
     if (item.prop == key) item.options = value
     return item
   })
+}
+const handleDataLoad = async (id: string) => {
+  let res: any = []
+  switch (id) {
+    case 'form1': res = await futureAPI.getTransaction(); break;
+    case 'form2': res = await futureAPI.getFPosition(); break;
+  }
+  if (res.data.length > 0) {
+    res.data.forEach((item: any) => {
+      data[id].push(item)
+    })
+  }
 }
 
 onMounted(async () => {
