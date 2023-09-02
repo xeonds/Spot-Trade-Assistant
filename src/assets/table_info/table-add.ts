@@ -584,7 +584,8 @@ export const Gouxiaojilu = [
     label: '账套',
     type: 'single-select',
     prop: 'ledgerId',
-    flag: 'GJ-1'
+    flag: 'GJ-1',
+    bind: ['ourDeptId']
   },
   {
     label: '业务部门',
@@ -595,7 +596,8 @@ export const Gouxiaojilu = [
     label: '贸易商',
     type: 'single-select',
     prop: 'companyId',
-    flag: 'GJ-2'
+    flag: 'GJ-2',
+    bind: ['companyDeptId']
   },
   {
     label: '贸易商部门',
@@ -606,7 +608,8 @@ export const Gouxiaojilu = [
     label: '品种',
     prop: 'varietyId',
     type: 'single-select',
-    flag: 'GJ-3'
+    flag: 'GJ-3',
+    bind: ['gradeId', 'trademarkId']
   },
   {
     label: '规格',
@@ -693,7 +696,8 @@ export const Xiaoshouqueren = [
     label: '账套',
     type: 'single-select',
     prop: 'ledgerId',
-    flag: 'XS-1'
+    flag: 'XS-1',
+    bind: ['ourDeptId']
   },
   {
     label: '业务部门',
@@ -704,7 +708,8 @@ export const Xiaoshouqueren = [
     label: '贸易商',
     type: 'single-select',
     prop: 'companyId',
-    flag: 'XS-2'
+    flag: 'XS-2',
+    bind: ['companyDeptId']
   },
   {
     label: '贸易商部门',
@@ -715,7 +720,8 @@ export const Xiaoshouqueren = [
     label: '品种',
     prop: 'varietyId',
     type: 'single-select',
-    flag: 'XS-3'
+    flag: 'XS-3',
+    bind: ['gradeId', 'trademarkId']
   },
   {
     label: '规格',
@@ -861,12 +867,20 @@ export const Yinhuashui = [
   {
     label: '款项',
     prop: 'money',
-    type: 'number'
+    type: 'single-select',
+    options: [
+      { value: 1, label: '1' },
+      { value: 2, label: '2' },
+      { value: 3, label: '3' },
+      { value: 4, label: '4' }
+    ],
+    flag: 'YS-1',
+    bind: ['type']
   },
   {
     label: '款项类型',
     prop: 'type',
-    type: 'string'
+    type: 'single-select'
   },
   {
     label: '申请金额',
@@ -874,10 +888,62 @@ export const Yinhuashui = [
     type: 'number'
   },
   {
+    label: '已付金额',
+    prop: 'paid',
+    type: 'number'
+  },
+  {
     label: '税务机关',
     prop: 'taxAuthority',
     type: 'string'
   },
+  {
+    label: '备注',
+    prop: 'note',
+    type: 'string'
+  }
+]
+
+export const Caigoufukuan = [
+  {
+    prop: 'date',
+    label: '交易日期',
+    type: 'date'
+  },
+  {
+    label: '对方公司银行',
+    type: 'single-select',
+    prop: 'bank'
+  },
+  {
+    label: '款项',
+    prop: 'money',
+    type: 'single-select',
+    options: [
+      { value: 1, label: '1' },
+      { value: 2, label: '2' },
+      { value: 3, label: '3' },
+      { value: 4, label: '4' }
+    ],
+    flag: 'Fk-1',
+    bind: ['type']
+  },
+  {
+    label: '款项类型',
+    prop: 'type',
+    type: 'single-select'
+  },
+  {
+    label: '申请金额',
+    prop: 'amount',
+    type: 'number'
+  },
+  {
+    label: '已付金额',
+    prop: 'paid',
+    type: 'number'
+  },
+
   {
     label: '备注',
     prop: 'note',
