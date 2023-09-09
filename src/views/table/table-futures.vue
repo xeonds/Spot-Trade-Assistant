@@ -1,16 +1,18 @@
 <template>
-  <form-dialog width="80%" title="保值开仓" v-model="isShow.table1.menu1" :col="Baozhikaicang" @click="handleClick"
-    @submit="(data: any) => postAPIWrapper(data, futureAPI.addBaozhikaicang, '添加记录成功', '添加失败')"
-    @cancel="isShow.table1.menu1 = false" />
+  <form-dialog width="80%" title="保值开仓" v-model="isShow.table1.menu1" :col="Baozhikaicang"
+    @write="(flag, val) => handleLoad(flag, val)" @submit="(data: any) => {
+      postAPIWrapper(data, futureAPI.addBaozhikaicang, '添加记录成功', '添加失败')
+      isShow.table1.menu1 = false
+    }" @cancel="isShow.table1.menu1 = false" />
   <form-dialog width="80%" v-model="isShow.table2.menu1" title="保值平仓" :col="table_add.Baozhipingcang"
     @submit="(data: any) => console.log(data)" @cancel="isShow.table2.menu1 = false" />
   <form-dialog v-model="isShow.table2.menu2" title="期货结算价" :col="table_add.Qihuojiesuanjia"
     @submit="(data: any) => console.log(data)" @cancel="isShow.table2.menu2 = false" />
   <el-row>
     <el-col :span="24">
-      <Table id="table-future-1" :col="table_col.FutureInfo" :table_data="form1_filter" :contain_top="true"
+      <Table id="table-future-1" :col="table_col.FutureInfo" :table_data="data.form1" :contain_top="true"
         :contain_command="true" :command="commands.command" :name="'保值成交记录'" @handle="handle" :hasfold="false"
-        :enable_select="false" :height="33">
+        :enable_select="false" :height="33" @load="handleDataLoad('form1')">
         <template #command>
           <el-input class="inline-search" v-model="formInline.table1" placeholder="输入关键字，用空格隔开" clearable />
         </template>
@@ -19,9 +21,9 @@
   </el-row>
   <el-row>
     <el-col :span="24">
-      <Table id="table-future-2" :col="table_col.FutureInfo2" :table_data="form2_filter" :contain_top="true"
+      <Table id="table-future-2" :col="table_col.FutureInfo2" :table_data="data.form2" :contain_top="true"
         :contain_command="true" :command="commands.command2" :name="'保值头寸'" @handle="handle2" :hasfold="false"
-        :enable_select="false" :height="33">
+        :enable_select="false" :height="33" @load="handleDataLoad('form2')">
         <template #command>
           <el-input class="inline-search" v-model="formInline.table2" placeholder="输入关键字，用空格隔开" clearable />
         </template>
@@ -40,7 +42,6 @@ import * as futureAPI from '@/http/api/future'
 import * as tradeAPI from '@/http/api/trade'
 
 let Baozhikaicang = reactive(table_add.Baozhikaicang)
-
 let formInline = reactive({
   table1: '',
   table2: '',
@@ -55,53 +56,9 @@ let isShow = reactive({
     menu2: false
   }
 })
-let data = reactive({
-  form1: [
-    {
-      f1: '2023-06-22',
-      f2: '建仓',
-      f3: '华一',
-      f4: '一部',
-      f5: '海通',
-      f6: 'Ru2305',
-      f7: '开',
-      f8: '卖',
-      f9: '橡胶',
-      f10: '全乳胶',
-      f11: '151',
-      f12: '',
-      f13: '吨',
-      f14: '12150',
-      f15: '',
-      f16: '人民币',
-      f17: '',
-      f18: '',
-      f19: ''
-    }
-  ],
-  form2: [
-    {
-      f1: '2023-06-22',
-      f2: '建仓',
-      f3: '华一',
-      f4: '一部',
-      f5: '海通',
-      f6: 'Ru2305',
-      f7: '开',
-      f8: '卖',
-      f9: '橡胶',
-      f10: '全乳胶',
-      f11: '151',
-      f12: '',
-      f13: '吨',
-      f14: '12150',
-      f15: '',
-      f16: '人民币',
-      f17: '',
-      f18: '',
-      f19: ''
-    }
-  ],
+let data: any = reactive({
+  form1: [],
+  form2: [],
   input: {
     input1: '',
     input2: ''
@@ -122,43 +79,18 @@ const handle = (a: number) => {
 const handle2 = (a: number) => {
   switch (a) {
     case 0:
-      isShow.table2.menu1 = true
+      // isShow.table2.menu1 = true
+      ElMessage.info('开发中')
       break
     case 1:
-      isShow.table2.menu2 = true
+      // isShow.table2.menu2 = true
+      ElMessage.info('开发中')
       break
     case 2:
-      ElMessage({
-        message: '开发中',
-        type: 'info'
-      })
+      ElMessage.info('开发中')
       break
   }
 }
-const handleClick = (data: any) => {
-  if (data.prop = 'variety') {
-    // 规格
-    tradeAPI.getCompanyList(2).then((res: any) => {
-      Baozhikaicang = Baozhikaicang.map((item: any) => {
-        if (item.prop == 'futures') item.options = res.map((item: any) => {
-          return { label: item.name, value: item.name }
-        })
-        return item
-      })
-    })
-  }
-  console.log(data)
-}
-const form1_filter = computed(() => {
-  return data.form1.filter((item) => {
-    return item.f1.indexOf(formInline.table1) > -1
-  })
-})
-const form2_filter = computed(() => {
-  return data.form2.filter((item) => {
-    return item.f1.indexOf(formInline.table2) > -1
-  })
-})
 const postAPIWrapper = (data: any, handler: any, success: string, error: string) => {
   handler(data).then(() => {
     ElMessage({
@@ -172,35 +104,47 @@ const postAPIWrapper = (data: any, handler: any, success: string, error: string)
     })
   })
 }
+// callback for menu1 options change`
+const handleLoad = (flag: string, val: any) => {
+  console.log(flag, val)
+  if (flag == 'ourdept') {
+    tradeAPI.getCompanyDept(1, val).then((res: any) => {
+      Baozhikaicang = addOptions(Baozhikaicang, flag, res.map((item: any) => { return { label: item.name, value: item.id } }))
+    })
+  } else if (flag == 'grade') {
+    tradeAPI.getGrade(val).then((res: any) => {
+      Baozhikaicang = addOptions(Baozhikaicang, flag, res.map((item: any) => { return { label: item.name, value: item.id } }))
+    })
+  }
+}
+const addOptions = (list: any, key: any, value: any) => {
+  return list.map((item: any) => {
+    if (item.prop == key) item.options = value
+    return item
+  })
+}
+const handleDataLoad = async (id: string) => {
+  let res: any = []
+  switch (id) {
+    case 'form1': res = await futureAPI.getTransaction(); break;
+    case 'form2': res = await futureAPI.getFPosition(); break;
+  }
+  if (res.data.length > 0) {
+    res.data.forEach((item: any) => {
+      data[id].push(item)
+    })
+  }
+}
 
-onMounted(() => {
-  // 币种
-  tradeAPI.getCurrency().then((res: any) => {
-    Baozhikaicang = Baozhikaicang.map((item: any) => {
-      if (item.prop == 'currency') item.options = res.map((item: any) => { return { label: item.name, value: item.name } })
-      return item
-    })
-  }).catch((err) => ElMessage.error(err))
-  // 品种
-  tradeAPI.getVariety().then((res: any) => {
-    Baozhikaicang = Baozhikaicang.map((item: any) => {
-      if (item.prop == 'variety') item.options = res.map((item: any) => { return { label: item.name, value: item.name } })
-      return item
-    })
-  }).catch((err) => ElMessage.error(err))
-  // 本公司账套简称
-  tradeAPI.getCompanyList(1).then((res: any) => {
-    Baozhikaicang = Baozhikaicang.map((item: any) => {
-      if (item.prop == 'ledger') item.options = res.map((item: any) => { return { label: item.name, value: item.name } })
-      return item
-    })
-  })
-  // 期货公司简称
-  tradeAPI.getCompanyList(2).then((res: any) => {
-    Baozhikaicang = Baozhikaicang.map((item: any) => {
-      if (item.prop == 'futures') item.options = res.map((item: any) => { return { label: item.name, value: item.name } })
-      return item
-    })
-  })
+onMounted(async () => {
+  // load menu1 options
+  const currency: any = await tradeAPI.getCurrency()
+  const variety: any = await tradeAPI.getVariety()
+  const companyList_1: any = await tradeAPI.getCompanyList(1)
+  const companyList_2: any = await tradeAPI.getCompanyList(2)
+  Baozhikaicang = addOptions(Baozhikaicang, 'currency', currency.map((item: any) => { return { label: item.name, value: item.id } }))
+  Baozhikaicang = addOptions(Baozhikaicang, 'variety', variety.map((item: any) => { return { label: item.name, value: item.id } }))
+  Baozhikaicang = addOptions(Baozhikaicang, 'ledger', companyList_1.map((item: any) => { return { label: item.shortname, value: item.id } }))
+  Baozhikaicang = addOptions(Baozhikaicang, 'futures', companyList_2.map((item: any) => { return { label: item.shortname, value: item.id } }))
 })
 </script>
