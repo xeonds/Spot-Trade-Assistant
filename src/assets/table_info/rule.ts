@@ -1,3 +1,5 @@
+import * as table_add from './table-add'
+
 const validatePhone = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请输入手机号'))
@@ -20,6 +22,16 @@ const validateNumber = (rule: any, value: any, callback: any) => {
       callback(new Error('请输入数字'))
     }
   }
+}
+
+const validateNun = (add_list: any) => {
+  const temp: any = {}
+  for (let i = 0; i < add_list.length; i++) {
+    temp[add_list[i].prop] = [
+      { required: true, message: '请填写' + add_list[i].label, trigger: 'blur' }
+    ]
+  }
+  return temp
 }
 
 export const Zhangtao1rules = {
@@ -195,5 +207,12 @@ export const MenusInforules = {
   remark: [{ required: true, message: '请填写备注', trigger: 'blur' }]
 }
 
-export const FutureInfo = {}
-export const FutureInfo2 = {}
+export const Gouxiaojilurules = validateNun(table_add.Gouxiaojilu)
+
+export const Xiaoshouquerenrules = validateNun(table_add.Xiaoshouqueren)
+
+export const Shengchenghetongrules = validateNun(table_add.Shengchenghetong)
+
+export const Yinhuashuirules = validateNun(table_add.Yinhuashui)
+
+export const Caigoufukuan = validateNun(table_add.Caigoufukuan)
