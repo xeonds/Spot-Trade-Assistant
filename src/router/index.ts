@@ -32,11 +32,11 @@ export default createRouter({
           component: () => import('../views/table/table-trade.vue')
         },
         {
-          path: 'goods-manage',
+          path: 'goods-manage/:id',
           component: () => import('../views/table/table-goods-manage.vue')
         },
         {
-          path: 'storehouse-manage',
+          path: 'storehouse-manage/:id',
           component: () => import('../views/table/table-storehouse-manage.vue')
         },
         {

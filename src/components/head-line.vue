@@ -184,37 +184,37 @@ const navs = ref([
       {
         index: '5-1',
         name: '收货',
-        route: '/main/goods-manage'
+        route: '/main/goods-manage/1'
       },
       {
         index: '5-2',
         name: '发货',
-        route: '/main/goods-manage'
+        route: '/main/goods-manage/2'
       },
       {
         index: '5-3',
         name: '实数确认',
-        route: '/main/goods-manage'
+        route: '/main/goods-manage/3'
       },
       {
         index: '5-4',
         name: '货物变更及对账',
-        route: '/main/goods-manage'
+        route: '/main/goods-manage/4'
       },
       {
         index: '5-5',
         name: '进口及对账',
-        route: '/main/goods-manage'
+        route: '/main/goods-manage/5'
       },
       {
         index: '5-6',
         name: '仓储费及对账',
-        route: '/main/goods-manage'
+        route: '/main/goods-manage/6'
       },
       {
         index: '5-7',
         name: '对账单付款申请',
-        route: '/main/goods-manage'
+        route: '/main/goods-manage/7'
       }
     ]
   },
@@ -226,12 +226,12 @@ const navs = ref([
       {
         index: '6-1',
         name: '入库',
-        route: '/main/storehouse-manage'
+        route: '/main/storehouse-manage/1'
       },
       {
         index: '6-2',
         name: '出库',
-        route: '/main/storehouse-manage'
+        route: '/main/storehouse-manage/2'
       }
     ]
   },

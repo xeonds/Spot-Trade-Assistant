@@ -1,699 +1,263 @@
 <template>
-  <Table
-    :contain_command="true"
-    :contain_top="true"
-    :command="command"
-    :table_data="data"
-    :property="property"
-    @handle="handle"
-    name="现货收货记录"
-    :label="label"
-    :haveslot="true"
-    id="storehouse1"
-  >
-    <template #top>
-      <TableFind :search_item="search_item"></TableFind>
-    </template>
-    <template #tr_extend>
-      <button>查看</button>
-    </template>
-  </Table>
-  <el-row>
-    <el-col :span="12">
-      <Table
-        :contain_command="true"
-        :contain_top="true"
-        :table_data="search_item1"
-        :property="property1"
-        :command="command1"
-        @handle="handle1"
-        name="货物批次"
-        :label="label1"
-        id="storehouse2"
-      >
-        <template #top>
-          <TableFind :search_item="search_item"></TableFind>
-        </template>
-        <template #tr_extend>
-          <div>
-            <button style="margin-right: 2vw">上传</button>
-            <button>查看</button>
-          </div>
-        </template>
-      </Table>
-    </el-col>
-    <el-col :span="12">
-      <Table
-        :contain_command="true"
-        :contain_top="true"
-        :table_data="data2"
-        :property="property2"
-        :command="command2"
-        @handle="handle2"
-        name="输信息"
-        :label="label2"
-        id="storehouse3"
-      ></Table>
-    </el-col>
-    <Table
-      :contain_command="true"
-      :contain_top="true"
-      :table_data="data3"
-      :property="property3"
-      :command="command3"
-      @handle="handle3"
-      name="入库记录"
-      :label="label3"
-      :haveslot="true"
-      id="storehouse4"
-    >
-      <template #top>
-        <TableFind :search_item="search_item"></TableFind>
-      </template>
-      <template #tr_extend>
-        <button style="margin-left: 1vw; font-size: 0.7vw">上传</button>
-        <button style="margin-left: 1vw; font-size: 0.7vw">查看</button>
-      </template>
-    </Table>
-  </el-row>
-  <Table
-    :contain_command="true"
-    :contain_top="true"
-    :table_data="data4"
-    :property="property4"
-    :command="command4"
-    @handle="handle4"
-    name="销售贸易记录"
-    id="storehouse5"
-    :label="label4"
-  ></Table>
-  <Table
-    :contain_command="true"
-    :contain_top="true"
-    :table_data="data5"
-    :property="property5"
-    :command="command5"
-    @handle="handle5"
-    name="可售库存"
-    :label="label5"
-    id="storehouse6"
-  ></Table>
-  <Table
-    :contain_command="true"
-    :contain_top="true"
-    :table_data="data6"
-    :property="property6"
-    :command="command6"
-    @handle="handle6"
-    name="出库记录"
-    :label="label6"
-    id="storehouse7"
-  >
-    <template #top>
-      <TableFind :search_item="search_item"></TableFind>
-    </template>
-  </Table>
+  <formPopmenu
+    :menu-list="menuList"
+    :position="position"
+    v-show="isVisible.clickMenu"
+    @menu="handleCtxMenu"
+  />
+  <div v-if="route.params.id==='1'">
+    <el-row>
+      <el-col>
+        <modifyTable
+          :data="data['1-1']"
+          :command="['刷新']"
+          name="采购订单"
+          id="store1"
+          :col="tableCol.Caigoudingdan"
+          :height="25"
+          :selectable="true"
+          @load="handlepageload('1-1')"
+          @handle="(a:number)=>handle('1-1', a)"
+          @menu="menu"
+          v-loading="isLoading['1-1']"
+        >
+          <template #command>
+            <tableFind :form-data="data['1-1']" @submit="console.log" />
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
+        <modifyTable
+          :data="data['1-2']"
+          :command="['刷新', '现货签收']"
+          name="现货收货记录"
+          id="trade2"
+          :col="tableCol.Caigoudingdan"
+          :height="25"
+          :selectable="true"
+          @load="handlepageload('1-2')"
+          @handle="(a:number)=>handle('1-2', a)"
+          @menu="menu"
+          v-loading="isLoading['1-2']"
+        >
+          <template #command>
+            <tableFind :form-data="data['1-2']" @submit="console.log" />
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
+        <modifyTable
+          :data="data['1-3']"
+          :command="['刷新', '远期登记']"
+          name="远期收货记录"
+          id="trade3"
+          :col="tableCol.Caigoudingdan"
+          :height="25"
+          :selectable="true"
+          @load="handlepageload('1-3')"
+          @handle="(a:number)=>handle('1-3', a)"
+          @menu="menu"
+          v-loading="isLoading['1-3']"
+        >
+          <template #command>
+            <tableFind :form-data="data['1-3']" @submit="console.log" />
+          </template>
+        </modifyTable>
+      </el-col>
+    </el-row>
+  </div>
+  <div v-if="route.params.id==='2'">
+    <el-row>
+      <el-col></el-col>
+    </el-row>
+  </div>
+  <div v-if="route.params.id==='3'">
+    <el-row>
+      <el-col></el-col>
+    </el-row>
+  </div>
+  <div v-if="route.params.id==='4'">
+    <el-row>
+      <el-col></el-col>
+    </el-row>
+  </div>
+  <div v-if="route.params.id==='5'">
+    <el-row>
+      <el-col></el-col>
+    </el-row>
+  </div>
+  <div v-if="route.params.id==='6'">
+    <el-row>
+      <el-col></el-col>
+    </el-row>
+  </div>
+  <div v-if="route.params.id==='7'">
+    <el-row>
+      <el-col></el-col>
+    </el-row>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import Table from '../../components/main-table.vue'
-import { reactive } from 'vue'
-import TableFind from '../../components/table-find.vue'
+import {useRouter} from 'vue-router'
+import {ref,reactive} from 'vue'
+import modifyTable from '@/components/modify-table2.vue';
+import formDialog from '@/components/form-dialog.vue';
+import formPopmenu from '../../components/form-popmenu.vue'
+import tableFind from '@/components/table-find.vue';
+import * as tableCol from '@/assets/table_info/table-title'
+import * as tradeAPI from '@/http/api/trade'
 
-let data = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
+const router = useRouter()
+const route = router.currentRoute
+const data = ref(<any>{})
+const isLoading = ref(<any>{})
+const isVisible = ref(<any>{})
+const pagenumber = reactive(<any>{})
+
+// menu vars & handlers
+const menuList = ref([
+  { prop: 'refresh', label: '刷新' },
+  { prop: 'update', label: '修改' },
+  { prop: 'delete', label: '删除' }
+])
+const position = ref({ x: 0, y: 0 })
+const handleCtxMenu = (menuLabel: string) => {
+  switch (menuLabel) {
+    case 'refresh':
+      handleRefresh('1-1')
+      break
+    case 'update':
+      isVisible.value.dialogUpdate = true
+      break
+    case 'delete':
+      isVisible.value.dialogDelete = true
+      break
   }
-])
-let search_item = reactive([
-  '入库状态',
-  '仓库',
-  '分库区',
-  '账套',
-  '业务部门',
-  '贸易商',
-  '提单号'
-])
-let label = reactive([
-  '收货日期',
-  '账套',
-  '业务部门',
-  '贸易商',
-  '品种',
-  '规格',
-  '品牌',
-  '数量',
-  '实数',
-  '仓库',
-  '分库区',
-  '货主',
-  '收货单种类',
-  '原始入库日期',
-  '存储卡号',
-  '收货单号',
-  '入库状态',
-  '收货单扫描件'
-])
-let property = reactive([
-  'm1',
-  'm2',
-  'm3',
-  'm4',
-  'm5',
-  'm6',
-  'm7',
-  'm8',
-  'm9',
-  'm10',
-  'm11',
-  'm12',
-  'm13',
-  'm14',
-  'm15',
-  'm16',
-  'm17'
-])
-let command = ['现货入库']
-let search_item1 = reactive(['登记日期', '在途状态', '运输方式', '提单号'])
-let data1 = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  }
-])
-
-let label1 = reactive([
-  '登记日期',
-  '账套',
-  '业务部门',
-  '贸易商',
-  '货物状态',
-  '运输方式',
-  '品种',
-  '规格',
-  '品牌',
-  '数量',
-  '提单号',
-  '始发地',
-  '目的地',
-  '预计运期',
-  '提单扫描件'
-])
-
-let property1 = reactive([
-  'm1',
-  'm2',
-  'm3',
-  'm4',
-  'm5',
-  'm6',
-  'm7',
-  'm8',
-  'm9',
-  'm10',
-  'm11',
-  'm12',
-  'm13',
-  'm14',
-  'm15'
-])
-let command1 = reactive(['远期入库'])
-
-let data2 = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  }
-])
-
-let label2 = reactive(['车船号', '数量', '发货日期', '到货日期', '备注'])
-let property2 = reactive(['m1', 'm2', 'm3', 'm4', 'm5'])
-let command2 = reactive(['信息登记'])
-
-let data3 = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  }
-])
-let search_item3 = reactive([
-  '在库状态',
-  '货主',
-  '单据种类',
-  '仓库',
-  '分库区',
-  '账套',
-  '业务部门',
-  '品种',
-  '规格',
-  '品牌'
-])
-let label3 = reactive([
-  '入库日期',
-  '账套',
-  '业务部门',
-  '仓库',
-  '分库区',
-  '品种',
-  '规格',
-  '品牌',
-  '入库数量',
-  '入库实数',
-  '单位',
-  '货主',
-  '入库单种类',
-  '卡号',
-  '入库单号',
-  '货位号',
-  '入库方式',
-  '在库状态',
-  '入库单扫描件'
-])
-let property3 = reactive([
-  'm1',
-  'm2',
-  'm3',
-  'm4',
-  'm5',
-  'm6',
-  'm7',
-  'm8',
-  'm9',
-  'm10',
-  'm11',
-  'm12',
-  'm13',
-  'm14',
-  'm15',
-  'm16',
-  'm17',
-  'm18'
-])
-let command3 = reactive(['现货签收'])
-
-let data4 = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  }
-])
-
-let label4 = reactive([
-  '交易日期',
-  '账套',
-  '业务部门',
-  '贸易商',
-  '贸易商部门',
-  '品种',
-  '规格',
-  '品牌',
-  '数量',
-  '单位',
-  '单价',
-  '币种',
-  '贸易类型',
-  '订单模式',
-  '交货方式',
-  '发货状态'
-])
-let property4 = reactive([
-  'm1',
-  'm2',
-  'm3',
-  'm4',
-  'm5',
-  'm6',
-  'm7',
-  'm8',
-  'm9',
-  'm10',
-  'm11',
-  'm12',
-  'm13',
-  'm14',
-  'm15',
-  'm16'
-])
-let command4 = reactive([
-  '发货状态',
-  '交易日期',
-  '账套',
-  '业务部门',
-  '贸易商',
-  '贸易商部门',
-  '贸易类型',
-  '订单模式',
-  '交货方式'
-])
-
-let data5 = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  }
-])
-
-let label5 = reactive([
-  '交易日期',
-  '账套',
-  '业务部门',
-  '贸易商',
-  '贸易商部门',
-  '品种',
-  '规格',
-  '品牌',
-  '数量',
-  '单位',
-  '单价',
-  '币种',
-  '贸易类型',
-  '订单模式',
-  '交货方式',
-  '发货状态'
-])
-let property5 = reactive([
-  'm1',
-  'm2',
-  'm3',
-  'm4',
-  'm5',
-  'm6',
-  'm7',
-  'm8',
-  'm9',
-  'm10',
-  'm11',
-  'm12',
-  'm13',
-  'm14',
-  'm15',
-  'm16'
-])
-let command5 = reactive([
-  '发货状态',
-  '交易日期',
-  '账套',
-  '业务部门',
-  '贸易商',
-  '贸易商部门',
-  '贸易类型',
-  '订单模式',
-  '交货方式'
-])
-
-let data6 = reactive([
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  },
-  {
-    name: '341134',
-    date: '2023-11-9-9',
-    sex: 'male',
-    test: 'sdfas',
-    test2: 'dfas',
-    test34: 'fdas'
-  }
-])
-
-let label6 = reactive([
-  '交易日期',
-  '账套',
-  '业务部门',
-  '贸易商',
-  '贸易商部门',
-  '品种',
-  '规格',
-  '品牌',
-  '数量',
-  '单位',
-  '单价',
-  '币种',
-  '贸易类型',
-  '订单模式',
-  '交货方式',
-  '发货状态'
-])
-let property6 = reactive([
-  'm1',
-  'm2',
-  'm3',
-  'm4',
-  'm5',
-  'm6',
-  'm7',
-  'm8',
-  'm9',
-  'm10',
-  'm11',
-  'm12',
-  'm13',
-  'm14',
-  'm15',
-  'm16'
-])
-let command6 = reactive([
-  '发货状态',
-  '交易日期',
-  '账套',
-  '业务部门',
-  '贸易商',
-  '贸易商部门',
-  '贸易类型',
-  '订单模式',
-  '交货方式'
-])
-
-const handle = (a: number) => {
-  console.log(a)
+  isVisible.value.clickMenu = false
+  ElMessage({
+    message: '开发中：点击了' + menuLabel,
+    type: 'info'
+  })
 }
-const handle1 = (a: number) => {
-  console.log(a)
+const menu = (_a: any, _b: any, _c: any, event: any) => {
+  event.preventDefault()
+  position.value.x = event.clientX
+  position.value.y = event.clientY
+  isVisible.value.clickMenu = true
+  document.addEventListener('click', () => {
+    isVisible.value.clickMenu = false
+  })
 }
-const handle2 = (a: number) => {
-  console.log(a)
+const handlepageload = async (id: string) => {
+  let res: any = []
+  switch (id) {
+    case '1-1':
+      pagenumber['1-1'] = pagenumber['1-1'] + 1
+      res = await tradeAPI.getTrade({
+        pageNumber: pagenumber['1-1'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '1-2':
+      pagenumber['1-2'] = pagenumber['1-2'] + 1
+      res = await tradeAPI.getPosition({
+        pageNumber: pagenumber['1-2'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '2-1':
+      pagenumber['2-1'] = pagenumber['2-1'] + 1
+      res = await tradeAPI.getTrade2({
+        pageNumber: pagenumber['2-1'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '2-2':
+      pagenumber['2-2'] = pagenumber['2-2'] + 1
+      res = await tradeAPI.getContract({
+        pageNumber: pagenumber['2-2'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '2-3':
+      pagenumber['2-3'] = pagenumber['2-3'] + 1
+      res = await tradeAPI.getRequest({
+        pageNumber: pagenumber['2-3'],
+        queryType: '1',
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '3-1':
+      pagenumber['3-1'] = pagenumber['3-1'] + 1
+      res = await tradeAPI.getCaigouliebiao({
+        ps: '1',
+        pageNumber: pagenumber['3-1'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '3-2':
+      pagenumber['3-2'] = pagenumber['3-2'] + 1
+      res = await tradeAPI.getFukuan({
+        queryType: '2',
+        pageNumber: pagenumber['3-2'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '4-1':
+      pagenumber['4-1'] = pagenumber['4-1'] + 1
+      res = await tradeAPI.getSales({
+        pageNumber: pagenumber['4-1'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '4-2':
+      pagenumber['4-2'] = pagenumber['4-2'] + 1
+      res = await tradeAPI.getShoukuan({
+        pageNumber: pagenumber['4-2'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+  }
+  if (res.data.length != 0) {
+    res.data.forEach((item: any) => {
+      data[id].push(item)
+    })
+  }
+  isLoading[id] = false
 }
-const handle3 = (a: number) => {
-  console.log(a)
+const handleRefresh = (id: string) => {
+  pagenumber[id] = 0
+  data[id].length = 0
+  handlepageload(id)
 }
-const handle4 = (a: number) => {
-  console.log(a)
-}
-const handle5 = (a: number) => {
-  console.log(a)
-}
-const handle6 = (a: number) => {
-  console.log(a)
+const handle = (id: string, a: number) => {
+  switch (id) {
+  }
 }
 </script>
 
 <style lang="less" scoped>
-.table-area {
-  margin-top: 3vh;
-}
-
-.double-table {
-  display: flex;
-
-  .left {
-    width: 76%;
-  }
-
-  .space {
-    width: 2%;
-  }
-
-  .right {
-    width: 22%;
-  }
-}
 </style>

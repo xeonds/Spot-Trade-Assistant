@@ -392,7 +392,6 @@ import * as tableCol from '../../assets/table_info/table-title'
 import * as tradeAPI from '../../http/api/trade'
 import * as table_add from '../../assets/table_info/table-add'
 import * as tableRules from '../../assets/table_info/rule'
-import { ElMessage } from 'element-plus'
 import { useRoute } from 'vue-router'
 
 // *********
