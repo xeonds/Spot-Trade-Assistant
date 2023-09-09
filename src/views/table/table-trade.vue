@@ -333,6 +333,51 @@
       </el-col>
     </el-row>
   </div>
+
+  <div v-if="route.params.id === '4'">
+    <el-row
+      ><el-col :span="24">
+        <modifyTable
+          :data="data['4-1']"
+          :command="['刷新']"
+          name="销售订单"
+          id="trade1"
+          :col="tableCol.Xiaoshoudingdan"
+          :height="30"
+          :selectable="true"
+          @load="handlepageload('4-1')"
+          @handle="(a:number)=>handle('4-1', a)"
+          @menu="menu"
+          @select="handleSelect"
+          v-loading="isLoading['4-1']"
+        >
+          <template #top>
+            <tableFind :form-data="data['4-1']" @submit="console.log" />
+          </template>
+        </modifyTable> </el-col
+    ></el-row>
+    <el-row
+      ><el-col :span="24">
+        <modifyTable
+          :data="data['4-2']"
+          :command="['刷新', '打印收款确认单']"
+          name="收款记录"
+          id="trade1"
+          :col="tableCol.Shoukuanjilu"
+          :height="30"
+          :selectable="true"
+          @load="handlepageload('4-2')"
+          @handle="(a:number)=>handle('4-2', a)"
+          @menu="menu"
+          @select="handleSelect"
+          v-loading="isLoading['4-2']"
+        >
+          <template #top>
+            <tableFind :form-data="data['4-2']" @submit="console.log" />
+          </template>
+        </modifyTable> </el-col
+    ></el-row>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -724,6 +769,24 @@ const handle = (id: string, a: number) => {
           break
       }
       break
+    case '4-1':
+      switch (a) {
+        case 0:
+          isLoading[id] = true
+          handleRefresh('4-1')
+          break
+      }
+      break
+    case '4-2':
+      switch (a) {
+        case 0:
+          isLoading[id] = true
+          handleRefresh('4-2')
+          break
+        case 1:
+          break
+      }
+      break
   }
 }
 // refresh handlers for tables
@@ -798,6 +861,24 @@ const handlepageload = async (id: string) => {
         order: 'desc'
       })
       break
+    case '4-1':
+      pagenumber['4-1'] = pagenumber['4-1'] + 1
+      res = await tradeAPI.getSales({
+        pageNumber: pagenumber['4-1'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
+    case '4-2':
+      pagenumber['4-2'] = pagenumber['4-2'] + 1
+      res = await tradeAPI.getShoukuan({
+        pageNumber: pagenumber['4-2'],
+        pageSize: '10',
+        sort: 'date',
+        order: 'desc'
+      })
+      break
   }
   if (res.data.length != 0) {
     res.data.forEach((item: any) => {
@@ -830,6 +911,12 @@ const handleRefresh = (id: string) => {
       break
     case '3-2':
       pagenumber['3-2'] = 0
+      break
+    case '4-1':
+      pagenumber['4-1'] = 0
+      break
+    case '4-2':
+      pagenumber['4-2'] = 0
       break
   }
   data[id].length = 0

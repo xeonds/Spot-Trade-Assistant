@@ -1,4 +1,3 @@
-import { dataType } from 'element-plus/es/components/table-v2/src/common'
 import serviceAxios from '..'
 
 export interface getTradeForm {
@@ -689,10 +688,6 @@ export interface Request {
    * 税务机关
    */
   taxAuthority?: string
-  /**
-  * 查询类型(1合同印花税，2采购付款）
-  */
-  queryType?: string;
 }
 
 export const getRequest = (form: Request) => {
@@ -990,5 +985,137 @@ export const postHetongsaomiao = (id: number, file: any) => {
     method: 'POST',
     url: `/purchase/image/${id}`,
     data: file
+  })
+}
+
+export interface GetSales {
+  /**
+   * 关联贸易商部门表 company.type=供应商、客户、贸易商 id
+   */
+  companyDeptId?: string
+  /**
+   * 贸易商公司 id
+   */
+  companyId?: string
+  /**
+   * 购销日期，输入值
+   */
+  date?: string
+  /**
+   * 交收方式deliver，枚举1(1现货spot、2远期forward)
+   */
+  deliver?: string
+  /**
+   * 关联规格表 id, 可取品种、重量单位、增值税率值
+   */
+  gradeId?: string
+  /**
+   * 关联公司表 type="本公司账套" id
+   */
+  ledgerId?: string
+  /**
+   * 排序方式 asc/desc
+   */
+  order?: string
+  /**
+   * 关联订单模式表 id (1一般、2保证金、3长单、4盘多库存)
+   */
+  orderId?: string
+  /**
+   * 订单号
+   */
+  orderNo?: string
+  /**
+   * 关联本公司部门表 id
+   */
+  ourDeptId?: string
+  /**
+   * 页号
+   */
+  pageNumber?: string
+  /**
+   * 页面大小
+   */
+  pageSize?: string
+  /**
+   * 贸易类型，枚举1(1内贸、2外贸、3进口、4出口)
+   */
+  pattern?: string
+  /**
+   * 购销，(1采购purchase、2销售sales)
+   */
+  ps?: string
+  /**
+   * 排序字段
+   */
+  sort?: string
+  /**
+   * 关联品牌表 id
+   */
+  trademarkId?: string
+  /**
+   * 关联品种表 id
+   */
+  varietyId?: string
+  [property: string]: any
+}
+
+export const getSales = (form: GetSales) => {
+  return serviceAxios({
+    method: 'GET',
+    url: '/sale/trade',
+    params: form
+  })
+}
+
+export interface ShouKuanForm {
+  /**
+   * 对方公司简称
+   */
+  company?: string
+  /**
+   * 收款确认单号
+   */
+  confirmno?: string
+  /**
+   * 本公司账套简称
+   */
+  ledger?: string
+  /**
+   * 匹配状态(1未完成、2部分、3全部)
+   */
+  matchstatus?: string
+  /**
+   * 排序方式 asc/desc
+   */
+  order?: string
+  /**
+   * 本公司部门名称
+   */
+  ourdept?: string
+  /**
+   * 页号
+   */
+  pageNumber?: string
+  /**
+   * 页面大小
+   */
+  pageSize?: string
+  /**
+   * 银行回单号
+   */
+  receiptno?: string
+  /**
+   * 排序字段
+   */
+  sort?: string
+  [property: string]: any
+}
+
+export const getShoukuan = (form: ShouKuanForm) => {
+  return serviceAxios({
+    method: 'GET',
+    url: '/sale/finance',
+    params: form
   })
 }
